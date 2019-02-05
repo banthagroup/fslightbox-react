@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1549389856512" clover="3.2.0">
+  <project timestamp="1549389856512" name="All files">
+    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2" elements="4" coveredelements="4" complexity="0" loc="2" ncloc="2" packages="1" files="2" classes="2"/>
+    <file name="List.jsx" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/List.jsx">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="4" count="1" type="stmt"/>
+    </file>
+    <file name="xd.jsx" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/xd.jsx">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="6" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

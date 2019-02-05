@@ -1,0 +1,68 @@
+{
+  "name": "react-fslightbox",
+  "version": "0.0.0",
+  "description": "React version of Fullscreen Lightbox",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiotrZdziarski/React-FsLightbox-Basic.git"
+  },
+  "jest": {
+    "setupFiles": [
+      "./setupTests.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "verbose": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 85,
+        "functions": 85,
+        "lines": 85,
+        "statements": 85
+      }
+    },
+    "collectCoverage": true
+  },
+  "keywords": [
+    "fslightbox",
+    "react",
+    "lightbox",
+    "javascript",
+    "lightbox",
+    "lightbox"
+  ],
+  "author": "Piotr Zdziarski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PiotrZdziarski/React-FsLightbox-Basic/issues"
+  },
+  "homepage": "https://fslightbox.com/",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.0",
+    "enzyme-to-json": "^3.3.5",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "webpack": "^4.29.1",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0"
+  }
+}
