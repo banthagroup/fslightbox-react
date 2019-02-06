@@ -1,11 +1,11 @@
 {
-  "name": "react-fslightbox",
+  "name": "fslightbox-react",
   "version": "0.0.0",
   "description": "React version of Fullscreen Lightbox",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --config webpack-prod.config.js",
     "start": "webpack-dev-server --mode development --open"
   },
   "repository": {
@@ -31,12 +31,12 @@
     "collectCoverage": true
   },
   "keywords": [
+    "react lightbox",
     "fslightbox",
+    "Fullscreen Lightbox",
     "react",
     "lightbox",
-    "javascript",
-    "lightbox",
-    "lightbox"
+    "javascript"
   ],
   "author": "Piotr Zdziarski",
   "license": "MIT",

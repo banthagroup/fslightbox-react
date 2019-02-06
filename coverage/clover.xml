@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1549389856512" clover="3.2.0">
-  <project timestamp="1549389856512" name="All files">
-    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2" elements="4" coveredelements="4" complexity="0" loc="2" ncloc="2" packages="1" files="2" classes="2"/>
-    <file name="List.jsx" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/List.jsx">
+<coverage generated="1549449699652" clover="3.2.0">
+  <project timestamp="1549449699652" name="All files">
+    <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="9" elements="24" coveredelements="24" complexity="0" loc="15" ncloc="15" packages="5" files="8" classes="8"/>
+    <package name="src">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="FsLightbox.jsx" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/FsLightbox.jsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+      </file>
+      <file name="index.js" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/index.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+    <package name="src.components">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="4" count="1" type="stmt"/>
-    </file>
-    <file name="xd.jsx" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/xd.jsx">
-      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="6" count="1" type="stmt"/>
-    </file>
+      <file name="ToolbarButton.jsx" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/components/ToolbarButton.jsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.constants">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="eventsPropsNames.js" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/constants/eventsPropsNames.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.utils">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+      <file name="DOMElement.js" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/utils/DOMElement.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+      <file name="EventsThrower.js" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/utils/EventsThrower.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+      </file>
+      <file name="checkIfUserIsOnMobileDevice.js" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/src/utils/checkIfUserIsOnMobileDevice.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="tests.schemas">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="testSchemas.js" path="/home/piotrzdziarski/projects/ReactFullscreenLightboxBasic/tests/schemas/testSchemas.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

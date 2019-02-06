@@ -8,10 +8,10 @@ Fullscreen Lightbox is vanilla JS plugin for displaying images and videos in cle
 Website: https://fslightbox.com
 
 Open source project. Technologies:
--React
--Jest
+- React
+- Jest
 
-##Installation
+## Installation
 
 Clone repository cd to directory and run:
 
