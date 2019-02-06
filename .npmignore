@@ -1,0 +1,9 @@
+/tests
+/coverage
+/demo
+/node_modules
+/.idea
+/dist
+/.babelrc
+/webpack-prod.config.js
+/webpack.config.js

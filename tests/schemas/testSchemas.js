@@ -4,3 +4,8 @@ export const testUrls = [
     "https://cdn.pixabay.com/photo/2016/12/11/12/02/bled-1899264_960_720.jpg",
     "video/film.mp4"
 ];
+
+export const testData = {
+    slide: 1,
+    totalSlides: 4
+};
