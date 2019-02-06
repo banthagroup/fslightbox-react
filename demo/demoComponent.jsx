@@ -16,7 +16,8 @@ class DemoComponent extends Component {
                         "../demo/images/1.jpeg",
                         "../demo/images/2.jpg",
                         "../demo/images/3.jpeg",
-                    ] }
+                    ]}
+                    slide={1}
 
                     onOpen={ this.callEvent.bind(this) }
                 />

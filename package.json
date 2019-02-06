@@ -1,8 +1,8 @@
 {
   "name": "fslightbox-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React version of Fullscreen Lightbox",
-  "main": "index.js",
+  "main": "src/",
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --config webpack-prod.config.js",
@@ -59,9 +59,7 @@
     "react-dom": "^16.7.0",
     "webpack": "^4.29.1",
     "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^3.1.14",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0"
   }

@@ -1,3 +1,3 @@
-import FsLightbox from './FsLightbox.jsx';
+import FsLightbox from './FsLightbox.js';
 
 export default FsLightbox;
