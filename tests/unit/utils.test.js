@@ -32,6 +32,7 @@ it('should call events from props', () => {
     }
 
     const fsLightbox = mount(<FsLightbox
+        isOpen={true}
         onOpen={ exampleMethods.open }
         onClose={ exampleMethods.close }
         onInit={ exampleMethods.init }
@@ -94,6 +95,5 @@ describe('StageSourcesIndexes', () => {
             current: testData.slide - 1,
             next: 0
         });
-    })
-
+    });
 });

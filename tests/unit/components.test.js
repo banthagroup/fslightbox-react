@@ -1,4 +1,4 @@
-import Svg from "../../src/components/Svg";
+import Svg from "../../src/components/helpers/Svg";
 import { mount } from "enzyme";
 import React from 'react';
 
