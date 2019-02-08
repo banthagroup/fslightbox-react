@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { EventsThrower } from "./utils/EventsThrower";
-import ToolbarButton from "./components/ToolbarButton.jsx";
 import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
-import Svg from "./components/Svg.jsx";
-import { StageSourcesIndexes } from "./utils/StageSourcesIndexes";
+import Nav from "./components/nav/Nav.jsx";
+import "./css/fslightboxBasic.css";
+import { CloseOpenLightbox } from "./utils/mainComponentScope/CloseOpenLightbox";
+import SlideButtonLeft from "./components/slideButtons/SlideButtonLeft.jsx";
+import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
 
 class FsLightbox extends Component {
 
     constructor(props) {
         super(props);
-        const eventsThrower = new EventsThrower(props);
 
         this.data = {
             slide: (this.props.slide) ? this.props.slide : 1,
             totalSlides: this.props.urls.length,
         };
 
-
         this.state = {
+            isOpen: this.props.isOpen,
             slide: (this.props.slide) ? this.props.slide : 1,
             totalSlides: this.props.urls.length,
-            slideDistance: (this.props.slideDistance) ? this.props.slide: 1.3,
-            slideCounter: (this.props.slideCounter) ? this.props.slideCounter: true,
-            slideButtons: (this.props.slideButtons) ? this.props.slideButtons: true,
+            slideDistance: (this.props.slideDistance) ? this.props.slide : 1.3,
+            slideCounter: (this.props.slideCounter) ? this.props.slideCounter : true,
+            slideButtons: (this.props.slideButtons) ? this.props.slideButtons : true,
             isFirstTimeLoad: false,
             moveSlidesViaDrag: true,
             toolbarButtons: {
@@ -53,9 +53,15 @@ class FsLightbox extends Component {
             onResizeEvent: {},
         };
 
-        this.holder = React.createRef();
-        this.stageSourcesIndexes = new StageSourcesIndexes(this.data);
+        this.closeOpenLightbox = new CloseOpenLightbox(this);
+    }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.isOpen !== this.props.isOpen) {
+            (this.state.isOpen) ?
+                this.closeOpenLightbox.closeLightbox():
+                this.closeOpenLightbox.openLightbox();
+        }
     }
 
     checkIfUserIsOnMobileDevice() {
@@ -64,26 +70,20 @@ class FsLightbox extends Component {
         });
     }
 
-    componentDidMount() {
-        this.setState({
-            totalSlides: 14
-        },() => {
-            this.data.slide = 12312323;
-            this.stageSourcesIndexes.nextSlideIndex();
-        });
-    }
-
     render() {
+        if (!this.state.isOpen) return null;
         return (
-            <div>
-                {this.props.urls}
-                <ToolbarButton/>
+            <div className="fslightbox-container">
+                <Nav closeLightbox={ this.closeOpenLightbox.closeLightbox }/>
+                <SlideButtonLeft/>
+                <SlideButtonRight/>
             </div>
         );
     }
 }
 
 FsLightbox.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
     urls: PropTypes.array.isRequired,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
