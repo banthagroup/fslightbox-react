@@ -33,7 +33,10 @@ class FsLightbox extends Component {
 
     setElements() {
         this.elements = {
+            container: React.createRef(),
             mediaHolder: React.createRef(),
+            sourceHolders: [],
+            sources: [],
         };
     }
 
@@ -66,7 +69,7 @@ class FsLightbox extends Component {
     render() {
         if (!this.state.isOpen) return null;
         return (
-            <div className="fslightbox-container">
+            <div ref={ this.elements.container } className="fslightbox-container">
                 <Nav closeLightbox={ this.closeOpenLightbox.closeLightbox }/>
                 <SlideButtonLeft/>
                 <SlideButtonRight/>

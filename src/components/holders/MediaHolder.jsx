@@ -3,6 +3,10 @@ import SourceHolder from "../sources/SourceHolder.jsx";
 
 class MediaHolder extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
 
     render() {
         return (

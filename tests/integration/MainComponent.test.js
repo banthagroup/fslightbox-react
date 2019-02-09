@@ -2,6 +2,7 @@ import { mount } from "enzyme";
 import React from 'react';
 import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
 import FsLightbox from "../../src/FsLightbox";
+import { testUrls } from "../schemas/testSchemas";
 
 const demoComponent = mount(<DemoComponentHiddenLightbox/>);
 
@@ -17,5 +18,12 @@ describe('Test FsLightbox component props', () => {
         buttonTogglingOpen.simulate('click');
         expect(fsLightbox.instance().props.isOpen).toBeTruthy();
         expect(closeOpenLightbox.openLightbox).toHaveBeenCalled();
+    });
+
+    it('should call lightbox initialize that was closed at start', () => {
+        const fsLightbox = mount(<FsLightbox isOpen={ false } urls={ testUrls }/>);
+        fsLightbox.instance().initialize = jest.fn();
+        fsLightbox.instance().closeOpenLightbox.openLightbox();
+        expect(fsLightbox.instance().initialize).toBeCalled();
     });
 });

@@ -7,10 +7,12 @@ import Toolbar from "../../src/components/nav/Toolbar";
 
 describe('Toolbar', () => {
     it('should close Lightbox', () => {
+        jest.useFakeTimers();
         const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
         expect(fsLightbox.instance().state.isOpen).toBeTruthy();
         const closeButton = fsLightbox.find('.fslightbox-toolbar-button').at(1);
         closeButton.simulate('click');
+        jest.runAllTimers();
         expect(fsLightbox.instance().state.isOpen).toBeFalsy();
     })
 });

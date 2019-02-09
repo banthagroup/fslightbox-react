@@ -92,25 +92,32 @@
 }
 
 .fslightbox-fade-in-animation {
-    -webkit-animation: fade-in .25s linear;
-    -o-animation: fade-in .25s linear;
-    animation: fade-in .25s linear;
+    animation: fslightbox-fade-in .25s ease;
 }
 
-@keyframes fade-in {
-    0% {
+.fslightbox-fade-out-animation {
+    animation: fslightbox-fade-out .25s ease !important;
+}
+
+@keyframes fslightbox-fade-in {
+    from {
         opacity: 0;
     }
-    100% {
+    to {
         opacity: 1;
     }
 }
 
-.fslightbox-fade-out-animation {
-    -webkit-animation: fslightbox-fade-out-anim .25s linear;
-    -o-animation: fslightbox-fade-out-anim .25s linear;
-    animation: fslightbox-fade-out-anim .25s linear;
+@keyframes fslightbox-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
+
 
 @keyframes fslightbox-fade-out-anim {
     0% {
@@ -122,17 +129,19 @@
 }
 
 .fslightbox-container {
+    opacity: 0;
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     width: 100%;
     height: 100%;
-    background: #1e1e1e;
     background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
     font-family: "Montserrat", sans-serif;
     z-index: 9999999;
     user-select: none;
+    animation: fslightbox-fade-in .25s forwards;
+    transition: opacity .25s;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -275,13 +284,3 @@
     fill: #fff;
 }
 
-.fslightbox-fade-in-window {
-    -webkit-animation: fade-in .1s linear;
-    -o-animation: fade-in .1s linear;
-    animation: fade-in .1s linear;
-}
-
-.fslightbox-container-fadeout {
-    opacity: 0;
-    transition: opacity .25s ease;
-}
