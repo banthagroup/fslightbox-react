@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FsLightbox from "../src/FsLightbox.js";
 import "./css/demo.css";
 
-class DemoComponent extends Component {
+class DemoComponentHiddenLightbox extends Component {
 
     constructor(props) {
         super(props);
@@ -17,6 +17,11 @@ class DemoComponent extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         })
+    }
+
+
+    callEvent() {
+
     }
 
 
@@ -37,10 +42,12 @@ class DemoComponent extends Component {
                         "../demo/images/3.jpeg",
                     ] }
                     slide={ 1 }
+
+                    onOpen={ this.callEvent.bind(this) }
                 />
             </>
         );
     }
 }
 
-export default DemoComponent;
+export default DemoComponentHiddenLightbox;

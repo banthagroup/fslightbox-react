@@ -1,9 +1,8 @@
-import DemoComponent from "../../demo/DemoComponent";
 import { mount } from "enzyme";
 import React from 'react';
+import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
 
-const demoComponent = mount(<DemoComponent/>);
-
+const demoComponent = mount(<DemoComponentHiddenLightbox/>);
 
 describe('Test FsLightbox component props', () => {
     const buttonTogglingOpen = demoComponent.find('button').at(0);
