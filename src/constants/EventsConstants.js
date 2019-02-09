@@ -1,4 +1,4 @@
-export const eventsPropsNames = {
+export const EVENTS_CONSTANTS_NAMES = {
     "open": "onOpen",
     "close": "onClose",
     "init": "onInit",

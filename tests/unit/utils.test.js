@@ -1,44 +1,29 @@
 import React from 'react';
-import { JSXElement } from "../../src/utils/JSXElement";
 import { EventsThrower, eventsThrower } from "../../src/utils/EventsThrower";
 import { mount } from 'enzyme';
 import FsLightbox from "../../src/FsLightbox";
-import { testData, testUrls } from "../schemas/testSchemas";
-import { eventsPropsNames } from "../../src/constants/eventsPropsNames";
+import { testUrls } from "../schemas/testSchemas";
+import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/EventsConstants";
 import { checkIfUserIsOnMobileDevice } from "../../src/utils/checkIfUserIsOnMobileDevice";
 import { StageSourcesIndexes } from "../../src/utils/StageSourcesIndexes";
-
-it('should create jsx element with classes', () => {
-    const classArray = [
-        'first-class',
-        'second-class'
-    ];
-    const TestTag = 'button';
-    const TestJSX = (<TestTag className={ classArray.join(' ') }></TestTag>);
-
-    const jsxElement = new JSXElement('button')
-        .addClassesFromArray(classArray)
-        .getElement();
-
-    expect(jsxElement).toEqual(TestJSX);
-});
 
 
 it('should call events from props', () => {
     const exampleMethods = {};
 
-    for (let i in eventsPropsNames) {
+    for (let i in EVENTS_CONSTANTS_NAMES) {
         exampleMethods[i] = () => i;
     }
 
     const fsLightbox = mount(<FsLightbox
-        isOpen={true}
+        isOpen={ true }
         onOpen={ exampleMethods.open }
         onClose={ exampleMethods.close }
         onInit={ exampleMethods.init }
         onShow={ exampleMethods.show }
         urls={ testUrls }
     />);
+
 
     const eventsThrower = new EventsThrower(fsLightbox.props());
     for (let i in exampleMethods) {

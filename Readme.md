@@ -1,7 +1,7 @@
 # React Fullscreen Lightbox Basic
-## Version - 0.0.1
+## Version - 0.0.2 - In Development
 ## Description
-React version of Fullscreen Lightbox.
+In developmet - React version of Fullscreen Lightbox.
 
 Fullscreen Lightbox is vanilla JS plugin for displaying images and videos in clean overlaying box.
 

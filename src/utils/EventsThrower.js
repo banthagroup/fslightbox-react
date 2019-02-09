@@ -1,4 +1,4 @@
-import { eventsPropsNames } from "../constants/eventsPropsNames";
+import { EVENTS_CONSTANTS_NAMES } from "../constants/EventsConstants";
 
 export class EventsThrower {
     constructor(props) {
@@ -6,7 +6,7 @@ export class EventsThrower {
     }
 
     throw(event) {
-        return this.props[eventsPropsNames[event]]();
+        return this.props[EVENTS_CONSTANTS_NAMES[event]]();
     }
 }
 

@@ -6,69 +6,57 @@ import "./css/fslightboxBasic.css";
 import { CloseOpenLightbox } from "./utils/mainComponentScope/CloseOpenLightbox";
 import SlideButtonLeft from "./components/slideButtons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
+import MediaHolder from "./components/holders/MediaHolder.jsx";
+import { OnResize } from "./core/OnResize";
 
 class FsLightbox extends Component {
 
     constructor(props) {
         super(props);
 
-        this.data = {
-            slide: (this.props.slide) ? this.props.slide : 1,
-            totalSlides: this.props.urls.length,
-        };
+        this.slide = (this.props.slide) ? this.props.slide : 1;
+        this.totalSlides = this.props.urls.length;
+        this.initialized = false;
 
         this.state = {
             isOpen: this.props.isOpen,
             slide: (this.props.slide) ? this.props.slide : 1,
-            totalSlides: this.props.urls.length,
-            slideDistance: (this.props.slideDistance) ? this.props.slide : 1.3,
-            slideCounter: (this.props.slideCounter) ? this.props.slideCounter : true,
-            slideButtons: (this.props.slideButtons) ? this.props.slideButtons : true,
-            isFirstTimeLoad: false,
-            moveSlidesViaDrag: true,
-            toolbarButtons: {
-                "close": true,
-                "fullscreen": true
-            },
+        };
 
-            isMobile: false,
-
-            urls: [],
-            sources: [],
-            sourcesLoaded: [],
-            rememberedSourcesDimensions: [],
-            videos: [],
-            videosPosters: [],
-
-            holderWrapper: {},
-            mediaHolder: {},
-            nav: {},
-            toolbar: {},
-            slideCounterElem: {},
-
-            initiated: false,
-            fullscreen: false,
-            fadingOut: false,
-
-            onResizeEvent: {},
+        this.elements = {
+            mediaHolder: React.createRef(),
         };
 
         this.closeOpenLightbox = new CloseOpenLightbox(this);
+        this.onResize = new OnResize(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isOpen !== this.props.isOpen) {
             (this.state.isOpen) ?
-                this.closeOpenLightbox.closeLightbox():
+                this.closeOpenLightbox.closeLightbox() :
                 this.closeOpenLightbox.openLightbox();
         }
     }
+
+    initialize() {
+        this.initialized = true;
+        this.onResize.init();
+    }
+
 
     checkIfUserIsOnMobileDevice() {
         this.setState({
             isMobile: checkIfUserIsOnMobileDevice()
         });
     }
+
+    componentDidMount() {
+        if (this.props.isOpen) {
+            this.initialize();
+        }
+    }
+
 
     render() {
         if (!this.state.isOpen) return null;
@@ -77,6 +65,7 @@ class FsLightbox extends Component {
                 <Nav closeLightbox={ this.closeOpenLightbox.closeLightbox }/>
                 <SlideButtonLeft/>
                 <SlideButtonRight/>
+                <MediaHolder fsLightbox={ this }/>
             </div>
         );
     }
