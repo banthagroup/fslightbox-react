@@ -10,6 +10,7 @@ Website: https://fslightbox.com
 Open source project. Technologies:
 - React
 - Jest
+- Enzyme 
 
 ## Installation
 

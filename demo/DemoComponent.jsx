@@ -8,7 +8,7 @@ class DemoComponent extends Component {
         super(props);
 
         this.state = {
-            isOpen: false,
+            isOpen: true,
         };
         this.toggleLightbox = this.toggleLightbox.bind(this);
     }

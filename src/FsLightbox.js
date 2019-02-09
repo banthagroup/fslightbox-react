@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
 import Nav from "./components/nav/Nav.jsx";
 import "./css/fslightboxBasic.css";
 import { CloseOpenLightbox } from "./utils/mainComponentScope/CloseOpenLightbox";
@@ -13,23 +12,36 @@ class FsLightbox extends Component {
 
     constructor(props) {
         super(props);
+        this.setData();
+        this.setStates();
+        this.setElements();
+        this.setCore();
+    }
 
+    setData() {
         this.slide = (this.props.slide) ? this.props.slide : 1;
         this.totalSlides = this.props.urls.length;
         this.initialized = false;
+    }
 
+    setStates() {
         this.state = {
             isOpen: this.props.isOpen,
             slide: (this.props.slide) ? this.props.slide : 1,
         };
+    }
 
+    setElements() {
         this.elements = {
             mediaHolder: React.createRef(),
         };
+    }
 
+    setCore() {
         this.closeOpenLightbox = new CloseOpenLightbox(this);
         this.onResize = new OnResize(this);
     }
+
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isOpen !== this.props.isOpen) {
@@ -45,18 +57,11 @@ class FsLightbox extends Component {
     }
 
 
-    checkIfUserIsOnMobileDevice() {
-        this.setState({
-            isMobile: checkIfUserIsOnMobileDevice()
-        });
-    }
-
     componentDidMount() {
         if (this.props.isOpen) {
             this.initialize();
         }
     }
-
 
     render() {
         if (!this.state.isOpen) return null;

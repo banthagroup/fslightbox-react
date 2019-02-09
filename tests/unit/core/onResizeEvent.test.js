@@ -8,7 +8,7 @@ import {
     MEDIA_HOLDER_SIZE_DECREASE_VALUE
 } from "../../../src/constants/ResponsiveConstants";
 
-describe('Action called on window resize event', () => {
+describe('Resize event', () => {
     const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
     const instance = fsLightbox.instance();
     const onResize = new OnResize(instance);
@@ -29,5 +29,18 @@ describe('Action called on window resize event', () => {
             .toEqual(window.innerWidth - (window.innerWidth * MEDIA_HOLDER_SIZE_DECREASE_VALUE) + 'px');
         expect(instance.elements.mediaHolder.current.style.height)
             .toEqual(window.innerHeight - (window.innerHeight * MEDIA_HOLDER_SIZE_DECREASE_VALUE) + 'px');
+    });
+
+
+    it('should add and remove resize event listner', () => {
+        const onResize = new OnResize(fsLightbox.instance());
+        onResize.onResizeMethod =  jest.fn();
+        onResize.init();
+        expect(onResize.onResizeMethod).not.toBeCalled();
+        global.dispatchEvent(new Event('resize'));
+        expect(onResize.onResizeMethod).toBeCalledTimes(1);
+        onResize.removeListener();
+        global.dispatchEvent(new Event('resize'));
+        expect(onResize.onResizeMethod).toBeCalledTimes(1);
     });
 });

@@ -2,9 +2,10 @@ import {
     MEDIA_HOLDER_BREAK,
     MEDIA_HOLDER_SIZE_DECREASE_VALUE
 } from "../constants/ResponsiveConstants";
+import { checkIfUserIsOnMobileDevice } from "../utils/checkIfUserIsOnMobileDevice";
 
 export class OnResize {
-    
+
     constructor(fsLightbox) {
         this.fsLightbox = fsLightbox;
         this.onResizeMethod = this.onResizeMethod.bind(this);
@@ -33,6 +34,9 @@ export class OnResize {
 
 
     onResizeMethod() {
+        this.fsLightbox.setState({
+            isMobile: checkIfUserIsOnMobileDevice()
+        });
         this.scaleMediaHolder();
     }
 }
