@@ -1,6 +1,7 @@
 import { mount } from "enzyme";
 import React from 'react';
 import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
+import FsLightbox from "../../src/FsLightbox";
 
 const demoComponent = mount(<DemoComponentHiddenLightbox/>);
 
@@ -15,6 +16,6 @@ describe('Test FsLightbox component props', () => {
     it('should open lightbox and add class to document element', () => {
         buttonTogglingOpen.simulate('click');
         expect(fsLightbox.instance().props.isOpen).toBeTruthy();
-        expect(closeOpenLightbox.openLightbox).toBeCalled();
+        expect(closeOpenLightbox.openLightbox).toHaveBeenCalled();
     });
 });
