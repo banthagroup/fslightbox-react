@@ -6,6 +6,7 @@ import { testUrls } from "../schemas/testSchemas";
 import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/EventsConstants";
 import { checkIfUserIsOnMobileDevice } from "../../src/utils/checkIfUserIsOnMobileDevice";
 import { StageSourcesIndexes } from "../../src/utils/StageSourcesIndexes";
+import { createRefsArrayForNumberOfUrls } from "../../src/utils/createRefsArrayForNumberOfUrls";
 
 
 it('should call events from props', () => {
@@ -34,6 +35,13 @@ it('should call events from props', () => {
 
 it('should detect if device is mobile', () => {
     expect(checkIfUserIsOnMobileDevice()).toEqual(false);
+});
+
+it('should create array with React refs', () => {
+    const refsArray = createRefsArrayForNumberOfUrls(testUrls);
+    refsArray.forEach((element) => {
+        expect(element).toEqual(React.createRef());
+    })
 });
 
 

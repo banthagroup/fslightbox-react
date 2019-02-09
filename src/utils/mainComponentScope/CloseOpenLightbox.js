@@ -5,6 +5,7 @@ export class CloseOpenLightbox {
     constructor(fsLightbox) {
         this.fsLightbox = fsLightbox;
         this.documentClassList = document.documentElement.classList;
+        this.fadingOut = false;
         this.closeLightbox = this.closeLightbox.bind(this);
         this.componentMountedAfterOpen = this.componentMountedAfterOpen.bind(this);
         this.componentMountedAfterClose = this.componentMountedAfterClose.bind(this);
@@ -29,10 +30,18 @@ export class CloseOpenLightbox {
 
 
     closeLightbox() {
-        this.fsLightbox.setState({
-            isOpen: false
-        }, this.componentMountedAfterClose);
-        this.documentClassList.remove('fslightbox-open');
+        if (this.fadingOut) return;
+        this.fadingOut = true;
+        this.fsLightbox.elements.container.current.classList.add('fslightbox-fade-out-animation');
+
+        setTimeout(() => {
+            this.fsLightbox.elements.container.current.classList.remove('fslightbox-fade-out-animation');
+            this.fadingOut = false;
+            this.documentClassList.remove('fslightbox-open');
+            this.fsLightbox.setState({
+                isOpen: false
+            }, this.componentMountedAfterClose);
+        },250);
     }
 
     componentMountedAfterClose() {
