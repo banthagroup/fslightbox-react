@@ -7,6 +7,7 @@ import SlideButtonLeft from "./components/slideButtons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
 import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
+import { createRefsArrayForNumberOfUrls } from "./utils/createRefsArrayForNumberOfUrls";
 
 class FsLightbox extends Component {
 
@@ -20,6 +21,7 @@ class FsLightbox extends Component {
 
     setData() {
         this.slide = (this.props.slide) ? this.props.slide : 1;
+        this.urls = this.props.urls;
         this.totalSlides = this.props.urls.length;
         this.initialized = false;
     }
@@ -35,8 +37,8 @@ class FsLightbox extends Component {
         this.elements = {
             container: React.createRef(),
             mediaHolder: React.createRef(),
-            sourceHolders: [],
-            sources: [],
+            sourceHolders: createRefsArrayForNumberOfUrls(this.props.urls),
+            sources: createRefsArrayForNumberOfUrls(this.props.urls),
         };
     }
 
@@ -63,6 +65,7 @@ class FsLightbox extends Component {
     componentDidMount() {
         if (this.props.isOpen) {
             this.initialize();
+            this.closeOpenLightbox.openLightbox();
         }
     }
 

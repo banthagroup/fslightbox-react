@@ -19,7 +19,9 @@ describe('Util functions that in constructor takes scope of main component', () 
 
 
         it('should remove fslightbox-open class to document on close', () => {
+            jest.useFakeTimers();
             closeOpenLightbox.closeLightbox();
+            jest.runAllTimers();
             expect(closeOpenLightbox.documentClassList.contains('fslightbox-open')).toBeFalsy();
         });
 
