@@ -14,3 +14,7 @@ export const testMainComponentProps ={
     isOpen: true,
     urls: testUrls
 };
+
+export const testImageURL = "https://i.imgur.com/Ys15LQF.jpg";
+export const testYoutubeURL = "https://www.youtube.com/watch?v=jNQXAC9IVRw";
+export const testVideoURL = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";

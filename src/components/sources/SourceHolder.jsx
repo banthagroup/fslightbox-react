@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import Source from "./Source.jsx";
 import PropTypes from 'prop-types';
-import HttpRequester  from "../../core/HttpRequester";
+import SourceTypeChecker  from "../../core/SourceTypeChecker";
 
 class SourceHolder extends Component {
-
     constructor(props) {
         super(props);
         this.initRequest();
     }
 
     initRequest() {
-        this.httpRequester = new HttpRequester();
-        this.httpRequester.setUrl(this.props.fsLightbox.urls[this.props.index]);
-        this.httpRequester.getSourceType();
+        const httpRequester = new SourceTypeChecker();
+        httpRequester.setUrlToCheck(this.props.fsLightbox.urls[this.props.index]);
+        httpRequester.getSourceType().then(() => {
+
+        });
     }
 
 
