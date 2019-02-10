@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --config webpack-prod.config.js",
-    "start": "webpack-dev-server --mode development --hot --open --host 192.168.0.11"
+    "start": "webpack-dev-server --mode development --open --port 3000"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
       }
     },
     "moduleNameMapper": {
-      "\\.(css|less|sass|scss)$": "<rootDir>/tests/__mocks__/styleMock.js",
+      "\\.(css|less|sass|scss|jpg|jpeg)$": "<rootDir>/tests/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
     },
     "collectCoverage": true
@@ -60,6 +60,7 @@
     "enzyme-to-json": "^3.3.5",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest": "^24.1.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",

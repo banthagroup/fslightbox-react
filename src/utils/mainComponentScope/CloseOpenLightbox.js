@@ -1,3 +1,5 @@
+import { CONTAINER_FADE_OUT_TIME } from "../../constants/CoreConstants";
+
 export class CloseOpenLightbox {
     /**
      * @param fsLightbox { FsLightbox }
@@ -41,7 +43,7 @@ export class CloseOpenLightbox {
             this.fsLightbox.setState({
                 isOpen: false
             }, this.componentMountedAfterClose);
-        },250);
+        }, CONTAINER_FADE_OUT_TIME);
     }
 
     componentMountedAfterClose() {

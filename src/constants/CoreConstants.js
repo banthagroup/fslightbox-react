@@ -1,0 +1,1 @@
+export const CONTAINER_FADE_OUT_TIME = 250;

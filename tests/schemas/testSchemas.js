@@ -9,3 +9,8 @@ export const testData = {
     slide: 1,
     totalSlides: 4
 };
+
+export const testMainComponentProps ={
+    isOpen: true,
+    urls: testUrls
+};
