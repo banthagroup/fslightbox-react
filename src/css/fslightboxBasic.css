@@ -74,6 +74,11 @@
     transform: translateZ(0);
 }
 
+.fslightbox-video {
+    object-fit: cover;
+}
+
+
 .fslightbox-transform-transition {
     transition: transform .3s;
 }
