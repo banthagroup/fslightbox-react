@@ -20,10 +20,11 @@ class FsLightbox extends Component {
     }
 
     setData() {
+        this.initialized = false;
         this.slide = (this.props.slide) ? this.props.slide : 1;
         this.urls = this.props.urls;
         this.totalSlides = this.props.urls.length;
-        this.initialized = false;
+        this.sourcesTypes = [];
     }
 
     setStates() {

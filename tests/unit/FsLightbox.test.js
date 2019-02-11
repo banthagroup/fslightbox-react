@@ -1,12 +1,12 @@
 import FsLightbox from "../../src/FsLightbox";
-import { testMainComponentProps, testUrls } from "../schemas/testSchemas";
+import { testProps, testUrls } from "../schemas/testSchemas";
 import { createRefsArrayForNumberOfUrls } from "../../src/utils/createRefsArrayForNumberOfUrls";
 import { CloseOpenLightbox } from "../../src/utils/mainComponentScope/CloseOpenLightbox";
 import { OnResize } from "../../src/core/OnResize";
 import React from 'react';
 
 describe('FsLightbox', () => {
-    const fsLightbox = new FsLightbox(testMainComponentProps);
+    const fsLightbox = new FsLightbox(testProps);
 
     it('should set data', () => {
         expect(fsLightbox.slide).toEqual(1);
