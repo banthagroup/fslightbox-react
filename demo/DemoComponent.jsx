@@ -11,6 +11,8 @@ class DemoComponent extends Component {
         this.state = {
             isOpen: true,
         };
+        this.videosPosters = [];
+        this.videosPosters[0] = '../demo/images/1.jpeg';
         this.toggleLightbox = this.toggleLightbox.bind(this);
     }
 
@@ -33,10 +35,11 @@ class DemoComponent extends Component {
                 <FsLightbox
                     isOpen={ this.state.isOpen }
                     urls={ [
-                        "../demo/videos/film.mp4",
-                        "../demo/images/2.jpg",
+                        //"../demo/videos/film.mp4",
+                        //"../demo/images/5.jpg",
                         testYoutubeURL,
                     ] }
+                    videosPosters={ this.videosPosters }
                     slide={ 1 }
                 />
             </>

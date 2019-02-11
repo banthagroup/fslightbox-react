@@ -1,21 +1,24 @@
 import React from 'react';
 import { IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../constants/CoreConstants";
+import Video from "../components/sources/properSources/Video.jsx";
+import Youtube from "../components/sources/properSources/Youtube.jsx";
+import Invalid from "../components/sources/properSources/Invalid.jsx";
+import Image from "../components/sources/properSources/Image.jsx";
+
+let SourceComponent = null;
 
 export class SourceFactory {
     constructor(fsLightbox) {
         this.fsLightbox = fsLightbox;
         this.index = null;
-        this.source = <div>XD</div>;
     }
 
-    setSourceIndex(index) {
+    createSourceForIndex(index) {
         this.index = index;
-    }
-
-    createSource() {
-        switch (this.index) {
+        switch (this.fsLightbox.sourcesTypes[index]) {
             case IMAGE_TYPE:
-                return this.createImageSource();
+                this.createImageSource();
+                break;
             case VIDEO_TYPE:
                 this.createVideoSource();
                 break;
@@ -29,23 +32,25 @@ export class SourceFactory {
     }
 
     createImageSource() {
-
+        SourceComponent = Image;
     }
 
     createVideoSource() {
-
+        SourceComponent = Video;
     }
 
     createYoutubeSource() {
-
+        SourceComponent = Youtube;
     }
 
     createInvalidSource() {
-
+        SourceComponent = Invalid;
     }
 
-
     getSource() {
-        return this.source;
+        return <SourceComponent
+            fsLightbox={ this.fsLightbox }
+            index={ this.index }
+        />;
     }
 }

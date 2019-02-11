@@ -6,31 +6,27 @@ class Source extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            sourceElement: null
-        };
     }
 
     createSource() {
-        this.sourceFactory = new SourceFactory(this.props.fsLightbox);
-        this.sourceFactory.setSourceIndex(this.props.index);
-        this.sourceFactory.createSource();
-        this.setState({
-            sourceElement: this.sourceFactory.getSource()
-        });
+        const sourceFactory = new SourceFactory(this.props.fsLightbox);
+        sourceFactory.createSourceForIndex(this.props.index);
+        this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index]
+            = sourceFactory.getSource();
+        this.forceUpdate();
     }
 
     render() {
         return (
             <>
-                { this.state.sourceElement }
+                { this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index] }
             </>
         );
     }
 }
 
 Source.propTypes = {
-    fsLightbox: PropTypes.object,
-    index: PropTypes.number,
+    fsLightbox: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
 };
 export default Source;

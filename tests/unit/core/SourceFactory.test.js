@@ -14,36 +14,38 @@ describe('SourceFactory', () => {
         YOUTUBE_TYPE,
         INVALID_TYPE
     ];
-    /**
-     * @type SourceFactory
-     */
-    let sourceFactory;
-    beforeEach(() => {
-        sourceFactory = new SourceFactory(fsLightbox);
+
+    describe('Calling correct methods depending on Source Type', () => {
+        /**
+         * @type SourceFactory
+         */
+        let sourceFactory;
+        beforeEach(() => {
+            sourceFactory = new SourceFactory(fsLightbox);
+        });
+
+        it('should call create img', () => {
+            sourceFactory.createImageSource = jest.fn();
+            sourceFactory.createSourceForIndex(0);
+            expect(sourceFactory.createImageSource).toHaveBeenCalled();
+        });
+
+        it('should call create video', () => {
+            sourceFactory.createVideoSource = jest.fn();
+            sourceFactory.createSourceForIndex(1);
+            expect(sourceFactory.createVideoSource).toHaveBeenCalled();
+        });
+
+        it('should call create youtube iframe', () => {
+            sourceFactory.createYoutubeSource = jest.fn();
+            sourceFactory.createSourceForIndex(2);
+            expect(sourceFactory.createYoutubeSource).toHaveBeenCalled();
+        });
+
+        it('should call create info about invalid source', () => {
+            sourceFactory.createInvalidSource = jest.fn();
+            sourceFactory.createSourceForIndex(3);
+            expect(sourceFactory.createInvalidSource).toHaveBeenCalled();
+        });
     });
-
-    it('should call create img', () => {
-        sourceFactory.createImageSource = jest.fn();
-        sourceFactory.createSourceForIndex(0);
-        expect(sourceFactory.createImageSource).toHaveBeenCalled();
-    });
-
-    it('should call create video', () => {
-        sourceFactory.createVideoSource = jest.fn();
-        sourceFactory.createSourceForIndex(1);
-        expect(sourceFactory.createVideoSource).toHaveBeenCalled();
-    });
-
-    it('should call create youtube iframe', () => {
-        sourceFactory.createYoutubeSource = jest.fn();
-        sourceFactory.createSourceForIndex(2);
-        expect(sourceFactory.createYoutubeSource).toHaveBeenCalled();
-    });
-
-    it('should call create info about invalid source', () => {
-        sourceFactory.createInvalidSource = jest.fn();
-        sourceFactory.createSourceForIndex(3);
-        expect(sourceFactory.createInvalidSource).toHaveBeenCalled();
-    })
-
 });

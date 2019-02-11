@@ -8,6 +8,7 @@ import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
 import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfUrls } from "./utils/createRefsArrayForNumberOfUrls";
+import { createNullArrayForNumberOfUrls } from "./utils/createNullArrayForNumberOfUrls";
 
 class FsLightbox extends Component {
 
@@ -25,6 +26,7 @@ class FsLightbox extends Component {
         this.urls = this.props.urls;
         this.totalSlides = this.props.urls.length;
         this.sourcesTypes = [];
+        this.videosPosters = (this.props.videosPosters) ? this.props.videosPosters : [];
     }
 
     setStates() {
@@ -39,6 +41,7 @@ class FsLightbox extends Component {
             container: React.createRef(),
             mediaHolder: React.createRef(),
             sourceHolders: createRefsArrayForNumberOfUrls(this.props.urls),
+            sourcesJSXComponents: createNullArrayForNumberOfUrls(this.props.urls),
             sources: createRefsArrayForNumberOfUrls(this.props.urls),
         };
     }
@@ -90,6 +93,9 @@ FsLightbox.propTypes = {
     onClose: PropTypes.func,
     onInit: PropTypes.func,
     onShow: PropTypes.func,
+
+    // developer can add video poster if he wants to
+    videosPosters: PropTypes.array,
 };
 
 export default FsLightbox;
