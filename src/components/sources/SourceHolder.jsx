@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Source from "./Source.jsx";
 import PropTypes from 'prop-types';
-import SourceTypeChecker from "../../core/SourceTypeChecker";
+import SourceTypeChecker from "../../core/Source/SourceTypeChecker";
 
 class SourceHolder extends Component {
     constructor(props) {

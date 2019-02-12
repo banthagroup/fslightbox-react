@@ -24,6 +24,10 @@ export class OnResize {
         this.fsLightbox.elements.mediaHolder.current.style.height = window.innerHeight - (window.innerHeight * MEDIA_HOLDER_SIZE_DECREASE_VALUE) + 'px';
     }
 
+    resizeSources() {
+
+    }
+
     attachListener() {
         window.addEventListener('resize', this.onResizeMethod);
     }
@@ -38,5 +42,6 @@ export class OnResize {
             isMobile: checkIfUserIsOnMobileDevice()
         });
         this.scaleMediaHolder();
+        this.resizeSources();
     }
 }

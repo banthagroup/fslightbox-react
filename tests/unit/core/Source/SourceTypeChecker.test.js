@@ -1,8 +1,8 @@
 import React from 'react';
-import SourceTypeChecker from "../../../src/core/SourceTypeChecker";
-import { testImageURL, testVideoURL, testYoutubeURL } from "../../schemas/testSchemas";
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
-import { getTypeFromResponseContentType } from "../../../src/utils/SourceType/getTypeFromResponseContentType";
+import SourceTypeChecker from "../../../../src/core/Source/SourceTypeChecker";
+import { testImageURL, testVideoURL, testYoutubeURL } from "../../../schemas/testSchemas";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/CoreConstants";
+import { getTypeFromResponseContentType } from "../../../../src/utils/SourceType/getTypeFromResponseContentType";
 
 describe('SourceTypeChecker', () => {
     /**

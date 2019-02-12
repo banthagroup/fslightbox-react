@@ -9,6 +9,7 @@ import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfUrls } from "./utils/createRefsArrayForNumberOfUrls";
 import { createNullArrayForNumberOfUrls } from "./utils/createNullArrayForNumberOfUrls";
+import { SourceSizeChanger } from "./core/Source/SourceSizeChanger";
 
 class FsLightbox extends Component {
 
@@ -52,6 +53,7 @@ class FsLightbox extends Component {
     setCore() {
         this.closeOpenLightbox = new CloseOpenLightbox(this);
         this.onResize = new OnResize(this);
+        this.sourceSizeChanger = new SourceSizeChanger(this);
     }
 
 

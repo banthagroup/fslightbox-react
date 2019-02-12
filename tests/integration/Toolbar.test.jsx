@@ -1,18 +1,18 @@
 import React from 'react';
-import FsLightbox from "../../src/FsLightbox";
-import { testUrls } from "../schemas/testSchemas";
-import { mount } from 'enzyme';
 import Toolbar from "../../src/components/nav/Toolbar";
+import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
 
 
 describe('Toolbar', () => {
     it('should close Lightbox', () => {
         jest.useFakeTimers();
-        const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
-        expect(fsLightbox.instance().state.isOpen).toBeTruthy();
+        const mock = new FsLightboxMock();
+        const fsLightbox = mock.getWrapper()
+        const fsLightboxInstance = mock.getInstance();
+        expect(fsLightboxInstance.state.isOpen).toBeTruthy();
         const closeButton = fsLightbox.find('.fslightbox-toolbar-button').at(1);
         closeButton.simulate('click');
         jest.runAllTimers();
-        expect(fsLightbox.instance().state.isOpen).toBeFalsy();
+        expect(fsLightboxInstance.state.isOpen).toBeFalsy();
     })
 });

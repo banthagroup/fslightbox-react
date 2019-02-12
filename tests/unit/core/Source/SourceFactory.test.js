@@ -1,13 +1,12 @@
-import { SourceFactory } from "../../../src/core/SourceFactory";
-import FsLightbox from "../../../src/FsLightbox";
+import { SourceFactory } from "../../../../src/core/Source/SourceFactory";
 import React from 'react';
-import { mount } from "enzyme";
-import { testUrls } from "../../schemas/testSchemas";
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/CoreConstants";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 
 describe('SourceFactory', () => {
-    const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
+    const mock = new FsLightboxMock();
+    const fsLightbox = mock.getWrapper();
     fsLightbox.sourcesTypes = [
         IMAGE_TYPE,
         VIDEO_TYPE,

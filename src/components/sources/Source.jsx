@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SourceFactory } from "../../core/SourceFactory";
+import { SourceFactory } from "../../core/Source/SourceFactory";
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
 
@@ -36,7 +36,8 @@ class Source extends Component {
     onSourceLoad() {
         this.setState({
             isSourceLoaded: true
-        })
+        });
+
     }
 
 

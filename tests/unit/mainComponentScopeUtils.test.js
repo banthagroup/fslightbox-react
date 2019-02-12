@@ -3,18 +3,21 @@ import { testUrls } from "../schemas/testSchemas";
 import { mount } from "enzyme";
 import React from 'react';
 import FsLightbox from "../../src/FsLightbox";
+import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
 
 
 describe('Util functions that in constructor takes scope of main component', () => {
     describe('CloseOpenLightbox', () => {
+        let mock;
         let fsLightbox;
-        let instance;
+        let fsLightboxInstance;
         let closeOpenLightbox;
 
         beforeEach(() => {
-            fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
-            instance = fsLightbox.instance();
-            closeOpenLightbox = new CloseOpenLightbox(instance);
+            mock = new FsLightboxMock();
+            fsLightbox = mock.getWrapper();
+            fsLightboxInstance = mock.getInstance();
+            closeOpenLightbox = new CloseOpenLightbox(fsLightboxInstance);
         });
 
 
@@ -28,9 +31,9 @@ describe('Util functions that in constructor takes scope of main component', () 
         it('should fade-out lightbox on close', () => {
             jest.useFakeTimers();
             closeOpenLightbox.closeLightbox();
-            expect(instance.elements.container.current.classList.contains('fslightbox-fade-out-animation')).toBeTruthy();
+            expect(fsLightboxInstance.elements.container.current.classList.contains('fslightbox-fade-out-animation')).toBeTruthy();
             jest.runAllTimers();
-            expect(instance.elements.container.current).toBeNull();
+            expect(fsLightboxInstance.elements.container.current).toBeNull();
         });
 
         it('should add fslightbox-open class to document on open', () => {
@@ -47,17 +50,17 @@ describe('Util functions that in constructor takes scope of main component', () 
         });
 
         it('should call attachListener, call scaleMediaHolder', () => {
-            instance.onResize.attachListener = jest.fn();
-            instance.onResize.scaleMediaHolder = jest.fn();
+            fsLightboxInstance.onResize.attachListener = jest.fn();
+            fsLightboxInstance.onResize.scaleMediaHolder = jest.fn();
             closeOpenLightbox.componentMountedAfterOpen();
-            expect(instance.onResize.attachListener).toBeCalled();
-            expect(instance.onResize.scaleMediaHolder).toBeCalled();
+            expect(fsLightboxInstance.onResize.attachListener).toBeCalled();
+            expect(fsLightboxInstance.onResize.scaleMediaHolder).toBeCalled();
         });
 
         it('should call removeListener', () => {
-            instance.onResize.removeListener = jest.fn();
+            fsLightboxInstance.onResize.removeListener = jest.fn();
             closeOpenLightbox.componentMountedAfterClose();
-            expect(instance.onResize.removeListener).toBeCalled();
+            expect(fsLightboxInstance.onResize.removeListener).toBeCalled();
         });
 
     });

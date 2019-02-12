@@ -1,9 +1,9 @@
 import React from 'react';
-import { IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../constants/CoreConstants";
-import Video from "../components/sources/properSources/Video.jsx";
-import Youtube from "../components/sources/properSources/Youtube.jsx";
-import Invalid from "../components/sources/properSources/Invalid.jsx";
-import Image from "../components/sources/properSources/Image.jsx";
+import { IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../constants/CoreConstants";
+import Video from "../../components/sources/properSources/Video.jsx";
+import Youtube from "../../components/sources/properSources/Youtube.jsx";
+import Invalid from "../../components/sources/properSources/Invalid.jsx";
+import Image from "../../components/sources/properSources/Image.jsx";
 
 let SourceComponent = null;
 
