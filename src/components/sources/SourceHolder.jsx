@@ -43,7 +43,6 @@ class SourceHolder extends Component {
         }
     }
 
-
     render() {
         return (
             <div ref={ this.props.fsLightbox.elements.sourceHolders[this.props.index] }

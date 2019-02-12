@@ -1,9 +1,11 @@
 import React from 'react';
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import FsLightbox from "../../../src/FsLightbox";
 import { testUrls } from "../../schemas/testSchemas";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
 import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutubeVideoIDFromURL";
+import Loader from "../../../src/components/sources/Loader";
+import Source from "../../../src/components/sources/Source";
 
 describe('Creating correct sources depending on source type', () => {
 
@@ -101,5 +103,21 @@ describe('Creating correct sources depending on source type', () => {
             const invalid = mount(fsLightboxInstance.elements.sourcesJSXComponents[3]);
             expect(fsLightboxInstance.elements.sources[3].current).toEqual(invalid.find('.fslightbox-invalid-file-wrapper').instance());
         });
-    })
+    });
+
+
+    describe('Loader', () => {
+        const source = fsLightbox.find('Source').at(0);
+        const loader = mount(<Loader/>);
+        it('should render loader', () => {
+            expect(source.instance().state.isSourceLoaded).toBeFalsy();
+            expect(source.find('.fslightbox-loader').instance())
+                .toEqual(loader.find('.fslightbox-loader').instance());
+        });
+
+        it('should hide loader', () => {
+            source.instance().onSourceLoad();
+            expect(source.instance().state.isSourceLoaded).toBeTruthy();
+        });
+    });
 });

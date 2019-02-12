@@ -21,9 +21,7 @@ export default class SourceTypeChecker {
             (this.checkIfYoutubeType()) ?
                 this.youtubeType() :
                 this.setXHR();
-        })).catch(
-            err => console.log(err)
-        );
+        })).catch(() => this.invalidType());
     }
 
     checkIfYoutubeType() {

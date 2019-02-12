@@ -4,6 +4,7 @@ import { testUrls } from "../../schemas/testSchemas";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 import { reopenFsLightbox } from "../../__mocks__/helpers/reopenFsLightbox";
+import Source from "../../../src/components/sources/Source";
 
 
 describe('SourceHolder', () => {
@@ -74,6 +75,28 @@ describe('SourceHolder', () => {
             reopenFsLightbox(fsLightbox).then((reopenedLightbox) => {
                 expect(reopenedLightbox.instance().elements.sourcesJSXComponents[0]).not.toBeNull();
             });
+        });
+
+        it('should force update after creating source', () => {
+            /**
+             * @type {Source}
+             */
+            const sourceInstance = mount(<Source fsLightbox={ fsLightbox.instance() } index={ 0 }/>).instance();
+            sourceInstance.forceUpdate = jest.fn();
+            sourceInstance.callUpdateAfterMount = false;
+            sourceInstance.createSource();
+            expect(sourceInstance.forceUpdate).toBeCalled();
+        });
+
+        it('should not force update after creating source', () => {
+            /**
+             * @type {Source}
+             */
+            const sourceInstance = mount(<Source fsLightbox={ fsLightbox.instance() } index={ 0 }/>).instance();
+            sourceInstance.forceUpdate = jest.fn();
+            sourceInstance.callUpdateAfterMount = true;
+            sourceInstance.createSource();
+            expect(sourceInstance.forceUpdate).not.toBeCalled();
         });
     });
 });
