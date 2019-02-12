@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from "enzyme";
 import FsLightbox from "../../../src/FsLightbox";
 import { testUrls } from "../../schemas/testSchemas";
-import { IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
 import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutubeVideoIDFromURL";
 
 describe('Creating correct sources depending on source type', () => {
@@ -85,4 +85,21 @@ describe('Creating correct sources depending on source type', () => {
             expect(youtube.frameBorder).toEqual("0");
         });
     });
+
+
+    describe('Invalid', () => {
+        const source = fsLightbox.find('Source').at(3);
+        fsLightboxInstance.sourcesTypes[3] = INVALID_TYPE;
+
+        /**
+         * @type { Source }
+         */
+        const sourceInstance = source.instance();
+        sourceInstance.createSource();
+
+        it('should create Invalid file component', () => {
+            const invalid = mount(fsLightboxInstance.elements.sourcesJSXComponents[3]);
+            expect(fsLightboxInstance.elements.sources[3].current).toEqual(invalid.find('.fslightbox-invalid-file-wrapper').instance());
+        });
+    })
 });
