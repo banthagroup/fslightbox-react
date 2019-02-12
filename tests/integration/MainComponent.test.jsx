@@ -3,6 +3,7 @@ import React from 'react';
 import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
 import FsLightbox from "../../src/FsLightbox";
 import { testUrls } from "../schemas/testSchemas";
+import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
 
 const demoComponent = mount(<DemoComponentHiddenLightbox/>);
 
@@ -21,9 +22,11 @@ describe('Test FsLightbox component props', () => {
     });
 
     it('should call lightbox initialize that was closed at start', () => {
-        const fsLightbox = mount(<FsLightbox isOpen={ false } urls={ testUrls }/>);
-        fsLightbox.instance().initialize = jest.fn();
-        fsLightbox.instance().closeOpenLightbox.openLightbox();
-        expect(fsLightbox.instance().initialize).toBeCalled();
+        const mock = new FsLightboxMock();
+        mock.setOpenToFalse();
+        const fsLightboxInstance = mock.getInstance();
+        fsLightboxInstance.initialize = jest.fn();
+        fsLightboxInstance.closeOpenLightbox.openLightbox();
+        expect(fsLightboxInstance.initialize).toBeCalled();
     });
 });

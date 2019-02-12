@@ -1,18 +1,19 @@
-import FsLightbox from "../../../src/FsLightbox";
 import { mount } from "enzyme";
 import { testUrls } from "../../schemas/testSchemas";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 import { reopenFsLightbox } from "../../__mocks__/helpers/reopenFsLightbox";
 import Source from "../../../src/components/sources/Source";
+import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 
 
 describe('SourceHolder', () => {
-
     it('should render number of source holders equivalent to number of urls', () => {
-        const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
+        const mock = new FsLightboxMock();
+        const fsLightbox = mock.getWrapper();
+        const fsLightboxInstance = mock.getInstance();
         const mediaHolder = fsLightbox.find('.fslightbox-media-holder');
-        const sourceHolders = fsLightbox.instance().elements.sourceHolders;
+        const sourceHolders = fsLightboxInstance.elements.sourceHolders;
         for (let i = 0; i < sourceHolders.length; i++) {
             expect(sourceHolders[i].current.classList.contains('fslightbox-source-holder'))
                 .toBeTruthy();
@@ -21,7 +22,8 @@ describe('SourceHolder', () => {
     });
 
     describe('creating source after asynchronous type check because child was mounted', () => {
-        const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
+        const mock = new FsLightboxMock();
+        const fsLightbox = mock.getWrapper();
         const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
         sourceHolderInstance.source.current.createSource = jest.fn();
 
@@ -37,7 +39,8 @@ describe('SourceHolder', () => {
     });
 
     describe('not creating source after asynchronous type check because child was not yet mounted', () => {
-        const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
+        const mock = new FsLightboxMock();
+        const fsLightbox = mock.getWrapper();
         const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
         sourceHolderInstance.source.current.createSource = jest.fn();
 
@@ -57,7 +60,9 @@ describe('SourceHolder', () => {
 
 
     describe('creating source after component mount due to closing lightbox during request', () => {
-        const fsLightbox = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>);
+        const mock = new FsLightboxMock();
+        const fsLightbox = mock.getWrapper();
+        const fsLightboxInstance = mock.getInstance();
         const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
         sourceHolderInstance.source.current.createSource = jest.fn();
 
@@ -67,8 +72,8 @@ describe('SourceHolder', () => {
         });
 
         it('should add true at correct index to FsLightbox sourcesToCreateOnConstruct array', () => {
-            expect(fsLightbox.instance().sourcesToCreateOnConstruct[0]).toBeTruthy();
-            expect(fsLightbox.instance().elements.sourcesJSXComponents[0]).toBeNull();
+            expect(fsLightboxInstance.sourcesToCreateOnConstruct[0]).toBeTruthy();
+            expect(fsLightboxInstance.elements.sourcesJSXComponents[0]).toBeNull();
         });
 
         it('should call createSource on construct after reopening', () => {
@@ -81,7 +86,7 @@ describe('SourceHolder', () => {
             /**
              * @type {Source}
              */
-            const sourceInstance = mount(<Source fsLightbox={ fsLightbox.instance() } index={ 0 }/>).instance();
+            const sourceInstance = mount(<Source fsLightbox={ fsLightboxInstance } index={ 0 }/>).instance();
             sourceInstance.forceUpdate = jest.fn();
             sourceInstance.callUpdateAfterMount = false;
             sourceInstance.createSource();
@@ -92,7 +97,7 @@ describe('SourceHolder', () => {
             /**
              * @type {Source}
              */
-            const sourceInstance = mount(<Source fsLightbox={ fsLightbox.instance() } index={ 0 }/>).instance();
+            const sourceInstance = mount(<Source fsLightbox={ fsLightboxInstance } index={ 0 }/>).instance();
             sourceInstance.forceUpdate = jest.fn();
             sourceInstance.callUpdateAfterMount = true;
             sourceInstance.createSource();

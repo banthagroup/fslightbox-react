@@ -1,5 +1,5 @@
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../constants/CoreConstants";
-import { getTypeFromResponseContentType } from "../utils/SourceType/getTypeFromResponseContentType";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../constants/CoreConstants";
+import { getTypeFromResponseContentType } from "../../utils/SourceType/getTypeFromResponseContentType";
 
 export default class SourceTypeChecker {
     constructor() {
