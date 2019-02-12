@@ -6,6 +6,11 @@ class Source extends Component {
 
     constructor(props) {
         super(props);
+        this.callUpdate = true;
+        if (this.props.fsLightbox.sourcesToCreateOnConstruct[this.props.index]) {
+            this.callUpdate = false;
+            this.createSource();
+        }
     }
 
     createSource() {
@@ -13,7 +18,8 @@ class Source extends Component {
         sourceFactory.createSourceForIndex(this.props.index);
         this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index]
             = sourceFactory.getSource();
-        this.forceUpdate();
+        if (this.callUpdate)
+            this.forceUpdate();
     }
 
     render() {

@@ -26,8 +26,9 @@ class SourceHolder extends Component {
     processReceivedSourceType() {
         this.props.fsLightbox.sourcesTypes[this.props.index] = this.sourceTypeChecker.sourceType;
         if (this._isMounted) {
-            //TODO: if lightbox is closed when request comes it will throw error
             if (this.source.current === null) {
+                this.props.fsLightbox.sourcesToCreateOnConstruct[this.props.index] = true;
+                return;
             }
             this.source.current.createSource();
         } else {

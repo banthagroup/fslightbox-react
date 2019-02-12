@@ -26,6 +26,8 @@ class FsLightbox extends Component {
         this.urls = this.props.urls;
         this.totalSlides = this.props.urls.length;
         this.sourcesTypes = [];
+        // if lightbox will be closed during source type check we need call create source after next open
+        this.sourcesToCreateOnConstruct = [];
         this.videosPosters = (this.props.videosPosters) ? this.props.videosPosters : [];
     }
 
