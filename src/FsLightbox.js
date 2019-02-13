@@ -9,7 +9,7 @@ import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfUrls } from "./utils/createRefsArrayForNumberOfUrls";
 import { createNullArrayForNumberOfUrls } from "./utils/createNullArrayForNumberOfUrls";
-import { SourceSizeAdjuster, SourceSizeChanger } from "./core/Source/SourceSizeAdjuster";
+import { SourceSizeAdjusterIterator, SourceSizeChanger } from "./core/Source/SourceSizeAdjusterIterator";
 
 class FsLightbox extends Component {
 
@@ -30,7 +30,13 @@ class FsLightbox extends Component {
         // if lightbox will be closed during source type check we need call create source after next open
         this.sourcesToCreateOnConstruct = [];
         this.videosPosters = (this.props.videosPosters) ? this.props.videosPosters : [];
+
+        // dimensions (integers)
+        this.maxSourceWidth = 0;
+        this.maxSourceHeight = 0;
         this.sourceDimensions = [];
+        // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
+        this.sourceSizeAdjusters = [];
     }
 
     setStates() {
@@ -53,7 +59,7 @@ class FsLightbox extends Component {
     setCore() {
         this.closeOpenLightbox = new CloseOpenLightbox(this);
         this.onResize = new OnResize(this);
-        this.sourceSizeAdjuster = new SourceSizeAdjuster(this);
+        this.sourceSizeIterator = new SourceSizeAdjusterIterator(this);
     }
 
 

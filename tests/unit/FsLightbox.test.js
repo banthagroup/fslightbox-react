@@ -4,6 +4,7 @@ import { createRefsArrayForNumberOfUrls } from "../../src/utils/createRefsArrayF
 import { CloseOpenLightbox } from "../../src/utils/mainComponentScope/CloseOpenLightbox";
 import { OnResize } from "../../src/core/OnResize";
 import React from 'react';
+import { SourceSizeAdjusterIterator } from "../../src/core/Source/SourceSizeAdjusterIterator";
 
 describe('FsLightbox', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -29,5 +30,6 @@ describe('FsLightbox', () => {
     it('should set core', () => {
         expect(fsLightbox.closeOpenLightbox).toBeInstanceOf(CloseOpenLightbox);
         expect(fsLightbox.onResize).toBeInstanceOf(OnResize);
+        expect(fsLightbox.sourceSizeIterator).toBeInstanceOf(SourceSizeAdjusterIterator);
     });
 });
