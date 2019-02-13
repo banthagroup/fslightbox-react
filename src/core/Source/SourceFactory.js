@@ -11,11 +11,13 @@ export class SourceFactory {
     constructor(fsLightbox) {
         this.fsLightbox = fsLightbox;
         this.index = null;
+        this.onFirstSourceLoad = null;
         this.onSourceLoad = null;
     }
 
-    attachOnSourceLoad(onLoad) {
-        this.onSourceLoad = onLoad;
+    attachOnSourceLoad(onLoadFunctions) {
+        this.onFirstSourceLoad = onLoadFunctions.onFirstSourceLoad;
+        this.onSourceLoad = onLoadFunctions.onSourceLoad;
     }
 
     createSourceForIndex(index) {
@@ -56,6 +58,7 @@ export class SourceFactory {
         return <SourceComponent
             fsLightbox={ this.fsLightbox }
             index={ this.index }
+            onFirstSourceLoad={ this.onFirstSourceLoad }
             onSourceLoad={ this.onSourceLoad }
         />;
     }

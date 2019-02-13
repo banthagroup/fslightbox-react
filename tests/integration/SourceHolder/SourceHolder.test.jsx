@@ -1,5 +1,5 @@
 import { mount } from "enzyme";
-import { testUrls } from "../../schemas/testSchemas";
+import { testUrls } from "../../schemas/testVariables";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 import { reopenFsLightbox } from "../../__mocks__/helpers/reopenFsLightbox";

@@ -8,23 +8,25 @@ class Source extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isSourceLoaded: false
-        };
         this.callUpdateAfterMount = false;
+        this.isLoaderVisible = true;
         if (this.props.fsLightbox.sourcesToCreateOnConstruct[this.props.index]) {
             this.callUpdateAfterMount = true;
             this.createSource();
         }
+        this.onFirstSourceLoad = this.onFirstSourceLoad.bind(this);
         this.onSourceLoad = this.onSourceLoad.bind(this);
     }
 
     createSource() {
+        this.isLoaderVisible = false;
         const sourceFactory = new SourceFactory(this.props.fsLightbox);
         sourceFactory.createSourceForIndex(this.props.index);
-        sourceFactory.attachOnSourceLoad(this.onSourceLoad);
-        this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index]
-            = sourceFactory.getSource();
+        sourceFactory.attachOnSourceLoad({
+            onFirstSourceLoad: this.onFirstSourceLoad,
+            onSourceLoad: this.onSourceLoad
+        });
+        this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index] = sourceFactory.getSource();
         if (!this.callUpdateAfterMount)
             this.forceUpdate();
     }
@@ -34,18 +36,31 @@ class Source extends Component {
             this.forceUpdate();
     }
 
-    onSourceLoad() {
-        this.setState({
-            isSourceLoaded: true
-        });
+
+    onFirstSourceLoad() {
+        this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index] = true;
+        this.createSourceSizeAdjuster();
+        this.onSourceLoad();
+    }
+
+    createSourceSizeAdjuster() {
         const sourceSizeAdjuster = new SourceSizeAdjuster(this.props.fsLightbox);
-        sourceSizeAdjuster.setUpSourceByIndex(this.props.index);
+        sourceSizeAdjuster.setIndex(this.props.index);
         this.props.fsLightbox.sourceSizeAdjusters[this.props.index] = sourceSizeAdjuster;
+    }
+
+    onSourceLoad() {
+        this.props.fsLightbox.elements.sources[this.props.index].current.classList.add('fslightbox-fade-in-class');
+        this.props.fsLightbox.sourceSizeAdjusters[this.props.index].updateSource();
+        this.props.fsLightbox.sourceSizeAdjusters[this.props.index].adjustSourceSize();
     }
 
 
     render() {
-        const loader = (this.state.isSourceLoaded) ? null : <Loader/>;
+        const loader = (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index] ||
+            !this.isLoaderVisible) ?
+            null : <Loader/>;
+
         return (
             <>
                 { loader }

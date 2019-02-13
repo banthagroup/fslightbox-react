@@ -1,5 +1,5 @@
 import FsLightbox from "../../src/FsLightbox";
-import { testProps, testUrls } from "../schemas/testSchemas";
+import { testProps, testUrls } from "../schemas/testVariables";
 import { createRefsArrayForNumberOfUrls } from "../../src/utils/createRefsArrayForNumberOfUrls";
 import { CloseOpenLightbox } from "../../src/utils/mainComponentScope/CloseOpenLightbox";
 import { OnResize } from "../../src/core/OnResize";
@@ -30,6 +30,6 @@ describe('FsLightbox', () => {
     it('should set core', () => {
         expect(fsLightbox.closeOpenLightbox).toBeInstanceOf(CloseOpenLightbox);
         expect(fsLightbox.onResize).toBeInstanceOf(OnResize);
-        expect(fsLightbox.sourceSizeIterator).toBeInstanceOf(SourceSizeAdjusterIterator);
+        expect(fsLightbox.sourceSizeAdjusterIterator).toBeInstanceOf(SourceSizeAdjusterIterator);
     });
 });

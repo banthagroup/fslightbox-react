@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import SourceTypeChecker from "../../core/Source/SourceTypeChecker";
 
 class SourceHolder extends Component {
+
     constructor(props) {
         super(props);
         this.source = React.createRef();
@@ -13,7 +14,6 @@ class SourceHolder extends Component {
         // component need to be mounted to call method from child by ref
         this._isMounted = false;
         this._isTypeChecked = false;
-        this.props.fsLightbox.forceUpdate();
     }
 
     initRequest() {

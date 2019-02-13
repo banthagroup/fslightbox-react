@@ -16,7 +16,7 @@ describe('Resize event', () => {
         onResize = new OnResize(fsLightboxInstance);
     });
 
-    it('should inti OnResize', () => {
+    it('should init OnResize', () => {
         onResize.saveMaxSourcesDimensions = jest.fn();
         onResize.adjustMediaHolderSize = jest.fn();
         onResize.attachListener = jest.fn();
@@ -26,22 +26,29 @@ describe('Resize event', () => {
         expect(onResize.attachListener).toBeCalled();
     });
 
-    it('should resize source holder', () => {
-        global.window.innerWidth = SOURCE_DIMENSIONS_BREAK - 100;
-        onResize.init();
-
-        // media holder is full width till SOURCE_DIMENSIONS_BREAK
-        expect(fsLightboxInstance.elements.mediaHolder.current.style.width)
-            .toEqual(window.innerWidth + 'px');
-        expect(fsLightboxInstance.elements.mediaHolder.current.style.height)
-            .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE) + 'px');
+    it('should save max sources dimensions', () => {
+        global.window.innerWidth  = SOURCE_DIMENSIONS_BREAK - 100;
+        global.dispatchEvent(new Event('resize'));
+        expect(fsLightboxInstance.maxSourceWidth).toEqual(window.innerWidth);
+        expect(fsLightboxInstance.maxSourceHeight)
+            .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE));
 
         global.window.innerWidth = SOURCE_DIMENSIONS_BREAK + 100;
         global.dispatchEvent(new Event('resize'));
+        expect(fsLightboxInstance.maxSourceWidth)
+            .toEqual(window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE));
+        expect(fsLightboxInstance.maxSourceHeight)
+            .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE))
+    });
+
+    it('should resize source holder', () => {
+        fsLightboxInstance.maxSourceWidth = 100;
+        fsLightboxInstance.maxSourceHeight = 100;
+        onResize.adjustMediaHolderSize();
         expect(fsLightboxInstance.elements.mediaHolder.current.style.width)
-            .toEqual(window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE) + 'px');
+            .toEqual(100 + 'px');
         expect(fsLightboxInstance.elements.mediaHolder.current.style.height)
-            .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE) + 'px');
+            .toEqual(100 + 'px');
     });
 
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { EventsThrower, eventsThrower } from "../../src/utils/EventsThrower";
 import { mount } from 'enzyme';
 import FsLightbox from "../../src/FsLightbox";
-import { testUrls, testYoutubeURL } from "../schemas/testSchemas";
+import { testUrls, testYoutubeURL } from "../schemas/testVariables";
 import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/EventsConstants";
 import { checkIfUserIsOnMobileDevice } from "../../src/utils/checkIfUserIsOnMobileDevice";
 import { StageSourcesIndexes } from "../../src/utils/StageSourcesIndexes";
