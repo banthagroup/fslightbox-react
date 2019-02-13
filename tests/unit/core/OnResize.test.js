@@ -12,6 +12,16 @@ describe('Resize event', () => {
     const fsLightboxInstance = mock.getInstance();
     const onResize = new OnResize(fsLightboxInstance);
 
+    it('should inti OnResize', () => {
+        onResize.adjustMediaHolderSize = jest.fn();
+        onResize.attachListener = jest.fn();
+        fsLightboxInstance.sourceSizeAdjuster.setMaxSourceDimensions = jest.fn();
+        onResize.init();
+        expect(onResize.adjustMediaHolderSize).toBeCalled();
+        expect(onResize.attachListener).toBeCalled();
+        expect(fsLightboxInstance.sourceSizeAdjuster.setMaxSourceDimensions).toBeCalled();
+    });
+
     it('should resize source holder', () => {
         global.window.innerWidth = MEDIA_HOLDER_BREAK - 100;
         onResize.init();

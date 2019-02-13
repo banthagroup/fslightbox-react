@@ -26,7 +26,7 @@ export class CloseOpenLightbox {
             return;
         }
         this.fsLightbox.onResize.attachListener();
-        this.fsLightbox.onResize.scaleMediaHolder();
+        this.fsLightbox.onResize.adjustMediaHolderSize();
     }
 
 

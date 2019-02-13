@@ -12,11 +12,12 @@ export class OnResize {
     }
 
     init() {
-        this.scaleMediaHolder();
+        this.adjustMediaHolderSize();
         this.attachListener();
+        this.fsLightbox.sourceSizeAdjuster.setMaxSourceDimensions();
     }
 
-    scaleMediaHolder() {
+    adjustMediaHolderSize() {
         (window.innerWidth < MEDIA_HOLDER_BREAK) ?
             this.fsLightbox.elements.mediaHolder.current.style.width = window.innerWidth + 'px' :
             this.fsLightbox.elements.mediaHolder.current.style.width = window.innerWidth - (window.innerWidth * MEDIA_HOLDER_SIZE_DECREASE_VALUE) + 'px';
@@ -25,7 +26,8 @@ export class OnResize {
     }
 
     resizeSources() {
-
+        this.fsLightbox.sourceSizeAdjuster.setMaxSourceDimensions();
+        this.fsLightbox.sourceSizeAdjuster.adjustSourceSize(0);
     }
 
     attachListener() {
@@ -41,7 +43,7 @@ export class OnResize {
         this.fsLightbox.setState({
             isMobile: checkIfUserIsOnMobileDevice()
         });
-        this.scaleMediaHolder();
+        this.adjustMediaHolderSize();
         this.resizeSources();
     }
 }
