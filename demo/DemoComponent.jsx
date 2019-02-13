@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FsLightbox from "../src/FsLightbox.js";
 import "./css/demo.css";
-import { testVideoURL } from "../tests/schemas/testSchemas";
+import { testImageURL, testVideoURL } from "../tests/schemas/testSchemas";
 
 class DemoComponent extends Component {
 
@@ -35,6 +35,7 @@ class DemoComponent extends Component {
                 <FsLightbox
                     isOpen={ this.state.isOpen }
                     urls={ [
+                        testImageURL,
                         testVideoURL
                     ] }
                     slide={ 1 }

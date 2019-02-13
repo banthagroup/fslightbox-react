@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { SourceFactory } from "../../core/Source/SourceFactory";
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
+import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
 
 class Source extends Component {
 
@@ -37,7 +38,9 @@ class Source extends Component {
         this.setState({
             isSourceLoaded: true
         });
-
+        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props.fsLightbox);
+        sourceSizeAdjuster.setUpSourceByIndex(this.props.index);
+        this.props.fsLightbox.sourceSizeAdjusters[this.props.index] = sourceSizeAdjuster;
     }
 
 

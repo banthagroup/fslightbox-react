@@ -1,6 +1,6 @@
 import {
-    MEDIA_HOLDER_BREAK,
-    MEDIA_HOLDER_SIZE_DECREASE_VALUE
+    SOURCE_DIMENSIONS_BREAK,
+    SOURCE_DIMENSIONS_DECREASE_VALUE
 } from "../constants/ResponsiveConstants";
 import { checkIfUserIsOnMobileDevice } from "../utils/checkIfUserIsOnMobileDevice";
 
@@ -12,22 +12,22 @@ export class OnResize {
     }
 
     init() {
+        this.saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
         this.attachListener();
-        this.fsLightbox.sourceSizeAdjuster.setMaxSourceDimensions();
+    }
+
+    saveMaxSourcesDimensions() {
+        (window.innerWidth < SOURCE_DIMENSIONS_BREAK) ?
+            this.fsLightbox.maxSourceWidth = window.innerWidth :
+            this.fsLightbox.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
+
+        this.fsLightbox.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
     }
 
     adjustMediaHolderSize() {
-        (window.innerWidth < MEDIA_HOLDER_BREAK) ?
-            this.fsLightbox.elements.mediaHolder.current.style.width = window.innerWidth + 'px' :
-            this.fsLightbox.elements.mediaHolder.current.style.width = window.innerWidth - (window.innerWidth * MEDIA_HOLDER_SIZE_DECREASE_VALUE) + 'px';
-
-        this.fsLightbox.elements.mediaHolder.current.style.height = window.innerHeight - (window.innerHeight * MEDIA_HOLDER_SIZE_DECREASE_VALUE) + 'px';
-    }
-
-    resizeSources() {
-        this.fsLightbox.sourceSizeAdjuster.setMaxSourceDimensions();
-        this.fsLightbox.sourceSizeAdjuster.adjustSourceSize(0);
+        this.fsLightbox.elements.mediaHolder.current.style.width = this.fsLightbox.maxSourceWidth + 'px';
+        this.fsLightbox.elements.mediaHolder.current.style.height = this.fsLightbox.maxSourceHeight + 'px';
     }
 
     attachListener() {
@@ -43,7 +43,8 @@ export class OnResize {
         this.fsLightbox.setState({
             isMobile: checkIfUserIsOnMobileDevice()
         });
+        this.saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
-        this.resizeSources();
+        this.fsLightbox.sourceSizeIterator.adjustAllSourcesSizes();
     }
 }
