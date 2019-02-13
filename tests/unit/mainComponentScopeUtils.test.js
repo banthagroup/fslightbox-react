@@ -49,12 +49,12 @@ describe('Util functions that in constructor takes scope of main component', () 
             expect(closeOpenLightbox.componentMountedAfterOpen).toHaveBeenCalledTimes(1);
         });
 
-        it('should call attachListener, call scaleMediaHolder', () => {
+        it('should call attachListener, call adjustMediaHolderSize', () => {
             fsLightboxInstance.onResize.attachListener = jest.fn();
-            fsLightboxInstance.onResize.scaleMediaHolder = jest.fn();
+            fsLightboxInstance.onResize.adjustMediaHolderSize = jest.fn();
             closeOpenLightbox.componentMountedAfterOpen();
             expect(fsLightboxInstance.onResize.attachListener).toBeCalled();
-            expect(fsLightboxInstance.onResize.scaleMediaHolder).toBeCalled();
+            expect(fsLightboxInstance.onResize.adjustMediaHolderSize).toBeCalled();
         });
 
         it('should call removeListener', () => {
