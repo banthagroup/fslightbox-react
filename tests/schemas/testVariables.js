@@ -15,3 +15,8 @@ export const testProps = {
     isOpen: true,
     urls: testUrls
 };
+
+export const testSourceDimensions=  {
+    width: 2000,
+    height: 2000
+};

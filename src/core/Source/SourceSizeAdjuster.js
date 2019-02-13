@@ -9,12 +9,15 @@ export class SourceSizeAdjuster {
         this.newHeight = 0;
     }
 
-    setUpSourceByIndex(index) {
+    setIndex(index) {
         this.index = index;
-        this.element = this.fsLightbox.elements.sources[index].current;
         this.sourceWidth = this.fsLightbox.sourceDimensions[index].width;
         this.sourceHeight = this.fsLightbox.sourceDimensions[index].height;
         this.ratio = this.sourceWidth / this.sourceHeight;
+    }
+
+    updateSource() {
+        this.element = this.fsLightbox.elements.sources[this.index].current;
     }
 
     adjustSourceSize() {

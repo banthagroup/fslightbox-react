@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from "enzyme";
-import { testUrls } from "../../schemas/testSchemas";
+import { testSourceDimensions, testUrls } from "../../schemas/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
 import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutubeVideoIDFromURL";
 import Loader from "../../../src/components/sources/Loader";
@@ -8,28 +8,57 @@ import Source from "../../../src/components/sources/Source";
 import Image from "../../../src/components/sources/properSources/Image";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import Video from "../../../src/components/sources/properSources/Video";
+import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
+import { getDescreasedDimensionValue, mountImageForFsLightboxInstance } from "../../schemas/testFunctions";
 
 
-describe('Loader', () => {
+describe('Source', () => {
     const mock = new FsLightboxMock();
-    const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
-
-    const source = fsLightbox.find('Source').at(0);
-    const sourceWrapper = mount(<Source fsLightbox={ fsLightboxInstance } index={ 0 }/>);
-    const loader = mount(<Loader/>);
-    it('should render loader', () => {
-        expect(source.instance().state.isSourceLoaded).toBeFalsy();
-        expect(source.find('.fslightbox-loader').instance())
-            .toEqual(loader.find('.fslightbox-loader').instance());
+    /**
+     * @type {Source}
+     */
+    let sourceInstance;
+    beforeEach(() => {
+        sourceInstance = mount(<Source
+            fsLightbox={ fsLightboxInstance }
+            index={ 0 }
+        />).instance();
     });
 
-    it('should hide loader', () => {
-        expect(sourceWrapper.exists('Loader')).toBeTruthy();
-        sourceWrapper.instance().onSourceLoad();
-        sourceWrapper.update();
-        expect(sourceWrapper.exists('Loader')).toBeFalsy();
-        expect(sourceWrapper.instance().state.isSourceLoaded).toBeTruthy();
+    it('should set isSourceLoaded state to true', () => {
+        sourceInstance.createSourceSizeAdjuster = jest.fn();
+        sourceInstance.onFirstSourceLoad();
+        expect(sourceInstance.state.isSourceLoaded).toBeTruthy();
+    });
+
+    it('should call createSourceSizeAdjuster', () => {
+        sourceInstance.createSourceSizeAdjuster = jest.fn();
+        sourceInstance.onFirstSourceLoad();
+        expect(sourceInstance.createSourceSizeAdjuster).toBeCalled();
+    });
+
+    it('should create SourceSizeAdjuster', () => {
+        fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
+        mountImageForFsLightboxInstance(fsLightboxInstance);
+        sourceInstance.onFirstSourceLoad();
+        expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
+    });
+
+    it('should adjust source size initially', () => {
+        global.window.innerWidth = 1500;
+        global.window.innerHeight = 1500;
+        global.dispatchEvent(new Event('resize'));
+        mountImageForFsLightboxInstance(fsLightboxInstance);
+        fsLightboxInstance.sourceDimensions[0] = {
+            width: 2000,
+            height: 2000
+        };
+        sourceInstance.onFirstSourceLoad();
+        expect(fsLightboxInstance.elements.sources[0].current.style.width)
+            .toEqual(getDescreasedDimensionValue(1500) + 'px');
+        expect(fsLightboxInstance.elements.sources[0].current.style.height)
+            .toEqual(getDescreasedDimensionValue(1500) + 'px');
     });
 });
 
@@ -157,8 +186,8 @@ describe('Actions after proper sources load', () => {
             expect(classList.contains('fslightbox-fade-in-class')).toBeTruthy();
         });
 
-        it('should call onSourceLoad method from props', () => {
-            expect(image.props().onSourceLoad).toBeCalled();
+        it('should call onFirstSourceLoad method from props', () => {
+            expect(image.props().onFirstSourceLoad).toBeCalled();
         });
     });
 
@@ -189,8 +218,8 @@ describe('Actions after proper sources load', () => {
             expect(classList.contains('fslightbox-fade-in-class')).toBeTruthy();
         });
 
-        it('should call onSourceLoad method from props', () => {
-            expect(video.props().onSourceLoad).toBeCalled();
+        it('should call onFirstSourceLoad method from props', () => {
+            expect(video.props().onFirstSourceLoad).toBeCalled();
         });
     });
 });

@@ -9,7 +9,7 @@ import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfUrls } from "./utils/createRefsArrayForNumberOfUrls";
 import { createNullArrayForNumberOfUrls } from "./utils/createNullArrayForNumberOfUrls";
-import { SourceSizeAdjusterIterator, SourceSizeChanger } from "./core/Source/SourceSizeAdjusterIterator";
+import { SourceSizeAdjusterIterator } from "./core/Source/SourceSizeAdjusterIterator";
 
 class FsLightbox extends Component {
 
@@ -27,6 +27,8 @@ class FsLightbox extends Component {
         this.urls = this.props.urls;
         this.totalSlides = this.props.urls.length;
         this.sourcesTypes = [];
+        this.isSourceAlreadyLoaded = [];
+
         // if lightbox will be closed during source type check we need call create source after next open
         this.sourcesToCreateOnConstruct = [];
         this.videosPosters = (this.props.videosPosters) ? this.props.videosPosters : [];
@@ -59,7 +61,7 @@ class FsLightbox extends Component {
     setCore() {
         this.closeOpenLightbox = new CloseOpenLightbox(this);
         this.onResize = new OnResize(this);
-        this.sourceSizeIterator = new SourceSizeAdjusterIterator(this);
+        this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(this);
     }
 
 
@@ -80,7 +82,7 @@ class FsLightbox extends Component {
     componentDidMount() {
         if (this.props.isOpen) {
             this.initialize();
-            this.closeOpenLightbox.openLightbox();
+            this.closeOpenLightbox.addOpeningClassToDocument();
         }
     }
 

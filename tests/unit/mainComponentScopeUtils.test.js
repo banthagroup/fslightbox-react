@@ -1,5 +1,5 @@
 import { CloseOpenLightbox } from "../../src/utils/mainComponentScope/CloseOpenLightbox";
-import { testUrls } from "../schemas/testSchemas";
+import { testUrls } from "../schemas/testVariables";
 import { mount } from "enzyme";
 import React from 'react';
 import FsLightbox from "../../src/FsLightbox";

@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import React from 'react';
 import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
 import FsLightbox from "../../src/FsLightbox";
-import { testUrls } from "../schemas/testSchemas";
+import { testUrls } from "../schemas/testVariables";
 import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
 
 const demoComponent = mount(<DemoComponentHiddenLightbox/>);

@@ -45,6 +45,6 @@ export class OnResize {
         });
         this.saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
-        this.fsLightbox.sourceSizeIterator.adjustAllSourcesSizes();
+        this.fsLightbox.sourceSizeAdjusterIterator.adjustAllSourcesSizes();
     }
 }

@@ -2,7 +2,7 @@ import Svg from "../../src/components/helpers/Svg";
 import { mount } from "enzyme";
 import React from 'react';
 import FsLightbox from "../../src/FsLightbox";
-import { testImageURL, testUrls } from "../schemas/testSchemas";
+import { testImageURL, testUrls } from "../schemas/testVariables";
 import { createVideoSourceForFsLightbox } from "../__mocks__/helpers/createSourceForFsLightbox";
 
 describe('SVG', () => {

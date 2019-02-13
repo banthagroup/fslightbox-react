@@ -17,6 +17,10 @@ export class CloseOpenLightbox {
         this.fsLightbox.setState({
             isOpen: true
         }, this.componentMountedAfterOpen);
+        this.addOpeningClassToDocument();
+    }
+
+    addOpeningClassToDocument() {
         this.documentClassList.add('fslightbox-open');
     }
 
@@ -47,6 +51,6 @@ export class CloseOpenLightbox {
     }
 
     componentMountedAfterClose() {
-        this.fsLightbox.onResize.removeListener()
+        this.fsLightbox.onResize.removeListener();
     }
 }
