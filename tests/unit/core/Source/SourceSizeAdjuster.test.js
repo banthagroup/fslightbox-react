@@ -1,10 +1,9 @@
 import React from 'react';
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { mount } from "enzyme";
-import Image from "../../../../src/components/sources/properSources/Image";
 import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
 import { testSourceDimensions } from "../../../schemas/testVariables";
-import { getDescreasedDimensionValue, mountImageForFsLightboxInstance } from "../../../schemas/testFunctions";
+import { getMountedImageForFsLightboxInstance } from "../../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
+import { getDecreasedDimensionValue } from "../../../__mocks__/helpers/getDecreasedDimensionValue";
 
 describe('SourceSizeChange', () => {
     const fsLightboxMock = new FsLightboxMock();
@@ -48,7 +47,7 @@ describe('SourceSizeChange', () => {
 
     describe('it should adjust source size when ...', () => {
         const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightboxInstance);
-        mountImageForFsLightboxInstance(fsLightboxInstance);
+        getMountedImageForFsLightboxInstance(fsLightboxInstance);
         fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
         sourceSizeAdjuster.setIndex(0);
         sourceSizeAdjuster.updateSource();
@@ -59,8 +58,8 @@ describe('SourceSizeChange', () => {
             global.window.innerHeight = 1400;
             fsLightboxInstance.onResize.saveMaxSourcesDimensions();
             sourceSizeAdjuster.adjustSourceSize();
-            expect(parseInt(image.style.width)).toEqual(getDescreasedDimensionValue(1400));
-            expect(parseInt(image.style.height)).toEqual(getDescreasedDimensionValue(1400));
+            expect(parseInt(image.style.width)).toEqual(getDecreasedDimensionValue(1400));
+            expect(parseInt(image.style.height)).toEqual(getDecreasedDimensionValue(1400));
         });
 
 
@@ -69,8 +68,8 @@ describe('SourceSizeChange', () => {
             global.window.innerHeight = 2500;
             fsLightboxInstance.onResize.saveMaxSourcesDimensions();
             sourceSizeAdjuster.adjustSourceSize();
-            expect(parseInt(image.style.width)).toEqual(getDescreasedDimensionValue(1500));
-            expect(parseInt(image.style.height)).toEqual(getDescreasedDimensionValue(1500));
+            expect(parseInt(image.style.width)).toEqual(getDecreasedDimensionValue(1500));
+            expect(parseInt(image.style.height)).toEqual(getDecreasedDimensionValue(1500));
         });
 
 
@@ -79,8 +78,8 @@ describe('SourceSizeChange', () => {
             global.window.innerHeight = 1500;
             fsLightboxInstance.onResize.saveMaxSourcesDimensions();
             sourceSizeAdjuster.adjustSourceSize();
-            expect(parseInt(image.style.width)).toEqual(getDescreasedDimensionValue(1500));
-            expect(parseInt(image.style.height)).toEqual(getDescreasedDimensionValue(1500));
+            expect(parseInt(image.style.width)).toEqual(getDecreasedDimensionValue(1500));
+            expect(parseInt(image.style.height)).toEqual(getDecreasedDimensionValue(1500));
         });
 
 

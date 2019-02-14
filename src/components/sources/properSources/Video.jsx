@@ -9,24 +9,15 @@ class Video extends Component {
     }
 
     onLoadedMetaData(e) {
-        (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) ?
-            this.normalVideoLoad() :
-            this.firstVideoLoadWithEvent(e);
-    }
-
-    normalVideoLoad() {
-        this.props.onSourceLoad();
-    }
-
-    firstVideoLoadWithEvent(e) {
+        if (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) {
+            return;
+        }
         this.props.fsLightbox.sourceDimensions[this.props.index] = {
             width: e.target.videoWidth,
             height: e.target.videoHeight
         };
-        e.target.classList.add('fslightbox-fade-in-class');
         this.props.onFirstSourceLoad();
     }
-
 
     render() {
         return (
@@ -46,6 +37,5 @@ Video.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     onFirstSourceLoad: PropTypes.func.isRequired,
-    onSourceLoad: PropTypes.func.isRequired,
 };
 export default Video;

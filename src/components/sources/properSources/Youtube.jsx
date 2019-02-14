@@ -6,7 +6,7 @@ class Youtube extends Component {
     render() {
         return (
             <iframe
-                className="fslightbox-single-source"
+                className="fslightbox-single-source fslightbox-fade-in-class"
                 ref={ this.props.fsLightbox.elements.sources[this.props.index] }
                 src={ "https://www.youtube.com/embed/" +
                 getYoutubeVideoIDFromURL(this.props.fsLightbox.urls[this.props.index]) +

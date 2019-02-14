@@ -15,25 +15,27 @@ class Source extends Component {
             this.createSource();
         }
         this.onFirstSourceLoad = this.onFirstSourceLoad.bind(this);
-        this.onSourceLoad = this.onSourceLoad.bind(this);
     }
 
     createSource() {
         this.isLoaderVisible = false;
         const sourceFactory = new SourceFactory(this.props.fsLightbox);
         sourceFactory.createSourceForIndex(this.props.index);
-        sourceFactory.attachOnSourceLoad({
-            onFirstSourceLoad: this.onFirstSourceLoad,
-            onSourceLoad: this.onSourceLoad
-        });
+        sourceFactory.attachOnFirstSourceLoad(this.onFirstSourceLoad);
         this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index] = sourceFactory.getSource();
-        if (!this.callUpdateAfterMount)
+        if (!this.callUpdateAfterMount) {
             this.forceUpdate();
+        }
     }
 
     componentDidMount() {
-        if (this.callUpdateAfterMount)
+        if (this.callUpdateAfterMount) {
             this.forceUpdate();
+        }
+        // if source was already loaded we need to call onSourceLoad after component mount
+        if (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) {
+            this.onSourceLoad();
+        }
     }
 
 

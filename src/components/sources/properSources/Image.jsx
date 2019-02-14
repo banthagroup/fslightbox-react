@@ -9,19 +9,16 @@ class Image extends Component {
     }
 
     imageOnLoad(e) {
-        if(!this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index])
-            this.firstSourceLoadWithEvent(e);
-        this.props.onSourceLoad();
-    }
+        if (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) {
+            return;
+        }
 
-    firstSourceLoadWithEvent(e) {
         this.props.fsLightbox.sourceDimensions[this.props.index] = {
             width: e.target.width,
             height: e.target.height
         };
         this.props.onFirstSourceLoad();
     }
-
 
     render() {
         return (
@@ -43,6 +40,5 @@ Image.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     onFirstSourceLoad: PropTypes.func.isRequired,
-    onSourceLoad: PropTypes.func.isRequired
 };
 export default Image;
