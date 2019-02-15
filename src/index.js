@@ -1,3 +1,3 @@
-import FsLightbox from "./FsLightbox";
+import FsLightbox from './FsLightbox';
 
 export default FsLightbox;

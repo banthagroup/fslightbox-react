@@ -7,3 +7,6 @@
 /.babelrc
 /webpack-prod.config.js
 /webpack.config.js
+/src
+/index.html
+/setupTests.js

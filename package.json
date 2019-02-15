@@ -1,6 +1,6 @@
 {
   "name": "fslightbox-react",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "React version of Fullscreen Lightbox",
   "main": "main.js",
   "scripts": {
@@ -64,6 +64,8 @@
     "isomorphic-fetch": "^2.2.1",
     "jest": "^24.1.0",
     "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^1.2.2",
+    "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.29.1",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"

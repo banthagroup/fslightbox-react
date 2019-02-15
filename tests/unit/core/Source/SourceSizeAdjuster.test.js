@@ -33,24 +33,11 @@ describe('SourceSizeChange', () => {
         })
     });
 
-    describe('updateSource', () => {
-        const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightboxInstance);
-        const mockImg = document.createElement('img');
-        fsLightboxInstance.elements.sources[0].current = mockImg;
-        sourceSizeAdjuster.setIndex(0);
-        sourceSizeAdjuster.updateSource();
-
-        it('should set up element', () => {
-            expect(sourceSizeAdjuster.element).toEqual(mockImg);
-        });
-    });
-
     describe('it should adjust source size when ...', () => {
         const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightboxInstance);
         getMountedImageForFsLightboxInstance(fsLightboxInstance);
         fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
         sourceSizeAdjuster.setIndex(0);
-        sourceSizeAdjuster.updateSource();
         const image = fsLightboxInstance.elements.sources[0].current;
 
         test('source width > window width & source height > window height', () => {

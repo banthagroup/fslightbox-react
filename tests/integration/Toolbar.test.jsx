@@ -7,7 +7,7 @@ describe('Toolbar', () => {
     it('should close Lightbox', () => {
         jest.useFakeTimers();
         const mock = new FsLightboxMock();
-        const fsLightbox = mock.getWrapper()
+        const fsLightbox = mock.getWrapper();
         const fsLightboxInstance = mock.getInstance();
         expect(fsLightboxInstance.state.isOpen).toBeTruthy();
         const closeButton = fsLightbox.find('.fslightbox-toolbar-button').at(1);

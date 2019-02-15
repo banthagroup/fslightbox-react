@@ -11,6 +11,7 @@ describe('Source Size', () => {
     const fsLightboxInstance = mock.getInstance();
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
     const sourceInstance = fsLightbox.find('Source').at(0).instance();
+    sourceInstance.sourceWasCreated();
 
     it('should adjust source size initially', () => {
         fsLightboxInstance.sourceDimensions[0] = {

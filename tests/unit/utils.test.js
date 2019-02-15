@@ -75,6 +75,11 @@ describe('Array creators helpers', () => {
             expect(componentCreator.i).toEqual(i);
         });
     });
+
+
+    it('should create source transformers', () => {
+         
+    });
 });
 
 

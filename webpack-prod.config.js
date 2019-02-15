@@ -1,15 +1,13 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 var path = require('path');
 
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: "./src/FsLightbox.js",
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "umd",
         filename: "./main.js",
     },
-    devtool: false,
     module: {
         rules: [
             {
@@ -30,14 +28,8 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [ 'style-loader','css-loader' ],
+                use: [ 'style-loader', 'css-loader' ],
             }
         ]
-    },
-    plugins: [
-        new HtmlWebPackPlugin({
-            template: "./index.html",
-            filename: "./index.html"
-        }),
-    ]
+    }
 };
