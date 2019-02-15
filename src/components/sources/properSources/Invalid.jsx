@@ -6,7 +6,7 @@ class Invalid extends Component {
         return (
             <div
                 className="fslightbox-invalid-file-wrapper"
-                ref={ this.props.fsLightbox.elements.sources[this.props.index] }>
+                ref={ this.props._.elements.sources[this.props.i] }>
                 Invalid file
             </div>
         );
@@ -14,7 +14,7 @@ class Invalid extends Component {
 }
 
 Invalid.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired,
 };
 export default Invalid;

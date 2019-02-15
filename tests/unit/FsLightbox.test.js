@@ -1,10 +1,12 @@
 import FsLightbox from "../../src/FsLightbox";
 import { testProps, testUrls } from "../schemas/testVariables";
-import { createRefsArrayForNumberOfUrls } from "../../src/utils/createRefsArrayForNumberOfUrls";
-import { CloseOpenLightbox } from "../../src/utils/mainComponentScope/CloseOpenLightbox";
+import { createRefsArrayForNumberOfUrls } from "../../src/utils/Arrays/createRefsArrayForNumberOfUrls";
+import CloseOpenLightbox from "../../src/core/CloseOpenLightbox";
 import { OnResize } from "../../src/core/OnResize";
 import React from 'react';
-import { SourceSizeAdjusterIterator } from "../../src/core/Source/SourceSizeAdjusterIterator";
+import  SourceSizeAdjusterIterator  from "../../src/core/Source/SourceSizeAdjusterIterator";
+import { mount } from "enzyme";
+import { createSourceComponentCreatorsArray } from "../../src/utils/Arrays/createSourceComponentCreatorsArray";
 
 describe('FsLightbox', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -31,5 +33,23 @@ describe('FsLightbox', () => {
         expect(fsLightbox.closeOpenLightbox).toBeInstanceOf(CloseOpenLightbox);
         expect(fsLightbox.onResize).toBeInstanceOf(OnResize);
         expect(fsLightbox.sourceSizeAdjusterIterator).toBeInstanceOf(SourceSizeAdjusterIterator);
+        expect(fsLightbox.sourceComponentsCreators).toEqual(createSourceComponentCreatorsArray(fsLightbox));
+    });
+});
+
+
+describe('FsLightbox props', () => {
+    const fsLightbox = mount(<FsLightbox slide={ 1 } isOpen={ true } urls={ testUrls }/>);
+    /**
+     * @type {FsLightbox}
+     */
+    const fsLightboxInstance = fsLightbox.instance();
+
+    it('should update slide property on change slide prop', () => {
+        expect(fsLightboxInstance.slide).toEqual(1);
+        fsLightbox.setProps({
+            slide: 2
+        });
+        expect(fsLightboxInstance.slide).toEqual(2);
     });
 });

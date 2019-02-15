@@ -6,7 +6,6 @@ import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutu
 import Image from "../../../src/components/sources/properSources/Image";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import Video from "../../../src/components/sources/properSources/Video";
-import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
 import Source from "../../../src/components/sources/Source";
 import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 
@@ -24,8 +23,8 @@ describe('Source', () => {
     let source;
     beforeEach(() => {
         source = mount(<Source
-            fsLightbox={ fsLightboxInstance }
-            index={ 0 }
+            _={ fsLightboxInstance }
+            i={ 0 }
         />);
         sourceInstance = source.instance()
         ;
@@ -37,27 +36,20 @@ describe('Source', () => {
         expect(sourceInstance.onSourceLoad).toBeCalled();
     });
 
-    it('should set isSourceLoaded state to true', () => {
-        sourceInstance.createSourceSizeAdjuster = jest.fn();
+    it('should set isSourceAlreadyLoaded to true', () => {
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
         expect(fsLightboxInstance.isSourceAlreadyLoaded[0]).toBeTruthy();
     });
 
     it('should call createSourceSizeAdjuster', () => {
-        sourceInstance.createSourceSizeAdjuster = jest.fn();
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
-        expect(sourceInstance.createSourceSizeAdjuster).toBeCalled();
-    });
-
-    it('should create SourceSizeAdjuster', () => {
-        fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
-        getMountedImageForFsLightboxInstance(fsLightboxInstance);
-        sourceInstance.onFirstSourceLoad();
-        expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
+        expect(fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster).toBeCalled();
     });
 
     it('should call onSourceLoad on componentDidMount after source was previously loaded', () => {
-        sourceInstance.createSourceSizeAdjuster = jest.fn();
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
         expect(sourceInstance.onSourceLoad).toBeCalledTimes(1);
         sourceInstance.componentDidMount();

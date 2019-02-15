@@ -6,8 +6,8 @@ import { checkIfUserIsOnMobileDevice } from "../utils/checkIfUserIsOnMobileDevic
 
 export class OnResize {
 
-    constructor(fsLightbox) {
-        this.fsLightbox = fsLightbox;
+    constructor(_) {
+        this._ = _;
         this.onResizeMethod = this.onResizeMethod.bind(this);
     }
 
@@ -19,15 +19,15 @@ export class OnResize {
 
     saveMaxSourcesDimensions() {
         (window.innerWidth < SOURCE_DIMENSIONS_BREAK) ?
-            this.fsLightbox.maxSourceWidth = window.innerWidth :
-            this.fsLightbox.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
+            this._.maxSourceWidth = window.innerWidth :
+            this._.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
 
-        this.fsLightbox.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
+        this._.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
     }
 
     adjustMediaHolderSize() {
-        this.fsLightbox.elements.mediaHolder.current.style.width = this.fsLightbox.maxSourceWidth + 'px';
-        this.fsLightbox.elements.mediaHolder.current.style.height = this.fsLightbox.maxSourceHeight + 'px';
+        this._.elements.mediaHolder.current.style.width = this._.maxSourceWidth + 'px';
+        this._.elements.mediaHolder.current.style.height = this._.maxSourceHeight + 'px';
     }
 
     attachListener() {
@@ -40,11 +40,11 @@ export class OnResize {
 
 
     onResizeMethod() {
-        this.fsLightbox.setState({
+        this._.setState({
             isMobile: checkIfUserIsOnMobileDevice()
         });
         this.saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
-        this.fsLightbox.sourceSizeAdjusterIterator.adjustAllSourcesSizes();
+        this._.sourceSizeAdjusterIterator.adjustAllSourcesSizes();
     }
 }

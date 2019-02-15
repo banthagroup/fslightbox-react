@@ -9,11 +9,11 @@ class Image extends Component {
     }
 
     imageOnLoad(e) {
-        if (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) {
+        if (this.props._.isSourceAlreadyLoaded[this.props.i]) {
             return;
         }
 
-        this.props.fsLightbox.sourceDimensions[this.props.index] = {
+        this.props._.sourceDimensions[this.props.i] = {
             width: e.target.width,
             height: e.target.height
         };
@@ -26,9 +26,9 @@ class Image extends Component {
                 <img
                     onLoad={ this.imageOnLoad }
                     className={ "fslightbox-single-source" }
-                    ref={ this.props.fsLightbox.elements.sources[this.props.index] }
-                    src={ this.props.fsLightbox.urls[this.props.index] }
-                    alt={ this.props.fsLightbox.urls[this.props.index] }
+                    ref={ this.props._.elements.sources[this.props.i] }
+                    src={ this.props._.urls[this.props.i] }
+                    alt={ this.props._.urls[this.props.i] }
                 />
             </>
         );
@@ -37,8 +37,8 @@ class Image extends Component {
 
 
 Image.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired,
     onFirstSourceLoad: PropTypes.func.isRequired,
 };
 export default Image;

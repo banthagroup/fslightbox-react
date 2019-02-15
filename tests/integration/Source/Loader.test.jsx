@@ -15,8 +15,8 @@ describe('Loader', () => {
 
     it('should hide loader after source create', () => {
         const mockSource = mount(<Source
-            fsLightbox={ fsLightboxInstance }
-            index={ 0 }
+            _={ fsLightboxInstance }
+            i={ 0 }
         />);
         expect(mockSource.exists('Loader')).toBeTruthy();
         mockSource.instance().createSource();
@@ -29,8 +29,8 @@ describe('Loader', () => {
         // which is called in componentDidMount
         fsLightboxInstance.sourcesToCreateOnConstruct[0] = true;
         const mockSource = mount(<Source
-            fsLightbox={ fsLightboxInstance }
-            index={ 0 }
+            _={ fsLightboxInstance }
+            i={ 0 }
         />);
         expect(mockSource.exists('Loader')).toBeFalsy();
     });

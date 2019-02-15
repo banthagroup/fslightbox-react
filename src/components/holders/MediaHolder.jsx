@@ -11,18 +11,18 @@ class MediaHolder extends Component {
 
     render() {
         const sourceHolders = [];
-        for (let i = 0; i < this.props.fsLightbox.totalSlides; i++) {
+        for (let i = 0; i < this.props._.totalSlides; i++) {
             sourceHolders.push(
                 <SourceHolder
                     key={ i }
-                    index={ i }
-                    fsLightbox={ this.props.fsLightbox }
+                    i={ i }
+                    _={ this.props._ }
                 />
             );
         }
 
         return (
-            <div ref={ this.props.fsLightbox.elements.mediaHolder } className="fslightbox-media-holder">
+            <div ref={ this.props._.elements.mediaHolder } className="fslightbox-media-holder">
                 { sourceHolders }
             </div>
         );
@@ -31,6 +31,6 @@ class MediaHolder extends Component {
 
 
 MediaHolder.propTypes = {
-    fsLightbox: PropTypes.object
+    _: PropTypes.object
 };
 export default MediaHolder;

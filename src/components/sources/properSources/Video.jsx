@@ -9,10 +9,10 @@ class Video extends Component {
     }
 
     onLoadedMetaData(e) {
-        if (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) {
+        if (this.props._.isSourceAlreadyLoaded[this.props.i]) {
             return;
         }
-        this.props.fsLightbox.sourceDimensions[this.props.index] = {
+        this.props._.sourceDimensions[this.props.i] = {
             width: e.target.videoWidth,
             height: e.target.videoHeight
         };
@@ -25,17 +25,17 @@ class Video extends Component {
                 onLoadedMetadata={ this.onLoadedMetaData }
                 className="fslightbox-single-source fslightbox-video"
                 controls
-                ref={ this.props.fsLightbox.elements.sources[this.props.index] }
-                poster={ this.props.fsLightbox.videosPosters[this.props.index] }>
-                <source src={ this.props.fsLightbox.urls[this.props.index] }/>
+                ref={ this.props._.elements.sources[this.props.i] }
+                poster={ this.props._.videosPosters[this.props.i] }>
+                <source src={ this.props._.urls[this.props.i] }/>
             </video>
         );
     }
 }
 
 Video.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired,
     onFirstSourceLoad: PropTypes.func.isRequired,
 };
 export default Video;

@@ -10,7 +10,7 @@ let SourceComponent = null;
 export class SourceFactory {
     constructor(fsLightbox) {
         this.fsLightbox = fsLightbox;
-        this.index = null;
+        this.i = null;
         this.onFirstSourceLoad = null;
     }
 
@@ -18,9 +18,9 @@ export class SourceFactory {
         this.onFirstSourceLoad = onFirstSourceLoad;
     }
 
-    createSourceForIndex(index) {
-        this.index = index;
-        switch (this.fsLightbox.sourcesTypes[index]) {
+    createSourceForIndex(i) {
+        this.i = i;
+        switch (this.fsLightbox.sourcesTypes[i]) {
             case IMAGE_TYPE:
                 this.createImageSource();
                 break;
@@ -54,8 +54,8 @@ export class SourceFactory {
 
     getSource() {
         return <SourceComponent
-            fsLightbox={ this.fsLightbox }
-            index={ this.index }
+            _={ this.fsLightbox }
+            i={ this.i }
             onFirstSourceLoad={ this.onFirstSourceLoad }
         />;
     }

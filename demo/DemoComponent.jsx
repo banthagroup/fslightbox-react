@@ -38,6 +38,9 @@ class DemoComponent extends Component {
                         testVideoURL,
                     ] }
                     slide={ 1 }
+                    videosPosters={[
+                        testImageURL
+                    ]}
                 />
             </>
         );

@@ -2,7 +2,6 @@ import { SourceFactory } from "../../../../src/core/Source/SourceFactory";
 import React from 'react';
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/CoreConstants";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { mount, render } from "enzyme";
 
 
 describe('SourceFactory', () => {

@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { SourceSizeAdjusterIterator } from "../../../../src/core/Source/SourceSizeAdjusterIterator";
+import SourceSizeAdjusterIterator  from "../../../../src/core/Source/SourceSizeAdjusterIterator";
 
 describe('SourceSizeAdjusterIterator', () => {
     const fsLightboxMock = new FsLightboxMock();
@@ -18,18 +18,18 @@ describe('SourceSizeAdjusterIterator', () => {
 
     it('should return that there is next iteration', () => {
         expect(sourceSizeAdjusterIterator.hasNext()).toBeTruthy();
-        sourceSizeAdjusterIterator.index++;
+        sourceSizeAdjusterIterator.i++;
         expect(sourceSizeAdjusterIterator.hasNext()).toBeTruthy();
-        sourceSizeAdjusterIterator.index++;
+        sourceSizeAdjusterIterator.i++;
         expect(sourceSizeAdjusterIterator.hasNext()).toBeTruthy();
-        sourceSizeAdjusterIterator.index++;
+        sourceSizeAdjusterIterator.i++;
         expect(sourceSizeAdjusterIterator.hasNext()).toBeFalsy();
     });
 
     it('should return that SourceSizeAdjuster is null', () => {
-        sourceSizeAdjusterIterator.index = 0;
+        sourceSizeAdjusterIterator.i = 0;
         expect(sourceSizeAdjusterIterator.isNull()).toBeFalsy();
-        sourceSizeAdjusterIterator.index = 1;
+        sourceSizeAdjusterIterator.i = 1;
         expect(sourceSizeAdjusterIterator.isNull()).toBeTruthy();
     });
 

@@ -71,7 +71,7 @@ describe('SourceHolder', () => {
             sourceHolderInstance.processReceivedSourceType();
         });
 
-        it('should add true at correct index to FsLightbox sourcesToCreateOnConstruct array', () => {
+        it('should add true at correct i to FsLightbox sourcesToCreateOnConstruct array', () => {
             expect(fsLightboxInstance.sourcesToCreateOnConstruct[0]).toBeTruthy();
             expect(fsLightboxInstance.elements.sourcesJSXComponents[0]).toBeNull();
         });
@@ -82,26 +82,32 @@ describe('SourceHolder', () => {
             });
         });
 
-        it('should force update after creating source', () => {
+        it('should call sourceWasCreated after creating source', () => {
             /**
              * @type {Source}
              */
-            const sourceInstance = mount(<Source fsLightbox={ fsLightboxInstance } index={ 0 }/>).instance();
-            sourceInstance.forceUpdate = jest.fn();
+            const sourceInstance = mount(<Source
+                _={ fsLightboxInstance }
+                i={ 0 }
+            />).instance();
+            sourceInstance.sourceWasCreated = jest.fn();
             sourceInstance.callUpdateAfterMount = false;
             sourceInstance.createSource();
-            expect(sourceInstance.forceUpdate).toBeCalled();
+            expect(sourceInstance.sourceWasCreated).toBeCalled();
         });
 
-        it('should not force update after creating source', () => {
+        it('should not call sourceWasCreated after creating source', () => {
             /**
              * @type {Source}
              */
-            const sourceInstance = mount(<Source fsLightbox={ fsLightboxInstance } index={ 0 }/>).instance();
-            sourceInstance.forceUpdate = jest.fn();
+            const sourceInstance = mount(<Source
+                _={ fsLightboxInstance }
+                i={ 0 }
+            />).instance();
+            sourceInstance.sourceWasCreated = jest.fn();
             sourceInstance.callUpdateAfterMount = true;
             sourceInstance.createSource();
-            expect(sourceInstance.forceUpdate).not.toBeCalled();
+            expect(sourceInstance.sourceWasCreated).not.toBeCalled();
         });
     });
 });

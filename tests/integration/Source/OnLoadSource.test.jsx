@@ -37,8 +37,8 @@ describe('Actions after first source load', () => {
     describe('Image', () => {
         const sourceInstance = fsLightbox.find('Source').at(0).instance();
         const image = mount(<Image
-            fsLightbox={ fsLightboxInstance }
-            index={ 0 }
+            _={ fsLightboxInstance }
+            i={ 0 }
             onFirstSourceLoad={ sourceInstance.onFirstSourceLoad }
         />);
         const mockedEvent = {
@@ -48,7 +48,7 @@ describe('Actions after first source load', () => {
             }
         };
         sourceInstance.onSourceLoad = jest.fn();
-        sourceInstance.createSourceSizeAdjuster = jest.fn();
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         image.simulate('load', mockedEvent);
 
         it('should add dimensions to array', () => {
@@ -59,7 +59,8 @@ describe('Actions after first source load', () => {
         });
 
         it('should call create Source Size Adjuster', () => {
-            expect(sourceInstance.createSourceSizeAdjuster).toBeCalled();
+            expect(fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster)
+                .toBeCalled();
         });
 
         it('should call onFirstSourceLoad from props', () => {
@@ -76,8 +77,8 @@ describe('Actions after first source load', () => {
     describe('Video', () => {
         const sourceInstance = fsLightbox.find('Source').at(1).instance();
         const video = mount(<Video
-            fsLightbox={ fsLightboxInstance }
-            index={ 1 }
+            _={ fsLightboxInstance }
+            i={ 1 }
             onFirstSourceLoad={ sourceInstance.onFirstSourceLoad }
         />);
         const mockedEvent = {
@@ -88,6 +89,7 @@ describe('Actions after first source load', () => {
         };
 
         sourceInstance.onSourceLoad = jest.fn();
+        fsLightboxInstance.sourceComponentsCreators[1].createSourceSizeAdjuster = jest.fn();
         sourceInstance.createSourceSizeAdjuster = jest.fn();
         video.simulate('loadedmetadata', mockedEvent);
         it('should add dimensions to array', () => {
@@ -98,7 +100,8 @@ describe('Actions after first source load', () => {
         });
 
         it('should call create Source Size Adjuster', () => {
-            expect(sourceInstance.createSourceSizeAdjuster).toBeCalled();
+            expect(fsLightboxInstance.sourceComponentsCreators[1].createSourceSizeAdjuster)
+                .toBeCalled();
         });
 
         it('should call onFirstSourceLoad from props', () => {

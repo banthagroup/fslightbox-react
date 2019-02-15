@@ -1,6 +1,6 @@
 import React from 'react';
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
+import  { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
 import { testSourceDimensions } from "../../../schemas/testVariables";
 import { getMountedImageForFsLightboxInstance } from "../../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 import { getDecreasedDimensionValue } from "../../../__mocks__/helpers/getDecreasedDimensionValue";
@@ -16,8 +16,8 @@ describe('SourceSizeChange', () => {
         fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
         sourceSizeAdjuster.setIndex(0);
 
-        it('should set up index', () => {
-            expect(sourceSizeAdjuster.index).toEqual(0);
+        it('should set up i', () => {
+            expect(sourceSizeAdjuster.i).toEqual(0);
         });
 
         it('should set up source width', () => {

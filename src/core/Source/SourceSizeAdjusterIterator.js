@@ -1,27 +1,27 @@
-export class SourceSizeAdjusterIterator {
-    constructor(fsLightbox) {
-        this.fsLightbox = fsLightbox;
-        this.index = 0;
+export default class SourceSizeAdjusterIterator {
+    constructor(_) {
+        this._ = _;
+        this.i = 0;
     }
 
     hasNext() {
-        return this.index < this.fsLightbox.sourceSizeAdjusters.length;
+        return this.i < this._.sourceSizeAdjusters.length;
     }
 
     isNull() {
-        return !this.fsLightbox.sourceSizeAdjusters[this.index];
+        return !this._.sourceSizeAdjusters[this.i];
     }
 
     adjustSourceSize() {
         if (!this.isNull())
-            this.fsLightbox.sourceSizeAdjusters[this.index].adjustSourceSize();
+            this._.sourceSizeAdjusters[this.i].adjustSourceSize();
     }
 
     adjustAllSourcesSizes() {
-        this.index = 0;
+        this.i = 0;
         while (this.hasNext()) {
             this.adjustSourceSize();
-            this.index++;
+            this.i++;
         }
     }
 }

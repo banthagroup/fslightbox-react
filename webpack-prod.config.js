@@ -1,7 +1,15 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+var path = require('path');
+
 
 module.exports = {
     entry: "./src/index.js",
+    output: {
+        path: path.join(__dirname, ''),
+        libraryTarget: "umd",
+        filename: "./main.js",
+    },
+    devtool: false,
     module: {
         rules: [
             {
@@ -22,7 +30,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [ 'css-loader' ]
+                use: [ 'style-loader','css-loader' ],
             }
         ]
     },
@@ -30,6 +38,6 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./index.html",
             filename: "./index.html"
-        })
+        }),
     ]
 };

@@ -7,9 +7,9 @@ class Youtube extends Component {
         return (
             <iframe
                 className="fslightbox-single-source fslightbox-fade-in-class"
-                ref={ this.props.fsLightbox.elements.sources[this.props.index] }
+                ref={ this.props._.elements.sources[this.props.i] }
                 src={ "https://www.youtube.com/embed/" +
-                getYoutubeVideoIDFromURL(this.props.fsLightbox.urls[this.props.index]) +
+                getYoutubeVideoIDFromURL(this.props._.urls[this.props.i]) +
                 '?enablejsapi=1' }
                 allowFullScreen={ true }
                 width={ 1920 }
@@ -21,7 +21,7 @@ class Youtube extends Component {
 }
 
 Youtube.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired,
 };
 export default Youtube;
