@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FsLightbox from "../src/FsLightbox.js";
 import "./css/demo.css";
 import { testImageURL, testVideoURL, testYoutubeURL } from "../tests/schemas/testVariables";
+import FsLightbox from "../src";
 
 class DemoComponent extends Component {
 
@@ -11,6 +11,7 @@ class DemoComponent extends Component {
         this.state = {
             isOpen: true,
         };
+        this.slide = 1;
         this.videosPosters = [];
         this.videosPosters[0] = '../demo/images/1.jpeg';
         this.toggleLightbox = this.toggleLightbox.bind(this);
@@ -21,7 +22,6 @@ class DemoComponent extends Component {
             isOpen: !this.state.isOpen
         })
     }
-
 
     render() {
         return (
@@ -35,9 +35,11 @@ class DemoComponent extends Component {
                 <FsLightbox
                     isOpen={ this.state.isOpen }
                     urls={ [
+                        testImageURL,
                         testVideoURL,
+                        testImageURL
                     ] }
-                    slide={ 1 }
+                    slide={ this.slide }
                     videosPosters={[
                         testImageURL
                     ]}

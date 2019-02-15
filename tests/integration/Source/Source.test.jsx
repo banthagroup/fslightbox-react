@@ -26,8 +26,8 @@ describe('Source', () => {
             _={ fsLightboxInstance }
             i={ 0 }
         />);
-        sourceInstance = source.instance()
-        ;
+        sourceInstance = source.instance();
+        sourceInstance.sourceWasCreated();
         sourceInstance.onSourceLoad = jest.fn();
     });
 

@@ -4,7 +4,6 @@ export class SourceSizeAdjuster {
      */
     constructor(_) {
         this._ = _;
-        this.element = null;
         this.i = null;
         this.sourceWidth = 0;
         this.sourceHeight = 0;
@@ -17,10 +16,6 @@ export class SourceSizeAdjuster {
         this.sourceWidth = this._.sourceDimensions[index].width;
         this.sourceHeight = this._.sourceDimensions[index].height;
         this.ratio = this.sourceWidth / this.sourceHeight;
-    }
-
-    updateSource() {
-        this.element = this._.elements.sources[this.i].current;
     }
 
     adjustSourceSize() {
@@ -46,7 +41,7 @@ export class SourceSizeAdjuster {
     }
 
     setDimensions() {
-        this.element.style.height = this.newHeight + "px";
-        this.element.style.width = (this.newHeight * this.ratio) + "px";
+        this._.elements.sources[this.i].current.style.height = this.newHeight + "px";
+        this._.elements.sources[this.i].current.style.width = (this.newHeight * this.ratio) + "px";
     }
 }

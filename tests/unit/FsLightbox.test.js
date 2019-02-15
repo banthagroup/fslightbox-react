@@ -7,6 +7,7 @@ import React from 'react';
 import  SourceSizeAdjusterIterator  from "../../src/core/Source/SourceSizeAdjusterIterator";
 import { mount } from "enzyme";
 import { createSourceComponentCreatorsArray } from "../../src/utils/Arrays/createSourceComponentCreatorsArray";
+import { createNullArrayForNumberOfUrls } from "../../src/utils/Arrays/createNullArrayForNumberOfUrls";
 
 describe('FsLightbox', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -19,13 +20,13 @@ describe('FsLightbox', () => {
 
     it('should set states', () => {
         expect(fsLightbox.state.isOpen).toBeTruthy();
-        expect(fsLightbox.state.slide).toEqual(1);
     });
 
     it('should set elements', () => {
         expect(fsLightbox.elements.container).toEqual(React.createRef());
         expect(fsLightbox.elements.mediaHolder).toEqual(React.createRef());
         expect(fsLightbox.elements.sourceHolders).toEqual(createRefsArrayForNumberOfUrls(testUrls));
+        expect(fsLightbox.elements.sourcesJSXComponents).toEqual(createNullArrayForNumberOfUrls(testUrls));
         expect(fsLightbox.elements.sources).toEqual(createRefsArrayForNumberOfUrls(testUrls));
     });
 

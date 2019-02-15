@@ -28,7 +28,7 @@ class Source extends Component {
     }
 
     sourceWasCreated() {
-        // after that refresh source stored in sourcesJSXComponents is attached
+        // after that refresh source stored in sourcesJSXComponents is attached so we can access refs
         this.forceUpdate();
         this.props._.sourceComponentsCreators[this.props.i].createSourceTransformer();
     }
@@ -53,8 +53,8 @@ class Source extends Component {
 
     onSourceLoad() {
         this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
-        this.props._.sourceSizeAdjusters[this.props.i].updateSource();
         this.props._.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+        this.props._.sourceTransformers[this.props.i].transform();
     }
 
 
