@@ -1,11 +1,11 @@
-import { CONTAINER_FADE_OUT_TIME } from "../../constants/CoreConstants";
+import { CONTAINER_FADE_OUT_TIME } from "../constants/CoreConstants";
 
-export class CloseOpenLightbox {
+export default class CloseOpenLightbox {
     /**
-     * @param fsLightbox { FsLightbox }
+     * @param _ { FsLightbox }
      */
-    constructor(fsLightbox) {
-        this.fsLightbox = fsLightbox;
+    constructor(_) {
+        this._ = _;
         this.documentClassList = document.documentElement.classList;
         this.fadingOut = false;
         this.closeLightbox = this.closeLightbox.bind(this);
@@ -14,7 +14,7 @@ export class CloseOpenLightbox {
     }
 
     openLightbox() {
-        this.fsLightbox.setState({
+        this._.setState({
             isOpen: true
         }, this.componentMountedAfterOpen);
         this.addOpeningClassToDocument();
@@ -25,12 +25,12 @@ export class CloseOpenLightbox {
     }
 
     componentMountedAfterOpen() {
-        if (!this.fsLightbox.initialized) {
-            this.fsLightbox.initialize();
+        if (!this._.initialized) {
+            this._.initialize();
             return;
         }
-        this.fsLightbox.onResize.attachListener();
-        this.fsLightbox.onResize.adjustMediaHolderSize();
+        this._.onResize.attachListener();
+        this._.onResize.adjustMediaHolderSize();
     }
 
 
@@ -38,19 +38,19 @@ export class CloseOpenLightbox {
     closeLightbox() {
         if (this.fadingOut) return;
         this.fadingOut = true;
-        this.fsLightbox.elements.container.current.classList.add('fslightbox-fade-out-animation');
+        this._.elements.container.current.classList.add('fslightbox-fade-out-animation');
 
         setTimeout(() => {
-            this.fsLightbox.elements.container.current.classList.remove('fslightbox-fade-out-animation');
+            this._.elements.container.current.classList.remove('fslightbox-fade-out-animation');
             this.fadingOut = false;
             this.documentClassList.remove('fslightbox-open');
-            this.fsLightbox.setState({
+            this._.setState({
                 isOpen: false
             }, this.componentMountedAfterClose);
         }, CONTAINER_FADE_OUT_TIME);
     }
 
     componentMountedAfterClose() {
-        this.fsLightbox.onResize.removeListener();
+        this._.onResize.removeListener();
     }
 }

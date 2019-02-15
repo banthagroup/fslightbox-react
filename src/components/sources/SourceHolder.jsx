@@ -9,7 +9,7 @@ class SourceHolder extends Component {
         super(props);
         this.source = React.createRef();
 
-        if (!this.props.fsLightbox.sourcesTypes[this.props.index])
+        if (!this.props._.sourcesTypes[this.props.i])
             this.initRequest();
         // component need to be mounted to call method from child by ref
         this._isMounted = false;
@@ -18,16 +18,16 @@ class SourceHolder extends Component {
 
     initRequest() {
         this.sourceTypeChecker = new SourceTypeChecker();
-        this.sourceTypeChecker.setUrlToCheck(this.props.fsLightbox.urls[this.props.index]);
+        this.sourceTypeChecker.setUrlToCheck(this.props._.urls[this.props.i]);
         this.sourceTypeChecker.getSourceType()
             .then(() => this.processReceivedSourceType());
     }
 
     processReceivedSourceType() {
-        this.props.fsLightbox.sourcesTypes[this.props.index] = this.sourceTypeChecker.sourceType;
+        this.props._.sourcesTypes[this.props.i] = this.sourceTypeChecker.sourceType;
         if (this._isMounted) {
             if (this.source.current === null) {
-                this.props.fsLightbox.sourcesToCreateOnConstruct[this.props.index] = true;
+                this.props._.sourcesToCreateOnConstruct[this.props.i] = true;
                 return;
             }
             this.source.current.createSource();
@@ -45,11 +45,11 @@ class SourceHolder extends Component {
 
     render() {
         return (
-            <div ref={ this.props.fsLightbox.elements.sourceHolders[this.props.index] }
+            <div ref={ this.props._.elements.sourceHolders[this.props.i] }
                  className="fslightbox-source-holder">
                 <Source
-                    fsLightbox={ this.props.fsLightbox }
-                    index={ this.props.index }
+                    _={ this.props._ }
+                    i={ this.props.i }
                     ref={ this.source }
                 />
             </div>
@@ -58,7 +58,7 @@ class SourceHolder extends Component {
 }
 
 SourceHolder.propTypes = {
-    fsLightbox: PropTypes.object,
-    index: PropTypes.number
+    _: PropTypes.object,
+    i: PropTypes.number
 };
 export default SourceHolder;

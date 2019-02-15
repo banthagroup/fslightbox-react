@@ -1,8 +1,5 @@
-import { CloseOpenLightbox } from "../../src/utils/mainComponentScope/CloseOpenLightbox";
-import { testUrls } from "../schemas/testVariables";
-import { mount } from "enzyme";
+import CloseOpenLightbox  from "../../src/core/CloseOpenLightbox";
 import React from 'react';
-import FsLightbox from "../../src/FsLightbox";
 import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
 
 
@@ -44,7 +41,7 @@ describe('Util functions that in constructor takes scope of main component', () 
 
         it('should call after render open lightbox method', () => {
             closeOpenLightbox.componentMountedAfterOpen = jest.fn();
-            closeOpenLightbox.fsLightbox.onResize.attachListener = jest.fn();
+            closeOpenLightbox._.onResize.attachListener = jest.fn();
             closeOpenLightbox.openLightbox();
             expect(closeOpenLightbox.componentMountedAfterOpen).toHaveBeenCalledTimes(1);
         });

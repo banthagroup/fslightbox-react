@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SourceFactory } from "../../core/Source/SourceFactory";
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
-import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
 
 class Source extends Component {
 
@@ -10,68 +9,71 @@ class Source extends Component {
         super(props);
         this.callUpdateAfterMount = false;
         this.isLoaderVisible = true;
-        if (this.props.fsLightbox.sourcesToCreateOnConstruct[this.props.index]) {
+        if (this.props._.sourcesToCreateOnConstruct[this.props.i]) {
             this.callUpdateAfterMount = true;
             this.createSource();
         }
         this.onFirstSourceLoad = this.onFirstSourceLoad.bind(this);
-        this.onSourceLoad = this.onSourceLoad.bind(this);
     }
 
     createSource() {
         this.isLoaderVisible = false;
-        const sourceFactory = new SourceFactory(this.props.fsLightbox);
-        sourceFactory.createSourceForIndex(this.props.index);
-        sourceFactory.attachOnSourceLoad({
-            onFirstSourceLoad: this.onFirstSourceLoad,
-            onSourceLoad: this.onSourceLoad
-        });
-        this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index] = sourceFactory.getSource();
-        if (!this.callUpdateAfterMount)
-            this.forceUpdate();
+        const sourceFactory = new SourceFactory(this.props._);
+        sourceFactory.createSourceForIndex(this.props.i);
+        sourceFactory.attachOnFirstSourceLoad(this.onFirstSourceLoad);
+        this.props._.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSource();
+        if (!this.callUpdateAfterMount) {
+            this.sourceWasCreated();
+        }
+    }
+
+    sourceWasCreated() {
+        // after that refresh source stored in sourcesJSXComponents is attached
+        this.forceUpdate();
+        this.props._.sourceComponentsCreators[this.props.i].createSourceTransformer();
     }
 
     componentDidMount() {
-        if (this.callUpdateAfterMount)
-            this.forceUpdate();
+        if (this.callUpdateAfterMount) {
+            this.sourceWasCreated();
+        }
+        // if source was already loaded we need to call onSourceLoad after component mount
+        if (this.props._.isSourceAlreadyLoaded[this.props.i]) {
+            this.onSourceLoad();
+        }
     }
 
 
     onFirstSourceLoad() {
-        this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index] = true;
-        this.createSourceSizeAdjuster();
+        this.props._.isSourceAlreadyLoaded[this.props.i] = true;
+        // we are creating source size adjuster after first load because we need already source dimensions
+        this.props._.sourceComponentsCreators[this.props.i].createSourceSizeAdjuster();
         this.onSourceLoad();
     }
 
-    createSourceSizeAdjuster() {
-        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props.fsLightbox);
-        sourceSizeAdjuster.setIndex(this.props.index);
-        this.props.fsLightbox.sourceSizeAdjusters[this.props.index] = sourceSizeAdjuster;
-    }
-
     onSourceLoad() {
-        this.props.fsLightbox.elements.sources[this.props.index].current.classList.add('fslightbox-fade-in-class');
-        this.props.fsLightbox.sourceSizeAdjusters[this.props.index].updateSource();
-        this.props.fsLightbox.sourceSizeAdjusters[this.props.index].adjustSourceSize();
+        this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
+        this.props._.sourceSizeAdjusters[this.props.i].updateSource();
+        this.props._.sourceSizeAdjusters[this.props.i].adjustSourceSize();
     }
 
 
     render() {
-        const loader = (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index] ||
+        const loader = (this.props._.isSourceAlreadyLoaded[this.props.i] ||
             !this.isLoaderVisible) ?
             null : <Loader/>;
 
         return (
             <>
                 { loader }
-                { this.props.fsLightbox.elements.sourcesJSXComponents[this.props.index] }
+                { this.props._.elements.sourcesJSXComponents[this.props.i] }
             </>
         );
     }
 }
 
 Source.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired,
 };
 export default Source;

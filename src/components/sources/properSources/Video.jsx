@@ -9,24 +9,15 @@ class Video extends Component {
     }
 
     onLoadedMetaData(e) {
-        (this.props.fsLightbox.isSourceAlreadyLoaded[this.props.index]) ?
-            this.normalVideoLoad() :
-            this.firstVideoLoadWithEvent(e);
-    }
-
-    normalVideoLoad() {
-        this.props.onSourceLoad();
-    }
-
-    firstVideoLoadWithEvent(e) {
-        this.props.fsLightbox.sourceDimensions[this.props.index] = {
+        if (this.props._.isSourceAlreadyLoaded[this.props.i]) {
+            return;
+        }
+        this.props._.sourceDimensions[this.props.i] = {
             width: e.target.videoWidth,
             height: e.target.videoHeight
         };
-        e.target.classList.add('fslightbox-fade-in-class');
         this.props.onFirstSourceLoad();
     }
-
 
     render() {
         return (
@@ -34,18 +25,17 @@ class Video extends Component {
                 onLoadedMetadata={ this.onLoadedMetaData }
                 className="fslightbox-single-source fslightbox-video"
                 controls
-                ref={ this.props.fsLightbox.elements.sources[this.props.index] }
-                poster={ this.props.fsLightbox.videosPosters[this.props.index] }>
-                <source src={ this.props.fsLightbox.urls[this.props.index] }/>
+                ref={ this.props._.elements.sources[this.props.i] }
+                poster={ this.props._.videosPosters[this.props.i] }>
+                <source src={ this.props._.urls[this.props.i] }/>
             </video>
         );
     }
 }
 
 Video.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired,
     onFirstSourceLoad: PropTypes.func.isRequired,
-    onSourceLoad: PropTypes.func.isRequired,
 };
 export default Video;

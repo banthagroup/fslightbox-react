@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Nav from "./components/nav/Nav.jsx";
 import "./css/fslightboxBasic.css";
-import { CloseOpenLightbox } from "./utils/mainComponentScope/CloseOpenLightbox";
+import  CloseOpenLightbox  from "./core/CloseOpenLightbox";
 import SlideButtonLeft from "./components/slideButtons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
 import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
-import { createRefsArrayForNumberOfUrls } from "./utils/createRefsArrayForNumberOfUrls";
-import { createNullArrayForNumberOfUrls } from "./utils/createNullArrayForNumberOfUrls";
-import { SourceSizeAdjusterIterator } from "./core/Source/SourceSizeAdjusterIterator";
+import { createRefsArrayForNumberOfUrls } from "./utils/Arrays/createRefsArrayForNumberOfUrls";
+import { createNullArrayForNumberOfUrls } from "./utils/Arrays/createNullArrayForNumberOfUrls";
+import SourceSizeAdjusterIterator from "./core/Source/SourceSizeAdjusterIterator";
+import { createSourceComponentCreatorsArray } from "./utils/Arrays/createSourceComponentCreatorsArray";
 
 class FsLightbox extends Component {
 
@@ -23,11 +24,16 @@ class FsLightbox extends Component {
 
     setData() {
         this.initialized = false;
-        this.slide = (this.props.slide) ? this.props.slide : 1;
         this.urls = this.props.urls;
-        this.totalSlides = this.props.urls.length;
         this.sourcesTypes = [];
         this.isSourceAlreadyLoaded = [];
+
+        // slides
+        this.slide = (this.props.slide) ? this.props.slide : 1;
+        this.totalSlides = this.props.urls.length;
+
+        // transforms
+        this.slideDistance = (this.props.slideDistance) ? this.props.slideDistance : 1.3;
 
         // if lightbox will be closed during source type check we need call create source after next open
         this.sourcesToCreateOnConstruct = [];
@@ -37,8 +43,8 @@ class FsLightbox extends Component {
         this.maxSourceWidth = 0;
         this.maxSourceHeight = 0;
         this.sourceDimensions = [];
-        // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
-        this.sourceSizeAdjusters = [];
+
+
     }
 
     setStates() {
@@ -62,6 +68,10 @@ class FsLightbox extends Component {
         this.closeOpenLightbox = new CloseOpenLightbox(this);
         this.onResize = new OnResize(this);
         this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(this);
+        this.sourceComponentsCreators = createSourceComponentCreatorsArray(this);
+        // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
+        this.sourceSizeAdjusters = [];
+        this.sourceTransformers = [];
     }
 
 
@@ -70,6 +80,9 @@ class FsLightbox extends Component {
             (this.state.isOpen) ?
                 this.closeOpenLightbox.closeLightbox() :
                 this.closeOpenLightbox.openLightbox();
+        }
+        if (this.props.slide !== this.slide) {
+            this.slide = this.props.slide;
         }
     }
 
@@ -93,7 +106,7 @@ class FsLightbox extends Component {
                 <Nav closeLightbox={ this.closeOpenLightbox.closeLightbox }/>
                 <SlideButtonLeft/>
                 <SlideButtonRight/>
-                <MediaHolder fsLightbox={ this }/>
+                <MediaHolder _={ this }/>
             </div>
         );
     }
@@ -109,6 +122,10 @@ FsLightbox.propTypes = {
 
     // developer can add video poster if he wants to
     videosPosters: PropTypes.array,
+
+    slide: PropTypes.number,
+
+    slideDistance: PropTypes.number,
 };
 
 export default FsLightbox;

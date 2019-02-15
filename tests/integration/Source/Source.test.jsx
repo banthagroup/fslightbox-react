@@ -3,70 +3,67 @@ import { mount } from "enzyme";
 import { testSourceDimensions, testUrls } from "../../schemas/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
 import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutubeVideoIDFromURL";
-import Loader from "../../../src/components/sources/Loader";
-import Source from "../../../src/components/sources/Source";
 import Image from "../../../src/components/sources/properSources/Image";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import Video from "../../../src/components/sources/properSources/Video";
-import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
-import { getDescreasedDimensionValue, mountImageForFsLightboxInstance } from "../../schemas/testFunctions";
+import Source from "../../../src/components/sources/Source";
+import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 
 
 describe('Source', () => {
     const mock = new FsLightboxMock();
     const fsLightboxInstance = mock.getInstance();
+    fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
+    getMountedImageForFsLightboxInstance(fsLightboxInstance);
+
     /**
      * @type {Source}
      */
     let sourceInstance;
+    let source;
     beforeEach(() => {
-        sourceInstance = mount(<Source
-            fsLightbox={ fsLightboxInstance }
-            index={ 0 }
-        />).instance();
+        source = mount(<Source
+            _={ fsLightboxInstance }
+            i={ 0 }
+        />);
+        sourceInstance = source.instance()
+        ;
+        sourceInstance.onSourceLoad = jest.fn();
     });
 
-    it('should set isSourceLoaded state to true', () => {
-        sourceInstance.createSourceSizeAdjuster = jest.fn();
+    it('should call onSourceLoad', () => {
         sourceInstance.onFirstSourceLoad();
-        expect(sourceInstance.state.isSourceLoaded).toBeTruthy();
+        expect(sourceInstance.onSourceLoad).toBeCalled();
+    });
+
+    it('should set isSourceAlreadyLoaded to true', () => {
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
+        sourceInstance.onFirstSourceLoad();
+        expect(fsLightboxInstance.isSourceAlreadyLoaded[0]).toBeTruthy();
     });
 
     it('should call createSourceSizeAdjuster', () => {
-        sourceInstance.createSourceSizeAdjuster = jest.fn();
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
-        expect(sourceInstance.createSourceSizeAdjuster).toBeCalled();
+        expect(fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster).toBeCalled();
     });
 
-    it('should create SourceSizeAdjuster', () => {
-        fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
-        mountImageForFsLightboxInstance(fsLightboxInstance);
+    it('should call onSourceLoad on componentDidMount after source was previously loaded', () => {
+        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
-        expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
-    });
-
-    it('should adjust source size initially', () => {
-        global.window.innerWidth = 1500;
-        global.window.innerHeight = 1500;
-        global.dispatchEvent(new Event('resize'));
-        mountImageForFsLightboxInstance(fsLightboxInstance);
-        fsLightboxInstance.sourceDimensions[0] = {
-            width: 2000,
-            height: 2000
-        };
-        sourceInstance.onFirstSourceLoad();
-        expect(fsLightboxInstance.elements.sources[0].current.style.width)
-            .toEqual(getDescreasedDimensionValue(1500) + 'px');
-        expect(fsLightboxInstance.elements.sources[0].current.style.height)
-            .toEqual(getDescreasedDimensionValue(1500) + 'px');
+        expect(sourceInstance.onSourceLoad).toBeCalledTimes(1);
+        sourceInstance.componentDidMount();
+        expect(sourceInstance.onSourceLoad).toBeCalledTimes(2);
     });
 });
+
 
 
 describe('Creating correct sources depending on source type', () => {
     const mock = new FsLightboxMock();
     const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
+    getMountedImageForFsLightboxInstance(fsLightboxInstance);
 
     describe('Image', () => {
         const source = fsLightbox.find('Source').at(0);
@@ -155,71 +152,3 @@ describe('Creating correct sources depending on source type', () => {
     });
 });
 
-
-describe('Actions after proper sources load', () => {
-    const mock = new FsLightboxMock();
-    const fsLightboxInstance = mock.getInstance();
-
-    describe('Image', () => {
-        const image = mount(<Image
-            fsLightbox={ fsLightboxInstance }
-            index={ 0 }
-            onSourceLoad={ jest.fn() }/>);
-        const classList = fsLightboxInstance.elements.sources[0].current.classList;
-        const mockedEvent = {
-            target: {
-                width: 1920,
-                height: 1080,
-                classList: classList
-            }
-        };
-        image.simulate('load', mockedEvent);
-
-        it('should add dimensions to array', () => {
-            expect(fsLightboxInstance.sourceDimensions[0]).toEqual({
-                width: 1920,
-                height: 1080
-            });
-        });
-
-        it('should add class to image', () => {
-            expect(classList.contains('fslightbox-fade-in-class')).toBeTruthy();
-        });
-
-        it('should call onFirstSourceLoad method from props', () => {
-            expect(image.props().onFirstSourceLoad).toBeCalled();
-        });
-    });
-
-
-    describe('Video', () => {
-        const video = mount(<Video
-            fsLightbox={ fsLightboxInstance }
-            index={ 1 }
-            onSourceLoad={ jest.fn() }
-        />);
-        const classList = fsLightboxInstance.elements.sources[1].current.classList;
-        const mockedEvent = {
-            target: {
-                videoWidth: 1366,
-                videoHeight: 768,
-                classList: classList
-            }
-        };
-        video.simulate('loadedmetadata', mockedEvent);
-        it('should add dimensions to array', () => {
-            expect(fsLightboxInstance.sourceDimensions[1]).toEqual({
-                width: 1366,
-                height: 768
-            });
-        });
-
-        it('should add class to image', () => {
-            expect(classList.contains('fslightbox-fade-in-class')).toBeTruthy();
-        });
-
-        it('should call onFirstSourceLoad method from props', () => {
-            expect(video.props().onFirstSourceLoad).toBeCalled();
-        });
-    });
-});
