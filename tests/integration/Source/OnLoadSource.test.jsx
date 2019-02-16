@@ -4,6 +4,7 @@ import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/ge
 import { mount } from "enzyme";
 import Image from "../../../src/components/sources/properSources/Image";
 import Video from "../../../src/components/sources/properSources/Video";
+import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
 
 describe('Source Size', () => {
     const mock = new FsLightboxMock();
@@ -49,7 +50,6 @@ describe('Actions after first source load', () => {
             }
         };
         sourceInstance.onSourceLoad = jest.fn();
-        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         image.simulate('load', mockedEvent);
 
         it('should add dimensions to array', () => {
@@ -59,9 +59,8 @@ describe('Actions after first source load', () => {
             });
         });
 
-        it('should call create Source Size Adjuster', () => {
-            expect(fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster)
-                .toBeCalled();
+        it('should create Source Size Adjuster', () => {
+            expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
         });
 
         it('should call onFirstSourceLoad from props', () => {
@@ -90,7 +89,6 @@ describe('Actions after first source load', () => {
         };
 
         sourceInstance.onSourceLoad = jest.fn();
-        fsLightboxInstance.sourceComponentsCreators[1].createSourceSizeAdjuster = jest.fn();
         sourceInstance.createSourceSizeAdjuster = jest.fn();
         video.simulate('loadedmetadata', mockedEvent);
         it('should add dimensions to array', () => {
@@ -100,9 +98,8 @@ describe('Actions after first source load', () => {
             });
         });
 
-        it('should call create Source Size Adjuster', () => {
-            expect(fsLightboxInstance.sourceComponentsCreators[1].createSourceSizeAdjuster)
-                .toBeCalled();
+        it('should create Source Size Adjuster', () => {
+            expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
         });
 
         it('should call onFirstSourceLoad from props', () => {
