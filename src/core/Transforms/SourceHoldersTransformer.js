@@ -1,23 +1,15 @@
+import { StageHoldersTransformer } from "./StageHoldersTransformer";
+
 export class SourceHoldersTransformer {
     /**
-     * @param _ {FsLightbox}
+     * @param _ { FsLightbox }
      */
     constructor(_) {
         this._ = _;
-        this.i = null;
-        this.source = null;
     }
 
-    init() {
-        // we need to use typeof !== "undefined" because index can be 0
-        const stageSourcesIndexes = this._.stageSources.getAllStageIndexes();
-        if (typeof stageSourcesIndexes.previous !== "undefined")
-            this.transformNegative(stageSourcesIndexes.previous);
-
-        this.transformZero(stageSourcesIndexes.current);
-
-        if (typeof stageSourcesIndexes.next !== "undefined")
-            this.transformPositive(stageSourcesIndexes.next);
+    transformStageSources() {
+        return new StageHoldersTransformer(this._);
     }
 
     transformNegative(i) {

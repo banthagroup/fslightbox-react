@@ -12,6 +12,8 @@ import { createNullArrayForNumberOfUrls } from "./utils/Arrays/createNullArrayFo
 import SourceSizeAdjusterIterator from "./core/Source/SourceSizeAdjusterIterator";
 import { StageSources } from "./core/Stage/StageSources";
 import { SourceHoldersTransformer } from "./core/Transforms/SourceHoldersTransformer";
+import { SlideChanger } from "./core/Slide/SlideChanger";
+import { SourceAnimator } from "./core/Animations/SourceAnimator";
 
 class FsLightbox extends Component {
 
@@ -76,6 +78,12 @@ class FsLightbox extends Component {
 
         //stage
         this.stageSources = new StageSources(this);
+
+        //slides
+        this.slideChanger = new SlideChanger(this);
+
+        //animations
+        this.sourceAnimator = new SourceAnimator(this);
     }
 
 
@@ -85,15 +93,15 @@ class FsLightbox extends Component {
                 this.closeOpenLightbox.closeLightbox() :
                 this.closeOpenLightbox.openLightbox();
         }
-        if (this.props.slide !== this.slide) {
-            this.slide = this.props.slide;
+        if (prevProps.slide !== this.props.slide) {
+            this.slideChanger.changeSlide(this.props.slide);
         }
     }
 
     initialize() {
         this.initialized = true;
         this.onResize.init();
-        this.sourceHoldersTransformer.init();
+        this.sourceHoldersTransformer.transformStageSources().withoutTimeout();
     }
 
 
