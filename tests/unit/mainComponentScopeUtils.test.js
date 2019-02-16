@@ -28,7 +28,7 @@ describe('Util functions that in constructor takes scope of main component', () 
         it('should fade-out lightbox on close', () => {
             jest.useFakeTimers();
             closeOpenLightbox.closeLightbox();
-            expect(fsLightboxInstance.elements.container.current.classList.contains('fslightbox-fade-out-animation')).toBeTruthy();
+            expect(fsLightboxInstance.elements.container.current.classList.contains('fslightbox-fade-out-complete')).toBeTruthy();
             jest.runAllTimers();
             expect(fsLightboxInstance.elements.container.current).toBeNull();
         });

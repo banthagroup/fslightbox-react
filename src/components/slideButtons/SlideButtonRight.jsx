@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
 import Svg from "../helpers/Svg.jsx";
+import PropTypes from 'prop-types';
 
 class SlideButtonRight extends Component {
+    constructor(props) {
+        super(props);
+        this.goToNextSlide = this.goToNextSlide.bind(this);
+    }
+
+    goToNextSlide() {
+        this.props._.slideChanger.changeSlide(
+            this.props._.stageSources.getNextSlideIndex() + 1
+        );
+    }
+
     render() {
         return (
-            <div className="fslightbox-slide-btn-container fslightbox-slide-btn-right-container">
+            <div onClick={ this.goToNextSlide }
+                 className="fslightbox-slide-btn-container fslightbox-slide-btn-right-container">
                 <div className="fslightbox-slide-btn button-style">
                     <Svg
                         viewBox="0 0 20 20"
@@ -17,4 +30,7 @@ class SlideButtonRight extends Component {
     }
 }
 
+SlideButtonRight.propTypes = {
+    _: PropTypes.object
+};
 export default SlideButtonRight;

@@ -3,16 +3,54 @@ import { SlideChanger } from "../../../../src/core/Slide/SlideChanger";
 
 const mock = new FsLightboxMock();
 const fsLightboxInstance = mock.getInstance();
-const slideChanger = new SlideChanger(fsLightboxInstance);
-fsLightboxInstance.sourceHoldersTransformer.transformStageSources = jest.fn();
 fsLightboxInstance.slide = 1;
-slideChanger.changeSlide(2);
 
-it('should change slide', () => {
-    expect(fsLightboxInstance.slide).toEqual(2);
+describe('changeSlide', () => {
+    const slideChanger = new SlideChanger(fsLightboxInstance);
+    slideChanger.animate = jest.fn();
+    const testTransformStageHolders = {
+        withTimeout: jest.fn()
+    };
+    fsLightboxInstance.sourceHoldersTransformer.transformStageSources = () => {
+        return testTransformStageHolders;
+    };
+    slideChanger.changeSlide(2);
+
+    it('should change slide', () => {
+        expect(fsLightboxInstance.slide).toEqual(2);
+    });
+
+    it('should call transformStageSources with timeout', () => {
+        expect(testTransformStageHolders.withTimeout).toBeCalled();
+    });
+
+    it('should call animate', () => {
+        expect(slideChanger.animate).toBeCalled();
+    });
 });
 
-it('should call transformStageSources', () => {
-    expect(fsLightboxInstance.sourceHoldersTransformer.transformStageSources)
-        .toBeCalled();
+
+describe('animate', () => {
+    const slideChanger = new SlideChanger(fsLightboxInstance);
+    const testAnimateSourceFromSlide = {
+        fadeOut: jest.fn(),
+        fadeIn: jest.fn(),
+        removeFadeOut: jest.fn()
+    };
+    fsLightboxInstance.sourceAnimator.animateSourceFromSlide = () => {
+        return testAnimateSourceFromSlide;
+    };
+    slideChanger.animate();
+
+    it('should call fadeOut', () => {
+        expect(testAnimateSourceFromSlide.fadeOut).toBeCalled();
+    });
+
+    it('should call fadeIn', () => {
+        expect(testAnimateSourceFromSlide.fadeIn).toBeCalled();
+    });
+
+    it('should call removeFadeOut', () => {
+        expect(testAnimateSourceFromSlide.removeFadeOut).toBeCalled();
+    });
 });

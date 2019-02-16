@@ -98,7 +98,7 @@
 }
 
 .fslightbox-fade-in-class {
-    animation: fslightbox-fade-in .25s ease forwards;
+    animation: fslightbox-fade-in .25s cubic-bezier(0,0,.7,1) forwards;
 }
 
 .fslightbox-fade-out-class {
@@ -109,7 +109,7 @@
     animation: fslightbox-fade-out-complete .25s ease !important;
 }
 
-@keyframes fslightbox-fade-in {
+@keyframes fslightbox-fade-in-complete {
     from {
         opacity: 0;
     }
@@ -128,10 +128,19 @@
     }
 }
 
-
-@keyframes fslightbox-fade-out-anim {
+@keyframes fslightbox-fade-in {
     from {
-        opacity: .2;
+        opacity: .65;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes fslightbox-fade-out {
+    from {
+        opacity: .35;
     }
     to {
         opacity: 0;
@@ -150,7 +159,7 @@
     font-family: "Montserrat", sans-serif;
     z-index: 9999999;
     user-select: none;
-    animation: fslightbox-fade-in .25s forwards;
+    animation: fslightbox-fade-in-complete .25s forwards;
     transition: opacity .25s;
     -webkit-tap-highlight-color: transparent;
 }

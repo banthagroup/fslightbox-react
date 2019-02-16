@@ -48,12 +48,17 @@ describe('FsLightbox', () => {
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
     fsLightbox.onResize.init = jest.fn();
-    fsLightbox.sourceHoldersTransformer.transformStageSources.withTimeout = jest.fn();
+    const testStageHolderTransformer = {
+        withoutTimeout: jest.fn(),
+    };
+    fsLightbox.sourceHoldersTransformer.transformStageSources = function () {
+        return testStageHolderTransformer;
+    };
     fsLightbox.initialize();
 
     it('should init core that need to be initialized', () => {
         expect(fsLightbox.onResize.init).toBeCalled();
-        expect(fsLightbox.sourceHoldersTransformer.transformStageSources.withTimeout).toBeCalled();
+        expect(testStageHolderTransformer.withoutTimeout).toBeCalled();
     });
 });
 

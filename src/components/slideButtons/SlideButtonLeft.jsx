@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import Svg from "../helpers/Svg.jsx";
+import PropTypes from 'prop-types';
+
 
 class SlideButtonLeft extends Component {
+    constructor(props) {
+        super(props);
+        this.goToPreviousSlide = this.goToPreviousSlide.bind(this);
+    }
+
+    goToPreviousSlide() {
+        this.props._.slideChanger.changeSlide(
+            this.props._.stageSources.getPreviousSlideIndex() + 1
+        );
+    }
+
     render() {
         return (
-            <div className="fslightbox-slide-btn-container fslightbox-slide-btn-left-container">
+            <div onClick={ this.goToPreviousSlide }
+                 className="fslightbox-slide-btn-container fslightbox-slide-btn-left-container">
                 <div className="fslightbox-slide-btn button-style">
                     <Svg
                         viewBox="0 0 20 20"
@@ -17,4 +31,7 @@ class SlideButtonLeft extends Component {
     }
 }
 
+SlideButtonLeft.propTypes = {
+    _: PropTypes.object.isRequired
+};
 export default SlideButtonLeft;

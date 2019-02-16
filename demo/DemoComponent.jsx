@@ -15,12 +15,6 @@ class DemoComponent extends Component {
         this.videosPosters = [];
         this.videosPosters[0] = '../demo/images/1.jpeg';
         this.toggleLightbox = this.toggleLightbox.bind(this);
-        this.changeSlide = this.changeSlide.bind(this);
-    }
-
-    changeSlide() {
-        this.slide += 1;
-        this.forceUpdate();
     }
 
     toggleLightbox() {
@@ -38,11 +32,6 @@ class DemoComponent extends Component {
                     <img className="image" src="../demo/images/2.jpg" alt=""/>
                     <img className="image" src="../demo/images/3.jpeg" alt=""/>
                 </div>
-                <button
-                    className={ 'slide-changing-button' }
-                    onClick={ this.changeSlide }>
-                    changeSlide
-                </button>
                 <FsLightbox
                     isOpen={ this.state.isOpen }
                     urls={ [
