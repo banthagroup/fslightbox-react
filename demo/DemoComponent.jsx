@@ -35,9 +35,12 @@ class DemoComponent extends Component {
                 <FsLightbox
                     isOpen={ this.state.isOpen }
                     urls={ [
-                        testImageURL,
-                        testVideoURL,
-                        testImageURL
+                        "../demo/images/1.jpeg",
+                        "../demo/images/2.jpg",
+                        "../demo/images/3.jpeg",
+                        "../demo/images/4.jpeg",
+                        "../demo/images/5.jpg",
+                        "../demo/images/6.jpg"
                     ] }
                     slide={ this.slide }
                     videosPosters={[

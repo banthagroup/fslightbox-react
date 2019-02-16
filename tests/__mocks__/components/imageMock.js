@@ -34,6 +34,10 @@ export class ImageMock {
         />);
     }
 
+    simulateLoad() {
+        this.imageMock.simulate('load');
+    }
+
     getMock() {
         return this.imageMock;
     }

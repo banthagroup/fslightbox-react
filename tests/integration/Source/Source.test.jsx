@@ -37,19 +37,11 @@ describe('Source', () => {
     });
 
     it('should set isSourceAlreadyLoaded to true', () => {
-        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
         expect(fsLightboxInstance.isSourceAlreadyLoaded[0]).toBeTruthy();
     });
 
-    it('should call createSourceSizeAdjuster', () => {
-        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
-        sourceInstance.onFirstSourceLoad();
-        expect(fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster).toBeCalled();
-    });
-
     it('should call onSourceLoad on componentDidMount after source was previously loaded', () => {
-        fsLightboxInstance.sourceComponentsCreators[0].createSourceSizeAdjuster = jest.fn();
         sourceInstance.onFirstSourceLoad();
         expect(sourceInstance.onSourceLoad).toBeCalledTimes(1);
         sourceInstance.componentDidMount();

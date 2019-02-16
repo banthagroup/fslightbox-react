@@ -10,7 +10,8 @@ import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfUrls } from "./utils/Arrays/createRefsArrayForNumberOfUrls";
 import { createNullArrayForNumberOfUrls } from "./utils/Arrays/createNullArrayForNumberOfUrls";
 import SourceSizeAdjusterIterator from "./core/Source/SourceSizeAdjusterIterator";
-import { createSourceComponentCreatorsArray } from "./utils/Arrays/createSourceComponentCreatorsArray";
+import { StageSources } from "./core/Stage/StageSources";
+import { SourceHoldersTransformer } from "./core/Transforms/SourceHoldersTransformer";
 
 class FsLightbox extends Component {
 
@@ -64,11 +65,17 @@ class FsLightbox extends Component {
     setCore() {
         this.closeOpenLightbox = new CloseOpenLightbox(this);
         this.onResize = new OnResize(this);
+
+        //sources
         this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(this);
-        this.sourceComponentsCreators = createSourceComponentCreatorsArray(this);
         // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
         this.sourceSizeAdjusters = [];
-        this.sourceTransformers = [];
+
+        //transform
+        this.sourceHoldersTransformer = new SourceHoldersTransformer(this);
+
+        //stage
+        this.stageSources = new StageSources(this);
     }
 
 
@@ -86,6 +93,7 @@ class FsLightbox extends Component {
     initialize() {
         this.initialized = true;
         this.onResize.init();
+        this.sourceHoldersTransformer.init();
     }
 
 

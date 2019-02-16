@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { SourceFactory } from "../../core/Source/SourceFactory";
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
+import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
 
 class Source extends Component {
 
@@ -30,7 +31,6 @@ class Source extends Component {
     sourceWasCreated() {
         // after that refresh source stored in sourcesJSXComponents is attached so we can access refs
         this.forceUpdate();
-        this.props._.sourceComponentsCreators[this.props.i].createSourceTransformer();
     }
 
     componentDidMount() {
@@ -47,14 +47,16 @@ class Source extends Component {
     onFirstSourceLoad() {
         this.props._.isSourceAlreadyLoaded[this.props.i] = true;
         // we are creating source size adjuster after first load because we need already source dimensions
-        this.props._.sourceComponentsCreators[this.props.i].createSourceSizeAdjuster();
+        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props._);
+        sourceSizeAdjuster.setIndex(this.props.i);
+        this.props._.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
         this.onSourceLoad();
     }
 
     onSourceLoad() {
-        this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
+        if (this.props._.stageSources.isSourceInStage(this.props.i))
+            this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
         this.props._.sourceSizeAdjusters[this.props.i].adjustSourceSize();
-        this.props._.sourceTransformers[this.props.i].transform();
     }
 
 
@@ -72,8 +74,9 @@ class Source extends Component {
     }
 }
 
+
 Source.propTypes = {
-    _: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired,
+  _: PropTypes.object.isRequired,
+  i: PropTypes.number.isRequired
 };
 export default Source;

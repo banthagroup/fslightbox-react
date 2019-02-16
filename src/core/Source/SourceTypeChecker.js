@@ -41,13 +41,22 @@ export default class SourceTypeChecker {
         if (this.xhr.readyState !== 2) {
             return;
         }
+        if (this.xhr.status !== 200) {
+            this.invalidType();
+            this.abortRequestAndResolvePromise();
+            return;
+        }
         this.callCorrectActionsDependingOnSourceType(
             getTypeFromResponseContentType(
                 this.xhr.getResponseHeader('content-type')
             )
         );
-        this.resolve();
+        this.abortRequestAndResolvePromise();
+    }
+
+    abortRequestAndResolvePromise() {
         this.xhr.abort();
+        this.resolve();
     }
 
     callCorrectActionsDependingOnSourceType(type) {

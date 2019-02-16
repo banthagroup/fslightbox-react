@@ -61,6 +61,26 @@ describe('SourceTypeChecker', () => {
     });
 
 
+    describe('Error catching', () => {
+        it('should return invalid type when xhr received bad status', () => {
+            sourceTypeChecker.resolve = jest.fn();
+            sourceTypeChecker.xhr = {
+                readyState: 2,
+                status: 500,
+                abort: jest.fn()
+            };
+            sourceTypeChecker.onRequestStateChange();
+            expect(sourceTypeChecker.sourceType).toEqual(INVALID_TYPE);
+        });
+
+        it('should call invalid type when not correct image type found from response', () => {
+            sourceTypeChecker.invalidType = jest.fn();
+            sourceTypeChecker.callCorrectActionsDependingOnSourceType('pdf');
+            expect(sourceTypeChecker.invalidType).toBeCalled();
+        });
+    });
+
+
     describe('external utils', () => {
         describe('getTypeFromResponseContentType', () => {
             it('should return image from content type', () => {

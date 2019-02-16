@@ -6,8 +6,8 @@ import { OnResize } from "../../src/core/OnResize";
 import React from 'react';
 import  SourceSizeAdjusterIterator  from "../../src/core/Source/SourceSizeAdjusterIterator";
 import { mount } from "enzyme";
-import { createSourceComponentCreatorsArray } from "../../src/utils/Arrays/createSourceComponentCreatorsArray";
 import { createNullArrayForNumberOfUrls } from "../../src/utils/Arrays/createNullArrayForNumberOfUrls";
+import { SourceHoldersTransformer } from "../../src/core/Transforms/SourceHoldersTransformer";
 
 describe('FsLightbox', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -34,8 +34,20 @@ describe('FsLightbox', () => {
         expect(fsLightbox.closeOpenLightbox).toBeInstanceOf(CloseOpenLightbox);
         expect(fsLightbox.onResize).toBeInstanceOf(OnResize);
         expect(fsLightbox.sourceSizeAdjusterIterator).toBeInstanceOf(SourceSizeAdjusterIterator);
-        expect(fsLightbox.sourceComponentsCreators).toEqual(createSourceComponentCreatorsArray(fsLightbox));
+        expect(fsLightbox.sourceHoldersTransformer).toBeInstanceOf(SourceHoldersTransformer);
     });
+});
+
+
+describe('initialize', () => {
+    const fsLightbox = new FsLightbox(testProps);
+    fsLightbox.onResize.init = jest.fn();
+    fsLightbox.sourceHoldersTransformer.init = jest.fn();
+    fsLightbox.initialize();
+
+    it('should init core that need to be initialized', () => {
+        expect(fsLightbox.onResize.init).toBeCalled();
+        expect(fsLightbox.sourceHoldersTransformer.init).toBeCalled();});
 });
 
 
