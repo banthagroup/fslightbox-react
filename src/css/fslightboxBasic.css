@@ -101,8 +101,12 @@
     animation: fslightbox-fade-in .25s ease forwards;
 }
 
-.fslightbox-fade-out-animation {
-    animation: fslightbox-fade-out .25s ease !important;
+.fslightbox-fade-out-class {
+    animation: fslightbox-fade-out .25s ease forwards;
+}
+
+.fslightbox-fade-out-complete {
+    animation: fslightbox-fade-out-complete .25s ease !important;
 }
 
 @keyframes fslightbox-fade-in {
@@ -114,7 +118,7 @@
     }
 }
 
-@keyframes fslightbox-fade-out {
+@keyframes fslightbox-fade-out-complete {
     from {
         opacity: 1;
     }
@@ -126,10 +130,10 @@
 
 
 @keyframes fslightbox-fade-out-anim {
-    0% {
+    from {
         opacity: .2;
     }
-    100% {
+    to {
         opacity: 0;
     }
 }

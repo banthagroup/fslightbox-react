@@ -4,10 +4,13 @@ import { createRefsArrayForNumberOfUrls } from "../../src/utils/Arrays/createRef
 import CloseOpenLightbox from "../../src/core/CloseOpenLightbox";
 import { OnResize } from "../../src/core/OnResize";
 import React from 'react';
-import  SourceSizeAdjusterIterator  from "../../src/core/Source/SourceSizeAdjusterIterator";
+import SourceSizeAdjusterIterator from "../../src/core/Source/SourceSizeAdjusterIterator";
 import { mount } from "enzyme";
 import { createNullArrayForNumberOfUrls } from "../../src/utils/Arrays/createNullArrayForNumberOfUrls";
 import { SourceHoldersTransformer } from "../../src/core/Transforms/SourceHoldersTransformer";
+import { StageSources } from "../../src/core/Stage/StageSources";
+import { SlideChanger } from "../../src/core/Slide/SlideChanger";
+import { SourceAnimator } from "../../src/core/Animations/SourceAnimator";
 
 describe('FsLightbox', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -35,6 +38,9 @@ describe('FsLightbox', () => {
         expect(fsLightbox.onResize).toBeInstanceOf(OnResize);
         expect(fsLightbox.sourceSizeAdjusterIterator).toBeInstanceOf(SourceSizeAdjusterIterator);
         expect(fsLightbox.sourceHoldersTransformer).toBeInstanceOf(SourceHoldersTransformer);
+        expect(fsLightbox.stageSources).toBeInstanceOf(StageSources);
+        expect(fsLightbox.slideChanger).toBeInstanceOf(SlideChanger);
+        expect(fsLightbox.sourceAnimator).toBeInstanceOf(SourceAnimator);
     });
 });
 
@@ -42,12 +48,13 @@ describe('FsLightbox', () => {
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
     fsLightbox.onResize.init = jest.fn();
-    fsLightbox.sourceHoldersTransformer.init = jest.fn();
+    fsLightbox.sourceHoldersTransformer.transformStageSources.withTimeout = jest.fn();
     fsLightbox.initialize();
 
     it('should init core that need to be initialized', () => {
         expect(fsLightbox.onResize.init).toBeCalled();
-        expect(fsLightbox.sourceHoldersTransformer.init).toBeCalled();});
+        expect(fsLightbox.sourceHoldersTransformer.transformStageSources.withTimeout).toBeCalled();
+    });
 });
 
 
@@ -58,11 +65,12 @@ describe('FsLightbox props', () => {
      */
     const fsLightboxInstance = fsLightbox.instance();
 
-    it('should update slide property on change slide prop', () => {
+    it('should call changeSlide on changeSlideProp', () => {
+        fsLightboxInstance.slideChanger.changeSlide = jest.fn();
         expect(fsLightboxInstance.slide).toEqual(1);
         fsLightbox.setProps({
             slide: 2
         });
-        expect(fsLightboxInstance.slide).toEqual(2);
+        expect(fsLightboxInstance.slideChanger.changeSlide).toBeCalled();
     });
 });

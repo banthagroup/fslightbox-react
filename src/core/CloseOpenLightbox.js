@@ -38,10 +38,10 @@ export default class CloseOpenLightbox {
     closeLightbox() {
         if (this.fadingOut) return;
         this.fadingOut = true;
-        this._.elements.container.current.classList.add('fslightbox-fade-out-animation');
+        this._.elements.container.current.classList.add('fslightbox-fade-out-complete');
 
         setTimeout(() => {
-            this._.elements.container.current.classList.remove('fslightbox-fade-out-animation');
+            this._.elements.container.current.classList.remove('fslightbox-fade-out-complete');
             this.fadingOut = false;
             this.documentClassList.remove('fslightbox-open');
             this._.setState({

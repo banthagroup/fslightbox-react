@@ -23,6 +23,13 @@ html, body {
     max-height: 100%;
 }
 
+.slide-changing-button {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 99999999999999999;
+}
+
 h1 {
     color: #20a4a7;
     font-size: 72px;
