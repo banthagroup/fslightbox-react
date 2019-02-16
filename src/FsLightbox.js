@@ -120,8 +120,8 @@ class FsLightbox extends Component {
                     slide={ this.slide }
                     totalSlides={ this.totalSlides }
                     closeLightbox={ this.closeOpenLightbox.closeLightbox }/>
-                <SlideButtonLeft/>
-                <SlideButtonRight/>
+                <SlideButtonLeft _={ this }/>
+                <SlideButtonRight _={ this }/>
                 <MediaHolder _={ this }/>
             </div>
         );
