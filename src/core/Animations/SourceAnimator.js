@@ -29,6 +29,8 @@ export class SourceAnimator {
     }
 
     removeFadeIn() {
-        this._.elements.sources[this.i].current.classList.remove('fslightbox-fade-in-class');
+        (this._.elements.sources[this.i].current.classList.contains('fslightbox-fade-in-class')) ?
+            this._.elements.sources[this.i].current.classList.remove('fslightbox-fade-in-class') :
+            this._.elements.sources[this.i].current.classList.remove('fslightbox-fade-in-complete');
     }
 }

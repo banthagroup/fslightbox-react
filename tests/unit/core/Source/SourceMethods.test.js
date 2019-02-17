@@ -38,6 +38,7 @@ describe('Source component methods', () => {
         const imageMock = new ImageMock(fsLightboxInstance);
         imageMock.createImageMock();
 
+        fsLightboxInstance.slide = 2;
         fsLightboxInstance.sourceSizeAdjusters[0] = new SourceSizeAdjuster(fsLightboxInstance);
         fsLightboxInstance.sourceSizeAdjusters[0].adjustSourceSize = jest.fn();
         sourceInstance.onSourceLoad();

@@ -5,13 +5,16 @@ import {
 import { checkIfUserIsOnMobileDevice } from "../utils/checkIfUserIsOnMobileDevice";
 
 export class OnResize {
-
+    /**
+     * @param _ { FsLightbox }
+     */
     constructor(_) {
         this._ = _;
         this.onResizeMethod = this.onResizeMethod.bind(this);
     }
 
     init() {
+        this._.isMobile = checkIfUserIsOnMobileDevice();
         this.saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
         this.attachListener();
@@ -40,11 +43,10 @@ export class OnResize {
 
 
     onResizeMethod() {
-        this._.setState({
-            isMobile: checkIfUserIsOnMobileDevice()
-        });
+        this._.isMobile = checkIfUserIsOnMobileDevice();
         this.saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
         this._.sourceSizeAdjusterIterator.adjustAllSourcesSizes();
+        this._.sourceHoldersTransformer.transformStageSources().withoutTimeout();
     }
 }

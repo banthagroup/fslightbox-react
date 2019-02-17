@@ -19,6 +19,7 @@ describe('FsLightbox', () => {
         expect(fsLightbox.slide).toEqual(1);
         expect(fsLightbox.totalSlides).toEqual(testUrls.length);
         expect(fsLightbox.initialized).toBeFalsy()
+        expect(fsLightbox.isMobile).toBeFalsy();
     });
 
     it('should set states', () => {

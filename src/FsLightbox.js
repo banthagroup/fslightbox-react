@@ -14,6 +14,7 @@ import { StageSources } from "./core/Stage/StageSources";
 import { SourceHoldersTransformer } from "./core/Transforms/SourceHoldersTransformer";
 import { SlideChanger } from "./core/Slide/SlideChanger";
 import { SourceAnimator } from "./core/Animations/SourceAnimator";
+import { FullscreenToggler } from "./core/Fullscreen/FullscreenToggler";
 
 class FsLightbox extends Component {
 
@@ -30,6 +31,9 @@ class FsLightbox extends Component {
         this.urls = this.props.urls;
         this.sourcesTypes = [];
         this.isSourceAlreadyLoaded = [];
+
+        this.isMobile = false;
+        this.isFullscreenOpen = false;
 
         // slides
         this.slide = (this.props.slide) ? this.props.slide : 1;
@@ -84,6 +88,9 @@ class FsLightbox extends Component {
 
         //animations
         this.sourceAnimator = new SourceAnimator(this);
+
+        //toolbar
+        this.fullscreenToggler = new FullscreenToggler(this);
     }
 
 
@@ -116,10 +123,7 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
         return (
             <div ref={ this.elements.container } className="fslightbox-container">
-                <Nav
-                    slide={ this.slide }
-                    totalSlides={ this.totalSlides }
-                    closeLightbox={ this.closeOpenLightbox.closeLightbox }/>
+                <Nav _={ this }/>
                 <SlideButtonLeft _={ this }/>
                 <SlideButtonRight _={ this }/>
                 <MediaHolder _={ this }/>

@@ -7,10 +7,10 @@ class Nav extends Component {
     render() {
         return (
             <div className="fslightbox-nav">
-                <Toolbar closeLightbox={ this.props.closeLightbox }/>
+                <Toolbar _={ this.props._ }/>
                 <SlideNumber
-                    slide={ this.props.slide }
-                    totalSlides={ this.props.totalSlides }
+                    slide={ this.props._.slide }
+                    totalSlides={ this.props._.totalSlides }
                 />
             </div>
         );
@@ -18,8 +18,6 @@ class Nav extends Component {
 }
 
 Nav.propTypes = {
-    slide: PropTypes.number,
-    totalSlides: PropTypes.number,
-    closeLightbox: PropTypes.func
+    _: PropTypes.object
 };
 export default Nav;

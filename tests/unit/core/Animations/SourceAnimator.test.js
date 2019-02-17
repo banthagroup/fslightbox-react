@@ -28,11 +28,21 @@ describe('animateSourceFromSlide', () => {
             .toBeFalsy();
     });
 
-    it('should remove fade in animation', () => {
-        sourceAnimator.animateSourceFromSlide(1).fadeIn();
-        sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-        expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-in-class'))
-            .toBeFalsy();
+
+    describe('Removing fadeIn animation', () => {
+        it('should remove fade in animation when source had fslightbox-fade-in-class', () => {
+            sourceAnimator.animateSourceFromSlide(1).fadeIn();
+            sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
+            expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-in-class'))
+                .toBeFalsy();
+        });
+
+        it('should remove fade in animation when source had fslightbox-fade-in-complete', () => {
+            fsLightboxInstance.elements.sources[0].current.classList.add('fslightbox-fade-in-complete');
+            sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
+            expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-in-complete'))
+                .toBeFalsy();
+        });
     });
 });
 

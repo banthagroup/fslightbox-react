@@ -54,9 +54,20 @@ class Source extends Component {
     }
 
     onSourceLoad() {
-        if (this.props._.stageSources.isSourceInStage(this.props.i))
-            this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
+        this.fadeInSource();
         this.props._.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+    }
+
+
+    fadeInSource() {
+        // we are fading in source only if it's in stage
+        if (!this.props._.stageSources.isSourceInStage(this.props.i))
+            return;
+
+        // we will add longer fade-in for better UX
+        (this.props.i === this.props._.slide - 1) ?
+            this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-complete') :
+            this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
     }
 
 
@@ -76,7 +87,7 @@ class Source extends Component {
 
 
 Source.propTypes = {
-  _: PropTypes.object.isRequired,
-  i: PropTypes.number.isRequired
+    _: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired
 };
 export default Source;

@@ -5,6 +5,7 @@ import {
     SOURCE_DIMENSIONS_DECREASE_VALUE
 } from "../../../src/constants/ResponsiveConstants";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
 
 describe('Resize event', () => {
     const mock = new FsLightboxMock();
@@ -27,7 +28,7 @@ describe('Resize event', () => {
     });
 
     it('should save max sources dimensions', () => {
-        global.window.innerWidth  = SOURCE_DIMENSIONS_BREAK - 100;
+        global.window.innerWidth = SOURCE_DIMENSIONS_BREAK - 100;
         global.dispatchEvent(new Event('resize'));
         expect(fsLightboxInstance.maxSourceWidth).toEqual(window.innerWidth);
         expect(fsLightboxInstance.maxSourceHeight)
@@ -62,5 +63,27 @@ describe('Resize event', () => {
         onResize.removeListener();
         global.dispatchEvent(new Event('resize'));
         expect(onResize.onResizeMethod).toBeCalledTimes(1);
+    });
+
+    describe('onResizeMethod', () => {
+        const onResize = new OnResize(fsLightboxInstance);
+        onResize.saveMaxSourcesDimensions = jest.fn();
+        onResize.adjustMediaHolderSize = jest.fn();
+        fsLightboxInstance.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
+        const transformStageSourcesMock = new TransformStageSourcesMock(fsLightboxInstance);
+        onResize.onResizeMethod();
+
+        it('should call saveMaxSourcesDimensions', () => {
+            expect(onResize.saveMaxSourcesDimensions).toBeCalled();
+        });
+        it('should call adjustMediaHolderSize', () => {
+            expect(onResize.adjustMediaHolderSize).toBeCalled();
+        });
+        it('should call adjustAllSourcesSize', () => {
+            expect(fsLightboxInstance.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
+        });
+        it('should call transformStageSources without setTimeouts', () => {
+            expect(transformStageSourcesMock.withoutTimeout).toBeCalled();
+        });
     });
 });
