@@ -1,9 +1,9 @@
-# React Fullscreen Lightbox Basic
+# React FullscreenToggler Lightbox Basic
 ## Version - 0.0.7 - In Development
 ## Description
-In developmet - React version of Fullscreen Lightbox.
+In developmet - React version of FullscreenToggler Lightbox.
 
-Fullscreen Lightbox is vanilla JS plugin for displaying images and videos in clean overlaying box.
+FullscreenToggler Lightbox is vanilla JS plugin for displaying images and videos in clean overlaying box.
 
 Website: https://fslightbox.com
 

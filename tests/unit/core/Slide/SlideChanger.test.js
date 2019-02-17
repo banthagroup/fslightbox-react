@@ -35,12 +35,16 @@ describe('animate', () => {
     const testAnimateSourceFromSlide = {
         fadeOut: jest.fn(),
         fadeIn: jest.fn(),
-        removeFadeOut: jest.fn()
+        removeFadeOut: jest.fn(),
+        removeFadeIn: jest.fn()
     };
     fsLightboxInstance.sourceAnimator.animateSourceFromSlide = () => {
         return testAnimateSourceFromSlide;
     };
     slideChanger.animate();
+    it('should call removeFadeIn', () => {
+        expect(testAnimateSourceFromSlide.removeFadeIn).toBeCalled();
+    });
 
     it('should call fadeOut', () => {
         expect(testAnimateSourceFromSlide.fadeOut).toBeCalled();

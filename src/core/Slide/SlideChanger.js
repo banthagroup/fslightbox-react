@@ -17,6 +17,8 @@ export class SlideChanger {
 
     animate() {
         this._.sourceAnimator.animateSourceFromSlide(this._.slide)
+            .removeFadeIn();
+        this._.sourceAnimator.animateSourceFromSlide(this._.slide)
             .fadeOut();
         this._.sourceAnimator.animateSourceFromSlide(this.newSlideNumber)
             .removeFadeOut();

@@ -31,8 +31,8 @@ export default class CloseOpenLightbox {
         }
         this._.onResize.attachListener();
         this._.onResize.adjustMediaHolderSize();
+        this._.sourceHoldersTransformer.transformStageSources().withoutTimeout();
     }
-
 
 
     closeLightbox() {
@@ -41,13 +41,17 @@ export default class CloseOpenLightbox {
         this._.elements.container.current.classList.add('fslightbox-fade-out-complete');
 
         setTimeout(() => {
-            this._.elements.container.current.classList.remove('fslightbox-fade-out-complete');
-            this.fadingOut = false;
-            this.documentClassList.remove('fslightbox-open');
-            this._.setState({
-                isOpen: false
-            }, this.componentMountedAfterClose);
+            this.afterFadeOut();
         }, CONTAINER_FADE_OUT_TIME);
+    }
+
+    afterFadeOut() {
+        this._.elements.container.current.classList.remove('fslightbox-fade-out-complete');
+        this.fadingOut = false;
+        this.documentClassList.remove('fslightbox-open');
+        this._.setState({
+            isOpen: false
+        }, this.componentMountedAfterClose);
     }
 
     componentMountedAfterClose() {

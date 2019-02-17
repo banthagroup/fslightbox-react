@@ -14,20 +14,22 @@ export class StageHoldersTransformer {
     }
 
     withTimeout() {
+        this._.isChangingSlide = true;
         setTimeout(() => {
+            this._.isChangingSlide = false;
             this.transformNegative();
             this.transformPositive();
         }, 220);
     }
 
     transformNegative() {
-        if (typeof this.stageSourcesIndexes.previous !== "undefined") {
+        if (typeof this.stageSourcesIndexes.previous !== "undefined" && this.stageSourcesIndexes.previous !== this._.slide - 1) {
             this._.sourceHoldersTransformer.transformNegative(this.stageSourcesIndexes.previous);
         }
     }
 
     transformPositive() {
-        if (typeof this.stageSourcesIndexes.next !== "undefined") {
+        if (typeof this.stageSourcesIndexes.next !== "undefined" && this.stageSourcesIndexes.next !== this._.slide - 1) {
             this._.sourceHoldersTransformer.transformPositive(this.stageSourcesIndexes.next);
         }
     }
