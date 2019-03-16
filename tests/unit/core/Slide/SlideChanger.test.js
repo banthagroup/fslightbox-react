@@ -1,60 +1,61 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { SlideChanger } from "../../../../src/core/Slide/SlideChanger";
+import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME } from "../../../../src/constants/CssConstants";
 
-const mock = new FsLightboxMock();
-const fsLightboxInstance = mock.getInstance();
-fsLightboxInstance.slide = 1;
+const fsLightboxMock = new FsLightboxMock();
+const fsLightboxInstance = fsLightboxMock.getInstance();
 
-describe('changeSlide', () => {
+describe('changeSlideTo', () => {
     const slideChanger = new SlideChanger(fsLightboxInstance);
-    slideChanger.animate = jest.fn();
-    const testTransformStageHolders = {
-        withTimeout: jest.fn()
-    };
-    fsLightboxInstance.sourceHoldersTransformer.transformStageSources = () => {
-        return testTransformStageHolders;
-    };
-    slideChanger.changeSlide(2);
+    const sources = fsLightboxMock.setAllSourcesToDivs().getSourcesArray();
+    const sourceHolders = fsLightboxMock.setAllSourceHoldersToDivs().getSourceHoldersArray();
+
+    beforeEach(() => {
+        fsLightboxInstance.state.slide = 1;
+    });
 
     it('should change slide', () => {
-        expect(fsLightboxInstance.slide).toEqual(2);
+        slideChanger.changeSlideTo(2);
+        expect(fsLightboxInstance.state.slide).toEqual(2);
     });
 
-    it('should call transformStageSources with timeout', () => {
-        expect(testTransformStageHolders.withTimeout).toBeCalled();
+    it('should transform stage sourceHolders with timeout', () => {
+        fsLightboxInstance.slideDistance = 1;
+        global.window.innerWidth = 100;
+        jest.useFakeTimers();
+        slideChanger.changeSlideTo(2);
+        jest.runAllTimers();
+        expect(sourceHolders[0].current.style.transform).toEqual('translate(-100px,0)');
+        expect(sourceHolders[1].current.style.transform).toEqual('translate(0,0)');
+        expect(sourceHolders[2].current.style.transform).toEqual('translate(100px,0)');
     });
 
-    it('should call animate', () => {
-        expect(slideChanger.animate).toBeCalled();
-    });
-});
+    describe('animate sources', () => {
+        beforeEach(() => {
+            fsLightboxInstance.state.slide = 1;
+        });
+
+        it('should remove fadeIn class from previous source', () => {
+            sources[0].current.classList.add(FADE_IN_CLASS_NAME);
+            slideChanger.changeSlideTo(2);
+            expect(sources[0].current.classList.contains(FADE_IN_CLASS_NAME)).toBeFalsy();
+        });
+
+        it('should add fadeOut class to previous source', () => {
+            slideChanger.changeSlideTo(2);
+            expect(sources[0].current.classList.contains(FADE_OUT_CLASS_NAME)).toBeTruthy();
+        });
 
 
-describe('animate', () => {
-    const slideChanger = new SlideChanger(fsLightboxInstance);
-    const testAnimateSourceFromSlide = {
-        fadeOut: jest.fn(),
-        fadeIn: jest.fn(),
-        removeFadeOut: jest.fn(),
-        removeFadeIn: jest.fn()
-    };
-    fsLightboxInstance.sourceAnimator.animateSourceFromSlide = () => {
-        return testAnimateSourceFromSlide;
-    };
-    slideChanger.animate();
-    it('should call removeFadeIn', () => {
-        expect(testAnimateSourceFromSlide.removeFadeIn).toBeCalled();
-    });
+        it('should remove fadeOut class from current source', () => {
+            sources[1].current.classList.add(FADE_OUT_CLASS_NAME);
+            slideChanger.changeSlideTo(2);
+            expect(sources[1].current.classList.contains(FADE_OUT_CLASS_NAME)).toBeFalsy();
+        });
 
-    it('should call fadeOut', () => {
-        expect(testAnimateSourceFromSlide.fadeOut).toBeCalled();
-    });
-
-    it('should call fadeIn', () => {
-        expect(testAnimateSourceFromSlide.fadeIn).toBeCalled();
-    });
-
-    it('should call removeFadeOut', () => {
-        expect(testAnimateSourceFromSlide.removeFadeOut).toBeCalled();
+        it('should add fadeIn class to current source', () => {
+            slideChanger.changeSlideTo(2);
+            expect(sources[1].current.classList.contains(FADE_IN_CLASS_NAME)).toBeTruthy();
+        });
     });
 });

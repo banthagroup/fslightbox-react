@@ -60,7 +60,7 @@ describe('Actions after first source load', () => {
         });
 
         it('should create Source Size Adjuster', () => {
-            expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
+            expect(fsLightboxInstance.collections.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
         });
 
         it('should call onFirstSourceLoad from props', () => {
@@ -99,7 +99,7 @@ describe('Actions after first source load', () => {
         });
 
         it('should create Source Size Adjuster', () => {
-            expect(fsLightboxInstance.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
+            expect(fsLightboxInstance.collections.sourceSizeAdjusters[0]).toBeInstanceOf(SourceSizeAdjuster);
         });
 
         it('should call onFirstSourceLoad from props', () => {

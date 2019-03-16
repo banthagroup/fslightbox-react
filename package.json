@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PiotrZdziarski/React-FsLightbox-Basic.git"
+    "_url": "git+https://github.com/PiotrZdziarski/React-FsLightbox-Basic.git"
   },
   "jest": {
     "setupFiles": [
@@ -20,19 +20,11 @@
       "enzyme-to-json/serializer"
     ],
     "verbose": true,
-    "coverageThreshold": {
-      "global": {
-        "branches": 85,
-        "functions": 85,
-        "lines": 85,
-        "statements": 85
-      }
-    },
     "moduleNameMapper": {
       "\\.(css|less|sass|scss|jpg|jpeg)$": "<rootDir>/tests/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
     },
-    "collectCoverage": true
+    "collectCoverage": false
   },
   "keywords": [
     "react lightbox",
@@ -45,7 +37,7 @@
   "author": "Piotr Zdziarski",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PiotrZdziarski/React-FsLightbox-Basic/issues"
+    "_url": "https://github.com/PiotrZdziarski/React-FsLightbox-Basic/issues"
   },
   "homepage": "https://fslightbox.com/",
   "devDependencies": {

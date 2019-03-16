@@ -3,91 +3,92 @@ import { getTypeFromResponseContentType } from "../../utils/SourceType/getTypeFr
 
 export default class SourceTypeChecker {
     constructor() {
-        this.url = '';
-        this.sourceType = null;
-        this.xhr = new XMLHttpRequest();
-        this.resolve = null;
+        this._url = '';
+        this._sourceType = null;
+        this._xhr = null;
+        this._resolve = null;
 
-        this.onRequestStateChange = this.onRequestStateChange.bind(this);
+        this._onRequestStateChange = this._onRequestStateChange.bind(this);
     }
 
     setUrlToCheck(url) {
-        this.url = url;
+        this._url = url;
     }
 
     getSourceType() {
         return new Promise(((resolve) => {
-            this.resolve = resolve;
-            (this.checkIfYoutubeType()) ?
-                this.youtubeType() :
-                this.setXHR();
-        })).catch(() => this.invalidType());
+            this._resolve = resolve;
+            (this._checkIfYoutubeType()) ?
+                this._youtubeType() :
+                this._setUpXhr();
+        })).catch(() => this._invalidType());
     }
 
-    checkIfYoutubeType() {
+    _checkIfYoutubeType() {
         const parser = document.createElement('a');
-        parser.href = this.url;
+        parser.href = this._url;
         return parser.hostname === 'www.youtube.com';
     }
 
 
-    setXHR() {
-        this.xhr.open('GET', this.url, true);
-        this.xhr.onreadystatechange = this.onRequestStateChange;
-        this.xhr.send();
+    _setUpXhr() {
+        this._xhr = new XMLHttpRequest();
+        this._xhr.open('GET', this._url, true);
+        this._xhr.onreadystatechange = this._onRequestStateChange;
+        this._xhr.send();
     }
 
-    onRequestStateChange() {
-        if (this.xhr.readyState !== 2) {
+    _onRequestStateChange() {
+        if (this._xhr.readyState !== 2) {
             return;
         }
-        if (this.xhr.status !== 200) {
-            this.invalidType();
-            this.abortRequestAndResolvePromise();
+        if (this._xhr.status !== 200) {
+            this._invalidType();
+            this._abortRequestAndResolvePromise();
             return;
         }
-        this.callCorrectActionsDependingOnSourceType(
+        this._callCorrectActionsDependingOnSourceType(
             getTypeFromResponseContentType(
-                this.xhr.getResponseHeader('content-type')
+                this._xhr.getResponseHeader('content-type')
             )
         );
-        this.abortRequestAndResolvePromise();
+        this._abortRequestAndResolvePromise();
     }
 
-    abortRequestAndResolvePromise() {
-        this.xhr.abort();
-        this.resolve();
+    _abortRequestAndResolvePromise() {
+        this._xhr.abort();
+        this._resolve();
     }
 
-    callCorrectActionsDependingOnSourceType(type) {
+    _callCorrectActionsDependingOnSourceType(type) {
         switch (type) {
             case IMAGE_TYPE:
-                this.imageType();
+                this._imageType();
                 break;
             case VIDEO_TYPE:
-                this.videoType();
+                this._videoType();
                 break;
             default:
-                this.invalidType();
+                this._invalidType();
                 break;
         }
     }
 
 
-    youtubeType() {
-        this.sourceType = YOUTUBE_TYPE;
-        this.resolve();
+    _youtubeType() {
+        this._sourceType = YOUTUBE_TYPE;
+        this._resolve();
     }
 
-    imageType() {
-        this.sourceType = IMAGE_TYPE;
+    _imageType() {
+        this._sourceType = IMAGE_TYPE;
     }
 
-    videoType() {
-        this.sourceType = VIDEO_TYPE;
+    _videoType() {
+        this._sourceType = VIDEO_TYPE;
     }
 
-    invalidType() {
-        this.sourceType = INVALID_TYPE;
+    _invalidType() {
+        this._sourceType = INVALID_TYPE;
     }
 }

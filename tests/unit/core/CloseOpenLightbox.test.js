@@ -39,24 +39,24 @@ it('should add fslightbox-open class to document on open', () => {
 
 it('should call after render open lightbox method', () => {
     closeOpenLightbox.componentMountedAfterOpen = jest.fn();
-    closeOpenLightbox._.onResize.attachListener = jest.fn();
+    fsLightboxInstance.core.onResize.attachListener = jest.fn();
     closeOpenLightbox.openLightbox();
     expect(closeOpenLightbox.componentMountedAfterOpen).toHaveBeenCalledTimes(1);
 });
 
 test('componentMountedAfterOpen', () => {
-    fsLightboxInstance.onResize.attachListener = jest.fn();
-    fsLightboxInstance.onResize.adjustMediaHolderSize = jest.fn();
+    fsLightboxInstance.core.onResize.attachListener = jest.fn();
+    fsLightboxInstance.core.onResize.adjustMediaHolderSize = jest.fn();
     const mockTransformStageSources = new TransformStageSourcesMock(fsLightboxInstance);
     closeOpenLightbox.componentMountedAfterOpen();
-    expect(fsLightboxInstance.onResize.attachListener).toBeCalled();
-    expect(fsLightboxInstance.onResize.adjustMediaHolderSize).toBeCalled();
+    expect(fsLightboxInstance.core.onResize.attachListener).toBeCalled();
+    expect(fsLightboxInstance.core.onResize.adjustMediaHolderSize).toBeCalled();
     expect(mockTransformStageSources.withoutTimeout).toBeCalled();
 });
 
 it('should call removeListener', () => {
-    fsLightboxInstance.onResize.removeListener = jest.fn();
+    fsLightboxInstance.core.onResize.removeListener = jest.fn();
     closeOpenLightbox.componentMountedAfterClose();
-    expect(fsLightboxInstance.onResize.removeListener).toBeCalled();
+    expect(fsLightboxInstance.core.onResize.removeListener).toBeCalled();
 });
 

@@ -49,13 +49,13 @@ class Source extends Component {
         // we are creating source size adjuster after first load because we need already source dimensions
         const sourceSizeAdjuster = new SourceSizeAdjuster(this.props._);
         sourceSizeAdjuster.setIndex(this.props.i);
-        this.props._.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
+        this.props._.collections.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
         this.onSourceLoad();
     }
 
     onSourceLoad() {
         this.fadeInSource();
-        this.props._.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+        this.props._.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
     }
 
 
@@ -65,7 +65,7 @@ class Source extends Component {
             return;
 
         // we will add longer fade-in for better UX
-        (this.props.i === this.props._.slide - 1) ?
+        (this.props.i === this.props._.state.slide - 1) ?
             this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-complete') :
             this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
     }

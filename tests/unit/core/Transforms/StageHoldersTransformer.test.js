@@ -37,17 +37,17 @@ describe('Transforms', () => {
             previous: 2,
             next: 4,
         };
-        fsLightboxInstance.sourceHoldersTransformer.transformNegative = jest.fn();
-        fsLightboxInstance.sourceHoldersTransformer.transformPositive = jest.fn();
+        fsLightboxInstance.core.sourceHoldersTransformer.transformNegative = jest.fn();
+        fsLightboxInstance.core.sourceHoldersTransformer.transformPositive = jest.fn();
         fsLightboxInstance.slide = 123123123;
         stageHolderTransformer.transformNegative();
         stageHolderTransformer.transformPositive();
 
         it('should call transform negative from sourceHoldersTransformer with previous slide index', () => {
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformNegative).toBeCalledWith(2);
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).toBeCalledWith(2);
         });
         it('should call transform positive from sourceHoldersTransformer with next slide index', () => {
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformPositive).toBeCalledWith(4);
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).toBeCalledWith(4);
         });
     });
 
@@ -56,14 +56,14 @@ describe('Transforms', () => {
         stageHolderTransformer.stageSourcesIndexes = {
             current: 0,
         };
-        fsLightboxInstance.sourceHoldersTransformer.transformNegative = jest.fn();
-        fsLightboxInstance.sourceHoldersTransformer.transformPositive = jest.fn();
+        fsLightboxInstance.core.sourceHoldersTransformer.transformNegative = jest.fn();
+        fsLightboxInstance.core.sourceHoldersTransformer.transformPositive = jest.fn();
         stageHolderTransformer.transformNegative();
         stageHolderTransformer.transformPositive();
 
         it('should not call transform negative due to undefined previous index', () => {
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformNegative).not.toBeCalled();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformPositive).not.toBeCalled();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).not.toBeCalled();
         });
     });
 
@@ -75,19 +75,19 @@ describe('Transforms', () => {
             current: 2,
             next: 3,
         };
-        fsLightboxInstance.sourceHoldersTransformer.transformNegative = jest.fn();
-        fsLightboxInstance.sourceHoldersTransformer.transformPositive = jest.fn();
+        fsLightboxInstance.core.sourceHoldersTransformer.transformNegative = jest.fn();
+        fsLightboxInstance.core.sourceHoldersTransformer.transformPositive = jest.fn();
 
         it('should not call transform negative from sourceHoldersTransformer', () => {
             fsLightboxInstance.slide = 2;
             stageHolderTransformer.transformNegative();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformNegative).not.toBeCalled();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
         });
 
         it('should not call transform negative from sourceHoldersTransformer', () => {
             fsLightboxInstance.slide = 4;
             stageHolderTransformer.transformPositive();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformPositive).not.toBeCalled();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).not.toBeCalled();
         });
     });
 });

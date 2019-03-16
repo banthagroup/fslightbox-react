@@ -16,13 +16,13 @@ const source = mount(<Source
  * @type { Source }
  */
 const sourceInstance = source.instance();
-fsLightbox.sourceSizeAdjusters[0] = {
+fsLightbox.collections.sourceSizeAdjusters[0] = {
     adjustSourceSize: jest.fn()
 };
 
 describe('fadeInSource', () => {
     it('should attach fslightbox-fade-in-class', () => {
-        fsLightbox.slide = 2;
+        fsLightbox.state.slide = 2;
         sourceInstance.onSourceLoad();
         expect(fsLightbox.elements.sources[0].current.classList.contains('fslightbox-fade-in-class'))
             .toBeTruthy();
@@ -30,7 +30,7 @@ describe('fadeInSource', () => {
 
     it('should not attach fslightbox-fade-in-class due to source is not in stage', () => {
         imageMock.createImageMock();
-        fsLightbox.slide = 100;
+        fsLightbox.state.slide = 100;
         fsLightbox.totalSlides = 200;
         sourceInstance.onSourceLoad();
         expect(fsLightbox.elements.sources[0].current.classList.contains('fslightbox-fade-in-class'))
@@ -38,7 +38,7 @@ describe('fadeInSource', () => {
     });
 
     it('should attach longer fade in to current on first load for better UX', () => {
-        fsLightbox.slide = 1;
+        fsLightbox.state.slide = 1;
         sourceInstance.onSourceLoad();
         expect(fsLightbox.elements.sources[0].current.classList.contains('fslightbox-fade-in-complete'))
             .toBeTruthy();
@@ -48,7 +48,7 @@ describe('fadeInSource', () => {
 test('onSourceLoad', () => {
     sourceInstance.fadeInSource = jest.fn();
     sourceInstance.onSourceLoad();
-    expect(fsLightbox.sourceSizeAdjusters[0].adjustSourceSize).toBeCalled();
+    expect(fsLightbox.collections.sourceSizeAdjusters[0].adjustSourceSize).toBeCalled();
     expect(sourceInstance.fadeInSource).toBeCalled();
 });
 

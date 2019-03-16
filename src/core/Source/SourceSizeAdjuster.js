@@ -1,47 +1,47 @@
 export class SourceSizeAdjuster {
     /**
-     * @param _ {FsLightbox}
+     * @param fsLightbox {FsLightbox}
      */
-    constructor(_) {
-        this._ = _;
-        this.i = null;
-        this.sourceWidth = 0;
-        this.sourceHeight = 0;
-        this.ratio = 0;
-        this.newHeight = 0;
+    constructor(fsLightbox) {
+        this.fsLightbox = fsLightbox;
+        this._i = null;
+        this._sourceWidth = 0;
+        this._sourceHeight = 0;
+        this._ratio = 0;
+        this._newHeight = 0;
     }
 
     setIndex(index) {
-        this.i = index;
-        this.sourceWidth = this._.sourceDimensions[index].width;
-        this.sourceHeight = this._.sourceDimensions[index].height;
-        this.ratio = this.sourceWidth / this.sourceHeight;
+        this._i = index;
+        this._sourceWidth = this.fsLightbox.sourceDimensions[index].width;
+        this._sourceHeight = this.fsLightbox.sourceDimensions[index].height;
+        this._ratio = this._sourceWidth / this._sourceHeight;
     }
 
     adjustSourceSize() {
-        this.newHeight = this._.maxSourceWidth / this.ratio;
+        this._newHeight = this.fsLightbox.maxSourceWidth / this._ratio;
 
         // wider than higher
-        if (this.newHeight < this._.maxSourceHeight) {
-            if (this.sourceWidth < this._.maxSourceWidth) {
-                this.newHeight = this.sourceHeight;
+        if (this._newHeight < this.fsLightbox.maxSourceHeight) {
+            if (this._sourceWidth < this.fsLightbox.maxSourceWidth) {
+                this._newHeight = this._sourceHeight;
             }
-            this.setDimensions();
+            this._setDimensions();
             return;
         }
 
         // higher than wider
-        if (this.sourceHeight > this._.maxSourceHeight) {
-            this.newHeight = this._.maxSourceHeight;
+        if (this._sourceHeight > this.fsLightbox.maxSourceHeight) {
+            this._newHeight = this.fsLightbox.maxSourceHeight;
         } else {
-            this.newHeight = this.sourceHeight;
+            this._newHeight = this._sourceHeight;
         }
 
-        this.setDimensions();
+        this._setDimensions();
     }
 
-    setDimensions() {
-        this._.elements.sources[this.i].current.style.height = this.newHeight + "px";
-        this._.elements.sources[this.i].current.style.width = (this.newHeight * this.ratio) + "px";
+    _setDimensions() {
+        this.fsLightbox.elements.sources[this._i].current.style.height = this._newHeight + "px";
+        this.fsLightbox.elements.sources[this._i].current.style.width = (this._newHeight * this._ratio) + "px";
     }
 }

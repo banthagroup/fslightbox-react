@@ -38,13 +38,13 @@ describe('Source component methods', () => {
         const imageMock = new ImageMock(fsLightboxInstance);
         imageMock.createImageMock();
 
-        fsLightboxInstance.slide = 2;
-        fsLightboxInstance.sourceSizeAdjusters[0] = new SourceSizeAdjuster(fsLightboxInstance);
-        fsLightboxInstance.sourceSizeAdjusters[0].adjustSourceSize = jest.fn();
+        fsLightboxInstance.state.slide = 2;
+        fsLightboxInstance.collections.sourceSizeAdjusters[0] = new SourceSizeAdjuster(fsLightboxInstance);
+        fsLightboxInstance.collections.sourceSizeAdjusters[0].adjustSourceSize = jest.fn();
         sourceInstance.onSourceLoad();
 
         it('should call adjustSourceSize', () => {
-            expect(fsLightboxInstance.sourceSizeAdjusters[0].adjustSourceSize).toBeCalled();
+            expect(fsLightboxInstance.collections.sourceSizeAdjusters[0].adjustSourceSize).toBeCalled();
         });
 
         it('should add fslightbox-fade-in-class to source because its in stage', () => {
@@ -53,7 +53,7 @@ describe('Source component methods', () => {
         });
 
         it('should not add fslightbox-fade-in-class to source because its not in stage', () => {
-            fsLightboxInstance.slide = 5;
+            fsLightboxInstance.state.slide = 5;
             fsLightboxInstance.totalSlides = 10;
             imageMock.createImageMock();
             sourceInstance.onSourceLoad();

@@ -1,36 +1,42 @@
-export class SourceAnimator {
-    /**
-     * @param _ { FsLightbox }
-     */
-    constructor(_) {
-        this._ = _;
-        this.i = null;
-    }
+/** @class */
+import {
+    FADE_IN_CLASS_NAME,
+    FADE_IN_COMPLETE_CLASS,
+    FADE_OUT_CLASS_NAME
+} from "../../constants/CssConstants";
+
+export function SourceAnimator({ elements: { sources: sources } }) {
+    let i = null;
 
     /**
      * @param slideNumber
      * @return { SourceAnimator }
      */
-    animateSourceFromSlide(slideNumber) {
-        this.i = slideNumber - 1;
+    this.animateSourceFromSlide = (slideNumber) => {
+        i = slideNumber - 1;
         return this;
-    }
+    };
 
-    fadeOut() {
-        this._.elements.sources[this.i].current.classList.add('fslightbox-fade-out-class');
-    }
+    this.fadeOut = () => {
+        getCurrentSourceClassList().add(FADE_OUT_CLASS_NAME);
+    };
 
-    fadeIn() {
-        this._.elements.sources[this.i].current.classList.add('fslightbox-fade-in-class');
-    }
+    this.fadeIn = () => {
+        getCurrentSourceClassList().add(FADE_IN_CLASS_NAME);
+    };
 
-    removeFadeOut() {
-        this._.elements.sources[this.i].current.classList.remove('fslightbox-fade-out-class');
-    }
+    this.removeFadeOut = () => {
+        getCurrentSourceClassList().remove(FADE_OUT_CLASS_NAME);
+    };
 
-    removeFadeIn() {
-        (this._.elements.sources[this.i].current.classList.contains('fslightbox-fade-in-class')) ?
-            this._.elements.sources[this.i].current.classList.remove('fslightbox-fade-in-class') :
-            this._.elements.sources[this.i].current.classList.remove('fslightbox-fade-in-complete');
-    }
+    this.removeFadeIn = () => {
+        (getCurrentSourceClassList().contains(FADE_IN_CLASS_NAME)) ?
+            getCurrentSourceClassList().remove(FADE_IN_CLASS_NAME) :
+            getCurrentSourceClassList().remove(FADE_IN_COMPLETE_CLASS);
+    };
+
+    const getCurrentSourceClassList = () => {
+        return sources[i].current.classList;
+    };
 }
+
