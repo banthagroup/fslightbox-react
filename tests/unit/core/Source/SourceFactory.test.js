@@ -14,14 +14,6 @@ describe('SourceFactory', () => {
         INVALID_TYPE
     ];
 
-    it('should attach ofFirstSourceLoad', () => {
-        const mockMethod = jest.fn();
-        const sourceFactory = new SourceFactory(fsLightboxInstance);
-        sourceFactory.attachOnFirstSourceLoad(mockMethod);
-        sourceFactory.onFirstSourceLoad();
-        expect(mockMethod).toBeCalled();
-    });
-
     describe('Calling correct methods depending on Source Type', () => {
         /**
          * @type SourceFactory

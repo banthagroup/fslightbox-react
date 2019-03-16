@@ -5,13 +5,15 @@ import Youtube from "../../components/sources/properSources/Youtube.jsx";
 import Invalid from "../../components/sources/properSources/Invalid.jsx";
 import Image from "../../components/sources/properSources/Image.jsx";
 
-let SourceComponent = null;
+let SourceComponent;
 
 export class SourceFactory {
+    /** @param fsLightbox { FsLightbox } */
     constructor(fsLightbox) {
         this.fsLightbox = fsLightbox;
-        this.i = null;
         this.onFirstSourceLoad = null;
+        this.i = null;
+        SourceComponent = null;
     }
 
     attachOnFirstSourceLoad(onFirstSourceLoad) {
@@ -36,27 +38,31 @@ export class SourceFactory {
         }
     }
 
-    createImageSource() {
-        SourceComponent = Image;
-    }
-
-    createVideoSource() {
-        SourceComponent = Video;
-    }
-
-    createYoutubeSource() {
-        SourceComponent = Youtube;
-    }
-
-    createInvalidSource() {
-        SourceComponent = Invalid;
-    }
-
     getSource() {
         return <SourceComponent
             _={ this.fsLightbox }
             i={ this.i }
             onFirstSourceLoad={ this.onFirstSourceLoad }
         />;
+    }
+
+    /** @private */
+    createImageSource() {
+        SourceComponent = Image;
+    }
+
+    /** @private */
+    createVideoSource() {
+        SourceComponent = Video;
+    }
+
+    /** @private */
+    createYoutubeSource() {
+        SourceComponent = Youtube;
+    }
+
+    /** @private */
+    createInvalidSource() {
+        SourceComponent = Invalid;
     }
 }

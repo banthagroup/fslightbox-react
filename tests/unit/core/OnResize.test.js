@@ -17,16 +17,6 @@ describe('Resize event', () => {
         onResize = new OnResize(fsLightboxInstance);
     });
 
-    it('should init OnResize', () => {
-        onResize.saveMaxSourcesDimensions = jest.fn();
-        onResize.adjustMediaHolderSize = jest.fn();
-        onResize.attachListener = jest.fn();
-        onResize.init();
-        expect(onResize.saveMaxSourcesDimensions).toBeCalled();
-        expect(onResize.adjustMediaHolderSize).toBeCalled();
-        expect(onResize.attachListener).toBeCalled();
-    });
-
     it('should save max sources dimensions', () => {
         global.window.innerWidth = SOURCE_DIMENSIONS_BREAK - 100;
         global.dispatchEvent(new Event('resize'));
@@ -55,32 +45,32 @@ describe('Resize event', () => {
 
     it('should add and remove resize event listner', () => {
         const onResize = new OnResize(fsLightbox.instance());
-        onResize.onResizeMethod = jest.fn();
+        onResize._onResizeMethod = jest.fn();
         onResize.init();
-        expect(onResize.onResizeMethod).not.toBeCalled();
+        expect(onResize._onResizeMethod).not.toBeCalled();
         global.dispatchEvent(new Event('resize'));
-        expect(onResize.onResizeMethod).toBeCalledTimes(1);
+        expect(onResize._onResizeMethod).toBeCalledTimes(1);
         onResize.removeListener();
         global.dispatchEvent(new Event('resize'));
-        expect(onResize.onResizeMethod).toBeCalledTimes(1);
+        expect(onResize._onResizeMethod).toBeCalledTimes(1);
     });
 
     describe('onResizeMethod', () => {
         const onResize = new OnResize(fsLightboxInstance);
-        onResize.saveMaxSourcesDimensions = jest.fn();
+        onResize._saveMaxSourcesDimensions = jest.fn();
         onResize.adjustMediaHolderSize = jest.fn();
-        fsLightboxInstance.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
+        fsLightboxInstance.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
         const transformStageSourcesMock = new TransformStageSourcesMock(fsLightboxInstance);
-        onResize.onResizeMethod();
+        onResize._onResizeMethod();
 
         it('should call saveMaxSourcesDimensions', () => {
-            expect(onResize.saveMaxSourcesDimensions).toBeCalled();
+            expect(onResize._saveMaxSourcesDimensions).toBeCalled();
         });
         it('should call adjustMediaHolderSize', () => {
             expect(onResize.adjustMediaHolderSize).toBeCalled();
         });
         it('should call adjustAllSourcesSize', () => {
-            expect(fsLightboxInstance.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
+            expect(fsLightboxInstance.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
         });
         it('should call transformStageSources without setTimeouts', () => {
             expect(transformStageSourcesMock.withoutTimeout).toBeCalled();

@@ -25,4 +25,29 @@ export class FsLightboxMock {
     getInstance() {
         return this.wrapper.instance();
     }
+
+    setAllSourcesToDivs() {
+        for (let source of this.getInstance().elements.sources) {
+            source.current = document.createElement('div');
+        }
+        const sources = this.getInstance().elements.sources;
+        return {
+            getSourcesArray: () => {
+                return sources;
+            }
+        }
+    }
+
+    setAllSourceHoldersToDivs() {
+        for (let sourceHolder of this.getInstance().elements.sourceHolders) {
+            sourceHolder.current = document.createElement('div');
+        }
+        const sourceHolders = this.getInstance().elements.sourceHolders;
+        return {
+            getSourceHoldersArray: () => {
+                return sourceHolders;
+            }
+        }
+    }
+
 }

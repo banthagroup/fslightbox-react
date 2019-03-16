@@ -24,7 +24,7 @@ class SourceHolder extends Component {
     }
 
     processReceivedSourceType() {
-        this.props._.sourcesTypes[this.props.i] = this.sourceTypeChecker.sourceType;
+        this.props._.sourcesTypes[this.props.i] = this.sourceTypeChecker._sourceType;
         if (this._isMounted) {
             if (this.source.current === null) {
                 this.props._.sourcesToCreateOnConstruct[this.props.i] = true;

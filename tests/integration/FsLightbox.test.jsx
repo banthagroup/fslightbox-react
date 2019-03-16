@@ -11,7 +11,7 @@ describe('Test FsLightbox component props', () => {
     const buttonTogglingOpen = demoComponent.find('button').at(0);
     const fsLightbox = demoComponent.find('FsLightbox');
 
-    const closeOpenLightbox = fsLightbox.instance().closeOpenLightbox;
+    const closeOpenLightbox = fsLightbox.instance().core.closeOpenLightbox;
     closeOpenLightbox.openLightbox = jest.fn();
     closeOpenLightbox.closeLightbox = jest.fn();
 
@@ -26,7 +26,7 @@ describe('Test FsLightbox component props', () => {
         mock.setOpenToFalse();
         const fsLightboxInstance = mock.getInstance();
         fsLightboxInstance.initialize = jest.fn();
-        fsLightboxInstance.closeOpenLightbox.openLightbox();
+        fsLightboxInstance.core.closeOpenLightbox.openLightbox();
         expect(fsLightboxInstance.initialize).toBeCalled();
     });
 });

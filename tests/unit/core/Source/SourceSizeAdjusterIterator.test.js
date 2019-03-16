@@ -1,48 +1,44 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import SourceSizeAdjusterIterator  from "../../../../src/core/Source/SourceSizeAdjusterIterator";
+import SourceSizeAdjusterIterator from "../../../../src/core/Source/SourceSizeAdjusterIterator";
 
 describe('SourceSizeAdjusterIterator', () => {
     const fsLightboxMock = new FsLightboxMock();
     const fsLightboxInstance = fsLightboxMock.getInstance();
-    fsLightboxInstance.sourceSizeAdjusters = [
-        {
-            adjustSourceSize: jest.fn()
-        },
-        null,
-        {
-            adjustSourceSize: jest.fn()
-        }
-    ];
 
     const sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightboxInstance);
+    let mockAdjustSourceSize;
 
-    it('should return that there is next iteration', () => {
-        expect(sourceSizeAdjusterIterator.hasNext()).toBeTruthy();
-        sourceSizeAdjusterIterator.i++;
-        expect(sourceSizeAdjusterIterator.hasNext()).toBeTruthy();
-        sourceSizeAdjusterIterator.i++;
-        expect(sourceSizeAdjusterIterator.hasNext()).toBeTruthy();
-        sourceSizeAdjusterIterator.i++;
-        expect(sourceSizeAdjusterIterator.hasNext()).toBeFalsy();
+    beforeEach(() => {
+        mockAdjustSourceSize = jest.fn();
     });
 
-    it('should return that SourceSizeAdjuster is null', () => {
-        sourceSizeAdjusterIterator.i = 0;
-        expect(sourceSizeAdjusterIterator.isNull()).toBeFalsy();
-        sourceSizeAdjusterIterator.i = 1;
-        expect(sourceSizeAdjusterIterator.isNull()).toBeTruthy();
-    });
-
-    it('should adjustSourceSize from objects two times', () => {
+    it('should call adjustSourceSize for all items in array', () => {
+        fsLightboxInstance.collections.sourceSizeAdjusters = [
+            {
+                adjustSourceSize: mockAdjustSourceSize
+            },
+            {
+                adjustSourceSize: mockAdjustSourceSize
+            },
+            {
+                adjustSourceSize: mockAdjustSourceSize
+            }
+        ];
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
-        expect(fsLightboxInstance.sourceSizeAdjusters[0].adjustSourceSize).toBeCalled();
-        expect(fsLightboxInstance.sourceSizeAdjusters[2].adjustSourceSize).toBeCalled();
+        expect(mockAdjustSourceSize).toBeCalledTimes(3);
     });
 
-    it('should call adjustSourceSize 3 times', () => {
-        sourceSizeAdjusterIterator.adjustSourceSize = jest.fn();
+    it('should call adjust source size only two times in three items array due too second item is null', () => {
+        fsLightboxInstance.collections.sourceSizeAdjusters = [
+            {
+                adjustSourceSize: mockAdjustSourceSize
+            },
+            null,
+            {
+                adjustSourceSize: mockAdjustSourceSize
+            }
+        ];
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
-        expect(sourceSizeAdjusterIterator.adjustSourceSize).toBeCalledTimes(3);
+        expect(mockAdjustSourceSize).toBeCalledTimes(2);
     });
-
 });

@@ -21,22 +21,19 @@ class FsLightbox extends Component {
     constructor(props) {
         super(props);
         this.setData();
+        this.setInfo();
         this.setStates();
         this.setElements();
+        this.setCollections();
         this.setCore();
     }
 
     setData() {
-        this.initialized = false;
         this.urls = this.props.urls;
         this.sourcesTypes = [];
         this.isSourceAlreadyLoaded = [];
 
-        this.isMobile = false;
-        this.isFullscreenOpen = false;
-
         // slides
-        this.slide = (this.props.slide) ? this.props.slide : 1;
         this.totalSlides = this.props.urls.length;
 
         // transforms
@@ -52,10 +49,18 @@ class FsLightbox extends Component {
         this.sourceDimensions = [];
     }
 
+    setInfo() {
+        this.info = {
+            isInitialized: false,
+            isFullscreenOpen: false
+        }
+    }
+
     setStates() {
         this.state = {
-            isOpen: this.props.isOpen,
-        };
+            slide: (this.props.slide) ? this.props.slide : 1,
+            isOpen: this.props.isOpen
+        }
     }
 
     setElements() {
@@ -69,53 +74,49 @@ class FsLightbox extends Component {
     }
 
     setCore() {
-        this.closeOpenLightbox = new CloseOpenLightbox(this);
-        this.onResize = new OnResize(this);
-
-        //sources
-        this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(this);
+        this.core = {
+            closeOpenLightbox: new CloseOpenLightbox(this),
+            onResize: new OnResize(this),
+            sourceSizeAdjusterIterator: new SourceSizeAdjusterIterator(this),
+            sourceHoldersTransformer: new SourceHoldersTransformer(this)
+        };
         // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
-        this.sourceSizeAdjusters = [];
-
-        //transform
-        this.sourceHoldersTransformer = new SourceHoldersTransformer(this);
-
-        //stage
         this.stageSources = new StageSources(this);
-
-        //slides
         this.slideChanger = new SlideChanger(this);
-
-        //animations
         this.sourceAnimator = new SourceAnimator(this);
-
-        //toolbar
         this.fullscreenToggler = new FullscreenToggler(this);
+    }
+
+    setCollections() {
+        this.collections = {
+            // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
+            sourceSizeAdjusters: []
+        }
     }
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isOpen !== this.props.isOpen) {
             (this.state.isOpen) ?
-                this.closeOpenLightbox.closeLightbox() :
-                this.closeOpenLightbox.openLightbox();
+                this.core.closeOpenLightbox.closeLightbox() :
+                this.core.closeOpenLightbox.openLightbox();
         }
         if (prevProps.slide !== this.props.slide) {
-            this.slideChanger.changeSlide(this.props.slide);
+            this.slideChanger.changeSlideTo(this.props.slide);
         }
     }
 
     initialize() {
-        this.initialized = true;
-        this.onResize.init();
-        this.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+        this.info.isInitialized = true;
+        this.core.onResize.init();
+        this.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
     }
 
 
     componentDidMount() {
         if (this.props.isOpen) {
             this.initialize();
-            this.closeOpenLightbox.addOpeningClassToDocument();
+            this.core.closeOpenLightbox.addOpeningClassToDocument();
         }
     }
 
@@ -123,7 +124,7 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
         return (
             <div ref={ this.elements.container } className="fslightbox-container">
-                <Nav _={ this }/>
+                <Nav fsLightbox={ this }/>
                 <SlideButtonLeft _={ this }/>
                 <SlideButtonRight _={ this }/>
                 <MediaHolder _={ this }/>

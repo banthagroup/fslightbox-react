@@ -4,7 +4,7 @@ import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 describe('SourceHoldersTransformer', () => {
     const mock = new FsLightboxMock();
     const fsLightboxInstance = mock.getInstance();
-    const sourceHoldersTransformer = fsLightboxInstance.sourceHoldersTransformer;
+    const sourceHoldersTransformer = fsLightboxInstance.core.sourceHoldersTransformer;
     global.window.innerWidth = 1000;
     global.window.innerHeight = 1000;
 
@@ -26,35 +26,35 @@ describe('SourceHoldersTransformer', () => {
 
     describe('transformStageSources', () => {
         beforeEach(() => {
-            fsLightboxInstance.sourceHoldersTransformer.transformNegative = jest.fn();
-            fsLightboxInstance.sourceHoldersTransformer.transformZero = jest.fn();
-            fsLightboxInstance.sourceHoldersTransformer.transformPositive = jest.fn();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformNegative = jest.fn();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformZero = jest.fn();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformPositive = jest.fn();
         });
 
         it('should call all transforms', () => {
-            fsLightboxInstance.slide = 1;
+            fsLightboxInstance.state.slide = 1;
             fsLightboxInstance.totalSlides = 3;
-            fsLightboxInstance.sourceHoldersTransformer.transformStageSources().withoutTimeout();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformNegative).toBeCalledWith(2);
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformZero).toBeCalledWith(0);
+            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).toBeCalledWith(2);
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformZero).toBeCalledWith(0);
         });
 
         it('should call only zero and positive transform', () => {
-            fsLightboxInstance.slide = 2;
+            fsLightboxInstance.state.slide = 2;
             fsLightboxInstance.totalSlides = 2;
-            fsLightboxInstance.sourceHoldersTransformer.transformStageSources().withoutTimeout();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformNegative).not.toBeCalled();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformZero).toBeCalledWith(1);
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformPositive).toBeCalledWith(0);
+            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformZero).toBeCalledWith(1);
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).toBeCalledWith(0);
         });
 
         it('should call only zero transform', () => {
-            fsLightboxInstance.slide = 1;
+            fsLightboxInstance.state.slide = 1;
             fsLightboxInstance.totalSlides = 1;
-            fsLightboxInstance.sourceHoldersTransformer.transformStageSources().withoutTimeout();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformNegative).not.toBeCalled();
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformZero).toBeCalledWith(0);
-            expect(fsLightboxInstance.sourceHoldersTransformer.transformPositive).not.toBeCalled();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformZero).toBeCalledWith(0);
+            expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).not.toBeCalled();
         });
     });
 });

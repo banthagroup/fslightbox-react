@@ -71,7 +71,7 @@ describe('SourceHolder', () => {
             sourceHolderInstance.processReceivedSourceType();
         });
 
-        it('should add true at correct i to FsLightbox sourcesToCreateOnConstruct array', () => {
+        it('should add true at correct _index to FsLightbox sourcesToCreateOnConstruct array', () => {
             expect(fsLightboxInstance.sourcesToCreateOnConstruct[0]).toBeTruthy();
             expect(fsLightboxInstance.elements.sourcesJSXComponents[0]).toBeNull();
         });

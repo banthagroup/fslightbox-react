@@ -1,11 +1,11 @@
 export class StageHoldersTransformer {
-    constructor(_) {
-        this._ = _;
-        this.stageSourcesIndexes = _.stageSources.getAllStageIndexes();
+    /** @param fsLigthbox { FsLightbox } */
+    constructor(fsLigthbox) {
+        this.fsLigthbox = fsLigthbox;
+        this.stageSourcesIndexes = fsLigthbox.stageSources.getAllStageIndexes();
 
         // current source must exist always
-        this._.sourceHoldersTransformer
-            .transformZero(this.stageSourcesIndexes.current);
+        this.fsLigthbox.core.sourceHoldersTransformer.transformZero(this.stageSourcesIndexes.current);
     }
 
     withoutTimeout() {
@@ -14,23 +14,21 @@ export class StageHoldersTransformer {
     }
 
     withTimeout() {
-        this._.isChangingSlide = true;
         setTimeout(() => {
-            this._.isChangingSlide = false;
             this.transformNegative();
             this.transformPositive();
         }, 220);
     }
 
     transformNegative() {
-        if (typeof this.stageSourcesIndexes.previous !== "undefined" && this.stageSourcesIndexes.previous !== this._.slide - 1) {
-            this._.sourceHoldersTransformer.transformNegative(this.stageSourcesIndexes.previous);
+        if (typeof this.stageSourcesIndexes.previous !== "undefined" && this.stageSourcesIndexes.previous !== this.fsLigthbox.state.slide - 1) {
+            this.fsLigthbox.core.sourceHoldersTransformer.transformNegative(this.stageSourcesIndexes.previous);
         }
     }
 
     transformPositive() {
-        if (typeof this.stageSourcesIndexes.next !== "undefined" && this.stageSourcesIndexes.next !== this._.slide - 1) {
-            this._.sourceHoldersTransformer.transformPositive(this.stageSourcesIndexes.next);
+        if (typeof this.stageSourcesIndexes.next !== "undefined" && this.stageSourcesIndexes.next !== this.fsLigthbox.state.slide - 1) {
+            this.fsLigthbox.core.sourceHoldersTransformer.transformPositive(this.stageSourcesIndexes.next);
         }
     }
 }

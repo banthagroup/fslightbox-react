@@ -1,13 +1,7 @@
-export class FullscreenToggler {
-    /**
-     * @param _ { FsLightbox }
-     */
-    constructor(_) {
-        this._ = _;
-    }
-
-    turnOnFullscreen() {
-        this._.isFullscreenOpen = true;
+/** @class */
+export function FullscreenToggler({ info: info }) {
+    this.turnOnFullscreen = () => {
+        info.isFullscreenOpen = true;
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();
@@ -18,10 +12,10 @@ export class FullscreenToggler {
         } else if (documentElement.msRequestFullscreen) {
             documentElement.msRequestFullscreen();
         }
-    }
+    };
 
-    turnOffFullscreen() {
-        this._.isFullscreenOpen = false;
+    this.turnOffFullscreen = () => {
+        info.isFullscreenOpen = false;
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {

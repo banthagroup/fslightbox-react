@@ -8,7 +8,7 @@ export class TransformStageSourcesMock {
             withoutTimeout: jest.fn(),
             withTimeout: jest.fn()
         };
-        _.sourceHoldersTransformer.transformStageSources = () => {
+        _.core.sourceHoldersTransformer.transformStageSources = () => {
             return this.mockObject;
         };
 

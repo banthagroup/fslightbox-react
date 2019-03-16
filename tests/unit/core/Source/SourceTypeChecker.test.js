@@ -16,16 +16,16 @@ describe('SourceTypeChecker', () => {
     describe('getSourceType', () => {
         it('should call checking type with XHR', () => {
             sourceTypeChecker.setUrlToCheck(testImageURL);
-            sourceTypeChecker.setXHR = jest.fn();
+            sourceTypeChecker._setUpXhr = jest.fn();
             sourceTypeChecker.getSourceType();
-            expect(sourceTypeChecker.setXHR).toBeCalled();
+            expect(sourceTypeChecker._setUpXhr).toBeCalled();
         });
 
         it('should detect youtube type and not set up XHR', () => {
             sourceTypeChecker.setUrlToCheck(testYoutubeURL);
-            sourceTypeChecker.setXHR = jest.fn();
+            sourceTypeChecker._setUpXhr = jest.fn();
             sourceTypeChecker.getSourceType();
-            expect(sourceTypeChecker.setXHR).not.toBeCalled();
+            expect(sourceTypeChecker._setUpXhr).not.toBeCalled();
         });
     });
 
@@ -34,28 +34,28 @@ describe('SourceTypeChecker', () => {
         it('should retrieve image type from its path', () => {
             sourceTypeChecker.setUrlToCheck(testImageURL);
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker.sourceType).toEqual(IMAGE_TYPE);
+                expect(sourceTypeChecker._sourceType).toEqual(IMAGE_TYPE);
             });
         });
 
         it('should return youtube type', () => {
             sourceTypeChecker.setUrlToCheck(testYoutubeURL);
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker.sourceType).toEqual(YOUTUBE_TYPE);
+                expect(sourceTypeChecker._sourceType).toEqual(YOUTUBE_TYPE);
             });
         });
 
         it('should return video type', () => {
             sourceTypeChecker.setUrlToCheck(testVideoURL);
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker.sourceType).toEqual(VIDEO_TYPE);
+                expect(sourceTypeChecker._sourceType).toEqual(VIDEO_TYPE);
             });
         });
 
         it('should return invalid type', () => {
             sourceTypeChecker.setUrlToCheck('asdfkasdlfhasdifahsdfasdkf');
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker.sourceType).toEqual(INVALID_TYPE);
+                expect(sourceTypeChecker._sourceType).toEqual(INVALID_TYPE);
             });
         });
     });
@@ -63,20 +63,20 @@ describe('SourceTypeChecker', () => {
 
     describe('Error catching', () => {
         it('should return invalid type when xhr received bad status', () => {
-            sourceTypeChecker.resolve = jest.fn();
-            sourceTypeChecker.xhr = {
+            sourceTypeChecker._resolve = jest.fn();
+            sourceTypeChecker._xhr = {
                 readyState: 2,
                 status: 500,
                 abort: jest.fn()
             };
-            sourceTypeChecker.onRequestStateChange();
-            expect(sourceTypeChecker.sourceType).toEqual(INVALID_TYPE);
+            sourceTypeChecker._onRequestStateChange();
+            expect(sourceTypeChecker._sourceType).toEqual(INVALID_TYPE);
         });
 
         it('should call invalid type when not correct image type found from response', () => {
-            sourceTypeChecker.invalidType = jest.fn();
-            sourceTypeChecker.callCorrectActionsDependingOnSourceType('pdf');
-            expect(sourceTypeChecker.invalidType).toBeCalled();
+            sourceTypeChecker._invalidType = jest.fn();
+            sourceTypeChecker._callCorrectActionsDependingOnSourceType('pdf');
+            expect(sourceTypeChecker._invalidType).toBeCalled();
         });
     });
 

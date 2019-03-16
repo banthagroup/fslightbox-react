@@ -3,11 +3,9 @@ import SourceHolder from "../sources/SourceHolder.jsx";
 import PropTypes from 'prop-types';
 
 class MediaHolder extends Component {
-
     constructor(props) {
         super(props);
     }
-
 
     render() {
         const sourceHolders = [];
@@ -20,7 +18,6 @@ class MediaHolder extends Component {
                 />
             );
         }
-
         return (
             <div ref={ this.props._.elements.mediaHolder } className="fslightbox-media-holder">
                 { sourceHolders }

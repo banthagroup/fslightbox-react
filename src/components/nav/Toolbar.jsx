@@ -12,13 +12,13 @@ class Toolbar extends Component {
     }
 
     fullscreen() {
-        (this.props._.isFullscreenOpen) ?
-            this.props._.fullscreenToggler.turnOffFullscreen():
-            this.props._.fullscreenToggler.turnOnFullscreen();
+        (this.props.fsLightbox.info.isFullscreenOpen) ?
+            this.props.fsLightbox.fullscreenToggler.turnOffFullscreen():
+            this.props.fsLightbox.fullscreenToggler.turnOnFullscreen();
     }
 
     close() {
-        this.props._.closeOpenLightbox.closeLightbox();
+        this.props.fsLightbox.core.closeOpenLightbox.closeLightbox();
     }
 
     render() {
@@ -40,7 +40,7 @@ class Toolbar extends Component {
 }
 
 Toolbar.propTypes = {
-    _: PropTypes.object.isRequired,
+    fsLightbox: PropTypes.object.isRequired,
 };
 
 export default Toolbar;
