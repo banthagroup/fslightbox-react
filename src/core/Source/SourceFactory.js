@@ -22,7 +22,7 @@ export class SourceFactory {
 
     createSourceForIndex(i) {
         this.i = i;
-        switch (this.fsLightbox.sourcesTypes[i]) {
+        switch (this.fsLightbox.sourcesData.sourcesTypes[i]) {
             case IMAGE_TYPE:
                 this.createImageSource();
                 break;
@@ -46,22 +46,18 @@ export class SourceFactory {
         />;
     }
 
-    /** @private */
     createImageSource() {
         SourceComponent = Image;
     }
 
-    /** @private */
     createVideoSource() {
         SourceComponent = Video;
     }
 
-    /** @private */
     createYoutubeSource() {
         SourceComponent = Youtube;
     }
 
-    /** @private */
     createInvalidSource() {
         SourceComponent = Invalid;
     }

@@ -10,10 +10,10 @@ export class StageSources {
         // slide is numbered from 1, so we need to increment array index
         index++;
 
-        if (this.fsLightbox.state.slide === 1 && index === this.fsLightbox.totalSlides)
+        if (this.fsLightbox.state.slide === 1 && index === this.fsLightbox.data.totalSlides)
             return true;
 
-        if (this.fsLightbox.state.slide === this.fsLightbox.totalSlides && index === 1)
+        if (this.fsLightbox.state.slide === this.fsLightbox.data.totalSlides && index === 1)
             return true;
 
         const difference = this.fsLightbox.state.slide - index;
@@ -26,7 +26,7 @@ export class StageSources {
     getPreviousSlideIndex() {
         let previousSlideIndex;
         (this.fsLightbox.state.slide === 1) ?
-            previousSlideIndex = this.fsLightbox.totalSlides - 1 :
+            previousSlideIndex = this.fsLightbox.data.totalSlides - 1 :
             previousSlideIndex = this.fsLightbox.state.slide - 2;
 
         return previousSlideIndex;
@@ -34,7 +34,7 @@ export class StageSources {
 
     getNextSlideIndex() {
         let nextSlideIndex;
-        (this.fsLightbox.state.slide === this.fsLightbox.totalSlides) ?
+        (this.fsLightbox.state.slide === this.fsLightbox.data.totalSlides) ?
             nextSlideIndex = 0 :
             nextSlideIndex = this.fsLightbox.state.slide;
 
@@ -45,10 +45,10 @@ export class StageSources {
         const stageSourcesIndexes = {
             current: this.fsLightbox.state.slide - 1
         };
-        if (this.fsLightbox.totalSlides > 1) {
+        if (this.fsLightbox.data.totalSlides > 1) {
             stageSourcesIndexes['next'] = this.getNextSlideIndex();
         }
-        if (this.fsLightbox.totalSlides > 2) {
+        if (this.fsLightbox.data.totalSlides > 2) {
             stageSourcesIndexes['previous'] = this.getPreviousSlideIndex();
         }
         return stageSourcesIndexes;

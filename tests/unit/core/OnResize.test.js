@@ -20,21 +20,21 @@ describe('Resize event', () => {
     it('should save max sources dimensions', () => {
         global.window.innerWidth = SOURCE_DIMENSIONS_BREAK - 100;
         global.dispatchEvent(new Event('resize'));
-        expect(fsLightboxInstance.maxSourceWidth).toEqual(window.innerWidth);
-        expect(fsLightboxInstance.maxSourceHeight)
+        expect(fsLightboxInstance.sourcesData.maxSourceWidth).toEqual(window.innerWidth);
+        expect(fsLightboxInstance.sourcesData.maxSourceHeight)
             .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE));
 
         global.window.innerWidth = SOURCE_DIMENSIONS_BREAK + 100;
         global.dispatchEvent(new Event('resize'));
-        expect(fsLightboxInstance.maxSourceWidth)
+        expect(fsLightboxInstance.sourcesData.maxSourceWidth)
             .toEqual(window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE));
-        expect(fsLightboxInstance.maxSourceHeight)
+        expect(fsLightboxInstance.sourcesData.maxSourceHeight)
             .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE))
     });
 
     it('should resize source holder', () => {
-        fsLightboxInstance.maxSourceWidth = 100;
-        fsLightboxInstance.maxSourceHeight = 100;
+        fsLightboxInstance.sourcesData.maxSourceWidth = 100;
+        fsLightboxInstance.sourcesData.maxSourceHeight = 100;
         onResize.adjustMediaHolderSize();
         expect(fsLightboxInstance.elements.mediaHolder.current.style.width)
             .toEqual(100 + 'px');

@@ -6,7 +6,7 @@ import { testProps } from "../../schemas/testVariables";
 
 const fsLightbox = new FsLightbox(testProps);
 fsLightbox.slide = 1;
-fsLightbox.totalSlides = 3;
+fsLightbox.data.totalSlides = 3;
 const slideButtonLeft = mount(<SlideButtonLeft
     _={ fsLightbox }
 />)

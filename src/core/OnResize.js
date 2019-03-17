@@ -4,46 +4,48 @@ import {
 } from "../constants/ResponsiveConstants";
 import { checkIfUserIsOnMobileDevice } from "../utils/checkIfUserIsOnMobileDevice";
 
-export class OnResize {
-    /** @param fsLightbox { FsLightbox }*/
-    constructor(fsLightbox) {
-        this.fsLightbox = fsLightbox;
-        this._onResizeMethod = this._onResizeMethod.bind(this);
-    }
-
-    init() {
-        this.fsLightbox.isMobile = checkIfUserIsOnMobileDevice();
-        this._saveMaxSourcesDimensions();
+/**
+ * @param { FsLightbox } FsLightbox
+ * @param { FsLightbox.sourcesData } FsLightbox.sourcesData
+ * @param { FsLightbox.elements } FsLightbox.elements
+ * @param { FsLightbox.core } FsLightbox.core
+ * @param { FsLightbox.data } FsLightbox.data
+ * @class
+ */
+export function OnResize({ sourcesData, elements, core, data }) {
+    this.init = () => {
+        data.isMobile = checkIfUserIsOnMobileDevice();
+        saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
         this.attachListener();
-    }
+    };
 
-    adjustMediaHolderSize() {
-        this.fsLightbox.elements.mediaHolder.current.style.width = this.fsLightbox.maxSourceWidth + 'px';
-        this.fsLightbox.elements.mediaHolder.current.style.height = this.fsLightbox.maxSourceHeight + 'px';
-    }
+    this.adjustMediaHolderSize = () => {
+        elements.mediaHolder.current.style.width = sourcesData.maxSourceWidth + 'px';
+        elements.mediaHolder.current.style.height = sourcesData.maxSourceHeight + 'px';
+    };
 
-    attachListener() {
-        window.addEventListener('resize', this._onResizeMethod);
-    }
+    this.attachListener = () => {
+        window.addEventListener('resize', onResizeMethod);
+    };
 
-    removeListener() {
-        window.removeEventListener('resize', this._onResizeMethod);
-    }
+    this.removeListener = () => {
+        window.removeEventListener('resize', onResizeMethod);
+    };
 
-    _saveMaxSourcesDimensions() {
+    const saveMaxSourcesDimensions = () => {
         (window.innerWidth < SOURCE_DIMENSIONS_BREAK) ?
-            this.fsLightbox.maxSourceWidth = window.innerWidth :
-            this.fsLightbox.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
+            sourcesData.maxSourceWidth = window.innerWidth :
+            sourcesData.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
 
-        this.fsLightbox.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
-    }
+        sourcesData.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
+    };
 
-    _onResizeMethod() {
-        this.fsLightbox.isMobile = checkIfUserIsOnMobileDevice();
-        this._saveMaxSourcesDimensions();
+    const onResizeMethod = () => {
+        data.isMobile = checkIfUserIsOnMobileDevice();
+        saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
-        this.fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes();
-        this.fsLightbox.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+        core.sourceSizeAdjusterIterator.adjustAllSourcesSizes();
+        core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
     }
 }

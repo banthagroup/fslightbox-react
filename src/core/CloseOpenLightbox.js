@@ -1,59 +1,56 @@
 import { CONTAINER_FADE_OUT_TIME } from "../constants/CoreConstants";
-import { SlideChanger } from "./Slide/SlideChanger";
 
-export default class CloseOpenLightbox {
-    /** @param fsLightbox { FsLightbox } */
-    constructor(fsLightbox) {
-        this.fsLightbox = fsLightbox;
-        this.documentClassList = document.documentElement.classList;
-        this.fadingOut = false;
-        this.componentMountedAfterClose = this.componentMountedAfterClose.bind(this);
-    }
+/**
+ * @param fsLightbox { FsLightbox }
+ * @class
+ */
+export function CloseOpenLightbox(fsLightbox) {
+    const documentClassList = document.documentElement.classList;
+    let fadingOut = false;
 
-    openLightbox() {
-        this.fsLightbox.setState({
+    this.openLightbox = () => {
+        fsLightbox.setState({
             isOpen: true,
         }, () => {
-            this.componentMountedAfterOpen();
+            componentMountedAfterOpen();
             this.addOpeningClassToDocument();
         });
-    }
+    };
 
-    addOpeningClassToDocument() {
-        this.documentClassList.add('fslightbox-open');
-    }
+    this.addOpeningClassToDocument = () => {
+        documentClassList.add('fslightbox-open');
+    };
 
-    closeLightbox() {
-        if (this.fadingOut) return;
-        this.fadingOut = true;
-        this.fsLightbox.elements.container.current.classList.add('fslightbox-fade-out-complete');
+    this.closeLightbox = () => {
+        if (fadingOut) return;
+        fadingOut = true;
+        fsLightbox.elements.container.current.classList.add('fslightbox-fade-out-complete');
         setTimeout(() => {
             this.afterFadeOut();
         }, CONTAINER_FADE_OUT_TIME);
-    }
+    };
 
-    componentMountedAfterOpen() {
-        if (!this.fsLightbox.info.isInitialized) {
-            this.fsLightbox.initialize();
-            return;
-        }
-        this.fsLightbox.core.onResize.attachListener();
-        this.fsLightbox.core.onResize.adjustMediaHolderSize();
-        this.fsLightbox.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
-    }
-
-    afterFadeOut() {
-        this.fsLightbox.elements.container.current.classList.remove('fslightbox-fade-out-complete');
-        this.fadingOut = false;
-        this.documentClassList.remove('fslightbox-open');
-        this.fsLightbox.setState({
+    this.afterFadeOut = () => {
+        fsLightbox.elements.container.current.classList.remove('fslightbox-fade-out-complete');
+        fadingOut = false;
+        documentClassList.remove('fslightbox-open');
+        fsLightbox.setState({
             isOpen: false
         });
-        this.componentMountedAfterClose();
-    }
+        componentMountedAfterClose();
+    };
 
-    /** @private */
-    componentMountedAfterClose() {
-        this.fsLightbox.core.onResize.removeListener();
+    const componentMountedAfterOpen = () => {
+        if (!fsLightbox.data.isInitialized) {
+            fsLightbox.initialize();
+            return;
+        }
+        fsLightbox.core.onResize.attachListener();
+        fsLightbox.core.onResize.adjustMediaHolderSize();
+        fsLightbox.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+    };
+
+    const componentMountedAfterClose = () => {
+        fsLightbox.core.onResize.removeListener();
     }
 }

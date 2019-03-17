@@ -8,9 +8,11 @@ class Youtube extends Component {
             <iframe
                 className="fslightbox-single-source fslightbox-fade-in-class"
                 ref={ this.props._.elements.sources[this.props.i] }
-                src={ "https://www.youtube.com/embed/" +
-                getYoutubeVideoIDFromURL(this.props._.urls[this.props.i]) +
-                '?enablejsapi=1' }
+                src={
+                    "https://www.youtube.com/embed/"
+                    + getYoutubeVideoIDFromURL(this.props._.data.urls[this.props.i])
+                    + '?enablejsapi=1'
+                }
                 allowFullScreen={ true }
                 width={ 1920 }
                 height={ 1080 }

@@ -15,7 +15,7 @@ export class ImageMock {
     }
 
     fakeSourceDimensions() {
-        this._.sourceDimensions[0] = testSourceDimensions;
+        this._.sourcesDimensions[0] = testSourceDimensions;
     }
 
     setIndex(index) {

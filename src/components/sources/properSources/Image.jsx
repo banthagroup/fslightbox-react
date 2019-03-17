@@ -9,11 +9,11 @@ class Image extends Component {
     }
 
     imageOnLoad(e) {
-        if (this.props._.isSourceAlreadyLoaded[this.props.i]) {
+        if (this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             return;
         }
 
-        this.props._.sourceDimensions[this.props.i] = {
+        this.props._.sourcesData.sourcesDimensions[this.props.i] = {
             width: e.target.width,
             height: e.target.height
         };
@@ -27,8 +27,8 @@ class Image extends Component {
                     onLoad={ this.imageOnLoad }
                     className={ "fslightbox-single-source" }
                     ref={ this.props._.elements.sources[this.props.i] }
-                    src={ this.props._.urls[this.props.i] }
-                    alt={ this.props._.urls[this.props.i] }
+                    src={ this.props._.data.urls[this.props.i] }
+                    alt={ this.props._.data.urls[this.props.i] }
                 />
             </>
         );

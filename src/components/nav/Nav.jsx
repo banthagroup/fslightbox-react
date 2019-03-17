@@ -10,7 +10,7 @@ class Nav extends Component {
                 <Toolbar fsLightbox={ this.props.fsLightbox }/>
                 <SlideNumber
                     slide={ this.props.fsLightbox.state.slide }
-                    totalSlides={ this.props.fsLightbox.totalSlides }
+                    totalSlides={ this.props.fsLightbox.data.totalSlides }
                 />
             </div>
         );

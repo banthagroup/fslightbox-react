@@ -5,8 +5,8 @@ import FsLightbox from "../../src/FsLightbox";
 import { testUrls, testYoutubeURL } from "../schemas/testVariables";
 import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/EventsConstants";
 import { checkIfUserIsOnMobileDevice } from "../../src/utils/checkIfUserIsOnMobileDevice";
-import { createRefsArrayForNumberOfUrls } from "../../src/utils/Arrays/createRefsArrayForNumberOfUrls";
-import { createNullArrayForNumberOfUrls } from "../../src/utils/Arrays/createNullArrayForNumberOfUrls";
+import { createRefsArrayForNumberOfSlides } from "../../src/utils/Arrays/createRefsArrayForNumberOfSlides";
+import { createNullArrayForNumberOfSlides } from "../../src/utils/Arrays/createNullArrayForNumberOfSlides";
 import { getYoutubeVideoIDFromURL } from "../../src/utils/SourceType/getYoutubeVideoIDFromURL";
 
 
@@ -48,14 +48,14 @@ describe('Helpers Utils', () => {
 
 describe('Array creators helpers', () => {
     it('should create array with React refs for urls', () => {
-        const refsArray = createRefsArrayForNumberOfUrls(testUrls);
+        const refsArray = createRefsArrayForNumberOfSlides(testUrls);
         refsArray.forEach((element) => {
             expect(element).toEqual(React.createRef());
         })
     });
 
     it('should create array with nulls for urls', () => {
-        const nullArray = createNullArrayForNumberOfUrls(testUrls);
+        const nullArray = createNullArrayForNumberOfSlides(testUrls);
         nullArray.forEach((element) => {
             expect(element).toEqual(null);
         })

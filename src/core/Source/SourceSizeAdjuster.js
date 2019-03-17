@@ -13,17 +13,17 @@ export class SourceSizeAdjuster {
 
     setIndex(index) {
         this._i = index;
-        this._sourceWidth = this.fsLightbox.sourceDimensions[index].width;
-        this._sourceHeight = this.fsLightbox.sourceDimensions[index].height;
+        this._sourceWidth = this.fsLightbox.sourcesData.sourcesDimensions[index].width;
+        this._sourceHeight = this.fsLightbox.sourcesData.sourcesDimensions[index].height;
         this._ratio = this._sourceWidth / this._sourceHeight;
     }
 
     adjustSourceSize() {
-        this._newHeight = this.fsLightbox.maxSourceWidth / this._ratio;
+        this._newHeight = this.fsLightbox.sourcesData.maxSourceWidth / this._ratio;
 
         // wider than higher
-        if (this._newHeight < this.fsLightbox.maxSourceHeight) {
-            if (this._sourceWidth < this.fsLightbox.maxSourceWidth) {
+        if (this._newHeight < this.fsLightbox.sourcesData.maxSourceHeight) {
+            if (this._sourceWidth < this.fsLightbox.sourcesData.maxSourceWidth) {
                 this._newHeight = this._sourceHeight;
             }
             this._setDimensions();
@@ -31,8 +31,8 @@ export class SourceSizeAdjuster {
         }
 
         // higher than wider
-        if (this._sourceHeight > this.fsLightbox.maxSourceHeight) {
-            this._newHeight = this.fsLightbox.maxSourceHeight;
+        if (this._sourceHeight > this.fsLightbox.sourcesData.maxSourceHeight) {
+            this._newHeight = this.fsLightbox.sourcesData.maxSourceHeight;
         } else {
             this._newHeight = this._sourceHeight;
         }

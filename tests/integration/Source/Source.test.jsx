@@ -13,7 +13,7 @@ import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/ge
 describe('Source', () => {
     const mock = new FsLightboxMock();
     const fsLightboxInstance = mock.getInstance();
-    fsLightboxInstance.sourceDimensions[0] = testSourceDimensions;
+    fsLightboxInstance.sourcesData.sourcesDimensions[0] = testSourceDimensions;
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
 
     /**
@@ -38,7 +38,7 @@ describe('Source', () => {
 
     it('should set isSourceAlreadyLoaded to true', () => {
         sourceInstance.onFirstSourceLoad();
-        expect(fsLightboxInstance.isSourceAlreadyLoaded[0]).toBeTruthy();
+        expect(fsLightboxInstance.sourcesData.isSourceAlreadyLoadedArray[0]).toBeTruthy();
     });
 
     it('should call onSourceLoad on componentDidMount after source was previously loaded', () => {
@@ -59,7 +59,7 @@ describe('Creating correct sources depending on source type', () => {
 
     describe('Image', () => {
         const source = fsLightbox.find('Source').at(0);
-        fsLightboxInstance.sourcesTypes[0] = IMAGE_TYPE;
+        fsLightboxInstance.sourcesData.sourcesTypes[0] = IMAGE_TYPE;
         /**
          * @type { Source }
          */
@@ -81,7 +81,7 @@ describe('Creating correct sources depending on source type', () => {
 
     describe('Video', () => {
         const source = fsLightbox.find('Source').at(1);
-        fsLightboxInstance.sourcesTypes[1] = VIDEO_TYPE;
+        fsLightboxInstance.sourcesData.sourcesTypes[1] = VIDEO_TYPE;
         /**
          * @type { Source }
          */
@@ -104,7 +104,7 @@ describe('Creating correct sources depending on source type', () => {
 
     describe('YouTube', () => {
         const source = fsLightbox.find('Source').at(2);
-        fsLightboxInstance.sourcesTypes[2] = YOUTUBE_TYPE;
+        fsLightboxInstance.sourcesData.sourcesTypes[2] = YOUTUBE_TYPE;
         /**
          * @type { Source }
          */
@@ -120,7 +120,7 @@ describe('Creating correct sources depending on source type', () => {
             const youtube = fsLightboxInstance.elements.sources[2].current;
             expect(youtube.src).toEqual(
                 "https://www.youtube.com/embed/" +
-                getYoutubeVideoIDFromURL(fsLightboxInstance.urls[2]) +
+                getYoutubeVideoIDFromURL(fsLightboxInstance.data.urls[2]) +
                 '?enablejsapi=1'
             );
             expect(youtube.frameBorder).toEqual("0");
@@ -130,7 +130,7 @@ describe('Creating correct sources depending on source type', () => {
 
     describe('Invalid', () => {
         const source = fsLightbox.find('Source').at(3);
-        fsLightboxInstance.sourcesTypes[3] = INVALID_TYPE;
+        fsLightboxInstance.sourcesData.sourcesTypes[3] = INVALID_TYPE;
         /**
          * @type { Source }
          */

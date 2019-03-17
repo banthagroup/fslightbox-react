@@ -20,7 +20,7 @@ export class FsLightboxMock {
     }
 
     /**
-     * @return {FsLightbox}
+     * @return { FsLightbox }
      */
     getInstance() {
         return this.wrapper.instance();
