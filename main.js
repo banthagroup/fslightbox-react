@@ -43,7 +43,7 @@
         e.exports = n(4)()
     }, function (e, t, n) {
         "use strict";
-        /** @license React v16.7.0
+        /** @license React v16.8.4
          * react.production.min.js
          *
          * Copyright (c) Facebook, Inc. and its affiliates.
@@ -79,49 +79,49 @@
             }, enqueueSetState: function () {
             }
         }, x = {};
-        function _(e, t, n) {
+        function S(e, t, n) {
             this.props = e, this.context = t, this.refs = x, this.updater = n || g
         }
-        function S() {
+        function _() {
         }
         function w(e, t, n) {
             this.props = e, this.context = t, this.refs = x, this.updater = n || g
         }
-        _.prototype.isReactComponent = {}, _.prototype.setState = function (e, t) {
+        S.prototype.isReactComponent = {}, S.prototype.setState = function (e, t) {
             "object" != typeof e && "function" != typeof e && null != e && v("85"), this.updater.enqueueSetState(this, e, t, "setState")
-        }, _.prototype.forceUpdate = function (e) {
+        }, S.prototype.forceUpdate = function (e) {
             this.updater.enqueueForceUpdate(this, e, "forceUpdate")
-        }, S.prototype = _.prototype;
-        var O = w.prototype = new S;
-        O.constructor = w, o(O, _.prototype), O.isPureReactComponent = !0;
-        var j = { current: null, currentDispatcher: null }, k = Object.prototype.hasOwnProperty,
-            L = { key: !0, ref: !0, __self: !0, __source: !0 };
-        function T(e, t, n) {
+        }, _.prototype = S.prototype;
+        var O = w.prototype = new _;
+        O.constructor = w, o(O, S.prototype), O.isPureReactComponent = !0;
+        var j = { current: null }, k = { current: null }, L = Object.prototype.hasOwnProperty,
+            T = { key: !0, ref: !0, __self: !0, __source: !0 };
+        function E(e, t, n) {
             var o = void 0, r = {}, s = null, u = null;
-            if (null != t) for (o in void 0 !== t.ref && (u = t.ref), void 0 !== t.key && (s = "" + t.key), t) k.call(t, o) && !L.hasOwnProperty(o) && (r[o] = t[o]);
+            if (null != t) for (o in void 0 !== t.ref && (u = t.ref), void 0 !== t.key && (s = "" + t.key), t) L.call(t, o) && !T.hasOwnProperty(o) && (r[o] = t[o]);
             var a = arguments.length - 2;
             if (1 === a) r.children = n; else if (1 < a) {
                 for (var c = Array(a), l = 0; l < a; l++) c[l] = arguments[l + 2];
                 r.children = c
             }
             if (e && e.defaultProps) for (o in a = e.defaultProps) void 0 === r[o] && (r[o] = a[o]);
-            return { $$typeof: i, type: e, key: s, ref: u, props: r, _owner: j.current }
+            return { $$typeof: i, type: e, key: s, ref: u, props: r, _owner: k.current }
         }
         function P(e) {
             return "object" == typeof e && null !== e && e.$$typeof === i
         }
-        var E = /\/+/g, C = [];
-        function R(e, t, n, o) {
-            if (C.length) {
-                var r = C.pop();
+        var C = /\/+/g, R = [];
+        function z(e, t, n, o) {
+            if (R.length) {
+                var r = R.pop();
                 return r.result = e, r.keyPrefix = t, r.func = n, r.context = o, r.count = 0, r
             }
             return { result: e, keyPrefix: t, func: n, context: o, count: 0 }
         }
-        function z(e) {
-            e.result = null, e.keyPrefix = null, e.func = null, e.context = null, e.count = 0, 10 > C.length && C.push(e)
+        function I(e) {
+            e.result = null, e.keyPrefix = null, e.func = null, e.context = null, e.count = 0, 10 > R.length && R.push(e)
         }
-        function I(e, t, n) {
+        function M(e, t, n) {
             return null == e ? 0 : function e(t, n, o, r) {
                 var u = typeof t;
                 "undefined" !== u && "boolean" !== u || (t = null);
@@ -138,15 +138,15 @@
                                 a = !0
                         }
                 }
-                if (a) return o(r, t, "" === n ? "." + M(t, 0) : n), 1;
+                if (a) return o(r, t, "" === n ? "." + A(t, 0) : n), 1;
                 if (a = 0, n = "" === n ? "." : n + ":", Array.isArray(t)) for (var c = 0; c < t.length; c++) {
-                    var l = n + M(u = t[c], c);
+                    var l = n + A(u = t[c], c);
                     a += e(u, l, o, r)
-                } else if (l = null === t || "object" != typeof t ? null : "function" == typeof (l = m && t[m] || t["@@iterator"]) ? l : null, "function" == typeof l) for (t = l.call(t), c = 0; !(u = t.next()).done;) a += e(u = u.value, l = n + M(u, c++), o, r); else "object" === u && v("31", "[object Object]" == (o = "" + t) ? "object with keys {" + Object.keys(t).join(", ") + "}" : o, "");
+                } else if (l = null === t || "object" != typeof t ? null : "function" == typeof (l = m && t[m] || t["@@iterator"]) ? l : null, "function" == typeof l) for (t = l.call(t), c = 0; !(u = t.next()).done;) a += e(u = u.value, l = n + A(u, c++), o, r); else "object" === u && v("31", "[object Object]" == (o = "" + t) ? "object with keys {" + Object.keys(t).join(", ") + "}" : o, "");
                 return a
             }(e, "", t, n)
         }
-        function M(e, t) {
+        function A(e, t) {
             return "object" == typeof e && null !== e && null != e.key ? function (e) {
                 var t = { "=": "=0", ":": "=2" };
                 return "$" + ("" + e).replace(/[=:]/g, function (e) {
@@ -154,37 +154,41 @@
                 })
             }(e.key) : t.toString(36)
         }
-        function A(e, t) {
+        function F(e, t) {
             e.func.call(e.context, t, e.count++)
         }
-        function F(e, t, n) {
+        function H(e, t, n) {
             var o = e.result, r = e.keyPrefix;
-            e = e.func.call(e.context, t, e.count++), Array.isArray(e) ? H(e, o, n, function (e) {
+            e = e.func.call(e.context, t, e.count++), Array.isArray(e) ? N(e, o, n, function (e) {
                 return e
             }) : null != e && (P(e) && (e = function (e, t) {
                 return { $$typeof: i, type: e.type, key: t, ref: e.ref, props: e.props, _owner: e._owner }
-            }(e, r + (!e.key || t && t.key === e.key ? "" : ("" + e.key).replace(E, "$&/") + "/") + n)), o.push(e))
+            }(e, r + (!e.key || t && t.key === e.key ? "" : ("" + e.key).replace(C, "$&/") + "/") + n)), o.push(e))
         }
-        function H(e, t, n, o, r) {
+        function N(e, t, n, o, r) {
             var i = "";
-            null != n && (i = ("" + n).replace(E, "$&/") + "/"), I(e, F, t = R(t, i, o, r)), z(t)
+            null != n && (i = ("" + n).replace(C, "$&/") + "/"), M(e, H, t = z(t, i, o, r)), I(t)
         }
-        var N = {
+        function q() {
+            var e = j.current;
+            return null === e && v("307"), e
+        }
+        var D = {
             Children: {
                 map: function (e, t, n) {
                     if (null == e) return e;
                     var o = [];
-                    return H(e, o, null, t, n), o
+                    return N(e, o, null, t, n), o
                 }, forEach: function (e, t, n) {
                     if (null == e) return e;
-                    I(e, A, t = R(null, null, t, n)), z(t)
+                    M(e, F, t = z(null, null, t, n)), I(t)
                 }, count: function (e) {
-                    return I(e, function () {
+                    return M(e, function () {
                         return null
                     }, null)
                 }, toArray: function (e) {
                     var t = [];
-                    return H(e, t, null, function (e) {
+                    return N(e, t, null, function (e) {
                         return e
                     }), t
                 }, only: function (e) {
@@ -194,7 +198,7 @@
             createRef: function () {
                 return { current: null }
             },
-            Component: _,
+            Component: S,
             PureComponent: w,
             createContext: function (e, t) {
                 return void 0 === t && (t = null), (e = {
@@ -216,17 +220,46 @@
             memo: function (e, t) {
                 return { $$typeof: b, type: e, compare: void 0 === t ? null : t }
             },
+            useCallback: function (e, t) {
+                return q().useCallback(e, t)
+            },
+            useContext: function (e, t) {
+                return q().useContext(e, t)
+            },
+            useEffect: function (e, t) {
+                return q().useEffect(e, t)
+            },
+            useImperativeHandle: function (e, t, n) {
+                return q().useImperativeHandle(e, t, n)
+            },
+            useDebugValue: function () {
+            },
+            useLayoutEffect: function (e, t) {
+                return q().useLayoutEffect(e, t)
+            },
+            useMemo: function (e, t) {
+                return q().useMemo(e, t)
+            },
+            useReducer: function (e, t, n) {
+                return q().useReducer(e, t, n)
+            },
+            useRef: function (e) {
+                return q().useRef(e)
+            },
+            useState: function (e) {
+                return q().useState(e)
+            },
             Fragment: u,
             StrictMode: a,
             Suspense: d,
-            createElement: T,
+            createElement: E,
             cloneElement: function (e, t, n) {
                 null == e && v("267", e);
                 var r = void 0, s = o({}, e.props), u = e.key, a = e.ref, c = e._owner;
                 if (null != t) {
-                    void 0 !== t.ref && (a = t.ref, c = j.current), void 0 !== t.key && (u = "" + t.key);
+                    void 0 !== t.ref && (a = t.ref, c = k.current), void 0 !== t.key && (u = "" + t.key);
                     var l = void 0;
-                    for (r in e.type && e.type.defaultProps && (l = e.type.defaultProps), t) k.call(t, r) && !L.hasOwnProperty(r) && (s[r] = void 0 === t[r] && void 0 !== l ? l[r] : t[r])
+                    for (r in e.type && e.type.defaultProps && (l = e.type.defaultProps), t) L.call(t, r) && !T.hasOwnProperty(r) && (s[r] = void 0 === t[r] && void 0 !== l ? l[r] : t[r])
                 }
                 if (1 === (r = arguments.length - 2)) s.children = n; else if (1 < r) {
                     l = Array(r);
@@ -236,16 +269,20 @@
                 return { $$typeof: i, type: e.type, key: u, ref: a, props: s, _owner: c }
             },
             createFactory: function (e) {
-                var t = T.bind(null, e);
+                var t = E.bind(null, e);
                 return t.type = e, t
             },
             isValidElement: P,
-            version: "16.7.0",
+            version: "16.8.4",
             unstable_ConcurrentMode: p,
             unstable_Profiler: c,
-            __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: { ReactCurrentOwner: j, assign: o }
-        }, q = { default: N }, D = q && N || q;
-        e.exports = D.default || D
+            __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: {
+                ReactCurrentDispatcher: j,
+                ReactCurrentOwner: k,
+                assign: o
+            }
+        }, U = { default: D }, B = U && D || U;
+        e.exports = B.default || B
     }, function (e, t, n) {
         "use strict";
         /*
@@ -289,7 +326,9 @@ object-assign
         var o = n(5);
         function r() {
         }
-        e.exports = function () {
+        function i() {
+        }
+        i.resetWarningCache = r, e.exports = function () {
             function e(e, t, n, r, i, s) {
                 if (s !== o) {
                     var u = new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");
@@ -311,15 +350,18 @@ object-assign
                 any: e,
                 arrayOf: t,
                 element: e,
+                elementType: e,
                 instanceOf: t,
                 node: e,
                 objectOf: t,
                 oneOf: t,
                 oneOfType: t,
                 shape: t,
-                exact: t
+                exact: t,
+                checkPropTypes: i,
+                resetWarningCache: r
             };
-            return n.checkPropTypes = r, n.PropTypes = n, n
+            return n.PropTypes = n, n
         }
     }, function (e, t, n) {
         "use strict";
@@ -450,7 +492,7 @@ object-assign
             }
             if (t.singleton) {
                 var s = c++;
-                n = a || (a = y(t)), o = _.bind(null, n, s, !1), r = _.bind(null, n, s, !0)
+                n = a || (a = y(t)), o = S.bind(null, n, s, !1), r = S.bind(null, n, s, !0)
             } else e.sourceMap && "function" == typeof URL && "function" == typeof URL.createObjectURL && "function" == typeof URL.revokeObjectURL && "function" == typeof Blob && "function" == typeof btoa ? (n = function (e) {
                 var t = document.createElement("link");
                 return void 0 === e.attrs.type && (e.attrs.type = "text/css"), e.attrs.rel = "stylesheet", m(t, e.attrs), d(e, t), t
@@ -501,7 +543,7 @@ object-assign
         var g, x = (g = [], function (e, t) {
             return g[e] = t, g.filter(Boolean).join("\n")
         });
-        function _(e, t, n, o) {
+        function S(e, t, n, o) {
             var r = n ? "" : o.css;
             if (e.styleSheet) e.styleSheet.cssText = x(t, r); else {
                 var i = document.createTextNode(r), s = e.childNodes;
@@ -647,32 +689,32 @@ object-assign
                 return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
             })(e)
         }
-        function _(e, t) {
+        function S(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
                 o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o)
             }
         }
-        function S(e) {
-            return (S = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
+        function _(e) {
+            return (_ = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function w(e, t) {
-            return (w = Object.setPrototypeOf || function (e, t) {
-                return e.__proto__ = t, e
-            })(e, t)
-        }
-        function O(e) {
+        function w(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e
+        }
+        function O(e, t) {
+            return (O = Object.setPrototypeOf || function (e, t) {
+                return e.__proto__ = t, e
+            })(e, t)
         }
         var j = function (e) {
             function t(e) {
                 var n, o, r;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), o = this, (n = !(r = S(t).call(this, e)) || "object" !== x(r) && "function" != typeof r ? O(o) : r).close = n.close.bind(O(O(n))), n.fullscreen = n.fullscreen.bind(O(O(n))), n
+                }(this, t), o = this, (n = !(r = _(t).call(this, e)) || "object" !== x(r) && "function" != typeof r ? w(o) : r).close = n.close.bind(w(n)), n.fullscreen = n.fullscreen.bind(w(n)), n
             }
             var n, i, s;
             return function (e, t) {
@@ -683,10 +725,10 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && w(e, t)
+                }), t && O(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "fullscreen", value: function () {
-                    this.props.fsLightbox.info.isFullscreenOpen ? this.props.fsLightbox.fullscreenToggler.turnOffFullscreen() : this.props.fsLightbox.fullscreenToggler.turnOnFullscreen()
+                    this.props.fsLightbox.info.isFullscreenOpen ? this.props.fsLightbox.core.fullscreenToggler.turnOffFullscreen() : this.props.fsLightbox.core.fullscreenToggler.turnOnFullscreen()
                 }
             }, {
                 key: "close", value: function () {
@@ -706,7 +748,7 @@ object-assign
                         d: "M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"
                     }))
                 }
-            }]) && _(n.prototype, i), s && _(n, s), t
+            }]) && S(n.prototype, i), s && S(n, s), t
         }();
         j.propTypes = { fsLightbox: s.a.object.isRequired };
         var k = j;
@@ -723,14 +765,14 @@ object-assign
                 o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o)
             }
         }
-        function P(e, t) {
+        function E(e, t) {
             return !t || "object" !== L(t) && "function" != typeof t ? function (e) {
                 if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return e
             }(e) : t
         }
-        function E(e) {
-            return (E = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
+        function P(e) {
+            return (P = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
@@ -743,7 +785,7 @@ object-assign
             function t() {
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), P(this, E(t).apply(this, arguments))
+                }(this, t), E(this, P(t).apply(this, arguments))
             }
             var n, i, s;
             return function (e, t) {
@@ -828,7 +870,7 @@ object-assign
                 })
             };
             var n = function () {
-                e.sourceAnimator.animateSourceFromSlide(e.state.slide).removeFadeIn(), e.sourceAnimator.animateSourceFromSlide(e.state.slide).fadeOut(), e.sourceAnimator.animateSourceFromSlide(t).removeFadeOut(), e.sourceAnimator.animateSourceFromSlide(t).fadeIn()
+                e.core.sourceAnimator.animateSourceFromSlide(e.state.slide).removeFadeIn(), e.core.sourceAnimator.animateSourceFromSlide(e.state.slide).fadeOut(), e.core.sourceAnimator.animateSourceFromSlide(t).removeFadeOut(), e.core.sourceAnimator.animateSourceFromSlide(t).fadeIn()
             }
         }
         function U(e, t) {
@@ -894,21 +936,21 @@ object-assign
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function Y(e, t) {
-            return (Y = Object.setPrototypeOf || function (e, t) {
-                return e.__proto__ = t, e
-            })(e, t)
-        }
-        function J(e) {
+        function Y(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e
+        }
+        function J(e, t) {
+            return (J = Object.setPrototypeOf || function (e, t) {
+                return e.__proto__ = t, e
+            })(e, t)
         }
         var X = function (e) {
             function t(e) {
                 var n, o, r;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), o = this, (n = !(r = V(t).call(this, e)) || "object" !== $(r) && "function" != typeof r ? J(o) : r).goToPreviousSlide = n.goToPreviousSlide.bind(J(J(n))), n
+                }(this, t), o = this, (n = !(r = V(t).call(this, e)) || "object" !== $(r) && "function" != typeof r ? Y(o) : r).goToPreviousSlide = n.goToPreviousSlide.bind(Y(n)), n
             }
             var n, i, s;
             return function (e, t) {
@@ -919,10 +961,10 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && Y(e, t)
+                }), t && J(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "goToPreviousSlide", value: function () {
-                    this.props._.slideChanger.changeSlideTo(this.props._.stageSources.getPreviousSlideIndex() + 1)
+                    this.props._.core.slideChanger.changeSlideTo(this.props._.core.stageSources.getPreviousSlideIndex() + 1)
                 }
             }, {
                 key: "render", value: function () {
@@ -957,21 +999,21 @@ object-assign
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function ee(e, t) {
-            return (ee = Object.setPrototypeOf || function (e, t) {
-                return e.__proto__ = t, e
-            })(e, t)
-        }
-        function te(e) {
+        function ee(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e
+        }
+        function te(e, t) {
+            return (te = Object.setPrototypeOf || function (e, t) {
+                return e.__proto__ = t, e
+            })(e, t)
         }
         var ne = function (e) {
             function t(e) {
                 var n, o, r;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), o = this, (n = !(r = Q(t).call(this, e)) || "object" !== Z(r) && "function" != typeof r ? te(o) : r).goToNextSlide = n.goToNextSlide.bind(te(te(n))), n
+                }(this, t), o = this, (n = !(r = Q(t).call(this, e)) || "object" !== Z(r) && "function" != typeof r ? ee(o) : r).goToNextSlide = n.goToNextSlide.bind(ee(n)), n
             }
             var n, i, s;
             return function (e, t) {
@@ -982,10 +1024,10 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && ee(e, t)
+                }), t && te(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "goToNextSlide", value: function () {
-                    this.props._.slideChanger.changeSlideTo(this.props._.stageSources.getNextSlideIndex() + 1)
+                    this.props._.core.slideChanger.changeSlideTo(this.props._.core.stageSources.getNextSlideIndex() + 1)
                 }
             }, {
                 key: "render", value: function () {
@@ -1020,21 +1062,21 @@ object-assign
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function ue(e, t) {
-            return (ue = Object.setPrototypeOf || function (e, t) {
-                return e.__proto__ = t, e
-            })(e, t)
-        }
-        function ae(e) {
+        function ue(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e
+        }
+        function ae(e, t) {
+            return (ae = Object.setPrototypeOf || function (e, t) {
+                return e.__proto__ = t, e
+            })(e, t)
         }
         var ce = function (e) {
             function t(e) {
                 var n, o, r;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), o = this, (n = !(r = se(t).call(this, e)) || "object" !== re(r) && "function" != typeof r ? ae(o) : r).onLoadedMetaData = n.onLoadedMetaData.bind(ae(ae(n))), n
+                }(this, t), o = this, (n = !(r = se(t).call(this, e)) || "object" !== re(r) && "function" != typeof r ? ue(o) : r).onLoadedMetaData = n.onLoadedMetaData.bind(ue(n)), n
             }
             var n, i, s;
             return function (e, t) {
@@ -1045,7 +1087,7 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && ue(e, t)
+                }), t && ae(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "onLoadedMetaData", value: function (e) {
                     this.props._.isSourceAlreadyLoaded[this.props.i] || (this.props._.sourceDimensions[this.props.i] = {
@@ -1148,13 +1190,13 @@ object-assign
                 return e
             }(e) : t
         }
-        function _e(e) {
-            return (_e = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
+        function Se(e) {
+            return (Se = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function Se(e, t) {
-            return (Se = Object.setPrototypeOf || function (e, t) {
+        function _e(e, t) {
+            return (_e = Object.setPrototypeOf || function (e, t) {
                 return e.__proto__ = t, e
             })(e, t)
         }
@@ -1162,7 +1204,7 @@ object-assign
             function t() {
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), xe(this, _e(t).apply(this, arguments))
+                }(this, t), xe(this, Se(t).apply(this, arguments))
             }
             var n, i, s;
             return function (e, t) {
@@ -1173,7 +1215,7 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && Se(e, t)
+                }), t && _e(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "render", value: function () {
                     return r.a.createElement("div", {
@@ -1203,21 +1245,21 @@ object-assign
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function Te(e, t) {
-            return (Te = Object.setPrototypeOf || function (e, t) {
-                return e.__proto__ = t, e
-            })(e, t)
-        }
-        function Pe(e) {
+        function Te(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e
         }
-        var Ee = function (e) {
+        function Ee(e, t) {
+            return (Ee = Object.setPrototypeOf || function (e, t) {
+                return e.__proto__ = t, e
+            })(e, t)
+        }
+        var Pe = function (e) {
             function t(e) {
                 var n, o, r;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), o = this, (n = !(r = Le(t).call(this, e)) || "object" !== je(r) && "function" != typeof r ? Pe(o) : r).imageOnLoad = n.imageOnLoad.bind(Pe(Pe(n))), n
+                }(this, t), o = this, (n = !(r = Le(t).call(this, e)) || "object" !== je(r) && "function" != typeof r ? Te(o) : r).imageOnLoad = n.imageOnLoad.bind(Te(n)), n
             }
             var n, i, s;
             return function (e, t) {
@@ -1228,7 +1270,7 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && Te(e, t)
+                }), t && Ee(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "imageOnLoad", value: function (e) {
                     this.props._.isSourceAlreadyLoaded[this.props.i] || (this.props._.sourceDimensions[this.props.i] = {
@@ -1248,8 +1290,8 @@ object-assign
                 }
             }]) && ke(n.prototype, i), s && ke(n, s), t
         }();
-        Ee.propTypes = { _: s.a.object.isRequired, i: s.a.number.isRequired, onFirstSourceLoad: s.a.func.isRequired };
-        var Ce, Re = Ee;
+        Pe.propTypes = { _: s.a.object.isRequired, i: s.a.number.isRequired, onFirstSourceLoad: s.a.func.isRequired };
+        var Ce, Re = Pe;
         function ze(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
@@ -1406,21 +1448,21 @@ object-assign
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function Ve(e, t) {
-            return (Ve = Object.setPrototypeOf || function (e, t) {
-                return e.__proto__ = t, e
-            })(e, t)
-        }
-        function Ye(e) {
+        function Ve(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e
+        }
+        function Ye(e, t) {
+            return (Ye = Object.setPrototypeOf || function (e, t) {
+                return e.__proto__ = t, e
+            })(e, t)
         }
         var Je = function (e) {
             function t(e) {
                 var n, o, r;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), o = this, (n = !(r = We(t).call(this, e)) || "object" !== Be(r) && "function" != typeof r ? Ye(o) : r).callUpdateAfterMount = !1, n.isLoaderVisible = !0, n.props._.sourcesToCreateOnConstruct[n.props.i] && (n.callUpdateAfterMount = !0, n.createSource()), n.onFirstSourceLoad = n.onFirstSourceLoad.bind(Ye(Ye(n))), n
+                }(this, t), o = this, (n = !(r = We(t).call(this, e)) || "object" !== Be(r) && "function" != typeof r ? Ve(o) : r).callUpdateAfterMount = !1, n.isLoaderVisible = !0, n.props._.sourcesToCreateOnConstruct[n.props.i] && (n.callUpdateAfterMount = !0, n.createSource()), n.onFirstSourceLoad = n.onFirstSourceLoad.bind(Ve(n)), n
             }
             var n, i, s;
             return function (e, t) {
@@ -1431,7 +1473,7 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && Ve(e, t)
+                }), t && Ye(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "createSource", value: function () {
                     this.isLoaderVisible = !1;
@@ -1458,7 +1500,7 @@ object-assign
                 }
             }, {
                 key: "fadeInSource", value: function () {
-                    this.props._.stageSources.isSourceInStage(this.props.i) && (this.props.i === this.props._.state.slide - 1 ? this.props._.elements.sources[this.props.i].current.classList.add("fslightbox-fade-in-complete") : this.props._.elements.sources[this.props.i].current.classList.add("fslightbox-fade-in-class"))
+                    this.props._.core.stageSources.isSourceInStage(this.props.i) && (this.props.i === this.props._.state.slide - 1 ? this.props._.elements.sources[this.props.i].current.classList.add("fslightbox-fade-in-complete") : this.props._.elements.sources[this.props.i].current.classList.add("fslightbox-fade-in-class"))
                 }
             }, {
                 key: "render", value: function () {
@@ -1797,17 +1839,17 @@ object-assign
                 }
             }]) && gt(t.prototype, n), o && gt(t, o), e
         }();
-        function _t(e, t) {
+        function St(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
                 o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o)
             }
         }
-        var St = function () {
+        var _t = function () {
             function e(t) {
                 !function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, e), this.fsLigthbox = t, this.stageSourcesIndexes = t.stageSources.getAllStageIndexes(), this.fsLigthbox.core.sourceHoldersTransformer.transformZero(this.stageSourcesIndexes.current)
+                }(this, e), this.fsLigthbox = t, this.stageSourcesIndexes = t.core.stageSources.getAllStageIndexes(), this.fsLigthbox.core.sourceHoldersTransformer.transformZero(this.stageSourcesIndexes.current)
             }
             var t, n, o;
             return t = e, (n = [{
@@ -1829,7 +1871,7 @@ object-assign
                 key: "transformPositive", value: function () {
                     void 0 !== this.stageSourcesIndexes.next && this.stageSourcesIndexes.next !== this.fsLigthbox.state.slide - 1 && this.fsLigthbox.core.sourceHoldersTransformer.transformPositive(this.stageSourcesIndexes.next)
                 }
-            }]) && _t(t.prototype, n), o && _t(t, o), e
+            }]) && St(t.prototype, n), o && St(t, o), e
         }();
         function wt(e, t) {
             for (var n = 0; n < t.length; n++) {
@@ -1846,7 +1888,7 @@ object-assign
             var t, n, o;
             return t = e, (n = [{
                 key: "transformStageSources", value: function () {
-                    return new St(this.fsLigthbox)
+                    return new _t(this.fsLigthbox)
                 }
             }, {
                 key: "transformNegative", value: function (e) {
@@ -1865,25 +1907,25 @@ object-assign
                     return this.fsLigthbox.elements.sourceHolders[e].current.style
                 }
             }]) && wt(t.prototype, n), o && wt(t, o), e
-        }();
-        function jt(e) {
+        }(), jt = "fslightbox-fade-in-class", kt = "fslightbox-fade-out-class", Lt = "fslightbox-fade-in-complete";
+        function Tt(e) {
             var t = this, n = e.elements.sources, o = null;
             this.animateSourceFromSlide = function (e) {
                 return o = e - 1, t
             }, this.fadeOut = function () {
-                r().add("fslightbox-fade-out-class")
+                r().add(kt)
             }, this.fadeIn = function () {
-                r().add("fslightbox-fade-in-class")
+                r().add(jt)
             }, this.removeFadeOut = function () {
-                r().remove("fslightbox-fade-out-class")
+                r().remove(kt)
             }, this.removeFadeIn = function () {
-                r().contains("fslightbox-fade-in-class") ? r().remove("fslightbox-fade-in-class") : r().remove("fslightbox-fade-in-complete")
+                r().contains(jt) ? r().remove(jt) : r().remove(Lt)
             };
             var r = function () {
                 return n[o].current.classList
             }
         }
-        function kt(e) {
+        function Et(e) {
             var t = e.info;
             this.turnOnFullscreen = function () {
                 t.isFullscreenOpen = !0;
@@ -1893,41 +1935,41 @@ object-assign
                 t.isFullscreenOpen = !1, document.exitFullscreen ? document.exitFullscreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.webkitExitFullscreen ? document.webkitExitFullscreen() : document.msExitFullscreen && document.msExitFullscreen()
             }
         }
-        function Lt(e) {
-            return (Lt = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
+        function Pt(e) {
+            return (Pt = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
                 return typeof e
             } : function (e) {
                 return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
             })(e)
         }
-        function Tt(e, t) {
+        function Ct(e, t) {
             for (var n = 0; n < t.length; n++) {
                 var o = t[n];
                 o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o)
             }
         }
-        function Pt(e, t) {
-            return !t || "object" !== Lt(t) && "function" != typeof t ? function (e) {
+        function Rt(e, t) {
+            return !t || "object" !== Pt(t) && "function" != typeof t ? function (e) {
                 if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return e
             }(e) : t
         }
-        function Et(e) {
-            return (Et = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
+        function zt(e) {
+            return (zt = Object.setPrototypeOf ? Object.getPrototypeOf : function (e) {
                 return e.__proto__ || Object.getPrototypeOf(e)
             })(e)
         }
-        function Ct(e, t) {
-            return (Ct = Object.setPrototypeOf || function (e, t) {
+        function It(e, t) {
+            return (It = Object.setPrototypeOf || function (e, t) {
                 return e.__proto__ = t, e
             })(e, t)
         }
-        var Rt = function (e) {
+        var Mt = function (e) {
             function t(e) {
                 var n;
                 return function (e, t) {
                     if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-                }(this, t), (n = Pt(this, Et(t).call(this, e))).setData(), n.setInfo(), n.setStates(), n.setElements(), n.setCollections(), n.setCore(), n
+                }(this, t), (n = Rt(this, zt(t).call(this, e))).setData(), n.setInfo(), n.setStates(), n.setElements(), n.setCollections(), n.setCore(), n
             }
             var n, i, s;
             return function (e, t) {
@@ -1938,37 +1980,41 @@ object-assign
                         writable: !0,
                         configurable: !0
                     }
-                }), t && Ct(e, t)
+                }), t && It(e, t)
             }(t, o["Component"]), n = t, (i = [{
                 key: "setData", value: function () {
                     this.urls = this.props.urls, this.sourcesTypes = [], this.isSourceAlreadyLoaded = [], this.totalSlides = this.props.urls.length, this.slideDistance = this.props.slideDistance ? this.props.slideDistance : 1.3, this.sourcesToCreateOnConstruct = [], this.videosPosters = this.props.videosPosters ? this.props.videosPosters : [], this.maxSourceWidth = 0, this.maxSourceHeight = 0, this.sourceDimensions = []
                 }
             }, {
                 key: "setInfo", value: function () {
-                    this.info = { isInitialized: !1, isFullscreenOpen: !1 }
+                    this.info = { isFullscreenOpen: !1, isInitialized: !1 }
                 }
             }, {
                 key: "setStates", value: function () {
-                    this.state = { slide: this.props.slide ? this.props.slide : 1, isOpen: this.props.isOpen }
+                    this.state = { isOpen: this.props.isOpen, slide: this.props.slide ? this.props.slide : 1 }
                 }
             }, {
                 key: "setElements", value: function () {
                     this.elements = {
                         container: r.a.createRef(),
                         mediaHolder: r.a.createRef(),
+                        sources: bt(this.props.urls),
                         sourceHolders: bt(this.props.urls),
-                        sourcesJSXComponents: yt(this.props.urls),
-                        sources: bt(this.props.urls)
+                        sourcesJSXComponents: yt(this.props.urls)
                     }
                 }
             }, {
                 key: "setCore", value: function () {
                     this.core = {
                         closeOpenLightbox: new B(this),
+                        fullscreenToggler: new Et(this),
                         onResize: new dt(this),
-                        sourceSizeAdjusterIterator: new vt(this),
-                        sourceHoldersTransformer: new Ot(this)
-                    }, this.stageSources = new xt(this), this.slideChanger = new D(this), this.sourceAnimator = new jt(this), this.fullscreenToggler = new kt(this)
+                        slideChanger: new D(this),
+                        stageSources: new xt(this),
+                        sourceAnimator: new Tt(this),
+                        sourceHoldersTransformer: new Ot(this),
+                        sourceSizeAdjusterIterator: new vt(this)
+                    }
                 }
             }, {
                 key: "setCollections", value: function () {
@@ -1976,7 +2022,7 @@ object-assign
                 }
             }, {
                 key: "componentDidUpdate", value: function (e, t, n) {
-                    e.isOpen !== this.props.isOpen && (this.state.isOpen ? this.core.closeOpenLightbox.closeLightbox() : this.core.closeOpenLightbox.openLightbox()), e.slide !== this.props.slide && this.slideChanger.changeSlideTo(this.props.slide)
+                    e.isOpen !== this.props.isOpen && (this.state.isOpen ? this.core.closeOpenLightbox.closeLightbox() : this.core.closeOpenLightbox.openLightbox()), e.slide !== this.props.slide && this.core.slideChanger.changeSlideTo(this.props.slide)
                 }
             }, {
                 key: "initialize", value: function () {
@@ -1993,9 +2039,9 @@ object-assign
                         className: "fslightbox-container"
                     }, r.a.createElement(q, { fsLightbox: this }), r.a.createElement(G, { _: this }), r.a.createElement(oe, { _: this }), r.a.createElement(ft, { _: this })) : null
                 }
-            }]) && Tt(n.prototype, i), s && Tt(n, s), t
+            }]) && Ct(n.prototype, i), s && Ct(n, s), t
         }();
-        Rt.propTypes = {
+        Mt.propTypes = {
             isOpen: s.a.bool.isRequired,
             urls: s.a.array.isRequired,
             onOpen: s.a.func,
@@ -2006,6 +2052,6 @@ object-assign
             slide: s.a.number,
             slideDistance: s.a.number
         };
-        t.default = Rt
+        t.default = Mt
     }])
 });
