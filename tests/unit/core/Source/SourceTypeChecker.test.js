@@ -53,7 +53,7 @@ describe('SourceTypeChecker', () => {
         });
 
         it('should return invalid type', () => {
-            sourceTypeChecker.setUrlToCheck('asdfkasdlfhasdifahsdfasdkf');
+            sourceTypeChecker.setUrlToCheck('asdfkasdlfhasifahsdfasdkf');
             return sourceTypeChecker.getSourceType().then(() => {
                 expect(sourceTypeChecker._sourceType).toEqual(INVALID_TYPE);
             });
