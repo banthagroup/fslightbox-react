@@ -9,7 +9,7 @@ class MediaHolder extends Component {
 
     render() {
         const sourceHolders = [];
-        for (let i = 0; i < this.props._.totalSlides; i++) {
+        for (let i = 0; i < this.props._.data.totalSlides; i++) {
             sourceHolders.push(
                 <SourceHolder
                     key={ i }

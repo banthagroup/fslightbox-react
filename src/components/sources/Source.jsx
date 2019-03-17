@@ -10,7 +10,7 @@ class Source extends Component {
         super(props);
         this.callUpdateAfterMount = false;
         this.isLoaderVisible = true;
-        if (this.props._.sourcesToCreateOnConstruct[this.props.i]) {
+        if (this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
             this.callUpdateAfterMount = true;
             this.createSource();
         }
@@ -38,14 +38,14 @@ class Source extends Component {
             this.sourceWasCreated();
         }
         // if source was already loaded we need to call onSourceLoad after component mount
-        if (this.props._.isSourceAlreadyLoaded[this.props.i]) {
+        if (this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             this.onSourceLoad();
         }
     }
 
 
     onFirstSourceLoad() {
-        this.props._.isSourceAlreadyLoaded[this.props.i] = true;
+        this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
         // we are creating source size adjuster after first load because we need already source dimensions
         const sourceSizeAdjuster = new SourceSizeAdjuster(this.props._);
         sourceSizeAdjuster.setIndex(this.props.i);
@@ -72,7 +72,7 @@ class Source extends Component {
 
 
     render() {
-        const loader = (this.props._.isSourceAlreadyLoaded[this.props.i] ||
+        const loader = (this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i] ||
             !this.isLoaderVisible) ?
             null : <Loader/>;
 

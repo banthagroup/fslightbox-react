@@ -13,13 +13,13 @@ fsLightbox.core.fullscreenToggler.turnOnFullscreen = jest.fn();
 
 
 it('should turn off fullscreen', () => {
-    fsLightbox.info.isFullscreenOpen = true;
+    fsLightbox.data.isFullscreenOpen = true;
     toolbar.instance().fullscreen();
     expect(fsLightbox.core.fullscreenToggler.turnOffFullscreen).toBeCalled();
 });
 
 it('should turn on fullscreen', () => {
-    fsLightbox.info.isFullscreenOpen = false;
+    fsLightbox.data.isFullscreenOpen = false;
     toolbar.instance().fullscreen();
     expect(fsLightbox.core.fullscreenToggler.turnOnFullscreen).toBeCalled();
 });

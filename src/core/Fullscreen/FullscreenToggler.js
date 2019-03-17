@@ -1,7 +1,11 @@
-/** @class */
-export function FullscreenToggler({ info: info }) {
+/**
+ * @param { FsLightbox } FsLightbox
+ * @param { FsLightbox.data } FsLightbox.data
+ * @class
+ */
+export function FullscreenToggler({ data }) {
     this.turnOnFullscreen = () => {
-        info.isFullscreenOpen = true;
+        data.isFullscreenOpen = true;
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();
@@ -15,7 +19,7 @@ export function FullscreenToggler({ info: info }) {
     };
 
     this.turnOffFullscreen = () => {
-        info.isFullscreenOpen = false;
+        data.isFullscreenOpen = false;
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {

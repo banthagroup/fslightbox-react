@@ -9,7 +9,7 @@ class SourceHolder extends Component {
         super(props);
         this.source = React.createRef();
 
-        if (!this.props._.sourcesTypes[this.props.i])
+        if (!this.props._.sourcesData.sourcesTypes[this.props.i])
             this.initRequest();
         // component need to be mounted to call method from child by ref
         this._isMounted = false;
@@ -18,16 +18,16 @@ class SourceHolder extends Component {
 
     initRequest() {
         this.sourceTypeChecker = new SourceTypeChecker();
-        this.sourceTypeChecker.setUrlToCheck(this.props._.urls[this.props.i]);
+        this.sourceTypeChecker.setUrlToCheck(this.props._.data.urls[this.props.i]);
         this.sourceTypeChecker.getSourceType()
             .then(() => this.processReceivedSourceType());
     }
 
     processReceivedSourceType() {
-        this.props._.sourcesTypes[this.props.i] = this.sourceTypeChecker._sourceType;
+        this.props._.sourcesData.sourcesTypes[this.props.i] = this.sourceTypeChecker._sourceType;
         if (this._isMounted) {
             if (this.source.current === null) {
-                this.props._.sourcesToCreateOnConstruct[this.props.i] = true;
+                this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
                 return;
             }
             this.source.current.createSource();

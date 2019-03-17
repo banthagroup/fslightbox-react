@@ -7,7 +7,7 @@ import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 describe('SourceFactory', () => {
     const mock = new FsLightboxMock();
     const fsLightboxInstance = mock.getInstance();
-    fsLightboxInstance.sourcesTypes = [
+    fsLightboxInstance.sourcesData.sourcesTypes = [
         IMAGE_TYPE,
         VIDEO_TYPE,
         YOUTUBE_TYPE,

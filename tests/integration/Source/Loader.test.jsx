@@ -27,7 +27,7 @@ describe('Loader', () => {
     it('should hide loader after source create on construct', () => {
         // source is created on construct so loader should be hidden after component update
         // which is called in componentDidMount
-        fsLightboxInstance.sourcesToCreateOnConstruct[0] = true;
+        fsLightboxInstance.sourcesData.sourcesToCreateOnConstruct[0] = true;
         const mockSource = mount(<Source
             _={ fsLightboxInstance }
             i={ 0 }

@@ -15,12 +15,12 @@ describe('Source Size', () => {
     sourceInstance.sourceWasCreated();
 
     it('should adjust source size initially', () => {
-        fsLightboxInstance.sourceDimensions[0] = {
+        fsLightboxInstance.sourcesData.sourcesDimensions[0] = {
             width: 2000,
             height: 2000
         };
-        fsLightboxInstance.maxSourceWidth = 1500;
-        fsLightboxInstance.maxSourceHeight = 1500;
+        fsLightboxInstance.sourcesData.maxSourceWidth = 1500;
+        fsLightboxInstance.sourcesData.maxSourceHeight = 1500;
 
         sourceInstance.onFirstSourceLoad();
         expect(fsLightboxInstance.elements.sources[0].current.style.width)
@@ -53,7 +53,7 @@ describe('Actions after first source load', () => {
         image.simulate('load', mockedEvent);
 
         it('should add dimensions to array', () => {
-            expect(fsLightboxInstance.sourceDimensions[0]).toEqual({
+            expect(fsLightboxInstance.sourcesData.sourcesDimensions[0]).toEqual({
                 width: 1920,
                 height: 1080
             });
@@ -92,7 +92,7 @@ describe('Actions after first source load', () => {
         sourceInstance.createSourceSizeAdjuster = jest.fn();
         video.simulate('loadedmetadata', mockedEvent);
         it('should add dimensions to array', () => {
-            expect(fsLightboxInstance.sourceDimensions[1]).toEqual({
+            expect(fsLightboxInstance.sourcesData.sourcesDimensions[1]).toEqual({
                 width: 1366,
                 height: 768
             });

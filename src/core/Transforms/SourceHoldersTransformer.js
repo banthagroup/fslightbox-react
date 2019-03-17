@@ -11,7 +11,7 @@ export class SourceHoldersTransformer {
     }
 
     transformNegative(i) {
-        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(' + -this.fsLigthbox.slideDistance * window.innerWidth + 'px,0)';
+        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(' + -this.fsLigthbox.sourcesData.slideDistance * window.innerWidth + 'px,0)';
     }
 
     transformZero(i) {
@@ -19,7 +19,7 @@ export class SourceHoldersTransformer {
     }
 
     transformPositive(i) {
-        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(' + this.fsLigthbox.slideDistance * window.innerWidth + 'px,0)';
+        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(' + this.fsLigthbox.sourcesData.slideDistance * window.innerWidth + 'px,0)';
     }
 
      _getStyleOfSourceHolderByIndex(index) {

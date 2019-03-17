@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const createNullArrayForNumberOfUrls = (urls) => {
+export const createNullArrayForNumberOfSlides = (totalSlides) => {
     const nullArray = [];
-    for (let i = 0; i < urls.length; i++) {
+    for (let i = 0; i < totalSlides; i++) {
         nullArray.push(null);
     }
     return nullArray;

@@ -5,7 +5,7 @@ describe('StageSources', () => {
     const mock = new FsLightboxMock();
     const fsLightboxInstance = mock.getInstance();
     const stageSources = new StageSources(fsLightboxInstance);
-    fsLightboxInstance.totalSlides = 10;
+    fsLightboxInstance.data.totalSlides = 10;
 
     it('should detect that sources in stage when its middle slide', () => {
         fsLightboxInstance.state.slide = 5;
@@ -37,12 +37,12 @@ describe('StageSources', () => {
             fsLightboxInstance.state.slide = 5;
             expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightboxInstance.state.slide - 2);
             fsLightboxInstance.state.slide = 1;
-            expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightboxInstance.totalSlides - 1)
+            expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightboxInstance.data.totalSlides - 1)
         });
 
         it('should return next slide array index', () => {
             expect(stageSources.getNextSlideIndex()).toEqual(fsLightboxInstance.state.slide);
-            fsLightboxInstance.state.slide = fsLightboxInstance.totalSlides;
+            fsLightboxInstance.state.slide = fsLightboxInstance.data.totalSlides;
             expect(stageSources.getNextSlideIndex()).toEqual(0);
         });
 
@@ -56,12 +56,12 @@ describe('StageSources', () => {
 
             fsLightboxInstance.state.slide = 1;
             expect(stageSources.getAllStageIndexes()).toEqual({
-                previous: fsLightboxInstance.totalSlides - 1,
+                previous: fsLightboxInstance.data.totalSlides - 1,
                 current: fsLightboxInstance.state.slide - 1,
                 next: fsLightboxInstance.state.slide
             });
 
-            fsLightboxInstance.state.slide = fsLightboxInstance.totalSlides;
+            fsLightboxInstance.state.slide = fsLightboxInstance.data.totalSlides;
             expect(stageSources.getAllStageIndexes()).toEqual({
                 previous: fsLightboxInstance.state.slide - 2,
                 current: fsLightboxInstance.state.slide - 1,
@@ -71,7 +71,7 @@ describe('StageSources', () => {
 
 
         it('should return only 2 indexes from getAllStageIndexes due to only 2 slides', () => {
-            fsLightboxInstance.totalSlides = 2;
+            fsLightboxInstance.data.totalSlides = 2;
             fsLightboxInstance.state.slide = 2;
             expect(stageSources.getAllStageIndexes()).toEqual({
                 current: 1,
@@ -80,7 +80,7 @@ describe('StageSources', () => {
         });
 
         it('should return only 1 index from getAllStageIndexes due to only 1 slide', () => {
-            fsLightboxInstance.totalSlides = 1;
+            fsLightboxInstance.data.totalSlides = 1;
             fsLightboxInstance.state.slide = 1;
             expect(stageSources.getAllStageIndexes()).toEqual({
                 current: 0,
