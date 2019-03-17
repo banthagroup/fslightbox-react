@@ -1,15 +1,31 @@
 import { CONTAINER_FADE_OUT_TIME } from "../constants/CoreConstants";
+import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../constants/CssConstants";
 
 /**
- * @param fsLightbox { FsLightbox }
+ * @param { FsLightbox } fsLightbox
+ * @param { FsLightbox.setters } fsLightbox.setters
+ * @param { { current } } container
+ * @param { OnResize } onResize
+ * @param { SourceHoldersTransformer } sourceHoldersTransformer
+ * @param { FsLightbox.data } data
+ * @param { Function } setState
+ * @param { FsLightbox.initialize } initialize
  * @class
  */
-export function CloseOpenLightbox(fsLightbox) {
+export function CloseOpenLightbox(
+    {
+        elements: { container },
+        core: { onResize, sourceHoldersTransformer },
+        data,
+        setters: { setState },
+        getters: { initialize },
+    }
+) {
     const documentClassList = document.documentElement.classList;
     let fadingOut = false;
 
     this.openLightbox = () => {
-        fsLightbox.setState({
+        setState({
             isOpen: true,
         }, () => {
             componentMountedAfterOpen();
@@ -18,39 +34,39 @@ export function CloseOpenLightbox(fsLightbox) {
     };
 
     this.addOpeningClassToDocument = () => {
-        documentClassList.add('fslightbox-open');
+        documentClassList.add(FSLIGHTBOX_OPEN_CLASS_NAME);
     };
 
     this.closeLightbox = () => {
         if (fadingOut) return;
         fadingOut = true;
-        fsLightbox.elements.container.current.classList.add('fslightbox-fade-out-complete');
+        container.current.classList.add(FADE_OUT_COMPLETE_CLASS_NAME);
         setTimeout(() => {
             this.afterFadeOut();
         }, CONTAINER_FADE_OUT_TIME);
     };
 
     this.afterFadeOut = () => {
-        fsLightbox.elements.container.current.classList.remove('fslightbox-fade-out-complete');
+        container.current.classList.remove(FADE_OUT_COMPLETE_CLASS_NAME);
         fadingOut = false;
-        documentClassList.remove('fslightbox-open');
-        fsLightbox.setState({
+        documentClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME);
+        setState({
             isOpen: false
         });
         componentMountedAfterClose();
     };
 
     const componentMountedAfterOpen = () => {
-        if (!fsLightbox.data.isInitialized) {
-            fsLightbox.initialize();
+        if (!data.isInitialized) {
+            initialize();
             return;
         }
-        fsLightbox.core.onResize.attachListener();
-        fsLightbox.core.onResize.adjustMediaHolderSize();
-        fsLightbox.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+        onResize.attachListener();
+        onResize.adjustMediaHolderSize();
+        sourceHoldersTransformer.transformStageSources().withoutTimeout();
     };
 
     const componentMountedAfterClose = () => {
-        fsLightbox.core.onResize.removeListener();
+        onResize.removeListener();
     }
 }

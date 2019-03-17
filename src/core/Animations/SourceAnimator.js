@@ -1,12 +1,11 @@
-/** @class */
 import {
     FADE_IN_CLASS_NAME,
-    FADE_IN_COMPLETE_CLASS,
+    FADE_IN_COMPLETE_CLASS_NAME,
     FADE_OUT_CLASS_NAME
 } from "../../constants/CssConstants";
 
 /**
- * @param FsLightbox { FsLightbox }
+ * @param { FsLightbox.elements.sources } sources
  * @class
  */
 export function SourceAnimator({ elements: { sources: sources } }) {
@@ -36,7 +35,7 @@ export function SourceAnimator({ elements: { sources: sources } }) {
     this.removeFadeIn = () => {
         (getCurrentSourceClassList().contains(FADE_IN_CLASS_NAME)) ?
             getCurrentSourceClassList().remove(FADE_IN_CLASS_NAME) :
-            getCurrentSourceClassList().remove(FADE_IN_COMPLETE_CLASS);
+            getCurrentSourceClassList().remove(FADE_IN_COMPLETE_CLASS_NAME);
     };
 
     const getCurrentSourceClassList = () => {
