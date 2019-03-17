@@ -2,7 +2,7 @@ export class StageHoldersTransformer {
     /** @param fsLigthbox { FsLightbox } */
     constructor(fsLigthbox) {
         this.fsLigthbox = fsLigthbox;
-        this.stageSourcesIndexes = fsLigthbox.stageSources.getAllStageIndexes();
+        this.stageSourcesIndexes = fsLigthbox.core.stageSources.getAllStageIndexes();
 
         // current source must exist always
         this.fsLigthbox.core.sourceHoldersTransformer.transformZero(this.stageSourcesIndexes.current);

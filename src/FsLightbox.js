@@ -51,15 +51,15 @@ class FsLightbox extends Component {
 
     setInfo() {
         this.info = {
-            isInitialized: false,
-            isFullscreenOpen: false
+            isFullscreenOpen: false,
+            isInitialized: false
         }
     }
 
     setStates() {
         this.state = {
-            slide: (this.props.slide) ? this.props.slide : 1,
-            isOpen: this.props.isOpen
+            isOpen: this.props.isOpen,
+            slide: (this.props.slide) ? this.props.slide : 1
         }
     }
 
@@ -67,24 +67,23 @@ class FsLightbox extends Component {
         this.elements = {
             container: React.createRef(),
             mediaHolder: React.createRef(),
+            sources: createRefsArrayForNumberOfUrls(this.props.urls),
             sourceHolders: createRefsArrayForNumberOfUrls(this.props.urls),
             sourcesJSXComponents: createNullArrayForNumberOfUrls(this.props.urls),
-            sources: createRefsArrayForNumberOfUrls(this.props.urls),
         };
     }
 
     setCore() {
         this.core = {
             closeOpenLightbox: new CloseOpenLightbox(this),
+            fullscreenToggler: new FullscreenToggler(this),
             onResize: new OnResize(this),
-            sourceSizeAdjusterIterator: new SourceSizeAdjusterIterator(this),
-            sourceHoldersTransformer: new SourceHoldersTransformer(this)
+            slideChanger: new SlideChanger(this),
+            stageSources: new StageSources(this),
+            sourceAnimator: new SourceAnimator(this),
+            sourceHoldersTransformer: new SourceHoldersTransformer(this),
+            sourceSizeAdjusterIterator: new SourceSizeAdjusterIterator(this)
         };
-        // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
-        this.stageSources = new StageSources(this);
-        this.slideChanger = new SlideChanger(this);
-        this.sourceAnimator = new SourceAnimator(this);
-        this.fullscreenToggler = new FullscreenToggler(this);
     }
 
     setCollections() {
@@ -102,7 +101,7 @@ class FsLightbox extends Component {
                 this.core.closeOpenLightbox.openLightbox();
         }
         if (prevProps.slide !== this.props.slide) {
-            this.slideChanger.changeSlideTo(this.props.slide);
+            this.core.slideChanger.changeSlideTo(this.props.slide);
         }
     }
 

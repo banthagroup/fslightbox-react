@@ -16,9 +16,9 @@ export function SlideChanger(fsLightbox) {
     };
 
     const animate = () => {
-        fsLightbox.sourceAnimator.animateSourceFromSlide(fsLightbox.state.slide).removeFadeIn();
-        fsLightbox.sourceAnimator.animateSourceFromSlide(fsLightbox.state.slide).fadeOut();
-        fsLightbox.sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
-        fsLightbox.sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
+        fsLightbox.core.sourceAnimator.animateSourceFromSlide(fsLightbox.state.slide).removeFadeIn();
+        fsLightbox.core.sourceAnimator.animateSourceFromSlide(fsLightbox.state.slide).fadeOut();
+        fsLightbox.core.sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
+        fsLightbox.core.sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
     }
 }

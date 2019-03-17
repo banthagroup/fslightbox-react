@@ -10,8 +10,8 @@ class SlideButtonLeft extends Component {
     }
 
     goToPreviousSlide() {
-        this.props._.slideChanger.changeSlideTo(
-            this.props._.stageSources.getPreviousSlideIndex() + 1
+        this.props._.core.slideChanger.changeSlideTo(
+            this.props._.core.stageSources.getPreviousSlideIndex() + 1
         );
     }
 

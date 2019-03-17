@@ -5,6 +5,10 @@ import {
     FADE_OUT_CLASS_NAME
 } from "../../constants/CssConstants";
 
+/**
+ * @param FsLightbox { FsLightbox }
+ * @class
+ */
 export function SourceAnimator({ elements: { sources: sources } }) {
     let i = null;
 

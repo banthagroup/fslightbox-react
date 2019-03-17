@@ -13,8 +13,8 @@ class Toolbar extends Component {
 
     fullscreen() {
         (this.props.fsLightbox.info.isFullscreenOpen) ?
-            this.props.fsLightbox.fullscreenToggler.turnOffFullscreen():
-            this.props.fsLightbox.fullscreenToggler.turnOnFullscreen();
+            this.props.fsLightbox.core.fullscreenToggler.turnOffFullscreen():
+            this.props.fsLightbox.core.fullscreenToggler.turnOnFullscreen();
     }
 
     close() {

@@ -19,7 +19,7 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "verbose": true,
+    "verbose": false,
     "moduleNameMapper": {
       "\\.(css|less|sass|scss|jpg|jpeg)$": "<rootDir>/tests/__mocks__/styleMock.js",
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"

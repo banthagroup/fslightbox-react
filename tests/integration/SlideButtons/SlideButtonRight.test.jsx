@@ -10,9 +10,9 @@ fsLightbox.totalSlides = 3;
 const slideButtonRight = mount(<SlideButtonRight
     _={ fsLightbox }
 />)
-fsLightbox.slideChanger.changeSlideTo = jest.fn();
+fsLightbox.core.slideChanger.changeSlideTo = jest.fn();
 
 it('should call changeSlide with previous slide number', () => {
     slideButtonRight.instance().goToNextSlide();
-    expect(fsLightbox.slideChanger.changeSlideTo).toBeCalledWith(2);
+    expect(fsLightbox.core.slideChanger.changeSlideTo).toBeCalledWith(2);
 });

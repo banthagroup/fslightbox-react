@@ -9,8 +9,8 @@ class SlideButtonRight extends Component {
     }
 
     goToNextSlide() {
-        this.props._.slideChanger.changeSlideTo(
-            this.props._.stageSources.getNextSlideIndex() + 1
+        this.props._.core.slideChanger.changeSlideTo(
+            this.props._.core.stageSources.getNextSlideIndex() + 1
         );
     }
 
