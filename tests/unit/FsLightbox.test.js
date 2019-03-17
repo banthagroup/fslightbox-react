@@ -29,11 +29,11 @@ describe('FsLightbox props', () => {
     const fsLightboxInstance = fsLightbox.instance();
 
     it('should call changeSlide on changeSlideProp', () => {
-        fsLightboxInstance.slideChanger.changeSlideTo = jest.fn();
+        fsLightboxInstance.core.slideChanger.changeSlideTo = jest.fn();
         expect(fsLightboxInstance.state.slide).toEqual(1);
         fsLightbox.setProps({
             slide: 2
         });
-        expect(fsLightboxInstance.slideChanger.changeSlideTo).toBeCalled();
+        expect(fsLightboxInstance.core.slideChanger.changeSlideTo).toBeCalled();
     });
 });

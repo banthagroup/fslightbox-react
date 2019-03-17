@@ -61,7 +61,7 @@ class Source extends Component {
 
     fadeInSource() {
         // we are fading in source only if it's in stage
-        if (!this.props._.stageSources.isSourceInStage(this.props.i))
+        if (!this.props._.core.stageSources.isSourceInStage(this.props.i))
             return;
 
         // we will add longer fade-in for better UX

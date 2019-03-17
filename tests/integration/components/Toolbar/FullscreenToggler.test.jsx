@@ -8,18 +8,18 @@ const fsLightbox = new FsLightbox(testProps);
 const toolbar = mount(<Toolbar
     fsLightbox={ fsLightbox }
 />);
-fsLightbox.fullscreenToggler.turnOffFullscreen = jest.fn();
-fsLightbox.fullscreenToggler.turnOnFullscreen = jest.fn();
+fsLightbox.core.fullscreenToggler.turnOffFullscreen = jest.fn();
+fsLightbox.core.fullscreenToggler.turnOnFullscreen = jest.fn();
 
 
 it('should turn off fullscreen', () => {
     fsLightbox.info.isFullscreenOpen = true;
     toolbar.instance().fullscreen();
-    expect(fsLightbox.fullscreenToggler.turnOffFullscreen).toBeCalled();
+    expect(fsLightbox.core.fullscreenToggler.turnOffFullscreen).toBeCalled();
 });
 
 it('should turn on fullscreen', () => {
     fsLightbox.info.isFullscreenOpen = false;
     toolbar.instance().fullscreen();
-    expect(fsLightbox.fullscreenToggler.turnOnFullscreen).toBeCalled();
+    expect(fsLightbox.core.fullscreenToggler.turnOnFullscreen).toBeCalled();
 });
