@@ -15,20 +15,23 @@ import { SlideChanger } from "./core/Slide/SlideChanger";
 import { SourceAnimator } from "./core/Animations/SourceAnimator";
 import { FullscreenToggler } from "./core/Fullscreen/FullscreenToggler";
 import { CloseOpenLightbox } from "./core/CloseOpenLightbox";
+import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
 
 class FsLightbox extends Component {
 
     constructor(props) {
         super(props);
-        this.setData();
-        this.setSourcesData();
-        this.setStates();
-        this.setElements();
-        this.setCollections();
-        this.setCore();
+        this.setUpData();
+        this.setUpSourcesData();
+        this.setUpStates();
+        this.setUpGetters();
+        this.setUpSetters();
+        this.setUpElements();
+        this.setUpCollections();
+        this.setUpCore();
     }
 
-    setData() {
+    setUpData() {
         /**
          * @type {{urls: Array, totalSlides: number, isInitialized: boolean, isFullscreenOpen: boolean, isMobile: boolean}}
          */
@@ -37,11 +40,11 @@ class FsLightbox extends Component {
             totalSlides: this.props.urls.length,
             isFullscreenOpen: false,
             isInitialized: false,
-            isMobile: false
+            isMobile: checkIfUserIsOnMobileDevice()
         }
     }
 
-    setSourcesData() {
+    setUpSourcesData() {
         /**
          * @type {{slideDistance: *, sourcesTypes: Array, maxSourceHeight: number, videosPosters: Array, maxSourceWidth: number, sourcesToCreateOnConstruct: Array, isSourceAlreadyLoadedArray: Array, sourcesDimensions: Array}}
          */
@@ -58,20 +61,43 @@ class FsLightbox extends Component {
         };
     }
 
-    setStates() {
+    setUpStates() {
         /**
-         * @type {{isOpen: Boolean, slide: *}}
+         * @type {{isOpen: Boolean, slide: Number}}
          */
         this.state = {
             isOpen: this.props.isOpen,
-            slide: (this.props.slide) ? this.props.slide : 1
+            slide: (this.props.slide) ? this.props.slide : 1,
+        };
+    }
+
+    setUpGetters() {
+        /**
+         * @type {{initialize: (function(): void), getSlide: (function(): *)}}
+         */
+        this.getters = {
+            initialize: () => this.initialize(),
+            getSlide: () => this.state.slide
+        };
+    }
+
+    setUpSetters() {
+        /**
+         * @type {{setState: (function(*=, *=): void), sourcesData: {setMaxSourceHeight: FsLightbox.setters.sourcesData.setMaxSourceHeight, setMaxSourceWidth: FsLightbox.setters.sourcesData.setMaxSourceWidth}}}
+         */
+        this.setters = {
+            setState: (value, callback) => this.setState(value, callback),
+
+            sourcesData: {
+                setMaxSourceWidth: (maxSourceWidth) => this.sourcesData.maxSourceWidth = maxSourceWidth,
+                setMaxSourceHeight: (maxSourceHeight) => this.sourcesData.maxSourceHeight = maxSourceHeight
+            }
         }
     }
 
-    setElements() {
-        /**
-         * @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}
-         */
+
+    setUpElements() {
+        /** @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}*/
         this.elements = {
             container: React.createRef(),
             mediaHolder: React.createRef(),
@@ -81,25 +107,27 @@ class FsLightbox extends Component {
         };
     }
 
-    setCore() {
+    setUpCore() {
         /**
          * @type {{onResize: OnResize, sourceHoldersTransformer: SourceHoldersTransformer, sourceAnimator: SourceAnimator, sourceSizeAdjusterIterator: SourceSizeAdjusterIterator, closeOpenLightbox: CloseOpenLightbox, stageSources: StageSources, fullscreenToggler: FullscreenToggler, slideChanger: SlideChanger}}
          */
         this.core = {
-            closeOpenLightbox: new CloseOpenLightbox(this),
+            closeOpenLightbox: {},
             fullscreenToggler: new FullscreenToggler(this),
             onResize: {},
-            slideChanger: new SlideChanger(this),
+            slideChanger: {},
             stageSources: new StageSources(this),
             sourceAnimator: new SourceAnimator(this),
             sourceHoldersTransformer: new SourceHoldersTransformer(this),
             sourceSizeAdjusterIterator: new SourceSizeAdjusterIterator(this)
         };
 
+        this.core.slideChanger = new SlideChanger(this);
         this.core.onResize = new OnResize(this);
+        this.core.closeOpenLightbox = new CloseOpenLightbox(this);
     }
 
-    setCollections() {
+    setUpCollections() {
         /**
          * @type {{sourceSizeAdjusters: Array}}
          */

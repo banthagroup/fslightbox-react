@@ -1,24 +1,33 @@
 /**
+ * @param { SourceAnimator }sourceAnimator
+ * @param { SourceHoldersTransformer } sourceHoldersTransformer
+ * @param { FsLightbox.getters.state.getSlide } getSlide
+ * @param { FsLightbox.setters.setState } setState
  * @class
- * @param fsLightbox { FsLightbox }
  */
-export function SlideChanger(fsLightbox) {
+export function SlideChanger(
+    {
+        core: { sourceAnimator, sourceHoldersTransformer },
+        getters: { getSlide } ,
+        setters: { setState },
+    }
+) {
     let newSlideNumber;
 
     this.changeSlideTo = (newSlide) => {
         newSlideNumber = newSlide;
         animate();
-        fsLightbox.setState({
+        setState({
             slide: newSlideNumber
         }, () => {
-            fsLightbox.core.sourceHoldersTransformer.transformStageSources().withTimeout();
+            sourceHoldersTransformer.transformStageSources().withTimeout();
         });
     };
 
     const animate = () => {
-        fsLightbox.core.sourceAnimator.animateSourceFromSlide(fsLightbox.state.slide).removeFadeIn();
-        fsLightbox.core.sourceAnimator.animateSourceFromSlide(fsLightbox.state.slide).fadeOut();
-        fsLightbox.core.sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
-        fsLightbox.core.sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
+        sourceAnimator.animateSourceFromSlide(getSlide()).removeFadeIn();
+        sourceAnimator.animateSourceFromSlide(getSlide()).fadeOut();
+        sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
+        sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
     }
 }

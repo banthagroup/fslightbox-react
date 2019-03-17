@@ -9,8 +9,10 @@ import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSo
 
 describe('Resize event', () => {
     const mock = new FsLightboxMock();
-    const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
+    /**
+     * @var { OnResize } onResize
+     */
     let onResize;
 
     beforeEach(() => {
@@ -43,36 +45,55 @@ describe('Resize event', () => {
     });
 
 
-    it('should add and remove resize event listner', () => {
-        const onResize = new OnResize(fsLightbox.instance());
-        onResize._onResizeMethod = jest.fn();
+    it('should add and remove resize event listener', () => {
+        onResize.adjustMediaHolderSize = jest.fn();
         onResize.init();
-        expect(onResize._onResizeMethod).not.toBeCalled();
+        expect(onResize.adjustMediaHolderSize).toBeCalledTimes(1);
         global.dispatchEvent(new Event('resize'));
-        expect(onResize._onResizeMethod).toBeCalledTimes(1);
+        expect(onResize.adjustMediaHolderSize).toBeCalledTimes(2);
         onResize.removeListener();
         global.dispatchEvent(new Event('resize'));
-        expect(onResize._onResizeMethod).toBeCalledTimes(1);
+        expect(onResize.adjustMediaHolderSize).toBeCalledTimes(2);
     });
 
     describe('onResizeMethod', () => {
         const onResize = new OnResize(fsLightboxInstance);
-        onResize._saveMaxSourcesDimensions = jest.fn();
         onResize.adjustMediaHolderSize = jest.fn();
         fsLightboxInstance.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
         const transformStageSourcesMock = new TransformStageSourcesMock(fsLightboxInstance);
-        onResize._onResizeMethod();
+        onResize.attachListener();
 
-        it('should call saveMaxSourcesDimensions', () => {
-            expect(onResize._saveMaxSourcesDimensions).toBeCalled();
+        it(`should set maxSourceWidth to window.innerWidth 
+            due to window.innerWidth is less than SOURCE_DIMENSION_BREAK`, () => {
+            global.window.innerWidth = SOURCE_DIMENSIONS_BREAK - 50;
+            global.dispatchEvent(new Event('resize'));
+            expect(fsLightboxInstance.sourcesData.maxSourceWidth).toEqual(SOURCE_DIMENSIONS_BREAK - 50);
         });
+
+        it(`should set maxSourceWidth to window.innerWidth decreased by SOURCE_DIMENSIONS_DECREASE_VALUE 
+            due to window.innerWidth is more than SOURCE_DIMENSION_BREAK`, () => {
+            global.window.innerWidth = SOURCE_DIMENSIONS_BREAK + 50;
+            global.dispatchEvent(new Event('resize'));
+            expect(fsLightboxInstance.sourcesData.maxSourceWidth)
+                .toEqual(global.window.innerWidth - (global.window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE));
+        });
+
+        it('should set maxSourceHeight to window.innerHeight decreased by SOURCE_DIMENSIONS_DECREASE_VALUE', () => {
+            global.dispatchEvent(new Event('resize'));
+            expect(fsLightboxInstance.sourcesData.maxSourceHeight)
+                .toEqual(global.window.innerHeight - (global.window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE));
+        });
+
         it('should call adjustMediaHolderSize', () => {
+            global.dispatchEvent(new Event('resize'));
             expect(onResize.adjustMediaHolderSize).toBeCalled();
         });
         it('should call adjustAllSourcesSize', () => {
+            global.dispatchEvent(new Event('resize'));
             expect(fsLightboxInstance.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
         });
         it('should call transformStageSources without setTimeouts', () => {
+            global.dispatchEvent(new Event('resize'));
             expect(transformStageSourcesMock.withoutTimeout).toBeCalled();
         });
     });
