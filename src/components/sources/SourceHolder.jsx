@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import SourceTypeChecker from "../../core/Source/SourceTypeChecker";
 
 class SourceHolder extends Component {
-
     constructor(props) {
         super(props);
         this.source = React.createRef();
@@ -24,7 +23,7 @@ class SourceHolder extends Component {
     }
 
     processReceivedSourceType() {
-        this.props._.sourcesData.sourcesTypes[this.props.i] = this.sourceTypeChecker._sourceType;
+        this.props._.sourcesData.sourcesTypes[this.props.i] = this.sourceTypeChecker.sourceType;
         if (this._isMounted) {
             if (this.source.current === null) {
                 this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;

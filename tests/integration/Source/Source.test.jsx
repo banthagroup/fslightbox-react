@@ -4,14 +4,14 @@ import { testSourceDimensions, testUrls } from "../../schemas/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
 import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutubeVideoIDFromURL";
 import Image from "../../../src/components/sources/properSources/Image";
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import Video from "../../../src/components/sources/properSources/Video";
 import Source from "../../../src/components/sources/Source";
 import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 
 
 describe('Source', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
     fsLightboxInstance.sourcesData.sourcesDimensions[0] = testSourceDimensions;
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
@@ -52,7 +52,7 @@ describe('Source', () => {
 
 
 describe('Creating correct sources depending on source type', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
@@ -81,10 +81,10 @@ describe('Creating correct sources depending on source type', () => {
 
     describe('Video', () => {
         const source = fsLightbox.find('Source').at(1);
+        fsLightboxInstance.sourcesData.videosPosters[1] = "http://example.com/example.jpg";
         fsLightboxInstance.sourcesData.sourcesTypes[1] = VIDEO_TYPE;
-        /**
-         * @type { Source }
-         */
+
+        /** @type { Source }*/
         const sourceInstance = source.instance();
         sourceInstance.createSource();
 
@@ -95,6 +95,7 @@ describe('Creating correct sources depending on source type', () => {
 
         it('should assign correct attributes to video', () => {
             const video = fsLightboxInstance.elements.sources[1].current;
+            expect(video.poster).toEqual(fsLightboxInstance.sourcesData.videosPosters[1]);
             expect(video.firstChild.src).toEqual(testUrls[1]);
             expect(video.controls).toBeTruthy();
             expect(video.classList.contains('fslightbox-video')).toBeTruthy();

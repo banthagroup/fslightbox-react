@@ -1,8 +1,8 @@
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 
 it('should close Lightbox', () => {
     jest.useFakeTimers();
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
     expect(fsLightboxInstance.state.isOpen).toBeTruthy();

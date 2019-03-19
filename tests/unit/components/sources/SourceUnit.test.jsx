@@ -1,9 +1,9 @@
 import React from 'react';
-import Source from "../../../src/components/sources/Source";
+import Source from "../../../../src/components/sources/Source";
 import { mount } from "enzyme";
-import { ImageMock } from "../../__mocks__/components/imageMock";
-import FsLightbox from "../../../src";
-import { testProps } from "../../schemas/testVariables";
+import FsLightbox from "../../../../src";
+import { testProps } from "../../../schemas/testVariables";
+import { ImageMock } from "../../../__mocks__/components/properSources/ImageMock";
 
 const fsLightbox = new FsLightbox(testProps);
 const imageMock = new ImageMock(fsLightbox);

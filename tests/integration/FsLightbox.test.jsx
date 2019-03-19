@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import React from 'react';
 import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
 import FsLightbox from "../../src/FsLightbox";
-import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../__mocks__/components/fsLightboxEnzymeMock";
 
 const demoComponent = mount(<DemoComponentHiddenLightbox/>);
 
@@ -21,7 +21,7 @@ describe('Test FsLightbox component props', () => {
     });
 
     it('should call lightbox initialize that was closed at start', () => {
-        const mock = new FsLightboxMock();
+        const mock = new FsLightboxEnzymeMock();
         mock.setOpenToFalse();
         const fsLightboxInstance = mock.getInstance();
         fsLightboxInstance.initialize = jest.fn();

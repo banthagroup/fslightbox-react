@@ -1,17 +1,19 @@
 import { mount } from "enzyme";
-import { testUrls } from "../../schemas/testVariables";
+import { testImageURL, testUrls } from "../../schemas/testVariables";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 import { reopenFsLightbox } from "../../__mocks__/helpers/reopenFsLightbox";
 import Source from "../../../src/components/sources/Source";
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
+import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
+import FsLightbox from "../../../src";
 
 
 describe('SourceHolder', () => {
+    const mock = new FsLightboxEnzymeMock();
+    const fsLightbox = mock.getWrapper();
+    const fsLightboxInstance = mock.getInstance();
     it('should render number of source holders equivalent to number of urls', () => {
-        const mock = new FsLightboxMock();
-        const fsLightbox = mock.getWrapper();
-        const fsLightboxInstance = mock.getInstance();
         const mediaHolder = fsLightbox.find('.fslightbox-media-holder');
         const sourceHolders = fsLightboxInstance.elements.sourceHolders;
         for (let i = 0; i < sourceHolders.length; i++) {
@@ -21,8 +23,17 @@ describe('SourceHolder', () => {
         expect(mediaHolder.children().length).toEqual(testUrls.length);
     });
 
+    it('should set sourceType after detecting it by SourceTypeChecker', () => {
+        const fsLightbox = mount(<FsLightbox
+            isOpen={ true }
+            urls={ [testImageURL] }
+        />);
+        const sourceHolder = fsLightbox.find('SourceHolder').at(0);
+    });
+
+
     describe('creating source after asynchronous type check because child was mounted', () => {
-        const mock = new FsLightboxMock();
+        const mock = new FsLightboxEnzymeMock();
         const fsLightbox = mock.getWrapper();
         const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
         sourceHolderInstance.source.current.createSource = jest.fn();
@@ -39,7 +50,7 @@ describe('SourceHolder', () => {
     });
 
     describe('not creating source after asynchronous type check because child was not yet mounted', () => {
-        const mock = new FsLightboxMock();
+        const mock = new FsLightboxEnzymeMock();
         const fsLightbox = mock.getWrapper();
         const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
         sourceHolderInstance.source.current.createSource = jest.fn();
@@ -60,9 +71,9 @@ describe('SourceHolder', () => {
 
 
     describe('creating source after component mount due to closing lightbox during request', () => {
-        const mock = new FsLightboxMock();
-        const fsLightbox = mock.getWrapper();
-        const fsLightboxInstance = mock.getInstance();
+        const fsLightboxMock = new FsLightboxEnzymeMock();
+        const fsLightbox = fsLightboxMock.getWrapper();
+        const fsLightboxInstance = fsLightboxMock.getInstance();
         const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
         sourceHolderInstance.source.current.createSource = jest.fn();
 
@@ -83,9 +94,8 @@ describe('SourceHolder', () => {
         });
 
         it('should call sourceWasCreated after creating source', () => {
-            /**
-             * @type {Source}
-             */
+            fsLightboxMock.setSourcesTypes([IMAGE_TYPE]);
+            /** @type {Source} */
             const sourceInstance = mount(<Source
                 _={ fsLightboxInstance }
                 i={ 0 }
@@ -97,9 +107,8 @@ describe('SourceHolder', () => {
         });
 
         it('should not call sourceWasCreated after creating source', () => {
-            /**
-             * @type {Source}
-             */
+            fsLightboxMock.setSourcesTypes([IMAGE_TYPE]);
+            /** @type {Source} */
             const sourceInstance = mount(<Source
                 _={ fsLightboxInstance }
                 i={ 0 }

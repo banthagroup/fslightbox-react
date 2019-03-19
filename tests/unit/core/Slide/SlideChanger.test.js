@@ -1,26 +1,26 @@
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { SlideChanger } from "../../../../src/core/Slide/SlideChanger";
 import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME } from "../../../../src/constants/CssConstants";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 const fsLightboxMock = new FsLightboxMock();
-const fsLightboxInstance = fsLightboxMock.getInstance();
+const fsLightbox = fsLightboxMock.getFsLightbox();
 
 describe('changeSlideTo', () => {
-    const slideChanger = new SlideChanger(fsLightboxInstance);
+    const slideChanger = new SlideChanger(fsLightbox);
     const sources = fsLightboxMock.setAllSourcesToDivs().getSourcesArray();
     const sourceHolders = fsLightboxMock.setAllSourceHoldersToDivs().getSourceHoldersArray();
 
     beforeEach(() => {
-        fsLightboxInstance.state.slide = 1;
+        fsLightbox.state.slide = 1;
     });
 
     it('should change slide', () => {
         slideChanger.changeSlideTo(2);
-        expect(fsLightboxInstance.state.slide).toEqual(2);
+        expect(fsLightbox.state.slide).toEqual(2);
     });
 
     it('should transform stage sourceHolders with timeout', () => {
-        fsLightboxInstance.sourcesData.slideDistance = 1;
+        fsLightbox.sourcesData.slideDistance = 1;
         global.window.innerWidth = 100;
         jest.useFakeTimers();
         slideChanger.changeSlideTo(2);
@@ -32,7 +32,7 @@ describe('changeSlideTo', () => {
 
     describe('animate sources', () => {
         beforeEach(() => {
-            fsLightboxInstance.state.slide = 1;
+            fsLightbox.state.slide = 1;
         });
 
         it('should remove fadeIn class from previous source', () => {

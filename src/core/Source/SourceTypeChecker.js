@@ -4,7 +4,7 @@ import { getTypeFromResponseContentType } from "../../utils/SourceType/getTypeFr
 export default class SourceTypeChecker {
     constructor() {
         this._url = '';
-        this._sourceType = null;
+        this.sourceType = null;
         this._xhr = null;
         this._resolve = null;
 
@@ -76,19 +76,19 @@ export default class SourceTypeChecker {
 
 
     _youtubeType() {
-        this._sourceType = YOUTUBE_TYPE;
+        this.sourceType = YOUTUBE_TYPE;
         this._resolve();
     }
 
     _imageType() {
-        this._sourceType = IMAGE_TYPE;
+        this.sourceType = IMAGE_TYPE;
     }
 
     _videoType() {
-        this._sourceType = VIDEO_TYPE;
+        this.sourceType = VIDEO_TYPE;
     }
 
     _invalidType() {
-        this._sourceType = INVALID_TYPE;
+        this.sourceType = INVALID_TYPE;
     }
 }

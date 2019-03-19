@@ -3,19 +3,30 @@ import PropTypes from "prop-types";
 import { getYoutubeVideoIDFromURL } from "../../../utils/SourceType/getYoutubeVideoIDFromURL";
 
 class Youtube extends Component {
+
+    componentDidMount() {
+        if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
+            return;
+        }
+        this.props.sourcesData.sourcesDimensions[this.props.i] = {
+            width: 1920,
+            height: 1080,
+        };
+        this.props.onFirstSourceLoad();
+    }
+
+
     render() {
         return (
             <iframe
-                className="fslightbox-single-source fslightbox-fade-in-class"
-                ref={ this.props._.elements.sources[this.props.i] }
+                className="fslightbox-single-source"
+                ref={ this.props.sources[this.props.i] }
                 src={
                     "https://www.youtube.com/embed/"
-                    + getYoutubeVideoIDFromURL(this.props._.data.urls[this.props.i])
+                    + getYoutubeVideoIDFromURL(this.props.urls[this.props.i])
                     + '?enablejsapi=1'
                 }
                 allowFullScreen={ true }
-                width={ 1920 }
-                height={ 1080 }
                 frameBorder="0"
             />
         );
@@ -23,7 +34,10 @@ class Youtube extends Component {
 }
 
 Youtube.propTypes = {
-    _: PropTypes.object.isRequired,
+    urls: PropTypes.array.isRequired,
+    sourcesData: PropTypes.object.isRequired,
+    sources: PropTypes.array.isRequired,
+    onFirstSourceLoad: PropTypes.func.isRequired,
     i: PropTypes.number.isRequired,
 };
 export default Youtube;

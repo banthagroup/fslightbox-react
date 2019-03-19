@@ -1,13 +1,14 @@
 import React from 'react';
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
-import { mount } from "enzyme";
 import Image from "../../../src/components/sources/properSources/Image";
 import Video from "../../../src/components/sources/properSources/Video";
 import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
+import { ImageMock } from "../../__mocks__/components/properSources/ImageMock";
+import { VideoMock } from "../../__mocks__/components/properSources/VideoMock";
 
 describe('Source Size', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
@@ -32,17 +33,16 @@ describe('Source Size', () => {
 
 
 describe('Actions after first source load', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
 
     describe('Image', () => {
         const sourceInstance = fsLightbox.find('Source').at(0).instance();
-        const image = mount(<Image
-            _={ fsLightboxInstance }
-            i={ 0 }
-            onFirstSourceLoad={ sourceInstance.onFirstSourceLoad }
-        />);
+        const imageMock = new ImageMock(fsLightboxInstance);
+        imageMock.setOnFirstSourceLoad(sourceInstance.onFirstSourceLoad);
+        imageMock.setIndex(0);
+        const image = imageMock.createImageMock().getImageMock();
         const mockedEvent = {
             target: {
                 width: 1920,
@@ -76,11 +76,10 @@ describe('Actions after first source load', () => {
 
     describe('Video', () => {
         const sourceInstance = fsLightbox.find('Source').at(1).instance();
-        const video = mount(<Video
-            _={ fsLightboxInstance }
-            i={ 1 }
-            onFirstSourceLoad={ sourceInstance.onFirstSourceLoad }
-        />);
+        const videoMock = new VideoMock(fsLightboxInstance);
+        videoMock.setIndex(1);
+        videoMock.setOnFirstSourceLoad(sourceInstance.onFirstSourceLoad);
+        const video = videoMock.createVideoMock().getVideoMock();
         const mockedEvent = {
             target: {
                 videoWidth: 1366,

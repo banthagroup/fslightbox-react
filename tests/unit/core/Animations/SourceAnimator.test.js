@@ -1,9 +1,9 @@
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { SourceAnimator } from "../../../../src/core/Animations/SourceAnimator";
-import { ImageMock } from "../../../__mocks__/components/imageMock";
+import { ImageMock } from "../../../__mocks__/components/properSources/ImageMock";
+import FsLightbox from "../../../../src";
+import { testProps } from "../../../schemas/testVariables";
 
-const mock = new FsLightboxMock();
-const fsLightboxInstance = mock.getInstance();
+const fsLightboxInstance = new FsLightbox(testProps);
 const sourceAnimator = new SourceAnimator(fsLightboxInstance);
 const mockImage = new ImageMock(fsLightboxInstance);
 mockImage.createImageMock();
