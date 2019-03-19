@@ -1,32 +1,23 @@
-import { mount } from "enzyme";
+import FsLightbox from "../../../src";
 import { testUrls } from "../../schemas/testVariables";
-import React from "react";
-import FsLightbox from "../../../src/FsLightbox.js";
 
-export class FsLightboxMock {
-    constructor() {
-        this.wrapper = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>)
-    }
+/**
+ * @class FsLightboxMock
+ */
+export function FsLightboxMock() {
+    /** @type { FsLightbox } */
+    let fsLightbox;
+    // by default if setProps not called
+    let testProps = {
+        isOpen: true,
+        urls: testUrls
+    };
 
-    setOpenToFalse() {
-        this.wrapper = mount(<FsLightbox isOpen={ false } urls={ testUrls }/>)
-    }
+    this.setProps = (props) => {
+        testProps = props;
+    };
 
-    /**
-     * @return {ReactWrapper<C["props"], C["state"], React.Component> | ReactWrapper<any, any>}
-     */
-    getWrapper() {
-        return this.wrapper;
-    }
-
-    /**
-     * @return { FsLightbox }
-     */
-    getInstance() {
-        return this.wrapper.instance();
-    }
-
-    setAllSourcesToDivs() {
+    this.setAllSourcesToDivs = () => {
         for (let source of this.getInstance().elements.sources) {
             source.current = document.createElement('div');
         }
@@ -36,9 +27,9 @@ export class FsLightboxMock {
                 return sources;
             }
         }
-    }
+    };
 
-    setAllSourceHoldersToDivs() {
+    this.setAllSourceHoldersToDivs = () => {
         for (let sourceHolder of this.getInstance().elements.sourceHolders) {
             sourceHolder.current = document.createElement('div');
         }
@@ -48,6 +39,14 @@ export class FsLightboxMock {
                 return sourceHolders;
             }
         }
-    }
+    };
 
+    this.getFsLightbox = () => {
+        setUpFsLightbox();
+        return fsLightbox;
+    };
+
+    const setUpFsLightbox = () => {
+        fsLightbox = new FsLightbox(testProps);
+    };
 }

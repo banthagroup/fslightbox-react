@@ -1,8 +1,8 @@
 import { StageHoldersTransformer } from "../../../../src/core/Transforms/StageHoldersTransformer";
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 
 
-const mock = new FsLightboxMock();
+const mock = new FsLightboxEnzymeMock();
 const fsLightboxInstance = mock.getInstance();
 const stageHolderTransformer = new StageHoldersTransformer(fsLightboxInstance);
 
@@ -29,7 +29,7 @@ test('withTimeout should call transform positive and negative after timeout', ()
 
 describe('Transforms', () => {
     describe('correct call of transforms from SourceHoldersTransformer', () => {
-        const mock = new FsLightboxMock();
+        const mock = new FsLightboxEnzymeMock();
         const fsLightboxInstance = mock.getInstance();
         const stageHolderTransformer = new StageHoldersTransformer(fsLightboxInstance);
 

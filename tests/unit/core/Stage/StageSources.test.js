@@ -1,8 +1,8 @@
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 import { StageSources } from "../../../../src/core/Stage/StageSources";
 
 describe('StageSources', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
     const stageSources = new StageSources(fsLightboxInstance);
     fsLightboxInstance.data.totalSlides = 10;

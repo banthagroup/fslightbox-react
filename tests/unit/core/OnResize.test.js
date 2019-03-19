@@ -4,11 +4,11 @@ import {
     SOURCE_DIMENSIONS_BREAK,
     SOURCE_DIMENSIONS_DECREASE_VALUE
 } from "../../../src/constants/ResponsiveConstants";
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
 
 describe('Resize event', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
     /**
      * @var { OnResize } onResize

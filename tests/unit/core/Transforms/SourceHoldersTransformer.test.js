@@ -1,8 +1,8 @@
 import { SourceHoldersTransformer } from "../../../../src/core/Transforms/SourceHoldersTransformer";
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 
 describe('SourceHoldersTransformer', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
     const sourceHoldersTransformer = fsLightboxInstance.core.sourceHoldersTransformer;
     global.window.innerWidth = 1000;

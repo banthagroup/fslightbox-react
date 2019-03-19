@@ -2,15 +2,13 @@ import { CONTAINER_FADE_OUT_TIME } from "../constants/CoreConstants";
 import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../constants/CssConstants";
 
 /**
- * @param { FsLightbox } fsLightbox
- * @param { FsLightbox.setters } fsLightbox.setters
+ * @class CloseOpenLightbox
  * @param { { current } } container
  * @param { OnResize } onResize
  * @param { SourceHoldersTransformer } sourceHoldersTransformer
  * @param { FsLightbox.data } data
- * @param { Function } setState
+ * @param { FsLightbox.setters.setState } setState
  * @param { FsLightbox.initialize } initialize
- * @class
  */
 export function CloseOpenLightbox(
     {

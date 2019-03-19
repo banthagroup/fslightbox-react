@@ -1,12 +1,12 @@
 import React from 'react';
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 import { mount } from "enzyme";
 import Source from "../../../../src/components/sources/Source";
-import { ImageMock } from "../../../__mocks__/components/imageMock";
 import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
+import { ImageMock } from "../../../__mocks__/components/properSources/ImageMock";
 
 describe('Source component methods', () => {
-    const mock = new FsLightboxMock();
+    const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
 
     describe('sourceWasCreated', () => {
@@ -31,9 +31,7 @@ describe('Source component methods', () => {
             _={ fsLightboxInstance }
             i={ 0 }
         />);
-        /**
-         * @type {Source}
-         */
+        /** @type {Source} */
         const sourceInstance = source.instance();
         const imageMock = new ImageMock(fsLightboxInstance);
         imageMock.createImageMock();

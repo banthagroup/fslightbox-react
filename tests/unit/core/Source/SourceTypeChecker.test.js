@@ -5,9 +5,7 @@ import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../
 import { getTypeFromResponseContentType } from "../../../../src/utils/SourceType/getTypeFromResponseContentType";
 
 describe('SourceTypeChecker', () => {
-    /**
-     * @type SourceTypeChecker
-     */
+    /** @type SourceTypeChecker */
     let sourceTypeChecker;
     beforeEach(() => {
         sourceTypeChecker = new SourceTypeChecker();
@@ -34,28 +32,28 @@ describe('SourceTypeChecker', () => {
         it('should retrieve image type from its path', () => {
             sourceTypeChecker.setUrlToCheck(testImageURL);
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker._sourceType).toEqual(IMAGE_TYPE);
+                expect(sourceTypeChecker.sourceType).toEqual(IMAGE_TYPE);
             });
         });
 
         it('should return youtube type', () => {
             sourceTypeChecker.setUrlToCheck(testYoutubeURL);
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker._sourceType).toEqual(YOUTUBE_TYPE);
+                expect(sourceTypeChecker.sourceType).toEqual(YOUTUBE_TYPE);
             });
         });
 
         it('should return video type', () => {
             sourceTypeChecker.setUrlToCheck(testVideoURL);
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker._sourceType).toEqual(VIDEO_TYPE);
+                expect(sourceTypeChecker.sourceType).toEqual(VIDEO_TYPE);
             });
         });
 
         it('should return invalid type', () => {
             sourceTypeChecker.setUrlToCheck('asdfkasdlfhasifahsdfasdkf');
             return sourceTypeChecker.getSourceType().then(() => {
-                expect(sourceTypeChecker._sourceType).toEqual(INVALID_TYPE);
+                expect(sourceTypeChecker.sourceType).toEqual(INVALID_TYPE);
             });
         });
     });
@@ -70,7 +68,7 @@ describe('SourceTypeChecker', () => {
                 abort: jest.fn()
             };
             sourceTypeChecker._onRequestStateChange();
-            expect(sourceTypeChecker._sourceType).toEqual(INVALID_TYPE);
+            expect(sourceTypeChecker.sourceType).toEqual(INVALID_TYPE);
         });
 
         it('should call invalid type when not correct image type found from response', () => {

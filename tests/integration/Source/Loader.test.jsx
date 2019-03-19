@@ -1,12 +1,13 @@
 import React from 'react';
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import Source from "../../../src/components/sources/Source";
 import { mount } from "enzyme";
+import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
 
 describe('Loader', () => {
-    const mock = new FsLightboxMock();
-    const fsLightbox = mock.getWrapper();
-    const fsLightboxInstance = mock.getInstance();
+    const fsLightboxMock = new FsLightboxEnzymeMock();
+    const fsLightbox = fsLightboxMock.getWrapper();
+    const fsLightboxInstance = fsLightboxMock.getInstance();
     const source = fsLightbox.find('Source').at(0);
 
     it('should render loader on opening lightbox for first time', () => {
@@ -14,6 +15,9 @@ describe('Loader', () => {
     });
 
     it('should hide loader after source create', () => {
+        fsLightboxMock.setSourcesTypes([
+            IMAGE_TYPE
+        ]);
         const mockSource = mount(<Source
             _={ fsLightboxInstance }
             i={ 0 }

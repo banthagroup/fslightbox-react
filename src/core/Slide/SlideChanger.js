@@ -1,7 +1,7 @@
 /**
  * @param { SourceAnimator }sourceAnimator
  * @param { SourceHoldersTransformer } sourceHoldersTransformer
- * @param { FsLightbox.getters.state.getSlide } getSlide
+ * @param { FsLightbox.getters.getSlide } getSlide
  * @param { FsLightbox.setters.setState } setState
  * @class
  */

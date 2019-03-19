@@ -3,6 +3,7 @@ import { SourceFactory } from "../../core/Source/SourceFactory";
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
 import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
+import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants/CssConstants";
 
 class Source extends Component {
 
@@ -20,9 +21,9 @@ class Source extends Component {
     createSource() {
         this.isLoaderVisible = false;
         const sourceFactory = new SourceFactory(this.props._);
-        sourceFactory.createSourceForIndex(this.props.i);
         sourceFactory.attachOnFirstSourceLoad(this.onFirstSourceLoad);
-        this.props._.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSource();
+        sourceFactory.setSourceIndex(this.props.i);
+        this.props._.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSourceComponent();
         if (!this.callUpdateAfterMount) {
             this.sourceWasCreated();
         }
@@ -55,7 +56,9 @@ class Source extends Component {
 
     onSourceLoad() {
         this.fadeInSource();
-        this.props._.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+        // source size adjuster may be not set if source is invalid
+        if (this.props._.collections.sourceSizeAdjusters[this.props.i])
+            this.props._.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
     }
 
 
@@ -66,8 +69,8 @@ class Source extends Component {
 
         // we will add longer fade-in for better UX
         (this.props.i === this.props._.state.slide - 1) ?
-            this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-complete') :
-            this.props._.elements.sources[this.props.i].current.classList.add('fslightbox-fade-in-class');
+            this.props._.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME) :
+            this.props._.elements.sources[this.props.i].current.classList.add(FADE_IN_CLASS_NAME);
     }
 
 

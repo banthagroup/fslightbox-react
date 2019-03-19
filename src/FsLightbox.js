@@ -33,7 +33,7 @@ class FsLightbox extends Component {
 
     setUpData() {
         /**
-         * @type {{urls: Array, totalSlides: number, isInitialized: boolean, isFullscreenOpen: boolean, isMobile: boolean}}
+         * @type {{urls: Array, totalSlides: number, isInitialized: boolean, isFullscreenOpen: boolean, isMobile: *}}
          */
         this.data = {
             urls: this.props.urls,
@@ -62,9 +62,6 @@ class FsLightbox extends Component {
     }
 
     setUpStates() {
-        /**
-         * @type {{isOpen: Boolean, slide: Number}}
-         */
         this.state = {
             isOpen: this.props.isOpen,
             slide: (this.props.slide) ? this.props.slide : 1,
@@ -72,9 +69,6 @@ class FsLightbox extends Component {
     }
 
     setUpGetters() {
-        /**
-         * @type {{initialize: (function(): void), getSlide: (function(): *)}}
-         */
         this.getters = {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide
@@ -82,12 +76,8 @@ class FsLightbox extends Component {
     }
 
     setUpSetters() {
-        /**
-         * @type {{setState: (function(*=, *=): void), sourcesData: {setMaxSourceHeight: FsLightbox.setters.sourcesData.setMaxSourceHeight, setMaxSourceWidth: FsLightbox.setters.sourcesData.setMaxSourceWidth}}}
-         */
         this.setters = {
             setState: (value, callback) => this.setState(value, callback),
-
             sourcesData: {
                 setMaxSourceWidth: (maxSourceWidth) => this.sourcesData.maxSourceWidth = maxSourceWidth,
                 setMaxSourceHeight: (maxSourceHeight) => this.sourcesData.maxSourceHeight = maxSourceHeight
@@ -97,7 +87,9 @@ class FsLightbox extends Component {
 
 
     setUpElements() {
-        /** @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}*/
+        /**
+         * @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}
+         */
         this.elements = {
             container: React.createRef(),
             mediaHolder: React.createRef(),
@@ -108,9 +100,6 @@ class FsLightbox extends Component {
     }
 
     setUpCore() {
-        /**
-         * @type {{onResize: OnResize, sourceHoldersTransformer: SourceHoldersTransformer, sourceAnimator: SourceAnimator, sourceSizeAdjusterIterator: SourceSizeAdjusterIterator, closeOpenLightbox: CloseOpenLightbox, stageSources: StageSources, fullscreenToggler: FullscreenToggler, slideChanger: SlideChanger}}
-         */
         this.core = {
             closeOpenLightbox: {},
             fullscreenToggler: new FullscreenToggler(this),
@@ -122,15 +111,12 @@ class FsLightbox extends Component {
             sourceSizeAdjusterIterator: new SourceSizeAdjusterIterator(this)
         };
 
-        this.core.slideChanger = new SlideChanger(this);
         this.core.onResize = new OnResize(this);
         this.core.closeOpenLightbox = new CloseOpenLightbox(this);
+        this.core.slideChanger = new SlideChanger(this);
     }
 
     setUpCollections() {
-        /**
-         * @type {{sourceSizeAdjusters: Array}}
-         */
         this.collections = {
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
             sourceSizeAdjusters: []

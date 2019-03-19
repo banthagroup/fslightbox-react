@@ -65,9 +65,11 @@
     top: 0;
     display: flex;
     align-items: center;
+
 }
 
 .fslightbox-single-source {
+    position: relative;
     margin: auto;
     opacity: 0;
     display: block;
@@ -88,6 +90,7 @@
     font-size: 22px;
     color: #eaebeb;
     margin: auto;
+    opacity: 0;
     display: flex;
     justify-content: center;
     align-items: center;

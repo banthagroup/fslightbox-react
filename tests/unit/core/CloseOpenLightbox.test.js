@@ -1,5 +1,5 @@
 import React from 'react';
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { CloseOpenLightbox } from "../../../src/core/CloseOpenLightbox";
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
 
@@ -10,7 +10,7 @@ let fsLightboxInstance;
 let closeOpenLightbox;
 
 beforeEach(() => {
-    mock = new FsLightboxMock();
+    mock = new FsLightboxEnzymeMock();
     fsLightbox = mock.getWrapper();
     fsLightboxInstance = mock.getInstance();
     closeOpenLightbox = new CloseOpenLightbox(fsLightboxInstance);
