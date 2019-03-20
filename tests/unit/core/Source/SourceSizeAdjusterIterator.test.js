@@ -1,5 +1,5 @@
-import SourceSizeAdjusterIterator from "../../../../src/core/Source/SourceSizeAdjusterIterator";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { SourceSizeAdjusterIterator } from "../../../../src/core/Source/SourceSizeAdjusterIterator";
 
 describe('SourceSizeAdjusterIterator', () => {
     const fsLightboxMock = new FsLightboxMock();
@@ -13,31 +13,20 @@ describe('SourceSizeAdjusterIterator', () => {
     });
 
     it('should call adjustSourceSize for all items in array', () => {
-        fsLightboxInstance.collections.sourceSizeAdjusters = [
-            {
+        // for e.g. 3 items
+        for(let i = 0; i < 3; i++) {
+            fsLightboxInstance.collections.sourceSizeAdjusters.push({
                 adjustSourceSize: mockAdjustSourceSize
-            },
-            {
-                adjustSourceSize: mockAdjustSourceSize
-            },
-            {
-                adjustSourceSize: mockAdjustSourceSize
-            }
-        ];
+            });
+        }
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
         expect(mockAdjustSourceSize).toBeCalledTimes(3);
     });
 
     it('should call adjust source size only two times in three items array due too second item is null', () => {
-        fsLightboxInstance.collections.sourceSizeAdjusters = [
-            {
-                adjustSourceSize: mockAdjustSourceSize
-            },
-            null,
-            {
-                adjustSourceSize: mockAdjustSourceSize
-            }
-        ];
+        fsLightboxInstance.collections.sourceSizeAdjusters[0] = {adjustSourceSize: mockAdjustSourceSize};
+        fsLightboxInstance.collections.sourceSizeAdjusters[1] = null;
+        fsLightboxInstance.collections.sourceSizeAdjusters[2] = {adjustSourceSize: mockAdjustSourceSize};
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
         expect(mockAdjustSourceSize).toBeCalledTimes(2);
     });

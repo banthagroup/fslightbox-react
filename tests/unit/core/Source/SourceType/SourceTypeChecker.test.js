@@ -1,7 +1,7 @@
-import SourceTypeChecker from "../../../../src/core/Source/SourceTypeChecker";
-import { testImageURL, testVideoURL, testYoutubeURL } from "../../../schemas/testVariables";
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/CoreConstants";
-import { getTypeFromResponseContentType } from "../../../../src/utils/SourceType/getTypeFromResponseContentType";
+import { testImageURL, testVideoURL, testYoutubeURL } from "../../../../schemas/testVariables";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../../src/constants/CoreConstants";
+import { getTypeFromResponseContentType } from "../../../../../src/utils/SourceType/getTypeFromResponseContentType";
+import { SourceTypeChecker } from "../../../../../src/core/Source/SourceType/SourceTypeChecker";
 
 describe('SourceTypeChecker', () => {
     /** @type SourceTypeChecker */

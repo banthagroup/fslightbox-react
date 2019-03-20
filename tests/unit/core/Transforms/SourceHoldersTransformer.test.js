@@ -1,5 +1,6 @@
 import { SourceHoldersTransformer } from "../../../../src/core/Transforms/SourceHoldersTransformer";
 import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
+import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformer";
 
 describe('SourceHoldersTransformer', () => {
     const mock = new FsLightboxEnzymeMock();
@@ -7,6 +8,10 @@ describe('SourceHoldersTransformer', () => {
     const sourceHoldersTransformer = fsLightboxInstance.core.sourceHoldersTransformer;
     global.window.innerWidth = 1000;
     global.window.innerHeight = 1000;
+
+    it('should return StageSourceHoldersTransformer with correct props', () => {
+         expect(sourceHoldersTransformer.transformStageSourceHolders()).toBeInstanceOf(StageSourceHoldersTransformer);
+    });
 
     it('should transform source to negative value', () => {
         sourceHoldersTransformer.transformNegative(0);

@@ -4,7 +4,6 @@ import Source from "../../../../src/components/sources/Source";
 import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
 import { ImageMock } from "../../../__mocks__/components/properSources/ImageMock";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 
 describe('Source component methods', () => {
     const mock = new FsLightboxMock();

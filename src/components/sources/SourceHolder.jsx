@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Source from "./Source.jsx";
 import PropTypes from 'prop-types';
-import SourceTypeChecker from "../../core/Source/SourceTypeChecker";
+import { SourceTypeChecker } from "../../core/Source/SourceType/SourceTypeChecker";
 
 let isMounted;
 let isTypeCheckedAndSourceIsNotCreated;
@@ -11,6 +11,7 @@ class SourceHolder extends Component {
         super(props);
         // component need to be mounted to call method from child by ref
         this.source = React.createRef();
+        this.processReceivedSourceType = this.processReceivedSourceType.bind(this);
 
         if (!this.props._.sourcesData.sourcesTypes[this.props.i])
             this.initRequest();
@@ -20,14 +21,14 @@ class SourceHolder extends Component {
     }
 
     initRequest() {
-        this.sourceTypeChecker = new SourceTypeChecker();
-        this.sourceTypeChecker.setUrlToCheck(this.props._.data.urls[this.props.i]);
-        this.sourceTypeChecker.getSourceType()
-            .then(() => this.processReceivedSourceType());
+        const sourceTypeChecker = new SourceTypeChecker();
+        sourceTypeChecker.setUrlToCheck(this.props._.data.urls[this.props.i]);
+        sourceTypeChecker.getSourceType()
+            .then(this.processReceivedSourceType);
     }
 
-    processReceivedSourceType() {
-        this.props._.sourcesData.sourcesTypes[this.props.i] = this.sourceTypeChecker.sourceType;
+    processReceivedSourceType(sourceType) {
+        this.props._.sourcesData.sourcesTypes[this.props.i] = sourceType;
         if (isMounted) {
             if (this.source.current === null) {
                 this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;

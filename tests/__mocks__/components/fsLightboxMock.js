@@ -1,6 +1,5 @@
 import FsLightbox from "../../../src";
 import { testUrls } from "../../schemas/testVariables";
-import { isIfStatement } from "@babel/types";
 
 /**
  * @class FsLightboxMock
@@ -14,9 +13,6 @@ export function FsLightboxMock() {
         urls: testUrls
     };
 
-    this.setProps = (props) => {
-        testProps = props;
-    };
 
     /**
      * @return {{getFsLightbox: (function(): FsLightbox)}}
@@ -35,8 +31,8 @@ export function FsLightboxMock() {
     };
 
     this.setAllSourcesToDivs = () => {
-        if (!fsLightbox)
-            throw Error('You have forgotten to instantiate FsLightbox');
+        if (!isInstantiated())
+            return throwNotInstantiatedError();
         for (let source of fsLightbox.elements.sources) {
             source.current = document.createElement('div');
         }
@@ -49,8 +45,9 @@ export function FsLightboxMock() {
     };
 
     this.setAllSourceHoldersToDivs = () => {
-        if (!fsLightbox)
-            throw Error('You have forgotten to instantiate FsLightbox');
+        if (!isInstantiated()) {
+            throwNotInstantiatedError();
+        }
         for (let sourceHolder of fsLightbox.elements.sourceHolders) {
             sourceHolder.current = document.createElement('div');
         }
@@ -62,28 +59,21 @@ export function FsLightboxMock() {
         }
     };
 
-    this.mockSourceHoldersTransformerTransformZero = () => {
-        if (!fsLightbox)
-            throw Error('You have forgotten to instantiate FsLightbox');
-        fsLightbox.core.sourceHoldersTransformer.transformZero = jest.fn();
-    };
-
-
-    this.mockTransformStageSources = () => {
-        if (!fsLightbox)
-            throw Error('You have forgotten to instantiate FsLightbox');
-        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = () => ({
-            withTimeout: jest.fn(),
-            withoutTimeout: jest.fn()
-        });
-    };
-
     /**
-     * @return {FsLightbox}
+     * @return {FsLightbox|Error}
      */
     this.getFsLightbox = () => {
-        if (!fsLightbox)
-            throw Error('You have forgotten to instantiate FsLightbox');
+        if (!isInstantiated())
+            this.instantiateFsLightbox();
         return fsLightbox;
+    };
+
+
+    const isInstantiated = () => {
+        return !!fsLightbox;
+    };
+
+    const throwNotInstantiatedError = () => {
+        throw new TypeError('You have forgotten to instantiate FsLightbox');
     };
 }

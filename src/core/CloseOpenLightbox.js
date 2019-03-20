@@ -8,8 +8,8 @@ import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../con
  * @param { SourceHoldersTransformer } sourceHoldersTransformer
  * @param { FullscreenToggler } fullscreenToggler
  * @param { FsLightbox.data } data
- * @param { FsLightbox.setters.setState } setState
- * @param { FsLightbox.initialize } initialize
+ * @param { FsLightbox.setters.setState | Function } setState
+ * @param { FsLightbox.initialize | Function } initialize
  */
 export function CloseOpenLightbox(
     {

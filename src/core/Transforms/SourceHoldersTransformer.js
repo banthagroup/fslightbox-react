@@ -1,28 +1,33 @@
-import { StageHoldersTransformer } from "./StageHoldersTransformer";
+import { StageSourceHoldersTransformer } from "./StageSourceHoldersTransformer";
 
-export class SourceHoldersTransformer {
-    /** @param fsLigthbox { FsLightbox } */
-    constructor(fsLigthbox) {
-        this.fsLigthbox = fsLigthbox;
-    }
+/**
+ * @class SourceHoldersTransformer
+ * @param { FsLightbox.core } core
+ * @param { FsLightbox.getters } getters
+ * @param { FsLightbox.sourcesData } sourcesData
+ * @param { FsLightbox.elements } elements
+ */
+export function SourceHoldersTransformer({ core, getters, sourcesData, elements }) {
+    /** @return {StageSourceHoldersTransformer} */
+    this.transformStageSourceHolders = () =>
+        new StageSourceHoldersTransformer({
+            core: core,
+            getters: getters
+        });
 
-    transformStageSourceHolders() {
-        return new StageHoldersTransformer(this.fsLigthbox);
-    }
+    this.transformNegative = (i) => {
+        getStyleOfSourceHolderByIndex(i).transform = 'translate(' + -sourcesData.slideDistance * window.innerWidth + 'px,0)';
+    };
 
-    transformNegative(i) {
-        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(' + -this.fsLigthbox.sourcesData.slideDistance * window.innerWidth + 'px,0)';
-    }
+    this.transformZero = (i) => {
+        getStyleOfSourceHolderByIndex(i).transform = 'translate(0,0)';
+    };
 
-    transformZero(i) {
-        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(0,0)';
-    }
+    this.transformPositive = (i) => {
+        getStyleOfSourceHolderByIndex(i).transform = 'translate(' + sourcesData.slideDistance * window.innerWidth + 'px,0)';
+    };
 
-    transformPositive(i) {
-        this._getStyleOfSourceHolderByIndex(i).transform = 'translate(' + this.fsLigthbox.sourcesData.slideDistance * window.innerWidth + 'px,0)';
-    }
-
-     _getStyleOfSourceHolderByIndex(index) {
-        return this.fsLigthbox.elements.sourceHolders[index].current.style;
+    const getStyleOfSourceHolderByIndex = (index) => {
+        return elements.sourceHolders[index].current.style;
     }
 }

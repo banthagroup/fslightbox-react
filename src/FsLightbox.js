@@ -8,7 +8,6 @@ import MediaHolder from "./components/holders/MediaHolder.jsx";
 import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArrayForNumberOfSlides";
 import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
-import SourceSizeAdjusterIterator from "./core/Source/SourceSizeAdjusterIterator";
 import { StageSources } from "./core/Stage/StageSources";
 import { SourceHoldersTransformer } from "./core/Transforms/SourceHoldersTransformer";
 import { SlideChanger } from "./core/Slide/SlideChanger";
@@ -16,6 +15,8 @@ import { SourceAnimator } from "./core/Animations/SourceAnimator";
 import { FullscreenToggler } from "./core/Fullscreen/FullscreenToggler";
 import { CloseOpenLightbox } from "./core/CloseOpenLightbox";
 import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
+import { SourceSizeAdjusterIterator } from "./core/Source/SourceSizeAdjusterIterator";
+import { Core } from "./core/Core";
 
 class FsLightbox extends Component {
 
@@ -100,20 +101,10 @@ class FsLightbox extends Component {
     }
 
     setUpCore() {
-        this.core = {
-            closeOpenLightbox: {},
-            fullscreenToggler: new FullscreenToggler(this),
-            onResize: {},
-            slideChanger: {},
-            stageSources: new StageSources(this),
-            sourceAnimator: new SourceAnimator(this),
-            sourceHoldersTransformer: new SourceHoldersTransformer(this),
-            sourceSizeAdjusterIterator: new SourceSizeAdjusterIterator(this)
-        };
-
-        this.core.onResize = new OnResize(this);
-        this.core.closeOpenLightbox = new CloseOpenLightbox(this);
-        this.core.slideChanger = new SlideChanger(this);
+        /**
+         * @type {Core}
+         */
+        this.core = new Core(this);
     }
 
     setUpCollections() {
