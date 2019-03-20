@@ -1,9 +1,12 @@
 import { StageHoldersTransformer } from "../../../../src/core/Transforms/StageHoldersTransformer";
 import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 
-const mock = new FsLightboxEnzymeMock();
-const fsLightboxInstance = mock.getInstance();
+const mock = new FsLightboxMock();
+mock.instantiateFsLightbox();
+mock.setAllSourceHoldersToDivs();
+const fsLightboxInstance = mock.getFsLightbox();
 const stageHolderTransformer = new StageHoldersTransformer(fsLightboxInstance);
 
 beforeEach(() => {
@@ -29,8 +32,10 @@ test('withTimeout should call transform positive and negative after timeout', ()
 
 describe('Transforms', () => {
     describe('correct call of transforms from SourceHoldersTransformer', () => {
-        const mock = new FsLightboxEnzymeMock();
-        const fsLightboxInstance = mock.getInstance();
+        const mock = new FsLightboxMock();
+        mock.instantiateFsLightbox();
+        mock.setAllSourceHoldersToDivs();
+        const fsLightboxInstance = mock.getFsLightbox();
         const stageHolderTransformer = new StageHoldersTransformer(fsLightboxInstance);
 
         stageHolderTransformer.stageSourcesIndexes = {
@@ -39,7 +44,6 @@ describe('Transforms', () => {
         };
         fsLightboxInstance.core.sourceHoldersTransformer.transformNegative = jest.fn();
         fsLightboxInstance.core.sourceHoldersTransformer.transformPositive = jest.fn();
-        fsLightboxInstance.slide = 123123123;
         stageHolderTransformer.transformNegative();
         stageHolderTransformer.transformPositive();
 

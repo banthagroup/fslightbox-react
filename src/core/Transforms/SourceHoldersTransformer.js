@@ -6,7 +6,7 @@ export class SourceHoldersTransformer {
         this.fsLigthbox = fsLigthbox;
     }
 
-    transformStageSources() {
+    transformStageSourceHolders() {
         return new StageHoldersTransformer(this.fsLigthbox);
     }
 

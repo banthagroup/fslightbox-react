@@ -48,6 +48,6 @@ export function OnResize(
         saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
-        sourceHoldersTransformer.transformStageSources().withoutTimeout();
+        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     }
 }

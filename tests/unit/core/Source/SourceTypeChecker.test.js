@@ -1,4 +1,3 @@
-import React from 'react';
 import SourceTypeChecker from "../../../../src/core/Source/SourceTypeChecker";
 import { testImageURL, testVideoURL, testYoutubeURL } from "../../../schemas/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/CoreConstants";

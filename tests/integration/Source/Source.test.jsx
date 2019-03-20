@@ -13,22 +13,22 @@ import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/ge
 describe('Source', () => {
     const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
+    const fsLightboxWrapper = mock.getWrapper();
     fsLightboxInstance.sourcesData.sourcesDimensions[0] = testSourceDimensions;
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
 
-    /**
-     * @type {Source}
-     */
+    /** @type {Source} */
     let sourceInstance;
-    let source;
-    beforeEach(() => {
-        source = mount(<Source
-            _={ fsLightboxInstance }
-            i={ 0 }
-        />);
-        sourceInstance = source.instance();
-        sourceInstance.sourceWasCreated();
-        sourceInstance.onSourceLoad = jest.fn();
+    const source = fsLightboxWrapper.find('Source').at(0);
+    sourceInstance = source.instance();
+    sourceInstance.sourceWasCreated();
+    sourceInstance.onSourceLoad = jest.fn();
+
+    it('should call onSourceLoad on componentDidMount after source was previously loaded', () => {
+        sourceInstance.onFirstSourceLoad();
+        expect(sourceInstance.onSourceLoad).toBeCalledTimes(1);
+        sourceInstance.componentDidMount();
+        expect(sourceInstance.onSourceLoad).toBeCalledTimes(2);
     });
 
     it('should call onSourceLoad', () => {
@@ -39,13 +39,6 @@ describe('Source', () => {
     it('should set isSourceAlreadyLoaded to true', () => {
         sourceInstance.onFirstSourceLoad();
         expect(fsLightboxInstance.sourcesData.isSourceAlreadyLoadedArray[0]).toBeTruthy();
-    });
-
-    it('should call onSourceLoad on componentDidMount after source was previously loaded', () => {
-        sourceInstance.onFirstSourceLoad();
-        expect(sourceInstance.onSourceLoad).toBeCalledTimes(1);
-        sourceInstance.componentDidMount();
-        expect(sourceInstance.onSourceLoad).toBeCalledTimes(2);
     });
 });
 
@@ -106,9 +99,7 @@ describe('Creating correct sources depending on source type', () => {
     describe('YouTube', () => {
         const source = fsLightbox.find('Source').at(2);
         fsLightboxInstance.sourcesData.sourcesTypes[2] = YOUTUBE_TYPE;
-        /**
-         * @type { Source }
-         */
+        /** @type { Source } */
         const sourceInstance = source.instance();
         sourceInstance.createSource();
 

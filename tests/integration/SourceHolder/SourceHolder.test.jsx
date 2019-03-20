@@ -1,18 +1,15 @@
-import { mount } from "enzyme";
-import { testImageURL, testUrls } from "../../schemas/testVariables";
+import { testUrls } from "../../schemas/testVariables";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
-import { reopenFsLightbox } from "../../__mocks__/helpers/reopenFsLightbox";
-import Source from "../../../src/components/sources/Source";
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
-import FsLightbox from "../../../src";
-
+import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 
 describe('SourceHolder', () => {
-    const mock = new FsLightboxEnzymeMock();
-    const fsLightbox = mock.getWrapper();
-    const fsLightboxInstance = mock.getInstance();
+    const fsLightboxMock = new FsLightboxEnzymeMock();
+    const fsLightbox = fsLightboxMock.getWrapper();
+    const fsLightboxInstance = fsLightboxMock.getInstance();
+
     it('should render number of source holders equivalent to number of urls', () => {
         const mediaHolder = fsLightbox.find('.fslightbox-media-holder');
         const sourceHolders = fsLightboxInstance.elements.sourceHolders;
@@ -23,100 +20,61 @@ describe('SourceHolder', () => {
         expect(mediaHolder.children().length).toEqual(testUrls.length);
     });
 
-    it('should set sourceType after detecting it by SourceTypeChecker', () => {
-        const fsLightbox = mount(<FsLightbox
-            isOpen={ true }
-            urls={ [testImageURL] }
-        />);
-        const sourceHolder = fsLightbox.find('SourceHolder').at(0);
+    it('should set sourceType to FsLightbox after detecting it by SourceTypeChecker', () => {
+        const sourceHolder = new SourceHolder({
+            _: fsLightboxInstance,
+            i: 0
+        });
+        expect(fsLightboxInstance.sourcesData.sourcesTypes[0]).toBeUndefined();
+        return sourceHolder.sourceTypeChecker.getSourceType().then(() => {
+            expect(sourceHolder.sourceTypeChecker.sourceType).toEqual(IMAGE_TYPE);
+            sourceHolder.processReceivedSourceType();
+            expect(fsLightboxInstance.sourcesData.sourcesTypes[0]).toEqual(IMAGE_TYPE);
+        });
     });
 
 
-    describe('creating source after asynchronous type check because child was mounted', () => {
-        const mock = new FsLightboxEnzymeMock();
-        const fsLightbox = mock.getWrapper();
-        const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
-        sourceHolderInstance.source.current.createSource = jest.fn();
+    describe('creating sources after reopen due to lightbox close during request', () => {
+        const fsLightboxMock = new FsLightboxMock();
+        const fsLightbox = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
+        const numberOfUrls = testUrls.length;
 
-        it('should create source after type check', () => {
-            sourceHolderInstance.processReceivedSourceType();
-            expect(sourceHolderInstance.source.current.createSource).toBeCalledTimes(1);
-        });
-
-        it('should not create source after mount', () => {
-            sourceHolderInstance.componentDidMount();
-            expect(sourceHolderInstance.source.current.createSource).toBeCalledTimes(1);
-        })
-    });
-
-    describe('not creating source after asynchronous type check because child was not yet mounted', () => {
-        const mock = new FsLightboxEnzymeMock();
-        const fsLightbox = mock.getWrapper();
-        const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
-        sourceHolderInstance.source.current.createSource = jest.fn();
-
-        it('should not create source after type check because child was no yet mounted', () => {
-            sourceHolderInstance._isMounted = false;
-            expect(sourceHolderInstance._isTypeChecked).toBeFalsy();
-            sourceHolderInstance.processReceivedSourceType();
-            expect(sourceHolderInstance.source.current.createSource).not.toBeCalled();
-        });
-
-        it('should create source after mount', () => {
-            expect(sourceHolderInstance._isTypeChecked).toBeTruthy();
-            sourceHolderInstance.componentDidMount();
-            expect(sourceHolderInstance.source.current.createSource).toBeCalled();
-        })
-    });
-
-
-    describe('creating source after component mount due to closing lightbox during request', () => {
-        const fsLightboxMock = new FsLightboxEnzymeMock();
-        const fsLightbox = fsLightboxMock.getWrapper();
-        const fsLightboxInstance = fsLightboxMock.getInstance();
-        const sourceHolderInstance = fsLightbox.find('SourceHolder').at(0).instance();
-        sourceHolderInstance.source.current.createSource = jest.fn();
-
-        beforeEach(() => {
-            sourceHolderInstance.source.current = null;
-            sourceHolderInstance.processReceivedSourceType();
-        });
-
-        it('should add true at correct _index to FsLightbox sourcesToCreateOnConstruct array', () => {
-            expect(fsLightboxInstance.sourcesData.sourcesToCreateOnConstruct[0]).toBeTruthy();
-            expect(fsLightboxInstance.elements.sourcesJSXComponents[0]).toBeNull();
-        });
-
-        it('should call createSource on construct after reopening', () => {
-            reopenFsLightbox(fsLightbox).then((reopenedLightbox) => {
-                expect(reopenedLightbox.instance().elements.sourcesJSXComponents[0]).not.toBeNull();
+        const checkingCreatingSourceAtCorrectTimeDueToClosingLightbox = (i) => {
+            it('should not call createSource after received source type due to component not mounted', () => {
+                const sourceHolder = new SourceHolder({
+                    _: fsLightbox,
+                    i: i
+                });
+                sourceHolder.source.current = {
+                    createSource: jest.fn()
+                };
+                sourceHolder.processReceivedSourceType();
+                expect(sourceHolder.source.current.createSource).not.toBeCalled();
             });
-        });
 
-        it('should call sourceWasCreated after creating source', () => {
-            fsLightboxMock.setSourcesTypes([IMAGE_TYPE]);
-            /** @type {Source} */
-            const sourceInstance = mount(<Source
-                _={ fsLightboxInstance }
-                i={ 0 }
-            />).instance();
-            sourceInstance.sourceWasCreated = jest.fn();
-            sourceInstance.callUpdateAfterMount = false;
-            sourceInstance.createSource();
-            expect(sourceInstance.sourceWasCreated).toBeCalled();
-        });
+            it('should call create source on component mount (this is is needed if user will close lightbox during request)', () => {
+                const sourceHolder = new SourceHolder({
+                    _: fsLightbox,
+                    i: i
+                });
+                // this is needed cause if we for e.g. type is youtube and normal request will finish and set sourceType so
+                // initRequest won't be  called on construct and processReceivedSourceType will throw error cause sourceType
+                // won't be set
+                sourceHolder.sourceTypeChecker = {
+                    sourceType: 'fix'
+                };
+                sourceHolder.source.current = {
+                    createSource: jest.fn()
+                };
+                sourceHolder.processReceivedSourceType();
+                sourceHolder.componentDidMount();
+                expect(sourceHolder.source.current.createSource).toBeCalled();
+            });
+        };
 
-        it('should not call sourceWasCreated after creating source', () => {
-            fsLightboxMock.setSourcesTypes([IMAGE_TYPE]);
-            /** @type {Source} */
-            const sourceInstance = mount(<Source
-                _={ fsLightboxInstance }
-                i={ 0 }
-            />).instance();
-            sourceInstance.sourceWasCreated = jest.fn();
-            sourceInstance.callUpdateAfterMount = true;
-            sourceInstance.createSource();
-            expect(sourceInstance.sourceWasCreated).not.toBeCalled();
-        });
+        for (let i = 0; i < parseInt(numberOfUrls); i++) {
+            checkingCreatingSourceAtCorrectTimeDueToClosingLightbox(i);
+        }
     });
 });
+

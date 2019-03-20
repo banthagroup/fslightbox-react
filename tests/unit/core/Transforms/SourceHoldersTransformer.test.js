@@ -34,7 +34,7 @@ describe('SourceHoldersTransformer', () => {
         it('should call all transforms', () => {
             fsLightboxInstance.state.slide = 1;
             fsLightboxInstance.data.totalSlides = 3;
-            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).toBeCalledWith(2);
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformZero).toBeCalledWith(0);
         });
@@ -42,7 +42,7 @@ describe('SourceHoldersTransformer', () => {
         it('should call only zero and positive transform', () => {
             fsLightboxInstance.state.slide = 2;
             fsLightboxInstance.data.totalSlides = 2;
-            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformZero).toBeCalledWith(1);
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).toBeCalledWith(0);
@@ -51,7 +51,7 @@ describe('SourceHoldersTransformer', () => {
         it('should call only zero transform', () => {
             fsLightboxInstance.state.slide = 1;
             fsLightboxInstance.data.totalSlides = 1;
-            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+            fsLightboxInstance.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformZero).toBeCalledWith(0);
             expect(fsLightboxInstance.core.sourceHoldersTransformer.transformPositive).not.toBeCalled();

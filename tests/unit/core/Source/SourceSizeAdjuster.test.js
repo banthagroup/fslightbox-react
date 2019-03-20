@@ -1,17 +1,18 @@
 import React from 'react';
-import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
-import  { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
+import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
 import { testSourceDimensions } from "../../../schemas/testVariables";
 import { getMountedImageForFsLightboxInstance } from "../../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 import { getDecreasedDimensionValue } from "../../../__mocks__/helpers/getDecreasedDimensionValue";
+import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 
 describe('SourceSizeChange', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = fsLightboxMock.getInstance();
 
     describe('it should adjust source size when ...', () => {
-        const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightboxInstance);
         getMountedImageForFsLightboxInstance(fsLightboxInstance);
+        const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightboxInstance);
+
         fsLightboxInstance.sourcesData.sourcesDimensions[0] = testSourceDimensions;
         sourceSizeAdjuster.setIndex(0);
         const image = fsLightboxInstance.elements.sources[0].current;

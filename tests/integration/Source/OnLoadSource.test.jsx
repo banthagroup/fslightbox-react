@@ -8,11 +8,11 @@ import { ImageMock } from "../../__mocks__/components/properSources/ImageMock";
 import { VideoMock } from "../../__mocks__/components/properSources/VideoMock";
 
 describe('Source Size', () => {
-    const mock = new FsLightboxEnzymeMock();
-    const fsLightbox = mock.getWrapper();
-    const fsLightboxInstance = mock.getInstance();
+    const fsLightboxMock = new FsLightboxEnzymeMock();
+    const fsLightboxWrapper = fsLightboxMock.getWrapper();
+    const fsLightboxInstance = fsLightboxMock.getInstance();
     getMountedImageForFsLightboxInstance(fsLightboxInstance);
-    const sourceInstance = fsLightbox.find('Source').at(0).instance();
+    const sourceInstance = fsLightboxWrapper.find('Source').at(0).instance();
     sourceInstance.sourceWasCreated();
 
     it('should adjust source size initially', () => {

@@ -71,7 +71,7 @@ class FsLightbox extends Component {
     setUpGetters() {
         this.getters = {
             initialize: () => this.initialize(),
-            getSlide: () => this.state.slide
+            getSlide: () =>  this.state.slide,
         };
     }
 
@@ -137,7 +137,7 @@ class FsLightbox extends Component {
     initialize() {
         this.data.isInitialized = true;
         this.core.onResize.init();
-        this.core.sourceHoldersTransformer.transformStageSources().withoutTimeout();
+        this.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     }
 
     componentDidMount() {

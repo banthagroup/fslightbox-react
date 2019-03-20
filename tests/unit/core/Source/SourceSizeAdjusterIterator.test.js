@@ -1,9 +1,9 @@
-import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 import SourceSizeAdjusterIterator from "../../../../src/core/Source/SourceSizeAdjusterIterator";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('SourceSizeAdjusterIterator', () => {
-    const fsLightboxMock = new FsLightboxEnzymeMock();
-    const fsLightboxInstance = fsLightboxMock.getInstance();
+    const fsLightboxMock = new FsLightboxMock();
+    const fsLightboxInstance = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
 
     const sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightboxInstance);
     let mockAdjustSourceSize;
