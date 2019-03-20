@@ -3,7 +3,7 @@ import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME } from "../../../../src/constan
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 const fsLightboxMock = new FsLightboxMock();
-const fsLightbox = fsLightboxMock.getFsLightbox();
+const fsLightbox = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
 
 describe('changeSlideTo', () => {
     const slideChanger = new SlideChanger(fsLightbox);
@@ -14,7 +14,7 @@ describe('changeSlideTo', () => {
         fsLightbox.state.slide = 1;
     });
 
-    it('should change slide', () => {
+    it('should change slide', () => {;
         slideChanger.changeSlideTo(2);
         expect(fsLightbox.state.slide).toEqual(2);
     });

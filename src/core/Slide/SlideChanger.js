@@ -20,7 +20,7 @@ export function SlideChanger(
         setState({
             slide: newSlideNumber
         }, () => {
-            sourceHoldersTransformer.transformStageSources().withTimeout();
+            sourceHoldersTransformer.transformStageSourceHolders().withTimeout();
         });
     };
 

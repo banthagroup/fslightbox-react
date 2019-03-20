@@ -8,11 +8,9 @@ import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzym
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
 
 describe('Resize event', () => {
-    const mock = new FsLightboxEnzymeMock();
-    const fsLightboxInstance = mock.getInstance();
-    /**
-     * @var { OnResize } onResize
-     */
+    const fsLightboxMock = new FsLightboxEnzymeMock();
+    const fsLightboxInstance = fsLightboxMock.getInstance();
+    /** @var { OnResize } onResize */
     let onResize;
 
     beforeEach(() => {

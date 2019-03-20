@@ -12,9 +12,7 @@ const source = mount(<Source
     _={ fsLightbox }
     i={ 0 }
 />);
-/**
- * @type { Source }
- */
+/** @type { Source } */
 const sourceInstance = source.instance();
 fsLightbox.collections.sourceSizeAdjusters[0] = {
     adjustSourceSize: jest.fn()

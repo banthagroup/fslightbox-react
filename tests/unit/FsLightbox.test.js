@@ -9,7 +9,7 @@ describe('initialize', () => {
     const testStageHolderTransformer = {
         withoutTimeout: jest.fn(),
     };
-    fsLightbox.core.sourceHoldersTransformer.transformStageSources = function () {
+    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = function () {
         return testStageHolderTransformer;
     };
     fsLightbox.initialize();
@@ -33,7 +33,8 @@ describe('FsLightbox props', () => {
         expect(fsLightboxInstance.state.slide).toEqual(1);
         fsLightbox.setProps({
             slide: 2
+        }, () => {
+            expect(fsLightboxInstance.core.slideChanger.changeSlideTo).toBeCalled();
         });
-        expect(fsLightboxInstance.core.slideChanger.changeSlideTo).toBeCalled();
     });
 });

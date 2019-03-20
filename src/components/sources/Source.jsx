@@ -5,12 +5,14 @@ import Loader from "./Loader.jsx";
 import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
 import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants/CssConstants";
 
-class Source extends Component {
 
+let isLoaderVisible;
+
+class Source extends Component {
     constructor(props) {
         super(props);
         this.callUpdateAfterMount = false;
-        this.isLoaderVisible = true;
+        isLoaderVisible = true;
         if (this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
             this.callUpdateAfterMount = true;
             this.createSource();
@@ -19,7 +21,7 @@ class Source extends Component {
     }
 
     createSource() {
-        this.isLoaderVisible = false;
+        isLoaderVisible = false;
         const sourceFactory = new SourceFactory(this.props._);
         sourceFactory.attachOnFirstSourceLoad(this.onFirstSourceLoad);
         sourceFactory.setSourceIndex(this.props.i);
@@ -76,7 +78,7 @@ class Source extends Component {
 
     render() {
         const loader = (this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i] ||
-            !this.isLoaderVisible) ?
+            !isLoaderVisible) ?
             null : <Loader/>;
 
         return (

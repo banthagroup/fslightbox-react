@@ -3,16 +3,20 @@ import Source from "./Source.jsx";
 import PropTypes from 'prop-types';
 import SourceTypeChecker from "../../core/Source/SourceTypeChecker";
 
+let isMounted;
+let isTypeCheckedAndSourceIsNotCreated;
+
 class SourceHolder extends Component {
     constructor(props) {
         super(props);
+        // component need to be mounted to call method from child by ref
         this.source = React.createRef();
 
         if (!this.props._.sourcesData.sourcesTypes[this.props.i])
             this.initRequest();
-        // component need to be mounted to call method from child by ref
-        this._isMounted = false;
-        this._isTypeChecked = false;
+
+        isMounted = false;
+        isTypeCheckedAndSourceIsNotCreated = false;
     }
 
     initRequest() {
@@ -24,20 +28,20 @@ class SourceHolder extends Component {
 
     processReceivedSourceType() {
         this.props._.sourcesData.sourcesTypes[this.props.i] = this.sourceTypeChecker.sourceType;
-        if (this._isMounted) {
+        if (isMounted) {
             if (this.source.current === null) {
                 this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
                 return;
             }
             this.source.current.createSource();
         } else {
-            this._isTypeChecked = true;
+            isTypeCheckedAndSourceIsNotCreated = true;
         }
     }
 
     componentDidMount() {
-        this._isMounted = true;
-        if (this._isTypeChecked) {
+        isMounted = true;
+        if (isTypeCheckedAndSourceIsNotCreated) {
             this.source.current.createSource();
         }
     }

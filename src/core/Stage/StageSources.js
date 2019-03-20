@@ -3,6 +3,7 @@ import { CURRENT_POSITION, NEXT_POSITION, PREVIOUS_POSITION } from "../../consta
 /**
  * @param { FsLightbox } fsLightbox
  * @param { FsLightbox.data } data
+ * @param { FsLightbox.getters.getSlide } getSlide
  * @class
  */
 export function StageSources({ getters: { getSlide }, data }) {

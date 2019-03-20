@@ -1,14 +1,15 @@
 import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 import { StageSources } from "../../../../src/core/Stage/StageSources";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('StageSources', () => {
-    const mock = new FsLightboxEnzymeMock();
-    const fsLightboxInstance = mock.getInstance();
-    const stageSources = new StageSources(fsLightboxInstance);
-    fsLightboxInstance.data.totalSlides = 10;
+    const mock = new FsLightboxMock();
+    const fsLightbox = mock.instantiateFsLightbox().getFsLightbox();
+    const stageSources = new StageSources(fsLightbox);
+    fsLightbox.data.totalSlides = 10;
 
     it('should detect that sources in stage when its middle slide', () => {
-        fsLightboxInstance.state.slide = 5;
+        fsLightbox.state.slide = 5;
         expect(stageSources.isSourceInStage(0)).toBeFalsy();
         expect(stageSources.isSourceInStage(1)).toBeFalsy();
         expect(stageSources.isSourceInStage(2)).toBeFalsy();
@@ -22,57 +23,57 @@ describe('StageSources', () => {
     });
 
     it('should detect that previous source is in stage when slide = 1', () => {
-        fsLightboxInstance.state.slide = 1;
+        fsLightbox.state.slide = 1;
         expect(stageSources.isSourceInStage(9)).toBeTruthy();
     });
 
     it('should detect that next source is in stage when slide = totalSlides', () => {
-        fsLightboxInstance.state.slide = 10;
+        fsLightbox.state.slide = 10;
         expect(stageSources.isSourceInStage(0)).toBeTruthy();
     });
 
 
     describe('StageSourcesIndexes', () => {
         it('should return previous slide array index', () => {
-            fsLightboxInstance.state.slide = 5;
-            expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightboxInstance.state.slide - 2);
-            fsLightboxInstance.state.slide = 1;
-            expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightboxInstance.data.totalSlides - 1)
+            fsLightbox.state.slide = 5;
+            expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightbox.state.slide - 2);
+            fsLightbox.state.slide = 1;
+            expect(stageSources.getPreviousSlideIndex()).toEqual(fsLightbox.data.totalSlides - 1)
         });
 
         it('should return next slide array index', () => {
-            expect(stageSources.getNextSlideIndex()).toEqual(fsLightboxInstance.state.slide);
-            fsLightboxInstance.state.slide = fsLightboxInstance.data.totalSlides;
+            expect(stageSources.getNextSlideIndex()).toEqual(fsLightbox.state.slide);
+            fsLightbox.state.slide = fsLightbox.data.totalSlides;
             expect(stageSources.getNextSlideIndex()).toEqual(0);
         });
 
         it('should return object width previous, current and next slide array index', () => {
-            fsLightboxInstance.state.slide = 5;
+            fsLightbox.state.slide = 5;
             expect(stageSources.getAllStageIndexes()).toEqual({
-                previous: fsLightboxInstance.state.slide - 2,
-                current: fsLightboxInstance.state.slide - 1,
-                next: fsLightboxInstance.state.slide
+                previous: fsLightbox.state.slide - 2,
+                current: fsLightbox.state.slide - 1,
+                next: fsLightbox.state.slide
             });
 
-            fsLightboxInstance.state.slide = 1;
+            fsLightbox.state.slide = 1;
             expect(stageSources.getAllStageIndexes()).toEqual({
-                previous: fsLightboxInstance.data.totalSlides - 1,
-                current: fsLightboxInstance.state.slide - 1,
-                next: fsLightboxInstance.state.slide
+                previous: fsLightbox.data.totalSlides - 1,
+                current: fsLightbox.state.slide - 1,
+                next: fsLightbox.state.slide
             });
 
-            fsLightboxInstance.state.slide = fsLightboxInstance.data.totalSlides;
+            fsLightbox.state.slide = fsLightbox.data.totalSlides;
             expect(stageSources.getAllStageIndexes()).toEqual({
-                previous: fsLightboxInstance.state.slide - 2,
-                current: fsLightboxInstance.state.slide - 1,
+                previous: fsLightbox.state.slide - 2,
+                current: fsLightbox.state.slide - 1,
                 next: 0
             });
         });
 
 
         it('should return only 2 indexes from getAllStageIndexes due to only 2 slides', () => {
-            fsLightboxInstance.data.totalSlides = 2;
-            fsLightboxInstance.state.slide = 2;
+            fsLightbox.data.totalSlides = 2;
+            fsLightbox.state.slide = 2;
             expect(stageSources.getAllStageIndexes()).toEqual({
                 current: 1,
                 next: 0
@@ -80,8 +81,8 @@ describe('StageSources', () => {
         });
 
         it('should return only 1 index from getAllStageIndexes due to only 1 slide', () => {
-            fsLightboxInstance.data.totalSlides = 1;
-            fsLightboxInstance.state.slide = 1;
+            fsLightbox.data.totalSlides = 1;
+            fsLightbox.state.slide = 1;
             expect(stageSources.getAllStageIndexes()).toEqual({
                 current: 0,
             });

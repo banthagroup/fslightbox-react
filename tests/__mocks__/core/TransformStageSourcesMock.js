@@ -9,7 +9,7 @@ export function TransformStageSourcesMock(fsLightboxInstance) {
         withTimeout: jest.fn()
     };
 
-    fsLightboxInstance.core.sourceHoldersTransformer.transformStageSources = () => {
+    fsLightboxInstance.core.sourceHoldersTransformer.transformStageSourceHolders = () => {
         return this.mockObject;
     };
 
