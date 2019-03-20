@@ -9,8 +9,8 @@ class SlideButtonRight extends Component {
     }
 
     goToNextSlide() {
-        this.props._.core.slideChanger.changeSlideTo(
-            this.props._.core.stageSources.getNextSlideIndex() + 1
+        this.props.core.slideChanger.changeSlideTo(
+            this.props.core.stageSources.getNextSlideIndex() + 1
         );
     }
 
@@ -31,6 +31,6 @@ class SlideButtonRight extends Component {
 }
 
 SlideButtonRight.propTypes = {
-    _: PropTypes.object
+    core: PropTypes.object.isRequired
 };
 export default SlideButtonRight;

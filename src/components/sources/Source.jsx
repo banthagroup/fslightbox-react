@@ -7,14 +7,15 @@ import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants
 
 
 let isLoaderVisible;
+let shouldCallUpdateAfterMount;
 
 class Source extends Component {
     constructor(props) {
         super(props);
-        this.callUpdateAfterMount = false;
+        shouldCallUpdateAfterMount = false;
         isLoaderVisible = true;
-        if (this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
-            this.callUpdateAfterMount = true;
+        if (this.props.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
+            shouldCallUpdateAfterMount = true;
             this.createSource();
         }
         this.onFirstSourceLoad = this.onFirstSourceLoad.bind(this);
@@ -22,11 +23,11 @@ class Source extends Component {
 
     createSource() {
         isLoaderVisible = false;
-        const sourceFactory = new SourceFactory(this.props._);
+        const sourceFactory = new SourceFactory(this.props);
         sourceFactory.attachOnFirstSourceLoad(this.onFirstSourceLoad);
         sourceFactory.setSourceIndex(this.props.i);
-        this.props._.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSourceComponent();
-        if (!this.callUpdateAfterMount) {
+        this.props.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSourceComponent();
+        if (!shouldCallUpdateAfterMount) {
             this.sourceWasCreated();
         }
     }
@@ -37,54 +38,54 @@ class Source extends Component {
     }
 
     componentDidMount() {
-        if (this.callUpdateAfterMount) {
+        if (shouldCallUpdateAfterMount) {
             this.sourceWasCreated();
         }
         // if source was already loaded we need to call onSourceLoad after component mount
-        if (this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
+        if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             this.onSourceLoad();
         }
     }
 
 
     onFirstSourceLoad() {
-        this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
+        this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
         // we are creating source size adjuster after first load because we need already source dimensions
-        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props._);
+        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props);
         sourceSizeAdjuster.setIndex(this.props.i);
-        this.props._.collections.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
+        this.props.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
         this.onSourceLoad();
     }
 
     onSourceLoad() {
         this.fadeInSource();
         // source size adjuster may be not set if source is invalid
-        if (this.props._.collections.sourceSizeAdjusters[this.props.i])
-            this.props._.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+        if (this.props.sourceSizeAdjusters[this.props.i])
+            this.props.sourceSizeAdjusters[this.props.i].adjustSourceSize();
     }
 
 
     fadeInSource() {
         // we are fading in source only if it's in stage
-        if (!this.props._.core.stageSources.isSourceInStage(this.props.i))
+        if (!this.props.core.stageSources.isSourceInStage(this.props.i))
             return;
 
         // we will add longer fade-in for better UX
-        (this.props.i === this.props._.state.slide - 1) ?
-            this.props._.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME) :
-            this.props._.elements.sources[this.props.i].current.classList.add(FADE_IN_CLASS_NAME);
+        (this.props.i === this.props.slide - 1) ?
+            this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME) :
+            this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_CLASS_NAME);
     }
 
 
     render() {
-        const loader = (this.props._.sourcesData.isSourceAlreadyLoadedArray[this.props.i] ||
+        const loader = (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i] ||
             !isLoaderVisible) ?
             null : <Loader/>;
 
         return (
             <>
                 { loader }
-                { this.props._.elements.sourcesJSXComponents[this.props.i] }
+                { this.props.elements.sourcesJSXComponents[this.props.i] }
             </>
         );
     }
@@ -92,7 +93,12 @@ class Source extends Component {
 
 
 Source.propTypes = {
-    _: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired
+    i: PropTypes.number,
+    core: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    elements: PropTypes.object.isRequired,
+    slide: PropTypes.number.isRequired,
+    sourcesData: PropTypes.object.isRequired,
+    sourceSizeAdjusters: PropTypes.array.isRequired
 };
 export default Source;

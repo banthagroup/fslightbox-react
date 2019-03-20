@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 
 class Toolbar extends Component {
-
     constructor(props) {
         super(props);
         this.close = this.close.bind(this);
@@ -12,13 +11,13 @@ class Toolbar extends Component {
     }
 
     fullscreen() {
-        (this.props.fsLightbox.data.isFullscreenOpen) ?
-            this.props.fsLightbox.core.fullscreenToggler.turnOffFullscreen():
-            this.props.fsLightbox.core.fullscreenToggler.turnOnFullscreen();
+        (this.props.data.isFullscreenOpen) ?
+            this.props.core.fullscreenToggler.turnOffFullscreen():
+            this.props.core.fullscreenToggler.turnOnFullscreen();
     }
 
     close() {
-        this.props.fsLightbox.core.closeOpenLightbox.closeLightbox();
+        this.props.core.closeOpenLightbox.closeLightbox();
     }
 
     render() {
@@ -40,7 +39,8 @@ class Toolbar extends Component {
 }
 
 Toolbar.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
+    core: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
 };
 
 export default Toolbar;

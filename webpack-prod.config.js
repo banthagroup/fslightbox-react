@@ -2,7 +2,7 @@ var path = require('path');
 
 
 module.exports = {
-    entry: "./src/FsLightbox.js",
+    entry: "./src/FsLightbox.jsx",
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "umd",
