@@ -1,8 +1,7 @@
-import { testUrls } from "../../schemas/testVariables";
+import { testUrls, testYoutubeURL } from "../../schemas/testVariables";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
-import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 
 describe('SourceHolder', () => {
@@ -19,20 +18,6 @@ describe('SourceHolder', () => {
         }
         expect(mediaHolder.children().length).toEqual(testUrls.length);
     });
-
-    it('should set sourceType to FsLightbox after detecting it by SourceTypeChecker', () => {
-        const sourceHolder = new SourceHolder({
-            _: fsLightboxInstance,
-            i: 0
-        });
-        expect(fsLightboxInstance.sourcesData.sourcesTypes[0]).toBeUndefined();
-        return sourceHolder.sourceTypeChecker.getSourceType().then(() => {
-            expect(sourceHolder.sourceTypeChecker.sourceType).toEqual(IMAGE_TYPE);
-            sourceHolder.processReceivedSourceType();
-            expect(fsLightboxInstance.sourcesData.sourcesTypes[0]).toEqual(IMAGE_TYPE);
-        });
-    });
-
 
     describe('creating sources after reopen due to lightbox close during request', () => {
         const fsLightboxMock = new FsLightboxMock();

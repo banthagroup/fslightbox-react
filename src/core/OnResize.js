@@ -7,7 +7,8 @@ import {
  * @param { FsLightbox } FsLightbox
  * @param { FsLightbox.sourcesData } FsLightbox.sourcesData
  * @param { FsLightbox.elements } FsLightbox.elements
- * @param { FsLightbox.core } FsLightbox.core
+ * @param { FsLightbox.core.sourceSizeAdjusterIterator | SourceSizeAdjusterIterator } sourceSizeAdjusterIterator
+ * @param { FsLightbox.core.sourceHoldersTransformer |  SourceHoldersTransformer } sourceHoldersTransformer
  * @class
  */
 export function OnResize(
@@ -16,7 +17,8 @@ export function OnResize(
         setters: { sourcesData: { setMaxSourceWidth, setMaxSourceHeight } },
         elements: { mediaHolder },
         core: { sourceSizeAdjusterIterator, sourceHoldersTransformer }
-    }) {
+    }
+) {
     this.init = () => {
         saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
