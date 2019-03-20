@@ -10,8 +10,8 @@ class SlideButtonLeft extends Component {
     }
 
     goToPreviousSlide() {
-        this.props._.core.slideChanger.changeSlideTo(
-            this.props._.core.stageSources.getPreviousSlideIndex() + 1
+        this.props.core.slideChanger.changeSlideTo(
+            this.props.core.stageSources.getPreviousSlideIndex() + 1
         );
     }
 
@@ -32,6 +32,6 @@ class SlideButtonLeft extends Component {
 }
 
 SlideButtonLeft.propTypes = {
-    _: PropTypes.object.isRequired
+    core: PropTypes.object.isRequired
 };
 export default SlideButtonLeft;

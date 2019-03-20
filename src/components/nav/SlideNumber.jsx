@@ -14,7 +14,7 @@ class SlideNumber extends Component {
 }
 
 SlideNumber.propTypes = {
-    slide: PropTypes.number,
-    totalSlides: PropTypes.number,
+    slide: PropTypes.number.isRequired,
+    totalSlides: PropTypes.number.isRequired,
 };
 export default SlideNumber;

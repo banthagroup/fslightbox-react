@@ -13,7 +13,7 @@ class SourceHolder extends Component {
         this.source = React.createRef();
         this.processReceivedSourceType = this.processReceivedSourceType.bind(this);
 
-        if (!this.props._.sourcesData.sourcesTypes[this.props.i])
+        if (!this.props.sourcesData.sourcesTypes[this.props.i])
             this.initRequest();
 
         isMounted = false;
@@ -22,16 +22,16 @@ class SourceHolder extends Component {
 
     initRequest() {
         const sourceTypeChecker = new SourceTypeChecker();
-        sourceTypeChecker.setUrlToCheck(this.props._.data.urls[this.props.i]);
+        sourceTypeChecker.setUrlToCheck(this.props.data.urls[this.props.i]);
         sourceTypeChecker.getSourceType()
             .then(this.processReceivedSourceType);
     }
 
     processReceivedSourceType(sourceType) {
-        this.props._.sourcesData.sourcesTypes[this.props.i] = sourceType;
+        this.props.sourcesData.sourcesTypes[this.props.i] = sourceType;
         if (isMounted) {
             if (this.source.current === null) {
-                this.props._.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
+                this.props.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
                 return;
             }
             this.source.current.createSource();
@@ -49,12 +49,17 @@ class SourceHolder extends Component {
 
     render() {
         return (
-            <div ref={ this.props._.elements.sourceHolders[this.props.i] }
+            <div ref={ this.props.elements.sourceHolders[this.props.i] }
                  className="fslightbox-source-holder">
                 <Source
-                    _={ this.props._ }
                     i={ this.props.i }
                     ref={ this.source }
+                    core={ this.props.core }
+                    data={ this.props.data }
+                    elements={ this.props.elements }
+                    slide={ this.props.slide }
+                    sourcesData={ this.props.sourcesData }
+                    sourceSizeAdjusters={ this.props.sourceSizeAdjusters }
                 />
             </div>
         );
@@ -62,7 +67,13 @@ class SourceHolder extends Component {
 }
 
 SourceHolder.propTypes = {
-    _: PropTypes.object,
-    i: PropTypes.number
+    i: PropTypes.number,
+    core: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    slide: PropTypes.number.isRequired,
+    elements: PropTypes.object.isRequired,
+    sourcesData: PropTypes.object.isRequired,
+    sourceSizeAdjusters: PropTypes.array.isRequired
 };
+
 export default SourceHolder;

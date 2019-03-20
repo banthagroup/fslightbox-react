@@ -5,21 +5,12 @@ import "./css/fslightboxBasic.css";
 import SlideButtonLeft from "./components/slideButtons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
 import MediaHolder from "./components/holders/MediaHolder.jsx";
-import { OnResize } from "./core/OnResize";
 import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArrayForNumberOfSlides";
 import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
-import { StageSources } from "./core/Stage/StageSources";
-import { SourceHoldersTransformer } from "./core/Transforms/SourceHoldersTransformer";
-import { SlideChanger } from "./core/Slide/SlideChanger";
-import { SourceAnimator } from "./core/Animations/SourceAnimator";
-import { FullscreenToggler } from "./core/Fullscreen/FullscreenToggler";
-import { CloseOpenLightbox } from "./core/CloseOpenLightbox";
 import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
-import { SourceSizeAdjusterIterator } from "./core/Source/SourceSizeAdjusterIterator";
 import { Core } from "./core/Core";
 
 class FsLightbox extends Component {
-
     constructor(props) {
         super(props);
         this.setUpData();
@@ -72,7 +63,7 @@ class FsLightbox extends Component {
     setUpGetters() {
         this.getters = {
             initialize: () => this.initialize(),
-            getSlide: () =>  this.state.slide,
+            getSlide: () => this.state.slide,
         };
     }
 
@@ -142,10 +133,25 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
         return (
             <div ref={ this.elements.container } className="fslightbox-container">
-                <Nav fsLightbox={ this }/>
-                <SlideButtonLeft _={ this }/>
-                <SlideButtonRight _={ this }/>
-                <MediaHolder _={ this }/>
+                <Nav
+                    core={ this.core }
+                    data={ this.data }
+                    slide={ this.state.slide }
+                />
+                <SlideButtonLeft
+                    core={ this.core }
+                />
+                <SlideButtonRight
+                    core={ this.core }
+                />
+                <MediaHolder
+                    core={ this.core }
+                    data={ this.data }
+                    elements={ this.elements }
+                    slide={ this.state.slide }
+                    sourcesData={ this.sourcesData }
+                    sourceSizeAdjusters={ this.collections.sourceSizeAdjusters }
+                />
             </div>
         );
     }

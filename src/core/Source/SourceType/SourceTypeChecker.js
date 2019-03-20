@@ -4,7 +4,6 @@ import {
     VIDEO_TYPE,
     YOUTUBE_TYPE,
 } from "../../../constants/CoreConstants";
-import { getTypeFromResponseContentType } from "../../../utils/SourceType/getTypeFromResponseContentType";
 import { SourceTypeCheckerUtils } from "./SourceTypeCheckerUtils";
 
 /**
@@ -16,23 +15,28 @@ export function SourceTypeChecker() {
     /** @type XMLHttpRequest */
     let xhr = null;
     let resolveAndReturnSourceType = null;
-    const sourceTypeUtils = new SourceTypeCheckerUtils();
+    const sourceTypeCheckerUtils = new SourceTypeCheckerUtils();
 
     this.setUrlToCheck = (urlToCheck) => {
         url = urlToCheck;
     };
 
+    /**
+     * @return {Promise<any | void>}
+     */
     this.getSourceType = () => {
         return new Promise(((resolve) => {
             resolveAndReturnSourceType = resolve;
-            (sourceTypeUtils.isUrlYoutubeOne(url)) ?
-                youtubeType() :
-                setUpXhr();
+            if (sourceTypeCheckerUtils.isUrlYoutubeOne(url)) {
+                youtubeType();
+                return resolve(sourceType);
+            }
+            checkSourceTypeUsingXhr();
         })).catch(() => invalidType());
     };
 
 
-    const setUpXhr = () => {
+    const checkSourceTypeUsingXhr = () => {
         xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onreadystatechange = onRequestStateChange;
@@ -49,7 +53,7 @@ export function SourceTypeChecker() {
             return;
         }
         callCorrectActionsDependingOnSourceType(
-            sourceTypeUtils, getTypeFromResponseContentType(
+            sourceTypeCheckerUtils.getTypeFromResponseContentType(
                 xhr.getResponseHeader('content-type')
             )
         );
@@ -78,7 +82,6 @@ export function SourceTypeChecker() {
 
     const youtubeType = () => {
         sourceType = YOUTUBE_TYPE;
-        resolveAndReturnSourceType(sourceType);
     };
 
     const imageType = () => {

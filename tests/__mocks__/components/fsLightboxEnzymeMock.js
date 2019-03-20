@@ -1,7 +1,7 @@
 import { mount } from "enzyme";
 import { testUrls } from "../../schemas/testVariables";
 import React from "react";
-import FsLightbox from "../../../src/FsLightbox.js";
+import FsLightbox from "../../../src/FsLightbox.jsx";
 
 export class FsLightboxEnzymeMock {
     constructor() {
