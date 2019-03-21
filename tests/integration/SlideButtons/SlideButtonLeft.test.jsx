@@ -7,7 +7,7 @@ import { TestFsLightboxProps } from "../../__mocks__/components/TestFsLightboxPr
 const fsLightbox = new FsLightbox(new TestFsLightboxProps().withNumberOfUrls(4));
 fsLightbox.slide = 1;
 const slideButtonLeft = mount(<SlideButtonLeft
-    _={ fsLightbox }
+    core={ fsLightbox.core }
 />);
 fsLightbox.core.slideChanger.changeSlideTo = jest.fn();
 

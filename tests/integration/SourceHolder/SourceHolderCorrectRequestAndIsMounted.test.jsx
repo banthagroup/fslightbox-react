@@ -1,49 +1,55 @@
+import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { SourceHolderMock } from "../../__mocks__/components/sources/sourceHolderMock";
 import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
-import { mount } from "enzyme";
-import React from "react";
-import Source from "../../../src/components/sources/Source";
-import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 
-describe('checking correct request and component mounted', () => {
-    const fsLightboxMock = new FsLightboxEnzymeMock();
-    const fsLightboxWrapper = fsLightboxMock.getWrapper();
-    const fsLightboxInstance = fsLightboxMock.getInstance();
-    const sourceHolderInstance = fsLightboxWrapper.find('SourceHolder').at(0).instance();
-    sourceHolderInstance.source.current.createSource = jest.fn();
+const fsLightboxMock = new FsLightboxMock();
+fsLightboxMock.instantiateFsLightbox();
+const fsLightbox = fsLightboxMock.getFsLightbox();
 
-    beforeEach(() => {
-        sourceHolderInstance.source.current = null;
-        sourceHolderInstance.processReceivedSourceType();
+let sourceHolderMock;
+/** @var { SourceHolder } sourceHolder */
+let sourceHolder;
+
+beforeEach(() => {
+    sourceHolderMock = new SourceHolderMock(fsLightbox);
+    sourceHolderMock.setIndex(0);
+    sourceHolder = sourceHolderMock.getSourceHolder();
+    // emptying sourcesToCreateOnConstruct because we use this in tests so tests would affect each other
+    fsLightbox.sourcesData.sourcesToCreateOnConstruct = [];
+});
+
+
+describe('processReceivedSourceType - if component is mounted', () => {
+    describe('source is null (request have succeeded when lightbox is closed', () => {
+        beforeEach(() => {
+            // source is null and component is mounted
+            sourceHolder.componentDidMount();
+            sourceHolder.source.current = null;
+        });
+
+        it('should set sourcesToCreateOnConstruct for source to true', () => {
+            sourceHolder.processReceivedSourceType(IMAGE_TYPE);
+            expect(fsLightbox.sourcesData.sourcesToCreateOnConstruct[0]).toBeTruthy();
+        });
     });
 
-    it('should add true at correct _index to FsLightbox sourcesToCreateOnConstruct array', () => {
-        expect(fsLightboxInstance.sourcesData.sourcesToCreateOnConstruct[0]).toBeTruthy();
-        expect(fsLightboxInstance.elements.sourcesJSXComponents[0]).toBeNull();
-    });
+    describe('source is not null (normal situation)', () => {
+        beforeEach(() => {
+            // component is mounted and source is not null
+            sourceHolder.componentDidMount();
+            sourceHolder.source.current = {
+                createSource: jest.fn()
+            };
+        });
 
-    it('should call sourceWasCreated after creating source', () => {
-        fsLightboxMock.setSourcesTypes([IMAGE_TYPE]);
-        /** @type {Source} */
-        const sourceInstance = mount(<Source
-            _={ fsLightboxInstance }
-            i={ 0 }
-        />).instance();
-        sourceInstance.sourceWasCreated = jest.fn();
-        sourceInstance.callUpdateAfterMount = false;
-        sourceInstance.createSource();
-        expect(sourceInstance.sourceWasCreated).toBeCalled();
-    });
+        it('should set sourcesToCreateOnConstruct for source to true', () => {
+            sourceHolder.processReceivedSourceType(IMAGE_TYPE);
+            expect(fsLightbox.sourcesData.sourcesToCreateOnConstruct[0]).toBeFalsy();
+        });
 
-    it('should not call sourceWasCreated after creating source', () => {
-        fsLightboxMock.setSourcesTypes([IMAGE_TYPE]);
-        /** @type {Source} */
-        const sourceInstance = mount(<Source
-            _={ fsLightboxInstance }
-            i={ 0 }
-        />).instance();
-        sourceInstance.sourceWasCreated = jest.fn();
-        sourceInstance.callUpdateAfterMount = true;
-        sourceInstance.createSource();
-        expect(sourceInstance.sourceWasCreated).not.toBeCalled();
+        it('should call createSource', () => {
+            sourceHolder.processReceivedSourceType(IMAGE_TYPE);
+            expect(sourceHolder.source.current.createSource).toBeCalled();
+        });
     });
 });

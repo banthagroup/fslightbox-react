@@ -54,12 +54,12 @@ class SourceHolder extends Component {
                 <Source
                     i={ this.props.i }
                     ref={ this.source }
+                    collections={ this.props.collections }
                     core={ this.props.core }
                     data={ this.props.data }
                     elements={ this.props.elements }
                     slide={ this.props.slide }
                     sourcesData={ this.props.sourcesData }
-                    sourceSizeAdjusters={ this.props.sourceSizeAdjusters }
                 />
             </div>
         );
@@ -68,12 +68,12 @@ class SourceHolder extends Component {
 
 SourceHolder.propTypes = {
     i: PropTypes.number,
+    collections: PropTypes.object.isRequired,
     core: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
-    slide: PropTypes.number.isRequired,
     elements: PropTypes.object.isRequired,
-    sourcesData: PropTypes.object.isRequired,
-    sourceSizeAdjusters: PropTypes.array.isRequired
+    slide: PropTypes.number.isRequired,
+    sourcesData: PropTypes.object.isRequired
 };
 
 export default SourceHolder;

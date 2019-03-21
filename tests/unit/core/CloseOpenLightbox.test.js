@@ -25,8 +25,10 @@ describe('closing lightbox', () => {
     });
 
     it('should call removeListener after lightbox fade out', () => {
+        jest.useFakeTimers();
         fsLightboxInstance.core.onResize.removeListener = jest.fn();
-        closeOpenLightbox.afterFadeOut();
+        closeOpenLightbox.closeLightbox();
+        jest.runAllTimers();
         expect(fsLightboxInstance.core.onResize.removeListener).toBeCalled();
     });
 });

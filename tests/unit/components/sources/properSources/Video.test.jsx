@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import { createVideoSourceForFsLightbox } from "../../../../__mocks__/helpers/createSourceForFsLightbox";
 import React from "react";
 import FsLightbox from "../../../../../src";
-import { VideoMock } from "../../../../__mocks__/components/properSources/VideoMock";
+import { VideoMock } from "../../../../__mocks__/components/sources/properSources/VideoMock";
 
 it('should add poster to video', () => {
     const videosPostersArray = [];

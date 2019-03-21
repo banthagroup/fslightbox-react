@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from "enzyme";
-import Image from "../../../../src/components/sources/properSources/Image";
-import { testSourceDimensions } from "../../../schemas/testVariables";
+import Image from "../../../../../src/components/sources/properSources/Image";
+import { testSourceDimensions } from "../../../../schemas/testVariables";
 
 /**
  * @class ImageMock

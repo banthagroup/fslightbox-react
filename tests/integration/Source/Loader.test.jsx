@@ -1,8 +1,8 @@
 import React from 'react';
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import Source from "../../../src/components/sources/Source";
-import { mount } from "enzyme";
 import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
+import { SourceEnzymeMock } from "../../__mocks__/components/sources/sourceEnzymeMock";
 
 describe('Loader', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();
@@ -18,24 +18,22 @@ describe('Loader', () => {
         fsLightboxMock.setSourcesTypes([
             IMAGE_TYPE
         ]);
-        const mockSource = mount(<Source
-            _={ fsLightboxInstance }
-            i={ 0 }
-        />);
-        expect(mockSource.exists('Loader')).toBeTruthy();
-        mockSource.instance().createSource();
-        mockSource.update();
-        expect(mockSource.exists('Loader')).toBeFalsy();
+        const sourceEnzymeMock = new SourceEnzymeMock(fsLightboxInstance);
+        sourceEnzymeMock.instantiateSource();
+        const sourceWrapper = sourceEnzymeMock.getWrapper();
+        expect(sourceWrapper.exists('Loader')).toBeTruthy();
+        sourceWrapper.instance().createSource();
+        sourceWrapper.update();
+        expect(sourceWrapper.exists('Loader')).toBeFalsy();
     });
 
     it('should hide loader after source create on construct', () => {
         // source is created on construct so loader should be hidden after component update
         // which is called in componentDidMount
         fsLightboxInstance.sourcesData.sourcesToCreateOnConstruct[0] = true;
-        const mockSource = mount(<Source
-            _={ fsLightboxInstance }
-            i={ 0 }
-        />);
-        expect(mockSource.exists('Loader')).toBeFalsy();
+        const sourceEnzymeMock = new SourceEnzymeMock(fsLightboxInstance);
+        sourceEnzymeMock.instantiateSource();
+        const sourceWrapper = sourceEnzymeMock.getWrapper()
+        expect(sourceWrapper.exists('Loader')).toBeFalsy();
     });
 });

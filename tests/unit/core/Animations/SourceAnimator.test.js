@@ -1,5 +1,5 @@
 import { SourceAnimator } from "../../../../src/core/Animations/SourceAnimator";
-import { ImageMock } from "../../../__mocks__/components/properSources/ImageMock";
+import { ImageMock } from "../../../__mocks__/components/sources/properSources/ImageMock";
 import FsLightbox from "../../../../src";
 import { testProps } from "../../../schemas/testVariables";
 
