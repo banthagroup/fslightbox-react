@@ -4,8 +4,8 @@ import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/ge
 import Image from "../../../src/components/sources/properSources/Image";
 import Video from "../../../src/components/sources/properSources/Video";
 import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
-import { ImageMock } from "../../__mocks__/components/properSources/ImageMock";
-import { VideoMock } from "../../__mocks__/components/properSources/VideoMock";
+import { ImageMock } from "../../__mocks__/components/sources/properSources/ImageMock";
+import { VideoMock } from "../../__mocks__/components/sources/properSources/VideoMock";
 
 describe('Source Size', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();

@@ -1,8 +1,9 @@
-import { testUrls, testYoutubeURL } from "../../schemas/testVariables";
+import { testUrls } from "../../schemas/testVariables";
 import React from 'react';
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
+import { SourceHolderMock } from "../../__mocks__/components/sources/sourceHolderMock";
 
 describe('SourceHolder', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();
@@ -26,10 +27,9 @@ describe('SourceHolder', () => {
 
         const checkingCreatingSourceAtCorrectTimeDueToClosingLightbox = (i) => {
             it('should not call createSource after received source type due to component not mounted', () => {
-                const sourceHolder = new SourceHolder({
-                    _: fsLightbox,
-                    i: i
-                });
+                const sourceHolderMock = new SourceHolderMock(fsLightbox);
+                sourceHolderMock.setIndex(i);
+                const sourceHolder = sourceHolderMock.getSourceHolder();
                 sourceHolder.source.current = {
                     createSource: jest.fn()
                 };
@@ -38,10 +38,10 @@ describe('SourceHolder', () => {
             });
 
             it('should call create source on component mount (this is is needed if user will close lightbox during request)', () => {
-                const sourceHolder = new SourceHolder({
-                    _: fsLightbox,
-                    i: i
-                });
+                const sourceHolderMock = new SourceHolderMock(fsLightbox);
+                sourceHolderMock.setIndex(i);
+                const sourceHolder = sourceHolderMock.getSourceHolder();
+
                 // this is needed cause if we for e.g. type is youtube and normal request will finish and set sourceType so
                 // initRequest won't be  called on construct and processReceivedSourceType will throw error cause sourceType
                 // won't be set

@@ -23,7 +23,8 @@ export function FsLightboxMock() {
             for (let statePropertyName in newState) {
                 fsLightbox.state[statePropertyName] = newState[statePropertyName];
             }
-            callback();
+            if (callback)
+                callback();
         };
         return {
             getFsLightbox: () => this.getFsLightbox(),

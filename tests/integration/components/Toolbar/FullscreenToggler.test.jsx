@@ -6,11 +6,11 @@ import { mount } from "enzyme";
 
 const fsLightbox = new FsLightbox(testProps);
 const toolbar = mount(<Toolbar
-    fsLightbox={ fsLightbox }
+    core={ fsLightbox.core }
+    data={ fsLightbox.data }
 />);
 fsLightbox.core.fullscreenToggler.turnOffFullscreen = jest.fn();
 fsLightbox.core.fullscreenToggler.turnOnFullscreen = jest.fn();
-
 
 it('should turn off fullscreen', () => {
     fsLightbox.data.isFullscreenOpen = true;

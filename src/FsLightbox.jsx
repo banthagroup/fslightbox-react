@@ -92,9 +92,7 @@ class FsLightbox extends Component {
     }
 
     setUpCore() {
-        /**
-         * @type {Core}
-         */
+        /** @type {Core} */
         this.core = new Core(this);
     }
 
@@ -150,7 +148,7 @@ class FsLightbox extends Component {
                     elements={ this.elements }
                     slide={ this.state.slide }
                     sourcesData={ this.sourcesData }
-                    sourceSizeAdjusters={ this.collections.sourceSizeAdjusters }
+                    collections={ this.collections }
                 />
             </div>
         );
@@ -164,12 +162,8 @@ FsLightbox.propTypes = {
     onClose: PropTypes.func,
     onInit: PropTypes.func,
     onShow: PropTypes.func,
-
-    // developer can add video poster if he wants to
     videosPosters: PropTypes.array,
-
     slide: PropTypes.number,
-
     slideDistance: PropTypes.number,
 };
 

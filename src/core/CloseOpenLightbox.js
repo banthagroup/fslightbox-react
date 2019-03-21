@@ -13,7 +13,7 @@ import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../con
  */
 export function CloseOpenLightbox(
     {
-        elements: {container},
+        elements: { container },
         core: { onResize, sourceHoldersTransformer, fullscreenToggler },
         data,
         setters: { setState },
@@ -40,22 +40,22 @@ export function CloseOpenLightbox(
         if (fadingOut) return;
         fadingOut = true;
         container.current.classList.add(FADE_OUT_COMPLETE_CLASS_NAME);
-        if(data.isFullscreenOpen) {
+        if (data.isFullscreenOpen) {
             fullscreenToggler.turnOffFullscreen();
         }
         setTimeout(() => {
-            this.afterFadeOut();
+            afterFadeOut();
         }, CONTAINER_FADE_OUT_TIME);
     };
 
-    this.afterFadeOut = () => {
+    const afterFadeOut = () => {
         container.current.classList.remove(FADE_OUT_COMPLETE_CLASS_NAME);
         fadingOut = false;
         documentClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME);
         setState({
             isOpen: false
         });
-        componentMountedAfterClose();
+        onResize.removeListener();
     };
 
     const componentMountedAfterOpen = () => {
@@ -67,8 +67,4 @@ export function CloseOpenLightbox(
         onResize.adjustMediaHolderSize();
         sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     };
-
-    const componentMountedAfterClose = () => {
-        onResize.removeListener();
-    }
 }

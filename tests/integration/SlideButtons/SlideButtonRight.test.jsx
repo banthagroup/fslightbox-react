@@ -8,8 +8,8 @@ const fsLightbox = new FsLightbox(testProps);
 fsLightbox.slide = 1;
 fsLightbox.totalSlides = 3;
 const slideButtonRight = mount(<SlideButtonRight
-    _={ fsLightbox }
-/>)
+    core={ fsLightbox.core }
+/>);
 fsLightbox.core.slideChanger.changeSlideTo = jest.fn();
 
 it('should call changeSlide with previous slide number', () => {

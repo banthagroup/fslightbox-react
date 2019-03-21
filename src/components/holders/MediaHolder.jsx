@@ -14,12 +14,12 @@ class MediaHolder extends Component {
                 <SourceHolder
                     key={ i }
                     i={ i }
+                    collections={ this.props.collections }
                     core={ this.props.core }
                     data={ this.props.data }
                     elements={ this.props.elements }
                     slide={ this.props.slide }
                     sourcesData={ this.props.sourcesData }
-                    sourceSizeAdjusters={ this.props.sourceSizeAdjusters }
                 />
             );
         }
@@ -33,11 +33,11 @@ class MediaHolder extends Component {
 
 
 MediaHolder.propTypes = {
+    collections: PropTypes.object.isRequired,
     core: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired,
     slide: PropTypes.number.isRequired,
-    sourcesData: PropTypes.object.isRequired,
-    sourceSizeAdjusters: PropTypes.array.isRequired,
+    sourcesData: PropTypes.object.isRequired
 };
 export default MediaHolder;

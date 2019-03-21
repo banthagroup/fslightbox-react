@@ -14,6 +14,7 @@ class Source extends Component {
         super(props);
         shouldCallUpdateAfterMount = false;
         isLoaderVisible = true;
+        // request succeeded when lightbox was closed
         if (this.props.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
             shouldCallUpdateAfterMount = true;
             this.createSource();
@@ -53,15 +54,15 @@ class Source extends Component {
         // we are creating source size adjuster after first load because we need already source dimensions
         const sourceSizeAdjuster = new SourceSizeAdjuster(this.props);
         sourceSizeAdjuster.setIndex(this.props.i);
-        this.props.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
+        this.props.collections.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
         this.onSourceLoad();
     }
 
     onSourceLoad() {
         this.fadeInSource();
         // source size adjuster may be not set if source is invalid
-        if (this.props.sourceSizeAdjusters[this.props.i])
-            this.props.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+        if (this.props.collections.sourceSizeAdjusters[this.props.i])
+            this.props.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
     }
 
 
@@ -70,10 +71,13 @@ class Source extends Component {
         if (!this.props.core.stageSources.isSourceInStage(this.props.i))
             return;
 
+
         // we will add longer fade-in for better UX
-        (this.props.i === this.props.slide - 1) ?
-            this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME) :
+        if (this.props.i === this.props.slide - 1) {
+            this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME)
+        } else {
             this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_CLASS_NAME);
+        }
     }
 
 
@@ -93,12 +97,12 @@ class Source extends Component {
 
 
 Source.propTypes = {
-    i: PropTypes.number,
+    i: PropTypes.number.isRequired,
+    collections: PropTypes.object.isRequired,
     core: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired,
     slide: PropTypes.number.isRequired,
-    sourcesData: PropTypes.object.isRequired,
-    sourceSizeAdjusters: PropTypes.array.isRequired
+    sourcesData: PropTypes.object.isRequired
 };
 export default Source;
