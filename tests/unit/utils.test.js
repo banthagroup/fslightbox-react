@@ -11,7 +11,7 @@ import { getYoutubeVideoIDFromURL } from "../../src/utils/SourceType/getYoutubeV
 
 
 describe('Helpers Utils', () => {
-    it('should call events from props', () => {
+    it('should call Events from props', () => {
         const exampleMethods = {};
 
         for (let i in EVENTS_CONSTANTS_NAMES) {

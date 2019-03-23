@@ -3,7 +3,7 @@ import { SourceSizeAdjusterIterator } from "../../../../src/core/Source/SourceSi
 
 describe('SourceSizeAdjusterIterator', () => {
     const fsLightboxMock = new FsLightboxMock();
-    const fsLightboxInstance = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
+    const fsLightboxInstance = fsLightboxMock.getFsLightbox();
 
     const sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightboxInstance);
     let mockAdjustSourceSize;

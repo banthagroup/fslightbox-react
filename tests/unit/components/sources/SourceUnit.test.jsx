@@ -6,7 +6,7 @@ import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../../../src
 import { IMAGE_TYPE } from "../../../../src/constants/CoreConstants";
 
 const fsLightboxMock = new FsLightboxMock();
-fsLightboxMock.instantiateFsLightbox();
+fsLightboxMock.instantiateNewFsLightbox();
 fsLightboxMock.setAllSourcesToDivs();
 const fsLightbox = fsLightboxMock.getFsLightbox();
 

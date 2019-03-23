@@ -1,41 +1,30 @@
 import {
     SOURCE_DIMENSIONS_BREAK,
     SOURCE_DIMENSIONS_DECREASE_VALUE
-} from "../constants/ResponsiveConstants";
+} from "../../constants/ResponsiveConstants";
 
 /**
+ * @class SizeController
  * @param { FsLightbox } FsLightbox
  * @param { FsLightbox.sourcesData } FsLightbox.sourcesData
  * @param { FsLightbox.elements } FsLightbox.elements
- * @param { FsLightbox.core.sourceSizeAdjusterIterator | SourceSizeAdjusterIterator } sourceSizeAdjusterIterator
- * @param { FsLightbox.core.sourceHoldersTransformer |  SourceHoldersTransformer } sourceHoldersTransformer
- * @class
  */
-export function OnResize(
+export function SizeController(
     {
         sourcesData,
         setters: { sourcesData: { setMaxSourceWidth, setMaxSourceHeight } },
-        elements: { mediaHolder },
-        core: { sourceSizeAdjusterIterator, sourceHoldersTransformer }
+        elements: { mediaHolder }
     }
 ) {
-    this.init = () => {
+    this.controlAll = () => {
         saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
-        this.attachListener();
     };
 
+    /** @method */
     this.adjustMediaHolderSize = () => {
         mediaHolder.current.style.width = sourcesData.maxSourceWidth + 'px';
         mediaHolder.current.style.height = sourcesData.maxSourceHeight + 'px';
-    };
-
-    this.attachListener = () => {
-        window.addEventListener('resize', onResizeMethod);
-    };
-
-    this.removeListener = () => {
-        window.removeEventListener('resize', onResizeMethod);
     };
 
     const saveMaxSourcesDimensions = () => {
@@ -45,11 +34,4 @@ export function OnResize(
 
         setMaxSourceHeight(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE));
     };
-
-    const onResizeMethod = () => {
-        saveMaxSourcesDimensions();
-        this.adjustMediaHolderSize();
-        sourceSizeAdjusterIterator.adjustAllSourcesSizes();
-        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
-    }
 }

@@ -5,7 +5,8 @@ import { FullscreenToggler } from "./Fullscreen/FullscreenToggler";
 import { SourceHoldersTransformer } from "./Transforms/SourceHoldersTransformer";
 import { CloseOpenLightbox } from "./CloseOpenLightbox";
 import { SlideChanger } from "./Slide/SlideChanger";
-import { OnResize } from "./OnResize";
+import { EventsControllers } from "./EventsControllers/EventsControllers";
+import { SizeController } from "./Size/SizeController";
 
 /**
  * @class Core
@@ -21,6 +22,7 @@ export function Core(fsLightbox) {
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
-    this.onResize = new OnResize(fsLightbox);
+    this.sizeController = new SizeController(fsLightbox);
+    this.eventsControllers = new EventsControllers(fsLightbox);
     this.closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
 }

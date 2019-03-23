@@ -4,7 +4,7 @@ import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('StageSources', () => {
     const mock = new FsLightboxMock();
-    const fsLightbox = mock.instantiateFsLightbox().getFsLightbox();
+    const fsLightbox = mock.getFsLightbox();
     const stageSources = new StageSources(fsLightbox);
     fsLightbox.data.totalSlides = 10;
 

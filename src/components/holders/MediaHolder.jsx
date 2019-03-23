@@ -7,6 +7,15 @@ class MediaHolder extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        if(this.props.data.xd)
+            return;
+        this.props.data.xd = true;
+        this.props.elements.mediaHolder.current.addEventListener('touchstart',() => {
+            console.log(1);
+        }, {passive: true})
+    }
+
     render() {
         const sourceHolders = [];
         for (let i = 0; i < this.props.data.totalSlides; i++) {

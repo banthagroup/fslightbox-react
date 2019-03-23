@@ -5,7 +5,7 @@ import { StageSources } from "../../../../src/core/Stage/StageSources";
 
 describe('current source transforming', () => {
     const fsLightboxMock = new FsLightboxMock();
-    fsLightboxMock.instantiateFsLightbox();
+    fsLightboxMock.instantiateNewFsLightbox();
     fsLightboxMock.setAllSourceHoldersToDivs();
     const fsLightbox = fsLightboxMock.getFsLightbox();
 
@@ -20,7 +20,7 @@ describe('current source transforming', () => {
 
 let stageSourcesIndexes;
 const fsLightboxMock = new FsLightboxMock();
-fsLightboxMock.instantiateFsLightbox();
+fsLightboxMock.instantiateNewFsLightbox();
 fsLightboxMock.setAllSourceHoldersToDivs();
 const fsLightbox = fsLightboxMock.getFsLightbox();
 const stageSourceHoldersTransformer = new StageSourceHoldersTransformer(fsLightbox);

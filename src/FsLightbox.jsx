@@ -28,6 +28,7 @@ class FsLightbox extends Component {
          * @type {{urls: Array, totalSlides: number, isInitialized: boolean, isFullscreenOpen: boolean, isMobile: *}}
          */
         this.data = {
+            xd: false,
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
             isFullscreenOpen: false,
@@ -116,7 +117,8 @@ class FsLightbox extends Component {
 
     initialize() {
         this.data.isInitialized = true;
-        this.core.onResize.init();
+        this.core.sizeController.controlAll();
+        this.core.eventsControllers.window.resize.attachListener();
         this.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     }
 
