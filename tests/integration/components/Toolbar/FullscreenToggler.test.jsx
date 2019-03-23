@@ -1,5 +1,5 @@
 import React from 'react';
-import Toolbar from "../../../../src/components/nav/Toolbar";
+import Toolbar from "../../../../src/components/Nav/Toolbar";
 import FsLightbox from "../../../../src";
 import { testProps } from "../../../schemas/testVariables";
 import { mount } from "enzyme";

@@ -5,7 +5,6 @@ import Loader from "./Loader.jsx";
 import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
 import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants/CssConstants";
 
-
 let isLoaderVisible;
 let shouldCallUpdateAfterMount;
 

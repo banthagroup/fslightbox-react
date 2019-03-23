@@ -1,6 +1,6 @@
 import { mount } from "enzyme";
 import React from "react";
-import Svg from "../../../src/components/helpers/Svg";
+import Svg from "../../../src/components/Helpers/Svg";
 
 describe('SVG', () => {
     it('should have correct attributes from props', () => {

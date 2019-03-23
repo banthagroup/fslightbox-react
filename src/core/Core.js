@@ -7,6 +7,7 @@ import { CloseOpenLightbox } from "./CloseOpenLightbox";
 import { SlideChanger } from "./Slide/SlideChanger";
 import { EventsControllers } from "./EventsControllers/EventsControllers";
 import { SizeController } from "./Size/SizeController";
+import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
 
 /**
  * @class Core
@@ -22,6 +23,7 @@ export function Core(fsLightbox) {
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
+    this.slideSwiping = new SlideSwiping(fsLightbox);
     this.sizeController = new SizeController(fsLightbox);
     this.eventsControllers = new EventsControllers(fsLightbox);
     this.closeOpenLightbox = new CloseOpenLightbox(fsLightbox);

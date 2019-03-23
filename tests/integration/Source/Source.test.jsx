@@ -3,10 +3,10 @@ import { mount } from "enzyme";
 import { testSourceDimensions, testUrls } from "../../schemas/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../src/constants/CoreConstants";
 import { getYoutubeVideoIDFromURL } from "../../../src/utils/SourceType/getYoutubeVideoIDFromURL";
-import Image from "../../../src/components/sources/properSources/Image";
+import Image from "../../../src/components/Sources/ProperSources/Image";
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
-import Video from "../../../src/components/sources/properSources/Video";
-import Source from "../../../src/components/sources/Source";
+import Video from "../../../src/components/Sources/ProperSources/Video";
+import Source from "../../../src/components/Sources/Source";
 import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 
 
@@ -44,7 +44,7 @@ describe('Source', () => {
 
 
 
-describe('Creating correct sources depending on source type', () => {
+describe('Creating correct Sources depending on source type', () => {
     const mock = new FsLightboxEnzymeMock();
     const fsLightbox = mock.getWrapper();
     const fsLightboxInstance = mock.getInstance();
@@ -59,7 +59,7 @@ describe('Creating correct sources depending on source type', () => {
         const sourceInstance = source.instance();
         sourceInstance.createSource();
 
-        it('should create Image component and assign it to sources array', () => {
+        it('should create Image component and assign it to Sources array', () => {
             const image = mount(fsLightboxInstance.elements.sourcesJSXComponents[0]);
             expect(fsLightboxInstance.elements.sources[0].current).toEqual(image.find('img').instance());
         });
@@ -81,7 +81,7 @@ describe('Creating correct sources depending on source type', () => {
         const sourceInstance = source.instance();
         sourceInstance.createSource();
 
-        it('should create Video component and assign it to sources array', () => {
+        it('should create Video component and assign it to Sources array', () => {
             const imgChild = mount(fsLightboxInstance.elements.sourcesJSXComponents[1]);
             expect(fsLightboxInstance.elements.sources[1].current).toEqual(imgChild.find('video').instance());
         });
@@ -103,7 +103,7 @@ describe('Creating correct sources depending on source type', () => {
         const sourceInstance = source.instance();
         sourceInstance.createSource();
 
-        it('should create Youtube component and assign it to sources array', () => {
+        it('should create Youtube component and assign it to Sources array', () => {
             const youtube = mount(fsLightboxInstance.elements.sourcesJSXComponents[2]);
             expect(fsLightboxInstance.elements.sources[2].current).toEqual(youtube.find('iframe').instance());
         });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { EventsThrower, eventsThrower } from "../../src/utils/EventsThrower";
+import { EventsThrower } from "../../src/utils/EventsThrower";
 import { mount } from 'enzyme';
 import FsLightbox from "../../src/FsLightbox";
 import { testUrls, testYoutubeURL } from "../schemas/testVariables";
@@ -46,7 +46,7 @@ describe('Helpers Utils', () => {
 });
 
 
-describe('Array creators helpers', () => {
+describe('Array creators Helpers', () => {
     it('should create array with React refs for urls', () => {
         const refsArray = createRefsArrayForNumberOfSlides(testUrls);
         refsArray.forEach((element) => {

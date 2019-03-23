@@ -1,8 +1,8 @@
 import React from 'react';
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
-import Source from "../../../src/components/sources/Source";
+import Source from "../../../src/components/Sources/Source";
 import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
-import { SourceEnzymeMock } from "../../__mocks__/components/sources/sourceEnzymeMock";
+import { SourceEnzymeMock } from "../../__mocks__/components/Sources/sourceEnzymeMock";
 
 describe('Loader', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();

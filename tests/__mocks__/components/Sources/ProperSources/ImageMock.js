@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from "enzyme";
-import Image from "../../../../../src/components/sources/properSources/Image";
+import Image from "../../../../../src/components/Sources/ProperSources/Image";
 import { testSourceDimensions } from "../../../../schemas/testVariables";
 
 /**

@@ -14,7 +14,7 @@ beforeEach(() => {
 describe('adding and removing resize listener from window', () => {
     // we can test if listener works by testing one method that should be called when event occurs
     beforeEach(() => {
-        // setting source holders to divs due to resize listener resizes source holders and we don't use enzyme
+        // setting source Holders to divs due to resize listener resizes source Holders and we don't use enzyme
         fsLightboxMock.setAllSourceHoldersToDivs();
         fsLightbox.core.sizeController.controlAll = jest.fn();
     });
@@ -66,11 +66,11 @@ describe('checking if methods that supposed to be called when event occurs are c
         expect(fsLightbox.core.sizeController.controlAll).toBeCalled();
     });
 
-    it('should adjust all sources sizes', () => {
+    it('should adjust all Sources sizes', () => {
         expect(fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
     });
 
-    it('should should transform all stage source holders', () => {
+    it('should should transform all stage source Holders', () => {
         expect(transformStageSourcesMock.withoutTimeout).toBeCalled();
     });
 });

@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
-import { SourceHolderMock } from "../../__mocks__/components/sources/sourceHolderMock";
+import { SourceHolderMock } from "../../__mocks__/components/Sources/sourceHolderMock";
 import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
 
 const fsLightboxMock = new FsLightboxMock();

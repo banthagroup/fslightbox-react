@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import SlideButtonLeft from "../../../src/components/slideButtons/SlideButtonLeft";
+import SlideButtonLeft from "../../../src/components/SlideButtons/SlideButtonLeft";
 import FsLightbox from "../../../src";
 import { TestFsLightboxProps } from "../../__mocks__/components/TestFsLightboxProps";
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SourceHolder from "../sources/SourceHolder.jsx";
+import SourceHolder from "../Sources/SourceHolder.jsx";
 import PropTypes from 'prop-types';
 
 class MediaHolder extends Component {
