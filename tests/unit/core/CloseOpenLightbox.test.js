@@ -26,10 +26,10 @@ describe('closing lightbox', () => {
 
     it('should call removeListener after lightbox fade out', () => {
         jest.useFakeTimers();
-        fsLightboxInstance.core.onResize.removeListener = jest.fn();
+        fsLightboxInstance.core.eventsControllers.window.resize.removeListener = jest.fn();
         closeOpenLightbox.closeLightbox();
         jest.runAllTimers();
-        expect(fsLightboxInstance.core.onResize.removeListener).toBeCalled();
+        expect(fsLightboxInstance.core.eventsControllers.window.resize.removeListener).toBeCalled();
     });
 });
 
@@ -41,7 +41,7 @@ describe('Fullscreen', () => {
     // we cannot for e.g. close lightbox twice
     beforeEach(() => {
         fsLightboxMock = new FsLightboxMock();
-        fsLightbox = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
+        fsLightbox = fsLightboxMock.getFsLightbox();
         fsLightbox.elements.container.current = document.createElement('div');
     });
 
@@ -63,7 +63,7 @@ describe('Fullscreen', () => {
 
 describe('componentMountedAfterOpen and component not initialized', () => {
     const fsLightboxMock = new FsLightboxMock();
-    const fsLightbox = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
+    const fsLightbox = fsLightboxMock.getFsLightbox();
     const closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
 
     it('should call initialize when opening due to not initialized lightbox', () => {
@@ -77,22 +77,22 @@ describe('componentMountedAfterOpen and component not initialized', () => {
 
 describe('componentMountedAfterOpen and component is initialized', () => {
     const fsLightboxMock = new FsLightboxMock();
-    fsLightboxMock.instantiateFsLightbox();
+    fsLightboxMock.instantiateNewFsLightbox();
     fsLightboxMock.setAllSourceHoldersToDivs();
     const fsLightbox = fsLightboxMock.getFsLightbox();
     const closeOpenLightbox = fsLightbox.core.closeOpenLightbox;
     fsLightbox.data.isInitialized = true;
-    fsLightbox.core.onResize.attachListener = jest.fn();
-    fsLightbox.core.onResize.adjustMediaHolderSize = jest.fn();
+    fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
+    fsLightbox.core.sizeController.adjustMediaHolderSize = jest.fn();
 
     it('should call attachListener', () => {
         closeOpenLightbox.openLightbox();
-        expect(fsLightbox.core.onResize.attachListener).toBeCalled();
+        expect(fsLightbox.core.eventsControllers.window.resize.attachListener).toBeCalled();
     });
 
     it('should call adjustMediaHolderSize', () => {
         closeOpenLightbox.openLightbox();
-        expect(fsLightbox.core.onResize.adjustMediaHolderSize).toBeCalled();
+        expect(fsLightbox.core.sizeController.adjustMediaHolderSize).toBeCalled();
     });
 
     it('should call transform stage sources without timeout', () => {

@@ -3,7 +3,7 @@ import { SourceHolderMock } from "../../__mocks__/components/sources/sourceHolde
 import { IMAGE_TYPE } from "../../../src/constants/CoreConstants";
 
 const fsLightboxMock = new FsLightboxMock();
-fsLightboxMock.instantiateFsLightbox();
+fsLightboxMock.instantiateNewFsLightbox();
 const fsLightbox = fsLightboxMock.getFsLightbox();
 
 let sourceHolderMock;

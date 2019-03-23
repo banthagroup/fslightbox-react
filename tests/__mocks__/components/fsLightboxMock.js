@@ -13,11 +13,10 @@ export function FsLightboxMock() {
         urls: testUrls
     };
 
-
     /**
      * @return {{getFsLightbox: (function(): FsLightbox)}}
      */
-    this.instantiateFsLightbox = () => {
+    this.instantiateNewFsLightbox = () => {
         fsLightbox = new FsLightbox(testProps);
         fsLightbox.setState = (newState, callback) => {
             for (let statePropertyName in newState) {
@@ -26,9 +25,6 @@ export function FsLightboxMock() {
             if (callback)
                 callback();
         };
-        return {
-            getFsLightbox: () => this.getFsLightbox(),
-        }
     };
 
     this.setAllSourcesToDivs = () => {
@@ -60,12 +56,14 @@ export function FsLightboxMock() {
         }
     };
 
+
+
     /**
      * @return {FsLightbox|Error}
      */
     this.getFsLightbox = () => {
         if (!isInstantiated())
-            this.instantiateFsLightbox();
+            this.instantiateNewFsLightbox();
         return fsLightbox;
     };
 

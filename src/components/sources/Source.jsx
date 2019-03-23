@@ -71,7 +71,6 @@ class Source extends Component {
         if (!this.props.core.stageSources.isSourceInStage(this.props.i))
             return;
 
-
         // we will add longer fade-in for better UX
         if (this.props.i === this.props.slide - 1) {
             this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME)

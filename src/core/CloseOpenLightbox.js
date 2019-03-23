@@ -4,9 +4,10 @@ import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../con
 /**
  * @class CloseOpenLightbox
  * @param { { current } } container
- * @param { OnResize } onResize
- * @param { SourceHoldersTransformer } sourceHoldersTransformer
- * @param { FullscreenToggler } fullscreenToggler
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer  } sourceHoldersTransformer
+ * @param { FsLightbox.core.fullscreenToggler | FullscreenToggler  } fullscreenToggler
+ * @param { FsLightbox.core.sizeController | SizeController  } sizeController
+ * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController  } windowResizeEventController
  * @param { FsLightbox.data } data
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.initialize | Function } initialize
@@ -14,7 +15,12 @@ import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../con
 export function CloseOpenLightbox(
     {
         elements: { container },
-        core: { onResize, sourceHoldersTransformer, fullscreenToggler },
+        core: {
+            sourceHoldersTransformer,
+            fullscreenToggler,
+            sizeController,
+            eventsControllers: { window: { resize: windowResizeEventController } }
+        },
         data,
         setters: { setState },
         getters: { initialize },
@@ -55,7 +61,7 @@ export function CloseOpenLightbox(
         setState({
             isOpen: false
         });
-        onResize.removeListener();
+        windowResizeEventController.removeListener();
     };
 
     const componentMountedAfterOpen = () => {
@@ -63,8 +69,8 @@ export function CloseOpenLightbox(
             initialize();
             return;
         }
-        onResize.attachListener();
-        onResize.adjustMediaHolderSize();
+        windowResizeEventController.attachListener();
+        sizeController.adjustMediaHolderSize();
         sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     };
 }

@@ -22,8 +22,11 @@ describe('SourceHolder', () => {
 
     describe('creating sources after reopen due to lightbox close during request', () => {
         const fsLightboxMock = new FsLightboxMock();
-        const fsLightbox = fsLightboxMock.instantiateFsLightbox().getFsLightbox();
+        const fsLightbox = fsLightboxMock.getFsLightbox();
         const numberOfUrls = testUrls.length;
+        // this mock is only to make test work, we are using transform negative in component did mount so we need to mock
+        // it or there will be throw error, because we don't have source holders rendered
+        fsLightbox.core.sourceHoldersTransformer.transformNegative = jest.fn();
 
         const checkingCreatingSourceAtCorrectTimeDueToClosingLightbox = (i) => {
             it('should not call createSource after received source type due to component not mounted', () => {
@@ -60,6 +63,35 @@ describe('SourceHolder', () => {
         for (let i = 0; i < parseInt(numberOfUrls); i++) {
             checkingCreatingSourceAtCorrectTimeDueToClosingLightbox(i);
         }
+    });
+});
+
+
+describe(`componentDidMount - transforming source that is not in stage to negative value
+     (there would be problems with z-index if we wouldn't do that`, () => {
+    const fsLightboxMock = new FsLightboxMock();
+    const fsLightbox = fsLightboxMock.getFsLightbox();
+    fsLightboxMock.setAllSourceHoldersToDivs();
+    const sourceHolderMock = new SourceHolderMock(fsLightbox);
+    sourceHolderMock.setIndex(0);
+    const sourceHolder = sourceHolderMock.getSourceHolder();
+    fsLightbox.core.sourceHoldersTransformer.transformNegative = jest.fn();
+    // this only to make test work we are calling createSource on componentDidMount
+    // so we need to mock it or test would throw error
+    sourceHolder.source.current = { createSource: jest.fn() };
+
+    it('should not call transform negative due to source is in stage', () => {
+        fsLightbox.state.slide = 1;
+        fsLightbox.data.totalSlides = 3;
+        sourceHolder.componentDidMount();
+        expect(fsLightbox.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
+    });
+
+    it('should call transform negative due to source is not in stage', () => {
+        fsLightbox.state.slide = 50;
+        fsLightbox.data.totalSlides = 90;
+        sourceHolder.componentDidMount();
+        expect(fsLightbox.core.sourceHoldersTransformer.transformNegative).toBeCalledWith(0);
     });
 });
 

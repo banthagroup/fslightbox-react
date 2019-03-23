@@ -42,6 +42,11 @@ class SourceHolder extends Component {
 
     componentDidMount() {
         isMounted = true;
+
+        if(!this.props.core.stageSources.isSourceInStage(this.props.i)) {
+            this.props.core.sourceHoldersTransformer.transformNegative(this.props.i);
+        }
+
         if (isTypeCheckedAndSourceIsNotCreated) {
             this.source.current.createSource();
         }

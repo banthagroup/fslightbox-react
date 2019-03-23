@@ -5,7 +5,7 @@ import { mount } from "enzyme";
 
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
-    fsLightbox.core.onResize.init = jest.fn();
+    fsLightbox.core.sizeController.controlAll = jest.fn();
     const testStageHolderTransformer = {
         withoutTimeout: jest.fn(),
     };
@@ -15,7 +15,7 @@ describe('initialize', () => {
     fsLightbox.initialize();
 
     it('should init core that need to be initialized', () => {
-        expect(fsLightbox.core.onResize.init).toBeCalled();
+        expect(fsLightbox.core.sizeController.controlAll).toBeCalled();
         expect(testStageHolderTransformer.withoutTimeout).toBeCalled();
     });
 });
