@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Nav from "./components/nav/Nav.jsx";
+import Nav from "./components/Nav/Nav.jsx";
 import "./css/fslightboxBasic.css";
-import SlideButtonLeft from "./components/slideButtons/SlideButtonLeft.jsx";
-import SlideButtonRight from "./components/slideButtons/SlideButtonRight.jsx";
-import MediaHolder from "./components/holders/MediaHolder.jsx";
+import SlideButtonLeft from "./components/SlideButtons/SlideButtonLeft.jsx";
+import SlideButtonRight from "./components/SlideButtons/SlideButtonRight.jsx";
+import MediaHolder from "./components/Holders/MediaHolder.jsx";
 import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArrayForNumberOfSlides";
 import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
 import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
 import { Core } from "./core/Core";
+import InvisibleHover from "./components/SlideSwiping/InvisibleHover.jsx";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -28,11 +29,11 @@ class FsLightbox extends Component {
          * @type {{urls: Array, totalSlides: number, isInitialized: boolean, isFullscreenOpen: boolean, isMobile: *}}
          */
         this.data = {
-            xd: false,
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
             isFullscreenOpen: false,
             isInitialized: false,
+            isSwipingSlides: false,
             isMobile: checkIfUserIsOnMobileDevice()
         }
     }
@@ -81,6 +82,7 @@ class FsLightbox extends Component {
 
     setUpElements() {
         /**
+         *
          * @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}
          */
         this.elements = {
@@ -133,6 +135,9 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
         return (
             <div ref={ this.elements.container } className="fslightbox-container">
+                <InvisibleHover
+                    isSwipingSlides={ this.data.isSwipingSlides }
+                />
                 <Nav
                     core={ this.core }
                     data={ this.data }

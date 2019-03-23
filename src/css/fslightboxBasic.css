@@ -101,7 +101,7 @@
 }
 
 .fslightbox-fade-in-class {
-    animation: fslightbox-fade-in .25s cubic-bezier(0,0,.7,1) forwards;
+    animation: fslightbox-fade-in .25s cubic-bezier(0, 0, .7, 1) forwards;
 }
 
 .fslightbox-fade-out-class {
@@ -109,7 +109,7 @@
 }
 
 .fslightbox-fade-in-complete {
-    animation: fslightbox-fade-in-complete .25s cubic-bezier(0,0,.7,1) forwards;
+    animation: fslightbox-fade-in-complete .25s cubic-bezier(0, 0, .7, 1) forwards;
 }
 
 .fslightbox-fade-out-complete {

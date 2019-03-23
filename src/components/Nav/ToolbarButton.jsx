@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Svg from "../helpers/Svg.jsx";
+import Svg from "../Helpers/Svg.jsx";
 
 class ToolbarButton extends Component {
     render() {

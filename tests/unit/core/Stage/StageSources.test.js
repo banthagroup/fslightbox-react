@@ -8,7 +8,7 @@ describe('StageSources', () => {
     const stageSources = new StageSources(fsLightbox);
     fsLightbox.data.totalSlides = 10;
 
-    it('should detect that sources in stage when its middle slide', () => {
+    it('should detect that Sources in stage when its middle slide', () => {
         fsLightbox.state.slide = 5;
         expect(stageSources.isSourceInStage(0)).toBeFalsy();
         expect(stageSources.isSourceInStage(1)).toBeFalsy();

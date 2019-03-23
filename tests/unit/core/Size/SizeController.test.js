@@ -18,7 +18,7 @@ describe('Down event', () => {
         sizeController = fsLightboxInstance.core.sizeController;
     });
 
-    it('should save max sources dimensions', () => {
+    it('should save max Sources dimensions', () => {
         global.window.innerWidth = SOURCE_DIMENSIONS_BREAK - 100;
         global.dispatchEvent(new Event('resize'));
         expect(fsLightboxInstance.sourcesData.maxSourceWidth).toEqual(window.innerWidth);

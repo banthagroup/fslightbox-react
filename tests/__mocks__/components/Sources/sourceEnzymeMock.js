@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from "enzyme";
-import Source from "../../../../src/components/sources/Source";
+import Source from "../../../../src/components/Sources/Source";
 
 /**
  * @class SourceEnzymeMock

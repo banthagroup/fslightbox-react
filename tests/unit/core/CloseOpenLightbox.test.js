@@ -4,7 +4,6 @@ import { CloseOpenLightbox } from "../../../src/core/CloseOpenLightbox";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
 
-
 describe('closing lightbox', () => {
     const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
@@ -95,7 +94,7 @@ describe('componentMountedAfterOpen and component is initialized', () => {
         expect(fsLightbox.core.sizeController.adjustMediaHolderSize).toBeCalled();
     });
 
-    it('should call transform stage sources without timeout', () => {
+    it('should call transform stage Sources without timeout', () => {
         const transformStagesSoruceMock = new TransformStageSourcesMock(fsLightbox);
         closeOpenLightbox.openLightbox();
         expect(transformStagesSoruceMock.withoutTimeout).toBeCalled();

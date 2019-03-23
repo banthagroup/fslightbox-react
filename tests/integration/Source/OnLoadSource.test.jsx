@@ -1,11 +1,11 @@
 import React from 'react';
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { getMountedImageForFsLightboxInstance } from "../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
-import Image from "../../../src/components/sources/properSources/Image";
-import Video from "../../../src/components/sources/properSources/Video";
+import Image from "../../../src/components/Sources/ProperSources/Image";
+import Video from "../../../src/components/Sources/ProperSources/Video";
 import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
-import { ImageMock } from "../../__mocks__/components/sources/properSources/ImageMock";
-import { VideoMock } from "../../__mocks__/components/sources/properSources/VideoMock";
+import { ImageMock } from "../../__mocks__/components/Sources/ProperSources/ImageMock";
+import { VideoMock } from "../../__mocks__/components/Sources/ProperSources/VideoMock";
 
 describe('Source Size', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();

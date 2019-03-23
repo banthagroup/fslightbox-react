@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import FsLightbox from "../../../src";
 import { testProps } from "../../schemas/testVariables";
-import SlideButtonRight from "../../../src/components/slideButtons/SlideButtonRight";
+import SlideButtonRight from "../../../src/components/SlideButtons/SlideButtonRight";
 
 const fsLightbox = new FsLightbox(testProps);
 fsLightbox.slide = 1;

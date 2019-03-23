@@ -30,7 +30,7 @@ describe('changeSlideTo', () => {
         expect(sourceHolders[2].current.style.transform).toEqual('translate(100px,0)');
     });
 
-    describe('animate sources', () => {
+    describe('animate Sources', () => {
         beforeEach(() => {
             fsLightbox.state.slide = 1;
         });

@@ -1,16 +1,16 @@
 import { testUrls } from "../../schemas/testVariables";
 import React from 'react';
-import SourceHolder from "../../../src/components/sources/SourceHolder";
+import SourceHolder from "../../../src/components/Sources/SourceHolder";
 import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
-import { SourceHolderMock } from "../../__mocks__/components/sources/sourceHolderMock";
+import { SourceHolderMock } from "../../__mocks__/components/Sources/sourceHolderMock";
 
 describe('SourceHolder', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();
     const fsLightbox = fsLightboxMock.getWrapper();
     const fsLightboxInstance = fsLightboxMock.getInstance();
 
-    it('should render number of source holders equivalent to number of urls', () => {
+    it('should render number of source Holders equivalent to number of urls', () => {
         const mediaHolder = fsLightbox.find('.fslightbox-media-holder');
         const sourceHolders = fsLightboxInstance.elements.sourceHolders;
         for (let i = 0; i < sourceHolders.length; i++) {
@@ -20,12 +20,12 @@ describe('SourceHolder', () => {
         expect(mediaHolder.children().length).toEqual(testUrls.length);
     });
 
-    describe('creating sources after reopen due to lightbox close during request', () => {
+    describe('creating Sources after reopen due to lightbox close during request', () => {
         const fsLightboxMock = new FsLightboxMock();
         const fsLightbox = fsLightboxMock.getFsLightbox();
         const numberOfUrls = testUrls.length;
         // this mock is only to make test work, we are using transform negative in component did mount so we need to mock
-        // it or there will be throw error, because we don't have source holders rendered
+        // it or there will be throw error, because we don't have source Holders rendered
         fsLightbox.core.sourceHoldersTransformer.transformNegative = jest.fn();
 
         const checkingCreatingSourceAtCorrectTimeDueToClosingLightbox = (i) => {

@@ -4,7 +4,7 @@
  * @param { FsLightbox.core.sourceSizeAdjusterIterator | SourceSizeAdjusterIterator } sourceSizeAdjusterIterator
  * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  */
-export function WindowResizeEventController(
+export function  WindowResizeEventController(
     {
         core: { sizeController, sourceSizeAdjusterIterator, sourceHoldersTransformer }
     }

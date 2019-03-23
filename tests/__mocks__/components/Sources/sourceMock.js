@@ -1,21 +1,22 @@
-import SourceHolder from "../../../../src/components/sources/SourceHolder";
+import Source from "../../../../src/components/Sources/Source";
 
 /**
- * @class SourceHolderMock
+ * @class SourceMock
+ * @param { FsLightbox } fsLightbox
  */
-export function SourceHolderMock(fsLightbox) {
+export function SourceMock(fsLightbox) {
     /**
-     * @var {SourceHolder} sourceSolder
+     * @var {Source} source
      */
-    let sourceHolder;
+    let source;
     let index;
 
     this.setIndex = (sourceIndex) => {
         index = sourceIndex;
     };
 
-    this.getSourceHolder = () => {
-        sourceHolder = new SourceHolder({
+    this.getSource = () => {
+        source = new Source({
             i: index ? index : 0,
             collections: fsLightbox.collections,
             core: fsLightbox.core,
@@ -24,6 +25,6 @@ export function SourceHolderMock(fsLightbox) {
             slide: fsLightbox.state.slide,
             sourcesData: fsLightbox.sourcesData
         });
-        return sourceHolder;
+        return source;
     };
 }
