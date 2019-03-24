@@ -1,4 +1,3 @@
-import "@babel/polyfill";
 import ReactDOM from "react-dom";
 import React from 'react';
 import DemoComponent from "./DemoComponent.jsx";

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Source from "./Source.jsx";
 import PropTypes from 'prop-types';
+import Source from "./Source.jsx";
 import { SourceTypeChecker } from "../../core/Source/SourceType/SourceTypeChecker";
 
 let isMounted;
@@ -38,6 +38,10 @@ class SourceHolder extends Component {
         } else {
             isTypeCheckedAndSourceIsNotCreated = true;
         }
+    }
+
+    onMouseDownListener(e) {
+        e.preventDefault();
     }
 
     componentDidMount() {

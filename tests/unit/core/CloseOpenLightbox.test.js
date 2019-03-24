@@ -1,34 +1,67 @@
 import React from 'react';
-import { FsLightboxEnzymeMock } from "../../__mocks__/components/fsLightboxEnzymeMock";
 import { CloseOpenLightbox } from "../../../src/core/CloseOpenLightbox";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
+import { FADE_OUT_COMPLETE_CLASS_NAME } from "../../../src/constants/CssConstants";
 
 describe('closing lightbox', () => {
-    const mock = new FsLightboxEnzymeMock();
-    const fsLightboxInstance = mock.getInstance();
-    const closeOpenLightbox = new CloseOpenLightbox(fsLightboxInstance);
+    const fsLightboxMock = new FsLightboxMock();
+    /** @var { FsLightbox } fsLightbox */
+    let fsLightbox;
+    /** @var { Element } fsLightboxContainer */
+    let fsLightboxContainer;
 
-    it('should fade-out lightbox on close and remove fslightbox-open class from document', () => {
-        jest.useFakeTimers();
-        closeOpenLightbox.closeLightbox();
-        expect(fsLightboxInstance.elements.container.current.classList.contains('fslightbox-fade-out-complete')).toBeTruthy();
-        jest.runAllTimers();
-        expect(fsLightboxInstance.elements.container.current).toBeNull();
-        expect(document.documentElement.classList.contains('fslightbox-open')).toBeFalsy();
+    beforeEach(() => {
+        fsLightboxMock.instantiateNewFsLightbox();
+        fsLightbox = fsLightboxMock.getFsLightbox();
+        // in closing lightbox we are using fslightbox-container so we need to mock it
+        fsLightboxContainer = document.createElement('div');
+        fsLightbox.elements.container.current = fsLightboxContainer;
     });
 
-    it('should add fslightbox-open class to document on open', () => {
-        closeOpenLightbox.openLightbox();
-        expect(document.documentElement.classList.contains('fslightbox-open')).toBeTruthy();
+    describe('before fadeOut', () => {
+        beforeEach(() => {
+            fsLightbox.core.eventsControllers.window.swiping.removeListeners = jest.fn();
+            fsLightbox.core.closeOpenLightbox.closeLightbox();
+        });
+
+        it('should add complete fade out class to fslightbox container', () => {
+            expect(fsLightboxContainer.classList.contains(FADE_OUT_COMPLETE_CLASS_NAME)).toBeTruthy();
+        });
+
+        it('should remove window swiping events', () => {
+            expect(fsLightbox.core.eventsControllers.window.swiping.removeListeners).toBeCalled();
+        });
     });
 
-    it('should call removeListener after lightbox fade out', () => {
-        jest.useFakeTimers();
-        fsLightboxInstance.core.eventsControllers.window.resize.removeListener = jest.fn();
-        closeOpenLightbox.closeLightbox();
-        jest.runAllTimers();
-        expect(fsLightboxInstance.core.eventsControllers.window.resize.removeListener).toBeCalled();
+
+    describe('after fadeout', () => {
+        beforeEach(() => {
+            // mocking transforming stage sources because we don't have source holders loaded
+            // and in opening lightbox we are transforming them
+            fsLightboxMock.setAllSourceHoldersToDivs();
+            // mocking media holder for the same reason as source holders
+            fsLightbox.elements.mediaHolder.current = document.createElement('div');
+
+            fsLightbox.core.eventsControllers.window.resize.removeListener = jest.fn();
+            // opening lightbox that we will close
+            fsLightbox.core.closeOpenLightbox.openLightbox();
+            jest.useFakeTimers();
+            fsLightbox.core.closeOpenLightbox.closeLightbox();
+            jest.runAllTimers();
+        });
+
+        it('should remove complete fade out class from fslightbox container', () => {
+            expect(fsLightboxContainer.classList.contains(FADE_OUT_COMPLETE_CLASS_NAME)).toBeFalsy();
+        });
+
+        it('should should remove window resize event listener', () => {
+            expect(fsLightbox.core.eventsControllers.window.resize.removeListener).toBeCalled();
+        });
+
+        it('should set isOpen state to false', () => {
+            expect(fsLightbox.state.isOpen).toBeFalsy();
+        });
     });
 });
 
@@ -82,12 +115,18 @@ describe('componentMountedAfterOpen and component is initialized', () => {
     const closeOpenLightbox = fsLightbox.core.closeOpenLightbox;
     fsLightbox.data.isInitialized = true;
     fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
+    fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
     fsLightbox.core.sizeController.adjustMediaHolderSize = jest.fn();
 
-    it('should call attachListener', () => {
+    it('should attach window resize listener', () => {
         closeOpenLightbox.openLightbox();
         expect(fsLightbox.core.eventsControllers.window.resize.attachListener).toBeCalled();
     });
+
+    it('should attach window swiping listeners', () => {
+        closeOpenLightbox.openLightbox();
+        expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
+    })
 
     it('should call adjustMediaHolderSize', () => {
         closeOpenLightbox.openLightbox();

@@ -12,7 +12,6 @@ import {
 export function SizeController(
     {
         sourcesData,
-        setters: { sourcesData: { setMaxSourceWidth, setMaxSourceHeight } },
         elements: { mediaHolder }
     }
 ) {
@@ -29,9 +28,9 @@ export function SizeController(
 
     const saveMaxSourcesDimensions = () => {
         (window.innerWidth < SOURCE_DIMENSIONS_BREAK) ?
-            setMaxSourceWidth(window.innerWidth) :
-            setMaxSourceWidth(window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE));
+            sourcesData.maxSourceWidth = window.innerWidth :
+            sourcesData.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
 
-        setMaxSourceHeight(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE));
+        sourcesData.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
     };
 }

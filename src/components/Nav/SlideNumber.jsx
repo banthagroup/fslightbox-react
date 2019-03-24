@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 class SlideNumber extends Component {
     render() {
         return (
-            <div className="fslightbox-slide-number-container">
-                <div className="fslightbox-slide-number">{ this.props.slide }</div>
-                <div className="fslightbox-slide-number fslightbox-slash">/</div>
-                <div className="fslightbox-slide-number">{ this.props.totalSlides }</div>
+            <div className="fslightbox-slide-number-container fslightbox-flex-centered">
+                <div>{ this.props.slide }</div>
+                <div className="fslightbox-slash">/</div>
+                <div>{ this.props.totalSlides }</div>
             </div>
         );
     }

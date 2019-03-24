@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InvisibleHover = ({ isSwipingSlides }) => {
+const SwipingInvisibleHover = ({ isSwipingSlides }) => {
     if(!isSwipingSlides)
         return null;
 
     return (
-        <div className="fslightbox-invisible-hover"></div>
+        <div className="fslightbox-slide"></div>
     );
 };
 
-InvisibleHover.propTypes = {
+SwipingInvisibleHover.propTypes = {
     isSwipingSlides: PropTypes.bool.isRequired,
 };
 
-export default InvisibleHover;
+export default SwipingInvisibleHover;

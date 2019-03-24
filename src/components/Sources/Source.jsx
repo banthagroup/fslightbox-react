@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { SourceFactory } from "../../core/Source/SourceFactory";
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
+import { SourceFactory } from "../../core/Source/SourceFactory";
 import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
 import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants/CssConstants";
 
