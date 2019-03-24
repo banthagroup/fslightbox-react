@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Svg from "../Helpers/Svg.jsx";
 import PropTypes from 'prop-types';
+import Svg from "../Helpers/Svg.jsx";
 
 class SlideButtonRight extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class SlideButtonRight extends Component {
         return (
             <div onClick={ this.goToNextSlide }
                  className="fslightbox-slide-btn-container fslightbox-slide-btn-right-container">
-                <div className="fslightbox-slide-btn button-style">
+                <div className="fslightbox-slide-btn fslightbox-flex-centered">
                     <Svg
                         viewBox="0 0 20 20"
                         size="1em"

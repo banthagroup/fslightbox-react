@@ -12,7 +12,7 @@ class Invalid extends Component {
     render() {
         return (
             <div
-                className="fslightbox-invalid-file-wrapper"
+                className="fslightbox-invalid-file-wrapper fslightbox-flex-centered"
                 ref={ this.props.sources[this.props.i] }>
                 Invalid file
             </div>

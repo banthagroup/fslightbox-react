@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import "./scss/FsLightbox.scss";
 import Nav from "./components/Nav/Nav.jsx";
-import "./css/fslightboxBasic.css";
 import SlideButtonLeft from "./components/SlideButtons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/SlideButtons/SlideButtonRight.jsx";
 import MediaHolder from "./components/Holders/MediaHolder.jsx";
@@ -9,7 +9,8 @@ import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArray
 import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
 import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
 import { Core } from "./core/Core";
-import InvisibleHover from "./components/SlideSwiping/InvisibleHover.jsx";
+import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
+import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -58,6 +59,7 @@ class FsLightbox extends Component {
     setUpStates() {
         this.state = {
             isOpen: this.props.isOpen,
+            isSwipingSlides: false,
             slide: (this.props.slide) ? this.props.slide : 1,
         };
     }
@@ -71,11 +73,7 @@ class FsLightbox extends Component {
 
     setUpSetters() {
         this.setters = {
-            setState: (value, callback) => this.setState(value, callback),
-            sourcesData: {
-                setMaxSourceWidth: (maxSourceWidth) => this.sourcesData.maxSourceWidth = maxSourceWidth,
-                setMaxSourceHeight: (maxSourceHeight) => this.sourcesData.maxSourceHeight = maxSourceHeight
-            }
+            setState: (value, callback) => this.setState(value, callback)
         }
     }
 
@@ -121,6 +119,7 @@ class FsLightbox extends Component {
         this.data.isInitialized = true;
         this.core.sizeController.controlAll();
         this.core.eventsControllers.window.resize.attachListener();
+        this.core.eventsControllers.window.swiping.attachListeners();
         this.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     }
 
@@ -131,31 +130,29 @@ class FsLightbox extends Component {
         }
     }
 
+
+
     render() {
         if (!this.state.isOpen) return null;
         return (
-            <div ref={ this.elements.container } className="fslightbox-container">
-                <InvisibleHover
-                    isSwipingSlides={ this.data.isSwipingSlides }
-                />
+            <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension">
+                <DownEventDetector isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
+                <SwipingInvisibleHover isSwipingSlides={ this.state.isSwipingSlides }/>
                 <Nav
                     core={ this.core }
                     data={ this.data }
                     slide={ this.state.slide }
                 />
-                <SlideButtonLeft
-                    core={ this.core }
-                />
-                <SlideButtonRight
-                    core={ this.core }
-                />
+                <SlideButtonLeft core={ this.core }/>
+                <SlideButtonRight core={ this.core }/>
                 <MediaHolder
+                    collections={ this.collections }
                     core={ this.core }
                     data={ this.data }
                     elements={ this.elements }
+                    isSwipingSlides={ this.state.isSwipingSlides }
                     slide={ this.state.slide }
                     sourcesData={ this.sourcesData }
-                    collections={ this.collections }
                 />
             </div>
         );

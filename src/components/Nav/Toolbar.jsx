@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ToolbarButton from "./ToolbarButton.jsx";
 import PropTypes from "prop-types";
+import ToolbarButton from "./ToolbarButton.jsx";
 
 
 class Toolbar extends Component {

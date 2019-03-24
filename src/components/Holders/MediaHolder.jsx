@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import SourceHolder from "../Sources/SourceHolder.jsx";
 import PropTypes from 'prop-types';
+import SourceHolder from "../Sources/SourceHolder.jsx";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 
 class MediaHolder extends Component {
     constructor(props) {
         super(props);
-    }
-
-    componentDidMount() {
-        if(this.props.data.xd)
-            return;
-        this.props.data.xd = true;
-        this.props.elements.mediaHolder.current.addEventListener('touchstart',() => {
-            console.log(1);
-        }, {passive: true})
     }
 
     render() {
@@ -32,8 +24,14 @@ class MediaHolder extends Component {
                 />
             );
         }
+
+        const cursorGrabbingClass = this.props.isSwipingSlides ? CURSOR_GRABBING_CLASS_NAME : '';
+
         return (
-            <div ref={ this.props.elements.mediaHolder } className="fslightbox-media-holder">
+            <div className={ 'fslightbox-media-holder ' + cursorGrabbingClass }
+                 onMouseDown={ this.props.core.slideSwiping.down.listener }
+                 onTouchStart={ this.props.core.slideSwiping.down.listener }
+                 ref={ this.props.elements.mediaHolder }>
                 { sourceHolders }
             </div>
         );
@@ -46,6 +44,7 @@ MediaHolder.propTypes = {
     core: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired,
+    isSwipingSlides: PropTypes.bool.isRequired,
     slide: PropTypes.number.isRequired,
     sourcesData: PropTypes.object.isRequired
 };

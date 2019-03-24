@@ -1,8 +1,7 @@
 /**
  * @class SlideSwipingMove
  */
-export function SlideSwipingMove() {
-    this.listener = () => {
+export function SlideSwipingMove(fsLightbox) {
+    this.listener = (e) => {
     };
-
 }

@@ -2,6 +2,11 @@ import { SourceAnimator } from "../../../../src/core/Animations/SourceAnimator";
 import { ImageMock } from "../../../__mocks__/components/Sources/ProperSources/ImageMock";
 import FsLightbox from "../../../../src";
 import { testProps } from "../../../schemas/testVariables";
+import {
+    FADE_IN_CLASS_NAME,
+    FADE_IN_COMPLETE_CLASS_NAME,
+    FADE_OUT_CLASS_NAME
+} from "../../../../src/constants/CssConstants";
 
 const fsLightboxInstance = new FsLightbox(testProps);
 const sourceAnimator = new SourceAnimator(fsLightboxInstance);
@@ -11,20 +16,20 @@ mockImage.createImageMock();
 describe('animateSourceFromSlide', () => {
     it('should attach fade out animation', () => {
         sourceAnimator.animateSourceFromSlide(1).fadeOut();
-        expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-out-class'))
+        expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_OUT_CLASS_NAME))
             .toBeTruthy();
     });
 
     it('should attach fade in animation', () => {
         sourceAnimator.animateSourceFromSlide(1).fadeIn();
-        expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-in-class'))
+        expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
             .toBeTruthy();
     });
 
     it('should remove fade out animation', () => {
         sourceAnimator.animateSourceFromSlide(1).fadeOut();
         sourceAnimator.animateSourceFromSlide(1).removeFadeOut();
-        expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-out-class'))
+        expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_OUT_CLASS_NAME))
             .toBeFalsy();
     });
 
@@ -33,14 +38,14 @@ describe('animateSourceFromSlide', () => {
         it('should remove fade in animation when source had fslightbox-fade-in-class', () => {
             sourceAnimator.animateSourceFromSlide(1).fadeIn();
             sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-in-class'))
+            expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
                 .toBeFalsy();
         });
 
         it('should remove fade in animation when source had fslightbox-fade-in-complete', () => {
-            fsLightboxInstance.elements.sources[0].current.classList.add('fslightbox-fade-in-complete');
+            fsLightboxInstance.elements.sources[0].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME);
             sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightboxInstance.elements.sources[0].current.classList.contains('fslightbox-fade-in-complete'))
+            expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_IN_COMPLETE_CLASS_NAME))
                 .toBeFalsy();
         });
     });

@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 class Svg extends Component {
     render() {
         return (
-            <svg className="fslightbox-svg-icon"
-                 width={ this.props.size }
+            <svg width={ this.props.size }
                  height={ this.props.size }
                  viewBox={ this.props.viewBox }
                  xmlns="http://www.w3.org/2000/svg">
-                <path d={ this.props.d }></path>
+                <path className="fslightbox-svg-path" d={ this.props.d }></path>
             </svg>
         );
     }

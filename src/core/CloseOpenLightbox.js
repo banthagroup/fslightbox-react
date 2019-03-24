@@ -8,6 +8,7 @@ import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../con
  * @param { FsLightbox.core.fullscreenToggler | FullscreenToggler  } fullscreenToggler
  * @param { FsLightbox.core.sizeController | SizeController  } sizeController
  * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController  } windowResizeEventController
+ * @param { FsLightbox.core.eventsControllers.window.swiping | SwipingEventsControllersFacade } swipingEventsControllersFacade
  * @param { FsLightbox.data } data
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.initialize | Function } initialize
@@ -19,7 +20,12 @@ export function CloseOpenLightbox(
             sourceHoldersTransformer,
             fullscreenToggler,
             sizeController,
-            eventsControllers: { window: { resize: windowResizeEventController } }
+            eventsControllers: {
+                window: {
+                    resize: windowResizeEventController,
+                    swiping: swipingEventsControllersFacade
+                }
+            }
         },
         data,
         setters: { setState },
@@ -46,12 +52,24 @@ export function CloseOpenLightbox(
         if (fadingOut) return;
         fadingOut = true;
         container.current.classList.add(FADE_OUT_COMPLETE_CLASS_NAME);
+        swipingEventsControllersFacade.removeListeners();
         if (data.isFullscreenOpen) {
             fullscreenToggler.turnOffFullscreen();
         }
         setTimeout(() => {
             afterFadeOut();
         }, CONTAINER_FADE_OUT_TIME);
+    };
+
+    const componentMountedAfterOpen = () => {
+        if (!data.isInitialized) {
+            initialize();
+            return;
+        }
+        windowResizeEventController.attachListener();
+        swipingEventsControllersFacade.attachListeners();
+        sizeController.adjustMediaHolderSize();
+        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     };
 
     const afterFadeOut = () => {
@@ -62,15 +80,5 @@ export function CloseOpenLightbox(
             isOpen: false
         });
         windowResizeEventController.removeListener();
-    };
-
-    const componentMountedAfterOpen = () => {
-        if (!data.isInitialized) {
-            initialize();
-            return;
-        }
-        windowResizeEventController.attachListener();
-        sizeController.adjustMediaHolderSize();
-        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     };
 }

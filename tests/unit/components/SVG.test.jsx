@@ -11,10 +11,9 @@ describe('SVG', () => {
             <Svg size={ size } viewBox={ viewBox } d={ d }/>
         );
 
-        expect(svg.render().hasClass('fslightbox-svg-icon')).toBeTruthy();
         expect(svg.getDOMNode().attributes.getNamedItem('width').value).toEqual(size);
         expect(svg.getDOMNode().attributes.getNamedItem('height').value).toEqual(size);
         expect(svg.getDOMNode().attributes.getNamedItem('viewBox').value).toEqual(viewBox);
-        expect(svg.contains(<path d={ d }></path>)).toBeTruthy();
+        expect(svg.contains(<path className="fslightbox-svg-path" d={ d }></path>)).toBeTruthy();
     });
 });

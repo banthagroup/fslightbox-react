@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Toolbar from "./Toolbar.jsx";
 import SlideNumber from "./SlideNumber.jsx";
-import PropTypes from 'prop-types';
 
 class Nav extends Component {
     render() {
