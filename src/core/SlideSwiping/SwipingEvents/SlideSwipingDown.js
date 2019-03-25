@@ -1,29 +1,44 @@
-
 /**
  * @class SlideSwipingDown
+ * @param { FsLightbox.data.deviceType } deviceType
+ * @param { FsLightbox.setters.setState | Function } setState
+ * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
  */
-export function SlideSwipingDown
-(
-    fsLightbox
-) {
-    /** @var {Event} event */
+export function SlideSwipingDown(setState, swipingProps) {
+    /** @var { MouseEvent | TouchEvent } event */
     let event;
 
     this.listener = (e) => {
         event = e;
         preventDefaultIfNeeded();
-        fsLightbox.setters.setState({
+        setIsSwipingSlideStateToTrue();
+        setDownClientX();
+        resetSwipedDifference();
+    };
+
+    const preventDefaultIfNeeded = () => {
+        if (!event.target.tagName)
+            return;
+        if (event.target.tagName === 'VIDEO' || event.touches)
+            return;
+        event.preventDefault();
+    };
+
+    const setIsSwipingSlideStateToTrue = () => {
+        setState({
             isSwipingSlides: true
         });
     };
 
-    const preventDefaultIfNeeded = () => {
-        if(!event.target.tagName)
-            return;
-        if(event.target.tagName === 'VIDEO' || fsLightbox.data.isMobile === true)
-            return;
-        event.preventDefault();
+    const setDownClientX = () => {
+        (event.touches) ?
+            swipingProps.downClientX = event.touches[0].clientX :
+            swipingProps.downClientX = event.clientX;
     };
+
+    const resetSwipedDifference = () => {
+        swipingProps.swipedDifference = 0;
+    }
 }
 
 

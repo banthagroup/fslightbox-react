@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import FsLightbox from "../../src/FsLightbox";
 import { testUrls, testYoutubeURL } from "../schemas/testVariables";
 import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/EventsConstants";
-import { checkIfUserIsOnMobileDevice } from "../../src/utils/checkIfUserIsOnMobileDevice";
 import { createRefsArrayForNumberOfSlides } from "../../src/utils/Arrays/createRefsArrayForNumberOfSlides";
 import { createNullArrayForNumberOfSlides } from "../../src/utils/Arrays/createNullArrayForNumberOfSlides";
 import { getYoutubeVideoIDFromURL } from "../../src/utils/SourceType/getYoutubeVideoIDFromURL";
@@ -33,11 +32,6 @@ describe('Helpers Utils', () => {
             expect(eventsThrower.throw(i)).toEqual(i);
         }
     });
-
-    it('should detect if device is mobile', () => {
-        expect(checkIfUserIsOnMobileDevice()).toEqual(false);
-    });
-
 
     it('should retrieve Youtube video id', () => {
         const youtubeVideoId = 'jNQXAC9IVRw';

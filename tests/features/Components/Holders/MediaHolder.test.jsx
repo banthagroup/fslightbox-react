@@ -10,20 +10,20 @@ const fsLightbox = fsLightboxMock.getFsLightbox();
 
 let mediaHolder;
 
-beforeEach(() => {
-    fsLightbox.core.slideSwiping.down.listener = jest.fn();
-    mediaHolder = shallow(<MediaHolder
-        collections={ fsLightbox.collections }
-        core={ fsLightbox.core }
-        data={ fsLightbox.data }
-        elements={ fsLightbox.elements }
-        isSwipingSlides={ fsLightbox.state.isSwipingSlides }
-        slide={ fsLightbox.state.slide }
-        sourcesData={ fsLightbox.sourcesData }
-    />);
-});
-
 describe('attaching down listener', () => {
+    beforeEach(() => {
+        fsLightbox.core.slideSwiping.down.listener = jest.fn();
+        mediaHolder = shallow(<MediaHolder
+            collections={ fsLightbox.collections }
+            core={ fsLightbox.core }
+            data={ fsLightbox.data }
+            elements={ fsLightbox.elements }
+            isSwipingSlides={ fsLightbox.state.isSwipingSlides }
+            slide={ fsLightbox.state.slide }
+            sourcesData={ fsLightbox.sourcesData }
+        />);
+    });
+
     describe('mouse down event', () => {
         it('should call slide swiping down listener', () => {
             mediaHolder.simulate('mousedown');
@@ -41,37 +41,36 @@ describe('attaching down listener', () => {
 
 const fsLightboxEnzymeMock = new FsLightboxEnzymeMock();
 const fsLightboxEnzyme = fsLightboxEnzymeMock.getWrapper();
+const fsLightboxEnzymeInstance = fsLightboxEnzymeMock.getInstance();
 
 describe('adding and removing cursor grabbing class depending on isSwipingSlides', () => {
+    const mediaHolderClassList = fsLightboxEnzyme.find('MediaHolder').getDOMNode().classList;
 
-    // TODO: TEST IT LIKE THAT
-    it('should ', () => {
-        console.log(fsLightboxEnzyme.find('MediaHolder').getDOMNode().classList);
-        fsLightboxEnzyme.instance().setters.setState({
-            isSwipingSlides: true
-        }, () => {
-           console.log(fsLightboxEnzyme.find('MediaHolder').getDOMNode().classList);
-        });
+    beforeEach(() => {
+        // setting isSwipingSlides to false before each slide because this is default behavior
+        fsLightboxEnzymeInstance.setters.setState({
+            isSwipingSlides: false
+        })
     });
 
     it('should not have fslightbox cursor grabbing class', () => {
-        expect(mediaHolder.hasClass(CURSOR_GRABBING_CLASS_NAME)).toBeFalsy();
+           expect(mediaHolderClassList.contains(CURSOR_GRABBING_CLASS_NAME)).toBeFalsy();
     });
 
     it('should add fslightbox cursor grabbing class', () => {
-        mediaHolder.setProps({
+        fsLightboxEnzymeInstance.setters.setState({
             isSwipingSlides: true
         });
-        expect(mediaHolder.hasClass(CURSOR_GRABBING_CLASS_NAME)).toBeTruthy();
+        expect(mediaHolderClassList.contains(CURSOR_GRABBING_CLASS_NAME)).toBeTruthy();
     });
 
     it('should remove fslightbox cursor grabbing class', () => {
-        mediaHolder.setProps({
+        fsLightboxEnzymeInstance.setters.setState({
             isSwipingSlides: true
         });
-        mediaHolder.setProps({
+        fsLightboxEnzymeInstance.setters.setState({
             isSwipingSlides: false
         });
-        expect(mediaHolder.hasClass(CURSOR_GRABBING_CLASS_NAME)).toBeFalsy();
+        expect(mediaHolderClassList.contains(CURSOR_GRABBING_CLASS_NAME)).toBeFalsy();
     });
 });
