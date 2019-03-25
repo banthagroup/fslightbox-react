@@ -4,11 +4,13 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 
 class DownEventDetector extends Component {
     render() {
-        const cursorGrabbingClass = this.props.isSwipingSlides ? CURSOR_GRABBING_CLASS_NAME : '';
+        const cursorGrabbingClassDependingOnIsSwipingSlides =
+            this.props.isSwipingSlides ? CURSOR_GRABBING_CLASS_NAME : '';
 
         return (
             <div
-                className={ 'fslightbox-down-event-detector fslightbox-full-dimension ' + cursorGrabbingClass }
+                className={ 'fslightbox-down-event-detector fslightbox-full-dimension '
+                + cursorGrabbingClassDependingOnIsSwipingSlides }
                 onMouseDown={ this.props.core.slideSwiping.down.listener }
                 onTouchStart={ this.props.core.slideSwiping.down.listener }>
             </div>

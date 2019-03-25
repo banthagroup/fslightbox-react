@@ -7,7 +7,7 @@ import SlideButtonRight from "./components/SlideButtons/SlideButtonRight.jsx";
 import MediaHolder from "./components/Holders/MediaHolder.jsx";
 import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArrayForNumberOfSlides";
 import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
-import { checkIfUserIsOnMobileDevice } from "./utils/checkIfUserIsOnMobileDevice";
+import { getDeviceType } from "./utils/getDeviceType";
 import { Core } from "./core/Core";
 import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
@@ -27,7 +27,7 @@ class FsLightbox extends Component {
 
     setUpData() {
         /**
-         * @type {{urls: Array, totalSlides: number, isInitialized: boolean, isFullscreenOpen: boolean, isMobile: *}}
+         * @type {{deviceType: (*|*|*), urls: Array, totalSlides: number, isInitialized: boolean, isSwipingSlides: boolean, isFullscreenOpen: boolean}}
          */
         this.data = {
             urls: this.props.urls,
@@ -35,7 +35,7 @@ class FsLightbox extends Component {
             isFullscreenOpen: false,
             isInitialized: false,
             isSwipingSlides: false,
-            isMobile: checkIfUserIsOnMobileDevice()
+            deviceType: getDeviceType()
         }
     }
 
@@ -77,10 +77,8 @@ class FsLightbox extends Component {
         }
     }
 
-
     setUpElements() {
         /**
-         *
          * @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}
          */
         this.elements = {

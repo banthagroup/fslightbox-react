@@ -1,17 +1,19 @@
 import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
+import { SlideSwipingDown } from "../../../../../src/core/SlideSwiping/SwipingEvents/SlideSwipingDown";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
-const slideSwipingDown = fsLightbox.core.slideSwiping.down;
 
 describe('calling or not calling preventDefault', () => {
     let mockEvent;
+    /** @var { SlideSwipingDown } slideSwipingDown */
+    const slideSwipingDown = fsLightbox.core.slideSwiping.down;
 
     beforeEach(() => {
         mockEvent = {
             target: {},
             preventDefault: jest.fn(),
-        }
+        };
     });
 
     describe('not calling preventDefault', () => {
@@ -27,25 +29,18 @@ describe('calling or not calling preventDefault', () => {
             expect(mockEvent.preventDefault).not.toBeCalled();
         });
 
-        // we are using passive events so we cannot preventDefault it on mobile device
-        it('should not call preventDefault due to user is on mobile device', () => {
-            fsLightbox.data.isMobile = true;
-            slideSwipingDown.listener(mockEvent);
-            !expect(mockEvent.preventDefault).not.toBeCalled();
-        });
-
-        // we are using passive events so we cannot preventDefault it on mobile device
-        it(`should not call preventDefault due to user is on mobile device,
+        // we are using passive events so we cannot preventDefault if event is touch event
+        it(`should not call preventDefault due to event is touchstart,
              even if tag name is set and it's not VIDEO`, () => {
-            fsLightbox.data.isMobile = true;
+            // if we set touch event we need to set clientX because it is required in listener
+            mockEvent.touches = [{ clientX: 0 }];
             mockEvent.target.tagName = 'IMAGE';
             slideSwipingDown.listener(mockEvent);
             expect(mockEvent.preventDefault).not.toBeCalled();
         });
 
         it(`should call preventDefault due to tagName equals VIDEO,
-        even if user is not on mobile device`, () => {
-            fsLightbox.data.isMobile = false;
+        even if event is not touchstart`, () => {
             mockEvent.target.tagName = 'VIDEO';
             slideSwipingDown.listener(mockEvent);
             expect(mockEvent.preventDefault).not.toBeCalled();
@@ -58,5 +53,79 @@ describe('calling or not calling preventDefault', () => {
             slideSwipingDown.listener(mockEvent);
             expect(mockEvent.preventDefault).toBeCalled();
         });
+    });
+});
+
+
+
+describe('setting isSwipingSlides state to true', () => {
+    // by default isSwipingSlides state should be false
+    fsLightbox.setters.setState({
+        isSwipingSlides: false
+    });
+
+    it('should set isSwipingSlides state to true', () => {
+        // because we are calling listener we need to mock event of it will throw error
+        const mockEvent = {
+            target: {}
+        };
+        fsLightbox.core.slideSwiping.down.listener(mockEvent);
+        expect(fsLightbox.state.isSwipingSlides).toBeTruthy();
+    });
+});
+
+
+/** @var { SlideSwipingDown } slideSwipingDown */
+let slideSwipingDown;
+let mockSwipingProps;
+
+describe('setting down client x', () => {
+    beforeEach(() => {
+        mockSwipingProps = {
+            downClientX: 0,
+            isAfterSwipeAnimationRunning: false,
+            swipedDifference: 0,
+        };
+        slideSwipingDown = new SlideSwipingDown(fsLightbox.setters.setState, mockSwipingProps);
+    });
+
+    describe('event is mousedown', () => {
+        // no touches property in event so it is mouse down
+        const mouseDownEvent = {
+            target: {},
+            clientX: 1000
+        };
+        it('should set clientX to 1000 due to its the value in event', () => {
+            slideSwipingDown.listener(mouseDownEvent);
+            expect(mockSwipingProps.downClientX).toEqual(1000);
+        });
+    });
+
+    describe('event is touchstart', () => {
+        // there is touch property with clientX so it is touchstart event
+        const touchStartEvent = {
+            target: {},
+            touches: [{clientX: 1500}]
+        };
+        it('should set clientX to 1500 due to its the value in event', () => {
+            slideSwipingDown.listener(touchStartEvent);
+            expect(mockSwipingProps.downClientX).toEqual(1500);
+        });
+    });
+});
+
+describe('resetting swipedDifference', () => {
+    beforeEach(() => {
+        mockSwipingProps = {
+            downClientX: 0,
+            isAfterSwipeAnimationRunning: false,
+            swipedDifference: 1000,
+        };
+        slideSwipingDown = new SlideSwipingDown(fsLightbox.setters.setState, mockSwipingProps);
+    });
+
+    it('should set swipedDifference swiping prop to 0', () => {
+        slideSwipingDown.listener({ target: {}, });
+        expect(mockSwipingProps.swipedDifference).toEqual(0);
     });
 });
