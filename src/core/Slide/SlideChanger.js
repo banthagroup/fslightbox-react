@@ -1,9 +1,9 @@
 /**
- * @param { SourceAnimator }sourceAnimator
- * @param { SourceHoldersTransformer } sourceHoldersTransformer
+ * @class
+ * @param { FsLightbox.core.sourceAnimator | SourceAnimator } sourceAnimator
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  * @param { FsLightbox.getters.getSlide | Function } getSlide
  * @param { FsLightbox.setters.setState | Function } setState
- * @class
  */
 export function SlideChanger(
     {

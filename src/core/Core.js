@@ -10,7 +10,8 @@ import { SizeController } from "./Size/SizeController";
 import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
 
 /**
- * @class Core
+ * @class
+ * @param { FsLightbox } fsLightbox
  */
 export function Core(fsLightbox) {
     // we are setting up core to this scope because in core objects we use another core objects

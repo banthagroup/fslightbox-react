@@ -5,7 +5,7 @@ import { SlideSwipingUp } from "./SwipingEvents/SlideSwipingUp";
 /**
  * @class SlideSwiping
  */
-export function SlideSwiping({ setters: { setState } }) {
+export function SlideSwiping({ setters: { setState }, core: { stageSources } }) {
     const swipingProps = {
         downClientX: 0,
         isAfterSwipeAnimationRunning: false,
@@ -13,6 +13,6 @@ export function SlideSwiping({ setters: { setState } }) {
     };
 
     this.down = new SlideSwipingDown(setState, swipingProps);
-    this.move = new SlideSwipingMove(swipingProps);
+    this.move = new SlideSwipingMove(stageSources, swipingProps);
     this.up = new SlideSwipingUp(swipingProps);
 }

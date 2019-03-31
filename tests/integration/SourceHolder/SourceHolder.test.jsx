@@ -26,7 +26,9 @@ describe('SourceHolder', () => {
         const numberOfUrls = testUrls.length;
         // this mock is only to make test work, we are using transform negative in component did mount so we need to mock
         // it or there will be throw error, because we don't have source Holders rendered
-        fsLightbox.core.sourceHoldersTransformer.transformNegative = jest.fn();
+        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = () => ({
+            negative: jest.fn()
+        });
 
         const checkingCreatingSourceAtCorrectTimeDueToClosingLightbox = (i) => {
             it('should not call createSource after received source type due to component not mounted', () => {
@@ -40,17 +42,11 @@ describe('SourceHolder', () => {
                 expect(sourceHolder.source.current.createSource).not.toBeCalled();
             });
 
-            it('should call create source on component mount (this is is needed if user will close lightbox during request)', () => {
+            it(`should call create source on component mount 
+                (this is is needed if user will close lightbox during request)`, () => {
                 const sourceHolderMock = new SourceHolderMock(fsLightbox);
                 sourceHolderMock.setIndex(i);
                 const sourceHolder = sourceHolderMock.getSourceHolder();
-
-                // this is needed cause if we for e.g. type is youtube and normal request will finish and set sourceType so
-                // initRequest won't be  called on construct and processReceivedSourceType will throw error cause sourceType
-                // won't be set
-                sourceHolder.sourceTypeChecker = {
-                    sourceType: 'fix'
-                };
                 sourceHolder.source.current = {
                     createSource: jest.fn()
                 };
@@ -72,10 +68,17 @@ describe(`componentDidMount - transforming source that is not in stage to negati
     const fsLightboxMock = new FsLightboxMock();
     const fsLightbox = fsLightboxMock.getFsLightbox();
     fsLightboxMock.setAllSourceHoldersToDivs();
+
     const sourceHolderMock = new SourceHolderMock(fsLightbox);
     sourceHolderMock.setIndex(0);
     const sourceHolder = sourceHolderMock.getSourceHolder();
-    fsLightbox.core.sourceHoldersTransformer.transformNegative = jest.fn();
+
+    const transformNegativeMock = jest.fn();
+    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = jest.fn();
+    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex.mockReturnValueOnce({
+        negative: transformNegativeMock
+    });
+
     // this only to make test work we are calling createSource on componentDidMount
     // so we need to mock it or test would throw error
     sourceHolder.source.current = { createSource: jest.fn() };
@@ -84,14 +87,17 @@ describe(`componentDidMount - transforming source that is not in stage to negati
         fsLightbox.state.slide = 1;
         fsLightbox.data.totalSlides = 3;
         sourceHolder.componentDidMount();
-        expect(fsLightbox.core.sourceHoldersTransformer.transformNegative).not.toBeCalled();
+        expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex).not.toBeCalled();
+        expect(transformNegativeMock).not.toBeCalled();
     });
 
     it('should call transform negative due to source is not in stage', () => {
         fsLightbox.state.slide = 50;
+        sourceHolder.props.slide = 50;
         fsLightbox.data.totalSlides = 90;
         sourceHolder.componentDidMount();
-        expect(fsLightbox.core.sourceHoldersTransformer.transformNegative).toBeCalledWith(0);
+        expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex).toBeCalledWith(0);
+        expect(transformNegativeMock).toBeCalled();
     });
 });
 

@@ -4,7 +4,7 @@ import {
 } from "../../constants/ResponsiveConstants";
 
 /**
- * @class SizeController
+ * @class
  * @param { FsLightbox } FsLightbox
  * @param { FsLightbox.sourcesData } FsLightbox.sourcesData
  * @param { FsLightbox.elements } FsLightbox.elements

@@ -14,20 +14,19 @@ describe('changeSlideTo', () => {
         fsLightbox.state.slide = 1;
     });
 
-    it('should change slide', () => {;
+    it('should change slide', () => {
         slideChanger.changeSlideTo(2);
         expect(fsLightbox.state.slide).toEqual(2);
     });
 
     it('should transform stage sourceHolders with timeout', () => {
-        fsLightbox.sourcesData.slideDistance = 1;
         global.window.innerWidth = 100;
         jest.useFakeTimers();
         slideChanger.changeSlideTo(2);
         jest.runAllTimers();
-        expect(sourceHolders[0].current.style.transform).toEqual('translate(-100px,0)');
-        expect(sourceHolders[1].current.style.transform).toEqual('translate(0,0)');
-        expect(sourceHolders[2].current.style.transform).toEqual('translate(100px,0)');
+        expect(sourceHolders[0].current.style.transform).toEqual('translate(-130px,0)');
+        expect(sourceHolders[1].current.style.transform).toEqual('translate(0px,0)');
+        expect(sourceHolders[2].current.style.transform).toEqual('translate(130px,0)');
     });
 
     describe('animate Sources', () => {

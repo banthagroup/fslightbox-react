@@ -2,8 +2,8 @@ import { WindowResizeEventController } from "./Window/Resize/WindowResizeEventCo
 import { SwipingEventsControllersFacade } from "./Facades/SwipingEventsControllersFacade";
 
 /**
- * @class EventsControllers
- * @param { Events } events
+ * @class
+ * @param { FsLightbox } fsLightbox
  */
 export function EventsControllers(fsLightbox) {
     this.window = {

@@ -46,11 +46,9 @@ class SourceHolder extends Component {
 
     componentDidMount() {
         isMounted = true;
-
         if(!this.props.core.stageSources.isSourceInStage(this.props.i)) {
-            this.props.core.sourceHoldersTransformer.transformNegative(this.props.i);
+            this.props.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex(this.props.i).negative();
         }
-
         if (isTypeCheckedAndSourceIsNotCreated) {
             this.source.current.createSource();
         }
@@ -59,7 +57,7 @@ class SourceHolder extends Component {
     render() {
         return (
             <div ref={ this.props.elements.sourceHolders[this.props.i] }
-                 className="fslightbox-source-holder">
+                 className="fslightbox-source-holder fslightbox-full-dimension">
                 <Source
                     i={ this.props.i }
                     ref={ this.source }

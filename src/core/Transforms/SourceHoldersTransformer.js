@@ -1,33 +1,42 @@
-import { StageSourceHoldersTransformer } from "./StageSourceHoldersTransformer";
+import { StageSourceHoldersTransformer } from "./StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { SourceHolderTransformer } from "./SourceHolderTransformer";
 
 /**
- * @class SourceHoldersTransformer
- * @param { FsLightbox.core } core
- * @param { FsLightbox.getters } getters
- * @param { FsLightbox.sourcesData } sourcesData
- * @param { FsLightbox.elements } elements
+ * @class
+ * @param { FsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer
+ * | function(): StageSourceHoldersByValueTransformer } getStageSourceHoldersByValueTransformer
+ *  * @param { FsLightbox.injector.transforms.getStageSourceHoldersTransformer
+ * | function(): StageSourceHoldersTransformer } getStageSourceHoldersTransformer
  */
-export function SourceHoldersTransformer({ core, getters, sourcesData, elements }) {
-    /** @return {StageSourceHoldersTransformer} */
-    this.transformStageSourceHolders = () =>
-        new StageSourceHoldersTransformer({
-            core: core,
-            getters: getters
-        });
-
-    this.transformNegative = (i) => {
-        getStyleOfSourceHolderByIndex(i).transform = 'translate(' + -sourcesData.slideDistance * window.innerWidth + 'px,0)';
-    };
-
-    this.transformZero = (i) => {
-        getStyleOfSourceHolderByIndex(i).transform = 'translate(0,0)';
-    };
-
-    this.transformPositive = (i) => {
-        getStyleOfSourceHolderByIndex(i).transform = 'translate(' + sourcesData.slideDistance * window.innerWidth + 'px,0)';
-    };
-
-    const getStyleOfSourceHolderByIndex = (index) => {
-        return elements.sourceHolders[index].current.style;
+export function SourceHoldersTransformer(
+    {
+        getters: { getSlide },
+        elements: { sourceHolders },
+        injector: {
+            transforms: {
+                getStageSourceHoldersTransformer,
+                getStageSourceHoldersByValueTransformer,
+                getSourceHolderTransformer
+            }
+        }
     }
+) {
+    /** @type {function(): StageSourceHoldersTransformer} */
+    this.transformStageSourceHolders = getStageSourceHoldersTransformer;
+    
+    this.transformStageSourceHoldersByValue = (value) =>
+        getStageSourceHoldersByValueTransformer().transformByValue(value);
+
+
+    /** @return { SourceHolderTransformer } */
+    this.transformStageSourceHolderAtIndex = (index) => {
+        this.transformStageSourceHoldersByValue(0);
+        const sourceHoldersTransformer = getSourceHolderTransformer();
+        sourceHoldersTransformer.setSourceHolder(sourceHolders[index]);
+        return sourceHoldersTransformer;
+    };
+
+    this.isStageSourceHolderAtIndexSet = (index) => {
+        return typeof index !== "undefined" && index !== getSlide() - 1;
+    };
 }
