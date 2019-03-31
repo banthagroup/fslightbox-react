@@ -7,7 +7,6 @@
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   z-index: 9999999;
   user-select: none;
-  transition: opacity .25s;
   -webkit-tap-highlight-color: transparent;
   animation: fslightbox-fade-in-complete .25s forwards;
 }

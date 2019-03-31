@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformer";
+import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
 import { StageSources } from "../../../../src/core/Stage/StageSources";
 
 
@@ -13,8 +13,8 @@ describe('current source transforming', () => {
         fsLightbox.state.slide = 1;
         expect(fsLightbox.elements.sourceHolders[0].current.style.transform).toEqual("");
         // we transform to zero on construct because there is always current source
-        new StageSourceHoldersTransformer(fsLightbox);
-        expect(fsLightbox.elements.sourceHolders[0].current.style.transform).toEqual("translate(0,0)");
+        new StageSourceHoldersTransformer(fsLightbox.core);
+        expect(fsLightbox.elements.sourceHolders[0].current.style.transform).toEqual("translate(0px,0)");
     });
 });
 
@@ -23,7 +23,7 @@ const fsLightboxMock = new FsLightboxMock();
 fsLightboxMock.instantiateNewFsLightbox();
 fsLightboxMock.setAllSourceHoldersToDivs();
 const fsLightbox = fsLightboxMock.getFsLightbox();
-const stageSourceHoldersTransformer = new StageSourceHoldersTransformer(fsLightbox);
+const stageSourceHoldersTransformer = new StageSourceHoldersTransformer(fsLightbox.core);
 const stageSources = new StageSources(fsLightbox);
 stageSourcesIndexes = stageSources.getAllStageIndexes();
 

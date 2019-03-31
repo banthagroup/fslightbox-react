@@ -4,7 +4,6 @@ import { testImageURL, testVideoURL, testYoutubeURL } from "../tests/schemas/tes
 import FsLightbox from "../src";
 
 class DemoComponent extends Component {
-
     constructor(props) {
         super(props);
 
@@ -37,10 +36,9 @@ class DemoComponent extends Component {
                     urls={ [
                         testYoutubeURL,
                         testVideoURL,
-                        'asdfasfd',
-                        "../demo/images/4.jpeg",
+                        // 'asdfasfd',
                         "../demo/images/5.jpg",
-                        "../demo/images/6.jpg"
+                        // "../demo/images/6.jpg"
                     ] }
                     slide={ this.slide }
                     videosPosters={ [

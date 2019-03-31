@@ -11,6 +11,9 @@ import { getDeviceType } from "./utils/getDeviceType";
 import { Core } from "./core/Core";
 import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
+import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
+import { StageSourceHoldersTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -22,12 +25,13 @@ class FsLightbox extends Component {
         this.setUpSetters();
         this.setUpElements();
         this.setUpCollections();
+        this.setUpInjector();
         this.setUpCore();
     }
 
     setUpData() {
         /**
-         * @type {{deviceType: (*|*|*), urls: Array, totalSlides: number, isInitialized: boolean, isSwipingSlides: boolean, isFullscreenOpen: boolean}}
+         * @type {{deviceType: number, urls: Array, totalSlides: number, isInitialized: boolean, isSwipingSlides: boolean, isFullscreenOpen: boolean}}
          */
         this.data = {
             urls: this.props.urls,
@@ -57,6 +61,9 @@ class FsLightbox extends Component {
     }
 
     setUpStates() {
+        /**
+         * @type {{isOpen: Boolean, slide: *, isSwipingSlides: boolean}}
+         */
         this.state = {
             isOpen: this.props.isOpen,
             isSwipingSlides: false,
@@ -65,6 +72,9 @@ class FsLightbox extends Component {
     }
 
     setUpGetters() {
+        /**
+         * @type {{initialize: (function(): void), getSlide: (function(): *)}}
+         */
         this.getters = {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide,
@@ -72,6 +82,9 @@ class FsLightbox extends Component {
     }
 
     setUpSetters() {
+        /**
+         * @type {{setState: (function(*=, *=): void)}}
+         */
         this.setters = {
             setState: (value, callback) => this.setState(value, callback)
         }
@@ -90,12 +103,27 @@ class FsLightbox extends Component {
         };
     }
 
+    setUpInjector() {
+        this.injector = {
+            transforms: {
+                getStageSourceHoldersTransformer: () => new StageSourceHoldersTransformer(this),
+                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
+                getSourceHolderTransformer: () => new SourceHolderTransformer(this)
+            }
+        };
+    }
+
     setUpCore() {
-        /** @type {Core} */
+        /**
+         * @type {Core}
+         */
         this.core = new Core(this);
     }
 
     setUpCollections() {
+        /**
+         * @type {{sourceSizeAdjusters: Array}}
+         */
         this.collections = {
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
             sourceSizeAdjusters: []
@@ -128,10 +156,9 @@ class FsLightbox extends Component {
         }
     }
 
-
-
     render() {
         if (!this.state.isOpen) return null;
+
         return (
             <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension">
                 <DownEventDetector isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
@@ -141,8 +168,12 @@ class FsLightbox extends Component {
                     data={ this.data }
                     slide={ this.state.slide }
                 />
-                <SlideButtonLeft core={ this.core }/>
-                <SlideButtonRight core={ this.core }/>
+                { (this.data.totalSlides > 1) ?
+                    <>
+                        <SlideButtonLeft core={ this.core }/>
+                        <SlideButtonRight core={ this.core }/>
+                    </> : null
+                }
                 <MediaHolder
                     collections={ this.collections }
                     core={ this.core }

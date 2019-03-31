@@ -1,5 +1,5 @@
 /**
- * @class WindowUpEventController
+ * @class
  * @param { FsLightbox.core.slideSwiping.up | SlideSwipingUp } up
  */
 export function WindowUpEventController({ core: { slideSwiping: { up } } }) {

@@ -11,10 +11,12 @@ class Nav extends Component {
                     core={ this.props.core }
                     data={ this.props.data }
                 />
-                <SlideNumber
-                    slide={ this.props.slide }
-                    totalSlides={ this.props.data.totalSlides }
-                />
+                { (this.props.data.totalSlides > 1) ?
+                    <SlideNumber
+                        slide={ this.props.slide }
+                        totalSlides={ this.props.data.totalSlides }
+                    /> : null
+                }
             </div>
         );
     }

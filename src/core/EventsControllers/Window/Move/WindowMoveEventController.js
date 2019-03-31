@@ -1,5 +1,5 @@
 /**
- * @class WindowMoveEventController
+ * @class
  * @param { FsLightbox.core.slideSwiping.move | SlideSwipingMove } move
  */
 export function WindowMoveEventController({ core: { slideSwiping: { move } } }) {

@@ -1,10 +1,9 @@
 import { CURRENT_POSITION, NEXT_POSITION, PREVIOUS_POSITION } from "../../constants/CoreConstants";
 
 /**
- * @param { FsLightbox } fsLightbox
+ * @class
  * @param { FsLightbox.data } data
  * @param { FsLightbox.getters.getSlide | Function } getSlide
- * @class
  */
 export function StageSources({ getters: { getSlide }, data }) {
     this.isSourceInStage = (index) => {
@@ -41,6 +40,9 @@ export function StageSources({ getters: { getSlide }, data }) {
         return nextSlideIndex;
     };
 
+    /**
+     * @return {{previous: number | undefined , current: number, next: number | undefined}}
+     */
     this.getAllStageIndexes = () => {
         const stageSourcesIndexes = {
             current: getSlide() - 1

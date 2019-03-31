@@ -1,11 +1,11 @@
 /**
- * @param { FsLightbox } FsLightbox
- * @param { FsLightbox.data } FsLightbox.data
  * @class
+ * @param { FsLightbox.data } data
  */
 export function FullscreenToggler({ data }) {
     this.turnOnFullscreen = () => {
         data.isFullscreenOpen = true;
+        console.log(fsLightbox.data.isFullscreenOpen);
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();

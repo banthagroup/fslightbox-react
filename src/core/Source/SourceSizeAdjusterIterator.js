@@ -1,8 +1,8 @@
 /**
  * @class SourceSizeAdjusterIterator
- * @param { FsLightbox.collections.sourceSizeAdjusters } sourceSizeAdjusters
+ * @param { FsLightbox.collections.sourceSizeAdjusters | Array.<SourceSizeAdjuster> } sourceSizeAdjusters
  */
-export function SourceSizeAdjusterIterator({ collections }) {
+export function SourceSizeAdjusterIterator({ collections: { sourceSizeAdjusters } }) {
     let index;
 
     this.adjustAllSourcesSizes = () => {
@@ -14,16 +14,16 @@ export function SourceSizeAdjusterIterator({ collections }) {
     };
 
     const hasNext = () => {
-        return index < collections.sourceSizeAdjusters.length;
+        return index < sourceSizeAdjusters.length;
     };
 
     const adjustSourceSize = () => {
         if (!isNull()) {
-            collections.sourceSizeAdjusters[index].adjustSourceSize();
+            sourceSizeAdjusters[index].adjustSourceSize();
         }
     };
 
     const isNull = () => {
-        return !collections.sourceSizeAdjusters[index];
+        return !sourceSizeAdjusters[index];
     };
 }

@@ -2,7 +2,8 @@ import { WindowMoveEventController } from "../Window/Move/WindowMoveEventControl
 import { WindowUpEventController } from "../Window/Up/WindowUpEventController";
 
 /**
- * @class SwipingEventsControllersFacade
+ * @class
+ * @param { FsLightbox } fsLightbox
  */
 export function SwipingEventsControllersFacade(fsLightbox) {
     const swipingControllers = [

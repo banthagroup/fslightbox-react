@@ -5,10 +5,10 @@ import {
 } from "../../constants/CssConstants";
 
 /**
- * @param { FsLightbox.elements.sources } sources
  * @class
+ * @param { FsLightbox.elements.sources | Array } sources
  */
-export function SourceAnimator({ elements: { sources: sources } }) {
+export function SourceAnimator({ elements: { sources } }) {
     let i = null;
 
     /**

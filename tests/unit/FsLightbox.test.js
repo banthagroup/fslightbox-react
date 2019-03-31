@@ -2,6 +2,9 @@ import FsLightbox from "../../src/FsLightbox";
 import { testProps, testUrls } from "../schemas/testVariables";
 import React from 'react';
 import { mount } from "enzyme";
+import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
+import { StageSourceHoldersByValueTransformer } from "../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
+import { StageSourceHoldersTransformer } from "../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
 
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -40,5 +43,20 @@ describe('FsLightbox props', () => {
         }, () => {
             expect(fsLightboxInstance.core.slideChanger.changeSlideTo).toBeCalled();
         });
+    });
+});
+
+describe('dependency injector', () => {
+    const fsLightboxMock = new FsLightboxMock();
+    const fsLightbox = fsLightboxMock.getFsLightbox();
+
+    it('should return StageSourceHoldersTransformer object', () => {
+        expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer(fsLightbox))
+            .toBeInstanceOf(StageSourceHoldersTransformer);
+    });
+
+    it('should return StageSourceHoldersByValueTransformer object', () => {
+        expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer(fsLightbox))
+            .toBeInstanceOf(StageSourceHoldersByValueTransformer);
     });
 });

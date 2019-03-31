@@ -1,9 +1,9 @@
 /**
  * @param { FsLightbox.sourcesData } sourcesData
- * @param { FsLightbox.elements } elements
+ * @param { FsLightbox.elements.sources } sources
  * @class
  */
-export function SourceSizeAdjuster({ sourcesData, elements }) {
+export function SourceSizeAdjuster({ sourcesData, elements: { sources } }) {
     let i = null;
     let sourceWidth = 0;
     let sourceHeight = 0;
@@ -40,7 +40,7 @@ export function SourceSizeAdjuster({ sourcesData, elements }) {
     };
 
     const setDimensions = () => {
-        elements.sources[i].current.style.height = newHeight + "px";
-        elements.sources[i].current.style.width = (newHeight * ratio) + "px";
+        sources[i].current.style.height = newHeight + "px";
+        sources[i].current.style.width = (newHeight * ratio) + "px";
     }
 }
