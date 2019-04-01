@@ -5,22 +5,23 @@ import { mount } from "enzyme";
 import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
 import { StageSourceHoldersByValueTransformer } from "../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
 import { StageSourceHoldersTransformer } from "../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { SourceHolderTransformer } from "../../src/core/Transforms/SourceHolderTransformer";
 
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
-    fsLightbox.core.sizeController.controlAll = jest.fn();
+    fsLightbox.core.sizeController.controlAllSizes = jest.fn();
     fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
     fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
     const testStageHolderTransformer = {
         withoutTimeout: jest.fn(),
     };
-    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = function () {
+    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = () => {
         return testStageHolderTransformer;
     };
     fsLightbox.initialize();
 
     it('should init core that need to be initialized', () => {
-        expect(fsLightbox.core.sizeController.controlAll).toBeCalled();
+        expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
         expect(fsLightbox.core.eventsControllers.window.resize.attachListener).toBeCalled();
         expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
         expect(testStageHolderTransformer.withoutTimeout).toBeCalled();
@@ -50,9 +51,9 @@ describe('dependency injector', () => {
     const fsLightboxMock = new FsLightboxMock();
     const fsLightbox = fsLightboxMock.getFsLightbox();
 
-    it('should return StageSourceHoldersTransformer object', () => {
-        expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer(fsLightbox))
-            .toBeInstanceOf(StageSourceHoldersTransformer);
+    it('should return SourceHolderTransformer object', () => {
+        expect(fsLightbox.injector.transforms.getSourceHolderTransformer())
+            .toBeInstanceOf(SourceHolderTransformer);
     });
 
     it('should return StageSourceHoldersByValueTransformer object', () => {

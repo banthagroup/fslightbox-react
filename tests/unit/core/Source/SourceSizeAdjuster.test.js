@@ -18,9 +18,9 @@ describe('SourceSizeChange', () => {
         const image = fsLightboxInstance.elements.sources[0].current;
 
         test('source width > window width & source height > window height', () => {
-            global.window.innerWidth = 1500;
-            global.window.innerHeight = 1400;
-            global.dispatchEvent(new Event('resize'));
+            window.innerWidth = 1500;
+            window.innerHeight = 1400;
+            dispatchEvent(new Event('resize'));
             sourceSizeAdjuster.adjustSourceSize();
             expect(parseInt(image.style.width)).toEqual(getDecreasedDimensionValue(1400));
             expect(parseInt(image.style.height)).toEqual(getDecreasedDimensionValue(1400));
@@ -28,9 +28,9 @@ describe('SourceSizeChange', () => {
 
 
         test('source width > window width & source height < window height', () => {
-            global.window.innerWidth = 1500;
-            global.window.innerHeight = 2500;
-            global.dispatchEvent(new Event('resize'));
+            window.innerWidth = 1500;
+            window.innerHeight = 2500;
+            dispatchEvent(new Event('resize'));
             sourceSizeAdjuster.adjustSourceSize();
             expect(parseInt(image.style.width)).toEqual(getDecreasedDimensionValue(1500));
             expect(parseInt(image.style.height)).toEqual(getDecreasedDimensionValue(1500));
@@ -38,9 +38,9 @@ describe('SourceSizeChange', () => {
 
 
         test('source width < window width & source height > window height', () => {
-            global.window.innerWidth = 2500;
-            global.window.innerHeight = 1500;
-            global.dispatchEvent(new Event('resize'));
+            window.innerWidth = 2500;
+            window.innerHeight = 1500;
+            dispatchEvent(new Event('resize'));
             sourceSizeAdjuster.adjustSourceSize();
             expect(parseInt(image.style.width)).toEqual(getDecreasedDimensionValue(1500));
             expect(parseInt(image.style.height)).toEqual(getDecreasedDimensionValue(1500));
@@ -48,9 +48,9 @@ describe('SourceSizeChange', () => {
 
 
         test('source width < window width & source height < window height', () => {
-            global.window.innerWidth = 2500;
-            global.window.innerHeight = 2400;
-            global.dispatchEvent(new Event('resize'));
+            window.innerWidth = 2500;
+            window.innerHeight = 2400;
+            dispatchEvent(new Event('resize'));
             sourceSizeAdjuster.adjustSourceSize();
             expect(parseInt(image.style.width)).toEqual(2000);
             expect(parseInt(image.style.height)).toEqual(2000);

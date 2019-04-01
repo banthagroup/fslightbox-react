@@ -30,10 +30,11 @@ export function FsLightboxMock() {
     this.setAllSourcesToDivs = () => {
         if (!isInstantiated())
             return throwNotInstantiatedError();
-        for (let source of fsLightbox.elements.sources) {
-            source.current = document.createElement('div');
-        }
         const sources = fsLightbox.elements.sources;
+        for (let i in fsLightbox.elements.sources) {
+            sources[i].current = document.createElement('div');
+            sources[i].current.setAttribute('key', i);
+        }
         return {
             getSourcesArray: () => {
                 return sources;
@@ -45,15 +46,23 @@ export function FsLightboxMock() {
         if (!isInstantiated()) {
             throwNotInstantiatedError();
         }
-        for (let sourceHolder of fsLightbox.elements.sourceHolders) {
-            sourceHolder.current = document.createElement('div');
-        }
         const sourceHolders = fsLightbox.elements.sourceHolders;
+        for (let i in sourceHolders) {
+            sourceHolders[i].current = document.createElement('div');
+            sourceHolders[i].current.setAttribute('key', i);
+        }
         return {
             getSourceHoldersArray: () => {
                 return sourceHolders;
             }
         }
+    };
+
+    this.setMediaHolderToDiv = () => {
+        if (!isInstantiated()) {
+            throwNotInstantiatedError();
+        }
+        fsLightbox.elements.mediaHolder.current = document.createElement('div');
     };
 
 

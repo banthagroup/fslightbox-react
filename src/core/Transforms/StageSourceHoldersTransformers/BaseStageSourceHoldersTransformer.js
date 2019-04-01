@@ -1,24 +1,24 @@
 /**
  * @class BaseStageSourceHoldersTransformer
  * @param { FsLightbox.core.stageSources | StageSources } stageSources
- * @param { FsLightbox.core.sourceHoldersTransformer.isStageSourceHolderAtIndexSet
- * | function(): boolean } isStageSourceHolderAtIndexSet
+ * @param { FsLightbox.core.sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform
+ * | function(): boolean } isStageSourceHolderAtIndexValidForTransform
  */
 export function BaseStageSourceHoldersTransformer(
     {
         core: {
             stageSources,
-            sourceHoldersTransformer: { isStageSourceHolderAtIndexSet },
+            sourceHoldersTransformer: { isStageSourceHolderAtIndexValidForTransform },
         }
     }
 ) {
     this.stageSourcesIndexes = stageSources.getAllStageIndexes();
 
     this.isPreviousSourceHolderSet = () => {
-        return isStageSourceHolderAtIndexSet(this.stageSourcesIndexes.previous);
+        return isStageSourceHolderAtIndexValidForTransform(this.stageSourcesIndexes.previous);
     };
 
     this.isNextSourceHolderSet = () => {
-        return isStageSourceHolderAtIndexSet(this.stageSourcesIndexes.next);
+        return isStageSourceHolderAtIndexValidForTransform(this.stageSourcesIndexes.next);
     };
 }

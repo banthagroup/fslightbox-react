@@ -1,12 +1,17 @@
 /**
  * @class
- * @param { FsLightbox.core.sizeController | SizeController } sizeController
- * @param { FsLightbox.core.sourceSizeAdjusterIterator | SourceSizeAdjusterIterator } sourceSizeAdjusterIterator
- * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
+ * @param { FsLightbox.core.sizeController.controlAllSizes | Function } controlAll
+ * @param { FsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes | Function } adjustAllSourcesSizes
+ * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
+ * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
  */
 export function WindowResizeEventController(
     {
-        core: { sizeController, sourceSizeAdjusterIterator, sourceHoldersTransformer }
+        core: {
+            sizeController: { controlAllSizes },
+            sourceSizeAdjusterIterator: { adjustAllSourcesSizes },
+            sourceHoldersTransformer: { transformStageSourceHolders }
+        }
     }
 ) {
     this.attachListener = () => {
@@ -18,8 +23,8 @@ export function WindowResizeEventController(
     };
 
     const listener = () => {
-        sizeController.controlAll();
-        sourceSizeAdjusterIterator.adjustAllSourcesSizes();
-        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
+        controlAllSizes();
+        adjustAllSourcesSizes();
+        transformStageSourceHolders().withoutTimeout();
     };
 }
