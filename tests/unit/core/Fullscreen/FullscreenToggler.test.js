@@ -20,7 +20,6 @@ describe('requestFullscreen', () => {
 });
 
 describe('mozRequestFullScreen', () => {
-
     beforeEach(() => {
         document.documentElement.requestFullscreen = null;
         document.exitFullscreen = null;

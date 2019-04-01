@@ -12,7 +12,6 @@ import { Core } from "./core/Core";
 import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
 import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
-import { StageSourceHoldersTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
 import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
 
 class FsLightbox extends Component {
@@ -106,17 +105,14 @@ class FsLightbox extends Component {
     setUpInjector() {
         this.injector = {
             transforms: {
-                getStageSourceHoldersTransformer: () => new StageSourceHoldersTransformer(this),
-                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
-                getSourceHolderTransformer: () => new SourceHolderTransformer(this)
+                getSourceHolderTransformer: () => new SourceHolderTransformer(this),
+                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this)
             }
         };
     }
 
     setUpCore() {
-        /**
-         * @type {Core}
-         */
+        /** @type { Core } */
         this.core = new Core(this);
     }
 
@@ -143,7 +139,7 @@ class FsLightbox extends Component {
 
     initialize() {
         this.data.isInitialized = true;
-        this.core.sizeController.controlAll();
+        this.core.sizeController.controlAllSizes();
         this.core.eventsControllers.window.resize.attachListener();
         this.core.eventsControllers.window.swiping.attachListeners();
         this.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();

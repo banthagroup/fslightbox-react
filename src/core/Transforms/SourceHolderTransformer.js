@@ -2,7 +2,7 @@
  * @class SourceHolderTransformer
  * @param { FsLightbox.sourcesData.slideDistance } slideDistance
  */
-export function SourceHolderTransformer({ data: { slideDistance } }) {
+export function SourceHolderTransformer({ sourcesData: { slideDistance } }) {
     let sourceHolderStyle;
     let transformValue = 0;
 
@@ -10,6 +10,7 @@ export function SourceHolderTransformer({ data: { slideDistance } }) {
         sourceHolderStyle = sourceHolder.current.style;
     };
 
+    /** @return { this } */
     this.byValue = (value) => {
         transformValue = value;
         return this;

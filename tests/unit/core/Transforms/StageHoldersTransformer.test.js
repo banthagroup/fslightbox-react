@@ -2,7 +2,6 @@ import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
 import { StageSources } from "../../../../src/core/Stage/StageSources";
 
-
 describe('current source transforming', () => {
     const fsLightboxMock = new FsLightboxMock();
     fsLightboxMock.instantiateNewFsLightbox();
@@ -13,7 +12,7 @@ describe('current source transforming', () => {
         fsLightbox.state.slide = 1;
         expect(fsLightbox.elements.sourceHolders[0].current.style.transform).toEqual("");
         // we transform to zero on construct because there is always current source
-        new StageSourceHoldersTransformer(fsLightbox.core);
+        new StageSourceHoldersTransformer(fsLightbox);
         expect(fsLightbox.elements.sourceHolders[0].current.style.transform).toEqual("translate(0px,0)");
     });
 });
@@ -23,7 +22,7 @@ const fsLightboxMock = new FsLightboxMock();
 fsLightboxMock.instantiateNewFsLightbox();
 fsLightboxMock.setAllSourceHoldersToDivs();
 const fsLightbox = fsLightboxMock.getFsLightbox();
-const stageSourceHoldersTransformer = new StageSourceHoldersTransformer(fsLightbox.core);
+const stageSourceHoldersTransformer = new StageSourceHoldersTransformer(fsLightbox);
 const stageSources = new StageSources(fsLightbox);
 stageSourcesIndexes = stageSources.getAllStageIndexes();
 
@@ -39,12 +38,12 @@ describe('without timeout transforming', () => {
 
     it('should transform previous source to negative value without timeout', () => {
         expect(fsLightbox.elements.sourceHolders[stageSourcesIndexes.previous].current.style.transform)
-            .toEqual('translate(' + (-fsLightbox.sourcesData.slideDistance * global.window.innerWidth) + 'px,0)');
+            .toEqual('translate(' + (-fsLightbox.sourcesData.slideDistance * window.innerWidth) + 'px,0)');
     });
 
     it('should transform next source to positive value without timeout', () => {
         expect(fsLightbox.elements.sourceHolders[stageSourcesIndexes.next].current.style.transform)
-            .toEqual('translate(' + (fsLightbox.sourcesData.slideDistance * global.window.innerWidth) + 'px,0)');
+            .toEqual('translate(' + (fsLightbox.sourcesData.slideDistance * window.innerWidth) + 'px,0)');
     });
 });
 
@@ -76,13 +75,13 @@ describe('with timeout transforming', () => {
         it('should transform previous source to negative value', () => {
             jest.runAllTimers();
             expect(fsLightbox.elements.sourceHolders[stageSourcesIndexes.previous].current.style.transform)
-                .toEqual('translate(' + (-fsLightbox.sourcesData.slideDistance * global.window.innerWidth) + 'px,0)');
+                .toEqual('translate(' + (-fsLightbox.sourcesData.slideDistance * window.innerWidth) + 'px,0)');
         });
 
         it('should transform next source to positive value', () => {
             jest.runAllTimers();
             expect(fsLightbox.elements.sourceHolders[stageSourcesIndexes.next].current.style.transform)
-                .toEqual('translate(' + (fsLightbox.sourcesData.slideDistance * global.window.innerWidth) + 'px,0)');
+                .toEqual('translate(' + (fsLightbox.sourcesData.slideDistance * window.innerWidth) + 'px,0)');
         });
     });
 });

@@ -25,13 +25,13 @@ describe('window mousemove event', () => {
 
     describe('attaching mousemove event listener to window', () => {
         it('should not call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('mousemove'));
+            dispatchEvent(new Event('mousemove'));
             expect(slideSwipingMove.listener).not.toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowMoveEventController.attachListener();
-            global.dispatchEvent(new Event('mousemove'));
+            dispatchEvent(new Event('mousemove'));
             expect(slideSwipingMove.listener).toBeCalled();
         });
     });
@@ -42,13 +42,13 @@ describe('window mousemove event', () => {
         });
 
         it('should call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('mousemove'));
+            dispatchEvent(new Event('mousemove'));
             expect(slideSwipingMove.listener).toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowMoveEventController.removeListener();
-            global.dispatchEvent(new Event('mousemove'));
+            dispatchEvent(new Event('mousemove'));
             expect(slideSwipingMove.listener).not.toBeCalled();
         });
     });
@@ -65,13 +65,13 @@ describe('window touchmove event', () => {
 
     describe('attaching touchmove event listener to window', () => {
         it('should not call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('touchmove'));
+            dispatchEvent(new Event('touchmove'));
             expect(slideSwipingMove.listener).not.toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowMoveEventController.attachListener();
-            global.dispatchEvent(new Event('touchmove'));
+            dispatchEvent(new Event('touchmove'));
             expect(slideSwipingMove.listener).toBeCalled();
         });
     });
@@ -82,13 +82,13 @@ describe('window touchmove event', () => {
         });
 
         it('should call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('touchmove'));
+            dispatchEvent(new Event('touchmove'));
             expect(slideSwipingMove.listener).toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowMoveEventController.removeListener();
-            global.dispatchEvent(new Event('touchmove'));
+            dispatchEvent(new Event('touchmove'));
             expect(slideSwipingMove.listener).not.toBeCalled();
         });
     });

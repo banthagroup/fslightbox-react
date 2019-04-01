@@ -25,13 +25,13 @@ describe('window mouseup event', () => {
 
     describe('attaching mouseup event listener to window', () => {
         it('should not call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('mouseup'));
+            dispatchEvent(new Event('mouseup'));
             expect(slideSwipingUp.listener).not.toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowUpEventController.attachListener();
-            global.dispatchEvent(new Event('mouseup'));
+            dispatchEvent(new Event('mouseup'));
             expect(slideSwipingUp.listener).toBeCalled();
         });
     });
@@ -42,13 +42,13 @@ describe('window mouseup event', () => {
         });
 
         it('should call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('mouseup'));
+            dispatchEvent(new Event('mouseup'));
             expect(slideSwipingUp.listener).toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowUpEventController.removeListener();
-            global.dispatchEvent(new Event('mouseup'));
+            dispatchEvent(new Event('mouseup'));
             expect(slideSwipingUp.listener).not.toBeCalled();
         });
     });
@@ -65,13 +65,13 @@ describe('window touchend event', () => {
 
     describe('attaching touchend event listener to window', () => {
         it('should not call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('touchend'));
+            dispatchEvent(new Event('touchend'));
             expect(slideSwipingUp.listener).not.toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowUpEventController.attachListener();
-            global.dispatchEvent(new Event('touchend'));
+            dispatchEvent(new Event('touchend'));
             expect(slideSwipingUp.listener).toBeCalled();
         });
     });
@@ -82,13 +82,13 @@ describe('window touchend event', () => {
         });
 
         it('should call slide swiping move listener', () => {
-            global.dispatchEvent(new Event('touchend'));
+            dispatchEvent(new Event('touchend'));
             expect(slideSwipingUp.listener).toBeCalled();
         });
 
         it('should call slide swiping move listener', () => {
             windowUpEventController.removeListener();
-            global.dispatchEvent(new Event('touchend'));
+            dispatchEvent(new Event('touchend'));
             expect(slideSwipingUp.listener).not.toBeCalled();
         });
     });

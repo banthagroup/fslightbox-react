@@ -2,15 +2,13 @@ import { SourceHoldersTransformer } from "../../../../src/core/Transforms/Source
 import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { StageSourceHoldersByValueTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
-const sinon = require('sinon');
 
 describe('SourceHoldersTransformer', () => {
     const mock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = mock.getInstance();
     const sourceHoldersTransformer = fsLightboxInstance.core.sourceHoldersTransformer;
-    global.window.innerWidth = 1000;
-    global.window.innerHeight = 1000;
+    window.innerWidth = 1000;
+    window.innerHeight = 1000;
 
     it('should return StageSourceHoldersTransformer with correct props', () => {
         expect(sourceHoldersTransformer.transformStageSourceHolders()).toBeInstanceOf(StageSourceHoldersTransformer);
@@ -34,7 +32,7 @@ describe('SourceHoldersTransformer', () => {
 });
 
 
-describe('transformStageSources', () => {
+describe('transformStageSourceHolders', () => {
     const fsLightboxMock = new FsLightboxMock();
     const fsLightbox = fsLightboxMock.getFsLightbox();
     const sourceHoldersTransformer = fsLightbox.core.sourceHoldersTransformer;
@@ -140,12 +138,68 @@ describe('transformStageSources', () => {
 });
 
 
+const fsLightboxMock = new FsLightboxMock();
+const fsLightbox = fsLightboxMock.getFsLightbox();
+/** @var { SourceHoldersTransformer } */
+let sourceHoldersTransformer;
+
 describe('transformStageSourceHoldersByValue', () => {
     const transformByValueMock = jest.fn();
-    const fsLightboxMock = new FsLightboxMock();
-    const fsLightbox = fsLightboxMock.getFsLightbox();
+    fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer = () => ({
+        transformByValue: transformByValueMock
+    });
+    sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
 
-    it('should ', () => {
+    it(`should call transformByValue with same value parameter as given 
+    on StageSourceHoldersByValueTransformer new instance`, () => {
+        sourceHoldersTransformer.transformStageSourceHoldersByValue(100);
+        expect(transformByValueMock).toBeCalledWith(100);
+    });
+});
 
+
+describe('transform single stage source holder at index', () => {
+    let mockSourceHolderTransformer;
+
+    beforeEach(() => {
+        fsLightboxMock.setAllSourceHoldersToDivs();
+        mockSourceHolderTransformer = {
+            setSourceHolder: jest.fn()
+        };
+        fsLightbox.injector.transforms.getSourceHolderTransformer = () => mockSourceHolderTransformer;
+        sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
+    });
+
+    it('should call set source holder at correct index', () => {
+        sourceHoldersTransformer.transformStageSourceHolderAtIndex(0);
+        expect(mockSourceHolderTransformer.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[0]);
+    });
+
+    it('should return source holder transformer', () => {
+        expect(sourceHoldersTransformer.transformStageSourceHolderAtIndex(0)).toEqual(mockSourceHolderTransformer);
+    });
+});
+
+
+describe('checking if stage source holder is valid for transform', () => {
+    sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
+    
+    describe('stage source holder is not valid for transform', () => {
+        it('should return false due to index is undefined', () => {
+            expect(sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform(undefined)).toBeFalsy();
+        });
+
+        it(`should false due to source holder at index is current source holder
+        (current source holder is transformed on construct cause it always set)`, () => {
+            fsLightbox.state.slide = 1;
+            expect(sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform(0)).toBeFalsy();
+        });
+    });
+
+    describe('stage source holder is valid for transform', () => {
+        it('should return true due to source holder is defined and its not current', () => {
+            fsLightbox.state.slide = 2;
+            expect(sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform(0)).toBeTruthy();
+        });
     });
 });

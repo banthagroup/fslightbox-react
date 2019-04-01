@@ -9,10 +9,10 @@ export function StageSourceHoldersTransformer(fsLightbox) {
     const {
         core: {
             sourceHoldersTransformer: {
-                /** @var { function(number): SourceHolderTransformer } */
+                /** @type { function(number): SourceHolderTransformer } */
                 transformStageSourceHolderAtIndex
             },
-        }
+        },
     } = fsLightbox;
 
     BaseStageSourceHoldersTransformer.call(this, fsLightbox);

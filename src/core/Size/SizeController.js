@@ -15,7 +15,7 @@ export function SizeController(
         elements: { mediaHolder }
     }
 ) {
-    this.controlAll = () => {
+    this.controlAllSizes = () => {
         saveMaxSourcesDimensions();
         this.adjustMediaHolderSize();
     };

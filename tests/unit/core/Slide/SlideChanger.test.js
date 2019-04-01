@@ -20,7 +20,7 @@ describe('changeSlideTo', () => {
     });
 
     it('should transform stage sourceHolders with timeout', () => {
-        global.window.innerWidth = 100;
+        window.innerWidth = 100;
         jest.useFakeTimers();
         slideChanger.changeSlideTo(2);
         jest.runAllTimers();

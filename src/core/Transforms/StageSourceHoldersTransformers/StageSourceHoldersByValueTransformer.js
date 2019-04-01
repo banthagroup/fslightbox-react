@@ -6,12 +6,37 @@ import { BaseStageSourceHoldersTransformer } from "./BaseStageSourceHoldersTrans
  * @param { FsLightbox } fsLightbox
  */
 export function StageSourceHoldersByValueTransformer(fsLightbox) {
+    const {
+        core: {
+            sourceHoldersTransformer: {
+                /** @type { function(number): SourceHolderTransformer } */
+                transformStageSourceHolderAtIndex
+            },
+        },
+    } = fsLightbox;
+
     BaseStageSourceHoldersTransformer.call(this, fsLightbox);
+    let transformValue;
 
     this.transformByValue = (value) => {
-        console.log(fsLightbox);
-        return "don't work";
+        transformValue = value;
+        transformStageSourceHolderAtIndex(this.stageSourcesIndexes.current).byValue(value).zero();
+        transformPreviousSourceHolderIfIsSet();
+        transformNextSourceHolderIfIsSet();
     };
+
+    const transformPreviousSourceHolderIfIsSet = () => {
+        if (this.isPreviousSourceHolderSet()) {
+            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.previous).byValue(transformValue).negative();
+        }
+    };
+
+    const transformNextSourceHolderIfIsSet = () => {
+        if (this.isNextSourceHolderSet()) {
+            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.next).byValue(transformValue).positive();
+        }
+    };
+
 }
 
 StageSourceHoldersByValueTransformer.prototype = Object.create(BaseStageSourceHoldersTransformer.prototype);
