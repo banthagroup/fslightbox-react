@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
-import { SlideSwipingDown } from "../../../../../src/core/SlideSwiping/SwipingEvents/SlideSwipingDown";
+import { SlideSwipingDown } from "../../../../../src/core/SlideSwiping/Events/SlideSwipingDown";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
@@ -86,7 +86,7 @@ describe('setting down client x', () => {
             isAfterSwipeAnimationRunning: false,
             swipedDifference: 0,
         };
-        slideSwipingDown = new SlideSwipingDown(fsLightbox.setters.setState, mockSwipingProps);
+        slideSwipingDown = new SlideSwipingDown(fsLightbox, mockSwipingProps);
     });
 
     describe('event is mousedown', () => {
@@ -121,7 +121,7 @@ describe('resetting swipedDifference', () => {
             isAfterSwipeAnimationRunning: false,
             swipedDifference: 1000,
         };
-        slideSwipingDown = new SlideSwipingDown(fsLightbox.setters.setState, mockSwipingProps);
+        slideSwipingDown = new SlideSwipingDown(fsLightbox, mockSwipingProps);
     });
 
     it('should set swipedDifference swiping prop to 0', () => {

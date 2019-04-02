@@ -13,6 +13,7 @@ import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
 import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
 import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
+import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/SlideSwipingMoveActions";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -77,6 +78,7 @@ class FsLightbox extends Component {
         this.getters = {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide,
+            getIsSwipingSlides: () => this.state.isSwipingSlides,
         };
     }
 
@@ -107,6 +109,9 @@ class FsLightbox extends Component {
             transforms: {
                 getSourceHolderTransformer: () => new SourceHolderTransformer(this),
                 getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this)
+            },
+            slideSwiping: {
+                getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
             }
         };
     }

@@ -1,4 +1,5 @@
 import { StageSourceHoldersTransformer } from "./StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { SourceHolderTransformer } from "./SourceHolderTransformer";
 
 /**
  * @class
@@ -10,11 +11,14 @@ export function SourceHoldersTransformer(fsLightbox) {
         elements: { sourceHolders },
         injector: {
             transforms: {
+                /** @type { function(): StageSourceHoldersByValueTransformer } */
                 getStageSourceHoldersByValueTransformer,
+                /** @type { function(): SourceHolderTransformer } */
                 getSourceHolderTransformer
             }
         }
     } = fsLightbox;
+    const sourceHolderTransformer = getSourceHolderTransformer();
 
     /** @return { StageSourceHoldersTransformer } */
     this.transformStageSourceHolders = () => {
@@ -27,9 +31,8 @@ export function SourceHoldersTransformer(fsLightbox) {
 
     /** @return { SourceHolderTransformer }  */
     this.transformStageSourceHolderAtIndex = (index) => {
-        const sourceHoldersTransformer = getSourceHolderTransformer();
-        sourceHoldersTransformer.setSourceHolder(sourceHolders[index]);
-        return sourceHoldersTransformer;
+        sourceHolderTransformer.setSourceHolder(sourceHolders[index]);
+        return sourceHolderTransformer;
     };
 
     this.isStageSourceHolderAtIndexValidForTransform = (index) => {

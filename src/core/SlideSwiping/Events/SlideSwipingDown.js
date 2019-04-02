@@ -1,10 +1,10 @@
 /**
- * @class SlideSwipingDown
+ * @class
  * @param { FsLightbox.data.deviceType } deviceType
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
  */
-export function SlideSwipingDown(setState, swipingProps) {
+export function SlideSwipingDown({ setters: { setState } }, swipingProps) {
     /** @var { MouseEvent | TouchEvent } event */
     let event;
 
