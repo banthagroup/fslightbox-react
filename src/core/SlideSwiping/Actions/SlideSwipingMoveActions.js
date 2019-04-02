@@ -1,8 +1,7 @@
 /**
  * @class
  * @param { FsLightbox.core.stageSources | StageSources } stageSources
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue
- * | Function } transformStageSourceHoldersByValue
+ * @param { transformStageSourceHoldersByValue | Function } transformStageSourceHoldersByValue
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
  */
 export function SlideSwipingMoveActions(
