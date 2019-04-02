@@ -1,7 +1,7 @@
 /**
  * @class BaseStageSourceHoldersTransformer
  * @param { FsLightbox.core.stageSources | StageSources } stageSources
- * @param { FsLightbox.core.sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform
+ * @param { isStageSourceHolderAtIndexValidForTransform
  * | function(): boolean } isStageSourceHolderAtIndexValidForTransform
  */
 export function BaseStageSourceHoldersTransformer(
