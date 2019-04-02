@@ -1,5 +1,5 @@
 # React Fullscreen Lightbox Basic
-## Version - 0.0.7 - In Development
+## Version - 0.5.0 - In Development
 ## Description
 In developmet - React version of Fullscreen Lightbox.
 
