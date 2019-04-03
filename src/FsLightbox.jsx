@@ -14,6 +14,7 @@ import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHov
 import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
 import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
 import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/SlideSwipingMoveActions";
+import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/SlideSwipingUpActions";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -108,10 +109,12 @@ class FsLightbox extends Component {
         this.injector = {
             transforms: {
                 getSourceHolderTransformer: () => new SourceHolderTransformer(this),
-                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this)
+                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
+                getInitialStageSourceHoldersByValueTransformer: () => ({ stageSourcesIndexes: {} })
             },
             slideSwiping: {
                 getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
+                getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps),
             }
         };
     }
@@ -163,7 +166,7 @@ class FsLightbox extends Component {
         return (
             <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension">
                 <DownEventDetector isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
-                <SwipingInvisibleHover isSwipingSlides={ this.state.isSwipingSlides }/>
+                <SwipingInvisibleHover isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
                 <Nav
                     core={ this.core }
                     data={ this.data }

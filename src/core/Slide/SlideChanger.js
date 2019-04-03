@@ -7,8 +7,9 @@
  */
 export function SlideChanger(
     {
+        elements: { sources },
         core: { sourceAnimator, sourceHoldersTransformer },
-        getters: { getSlide } ,
+        getters: { getSlide },
         setters: { setState },
     }
 ) {
@@ -25,9 +26,14 @@ export function SlideChanger(
     };
 
     const animate = () => {
-        sourceAnimator.animateSourceFromSlide(getSlide()).removeFadeIn();
-        sourceAnimator.animateSourceFromSlide(getSlide()).fadeOut();
+        let previousSlide = getSlide();
+        sourceAnimator.animateSourceFromSlide(previousSlide).removeFadeIn();
+        sourceAnimator.animateSourceFromSlide(previousSlide).fadeOut();
         sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
         sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
+        setTimeout(() => {
+            sourceAnimator.animateSourceFromSlide(previousSlide).removeFadeOut();
+            // sources[previousSlide - 1].current.style.opacity = '1';
+        }, 250)
     }
 }

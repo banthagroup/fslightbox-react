@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// this component enables up event over the youtube video because it hovers it up with bigger z-index
 const SwipingInvisibleHover = ({ isSwipingSlides }) => {
-    if(!isSwipingSlides)
+    // if (!isSwipingSlides)
         return null;
 
     return (
-        <div className="fslightbox-slide"></div>
+        <div className="fslightbox-swiping-invisible-hover fslightbox-full-dimension"></div>
     );
 };
 

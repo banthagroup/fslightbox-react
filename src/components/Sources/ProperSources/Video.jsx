@@ -23,7 +23,7 @@ class Video extends Component {
         return (
             <video
                 onLoadedMetadata={ this.onLoadedMetaData }
-                className="fslightbox-single-source fslightbox-video"
+                className="fslightbox-single-source fslightbox-video fslightbox-opacity-0"
                 controls
                 ref={ this.props.sources[this.props.i] }
                 poster={ this.props.sourcesData.videosPosters[this.props.i] }>

@@ -6,7 +6,6 @@ import { SlideSwipingUp } from "./Events/SlideSwipingUp";
  * @class SlideSwiping
  */
 export function SlideSwiping(fsLightbox) {
-
     const swipingProps = {
         downClientX: 0,
         isAfterSwipeAnimationRunning: false,
@@ -15,5 +14,5 @@ export function SlideSwiping(fsLightbox) {
 
     this.down = new SlideSwipingDown(fsLightbox, swipingProps);
     this.move = new SlideSwipingMove(fsLightbox, swipingProps);
-    this.up = new SlideSwipingUp(swipingProps);
+    this.up = new SlideSwipingUp(fsLightbox, swipingProps);
 }

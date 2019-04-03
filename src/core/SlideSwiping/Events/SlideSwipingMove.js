@@ -2,7 +2,6 @@
  * @class SlideSwipingMove
  * @param { FsLightbox.getters.getIsSwipingSlides | function(): boolean } getIsSwipingSlides
  * @param { FsLightbox.injector.slideSwiping.getMoveActionsForSwipingProps | Function } getMoveActionsForSwipingProps
- * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
  */
 export function SlideSwipingMove(
@@ -14,9 +13,6 @@ export function SlideSwipingMove(
             slideSwiping: {
                 getMoveActionsForSwipingProps
             }
-        },
-        core: {
-            sourceHoldersTransformer
         }
     }, swipingProps
 ) {

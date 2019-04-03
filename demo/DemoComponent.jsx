@@ -36,8 +36,14 @@ class DemoComponent extends Component {
                     urls={ [
                         testYoutubeURL,
                         testVideoURL,
-                        // 'asdfasfd',
+                        'ima invalid source',
+                        "../demo/images/1.jpeg",
+                        "../demo/images/2.jpg",
+                        "../demo/images/3.jpeg",
+                        "../demo/images/4.jpeg",
                         "../demo/images/5.jpg",
+                        "../demo/images/6.jpg",
+                        "../demo/images/7.jpg",
                         // "../demo/images/6.jpg"
                     ] }
                     slide={ this.slide }

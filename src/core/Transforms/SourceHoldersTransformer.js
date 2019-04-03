@@ -14,11 +14,14 @@ export function SourceHoldersTransformer(fsLightbox) {
                 /** @type { function(): StageSourceHoldersByValueTransformer } */
                 getStageSourceHoldersByValueTransformer,
                 /** @type { function(): SourceHolderTransformer } */
-                getSourceHolderTransformer
+                getSourceHolderTransformer,
+                /** @type { function():  { stageSourcesIndexes } }  */
+                getInitialStageSourceHoldersByValueTransformer,
             }
         }
     } = fsLightbox;
     const sourceHolderTransformer = getSourceHolderTransformer();
+    let sourceHoldersByValueTransformer = getInitialStageSourceHoldersByValueTransformer();
 
     /** @return { StageSourceHoldersTransformer } */
     this.transformStageSourceHolders = () => {
@@ -26,7 +29,10 @@ export function SourceHoldersTransformer(fsLightbox) {
     };
 
     this.transformStageSourceHoldersByValue = (value) => {
-        getStageSourceHoldersByValueTransformer().transformByValue(value);
+        if (sourceHoldersByValueTransformer.stageSourcesIndexes.current !== getSlide() - 1) {
+            sourceHoldersByValueTransformer = getStageSourceHoldersByValueTransformer();
+        }
+        sourceHoldersByValueTransformer.transformByValue(value);
     };
 
     /** @return { SourceHolderTransformer }  */
