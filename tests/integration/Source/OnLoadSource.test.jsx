@@ -6,6 +6,8 @@ import Video from "../../../src/components/Sources/ProperSources/Video";
 import { SourceSizeAdjuster } from "../../../src/core/Source/SourceSizeAdjuster";
 import { ImageMock } from "../../__mocks__/components/Sources/ProperSources/ImageMock";
 import { VideoMock } from "../../__mocks__/components/Sources/ProperSources/VideoMock";
+import Source from "../../../src/components/Sources/Source";
+import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 
 describe('Source Size', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();
@@ -105,10 +107,38 @@ describe('Actions after first source load', () => {
             expect(sourceInstance.onSourceLoad).toBeCalled();
         });
 
-        it('should not call onFirstSourceLoad after previosly open', () => {
+        it('should not call onFirstSourceLoad after previously open', () => {
             sourceInstance.onFirstSourceLoad = jest.fn();
             video.simulate('loadedmetadata', mockedEvent);
             expect(sourceInstance.onFirstSourceLoad).not.toBeCalled();
         });
+    });
+});
+
+
+describe('fslightbox-opacity-0 class', () => {
+    const fsLightboxMock = new FsLightboxMock();
+    const fsLightbox = fsLightboxMock.getFsLightbox();
+    // we are testing if from source will be deleted class so we need to mock it
+    fsLightboxMock.setAllSourcesToDivs();
+    // we are using on sourceSize adjuster in method in which we delete class so we need to mock it
+    fsLightbox.sourcesData.sourcesDimensions[0] = {
+        width: 0,
+        height: 0
+    };
+    const source = new Source({
+        i: 0,
+        collections: fsLightbox.collections,
+        core: fsLightbox.core,
+        data: fsLightbox.data,
+        elements: fsLightbox.elements,
+        slide: fsLightbox.state.slide,
+        sourcesData: fsLightbox.sourcesData
+    });
+    fsLightbox.elements.sources[0].current.classList.add('fslightbox-opacity-0');
+
+    it('should remove opacity class', () => {
+        source.onFirstSourceLoad();
+        expect(fsLightbox.elements.sources[0].current.classList.contains('fslightbox-opacity-0')).toBeFalsy();
     });
 });

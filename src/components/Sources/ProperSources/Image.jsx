@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
 class Image extends Component {
-
     constructor(props) {
         super(props);
         this.imageOnLoad = this.imageOnLoad.bind(this);
@@ -25,7 +24,7 @@ class Image extends Component {
             <>
                 <img
                     onLoad={ this.imageOnLoad }
-                    className={ "fslightbox-single-source" }
+                    className={ "fslightbox-single-source fslightbox-opacity-0" }
                     ref={ this.props.sources[this.props.i] }
                     src={ this.props.urls[this.props.i] }
                     alt={ this.props.urls[this.props.i] }

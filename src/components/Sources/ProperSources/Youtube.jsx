@@ -19,7 +19,7 @@ class Youtube extends Component {
     render() {
         return (
             <iframe
-                className="fslightbox-single-source"
+                className="fslightbox-single-source fslightbox-opacity-0"
                 ref={ this.props.sources[this.props.i] }
                 src={
                     "https://www.youtube.com/embed/"

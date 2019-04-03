@@ -17,26 +17,29 @@ export function StageSourceHoldersByValueTransformer(fsLightbox) {
 
     BaseStageSourceHoldersTransformer.call(this, fsLightbox);
     let transformValue;
+    let transformPreviousSourceHolder;
+    let transformNextSourceHolder;
 
     this.transformByValue = (value) => {
         transformValue = value;
         transformStageSourceHolderAtIndex(this.stageSourcesIndexes.current).byValue(value).zero();
-        transformPreviousSourceHolderIfIsSet();
-        transformNextSourceHolderIfIsSet();
+        transformPreviousSourceHolder();
+        transformNextSourceHolder();
     };
 
-    const transformPreviousSourceHolderIfIsSet = () => {
-        if (this.isPreviousSourceHolderSet()) {
-            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.previous).byValue(transformValue).negative();
-        }
-    };
-
-    const transformNextSourceHolderIfIsSet = () => {
-        if (this.isNextSourceHolderSet()) {
+    (this.isNextSourceHolderSet()) ?
+        transformNextSourceHolder = () => {
             transformStageSourceHolderAtIndex(this.stageSourcesIndexes.next).byValue(transformValue).positive();
-        }
-    };
+        } :
+        transformNextSourceHolder = () => {
+        };
 
+    (this.isPreviousSourceHolderSet()) ?
+        transformPreviousSourceHolder = () => {
+            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.previous).byValue(transformValue).negative();
+        } :
+        transformPreviousSourceHolder = () => {
+        };
 }
 
 StageSourceHoldersByValueTransformer.prototype = Object.create(BaseStageSourceHoldersTransformer.prototype);
