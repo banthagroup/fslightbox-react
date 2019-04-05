@@ -1,16 +1,20 @@
 import { SlideChanger } from "../../../../src/core/Slide/SlideChanger";
-import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME } from "../../../../src/constants/CssConstants";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
+/** @var  { SlideChanger } slideChanger */
+let slideChanger;
+let sourceHolders;
+
+beforeEach(() => {
+    slideChanger = new SlideChanger(fsLightbox);
+});
 
 describe('changeSlideTo', () => {
-    const slideChanger = new SlideChanger(fsLightbox);
-    const sources = fsLightboxMock.setAllSourcesToDivs().getSourcesArray();
-    const sourceHolders = fsLightboxMock.setAllSourceHoldersToDivs().getSourceHoldersArray();
-
     beforeEach(() => {
+        fsLightboxMock.setAllSourcesToDivs();
+        sourceHolders = fsLightboxMock.setAllSourceHoldersToDivs().getSourceHoldersArray();
         fsLightbox.state.slide = 1;
     });
 
@@ -29,32 +33,30 @@ describe('changeSlideTo', () => {
         expect(sourceHolders[2].current.style.transform).toEqual('translate(130px,0)');
     });
 
-    describe('animate Sources', () => {
+    describe('animating source holders', () => {
+        let removeFadeIn;
+        let fadeOut;
+        let removeFadeOut;
+        let fadeIn;
+        let animateSourceFromSlideMockProperty;
+
         beforeEach(() => {
-            fsLightbox.state.slide = 1;
+            removeFadeIn = jest.fn();
+            fadeOut = jest.fn();
+            removeFadeOut = jest.fn();
+            fadeIn = jest.fn();
+            fsLightbox.core.sourceAnimator.animateSourceFromSlide = jest.fn(() => ({
+                removeFadeIn: removeFadeIn,
+                fadeOut: fadeOut,
+                removeFadeOut: removeFadeOut,
+                fadeIn: fadeIn
+            }));
+            animateSourceFromSlideMockProperty = fsLightbox.core.sourceAnimator.animateSourceFromSlide.mock;
+            slideChanger.changeSlideTo(2);
         });
 
-        it('should remove fadeIn class from previous source', () => {
-            sources[0].current.classList.add(FADE_IN_CLASS_NAME);
-            slideChanger.changeSlideTo(2);
-            expect(sources[0].current.classList.contains(FADE_IN_CLASS_NAME)).toBeFalsy();
-        });
-
-        it('should add fadeOut class to previous source', () => {
-            slideChanger.changeSlideTo(2);
-            expect(sources[0].current.classList.contains(FADE_OUT_CLASS_NAME)).toBeTruthy();
-        });
-
-
-        it('should remove fadeOut class from current source', () => {
-            sources[1].current.classList.add(FADE_OUT_CLASS_NAME);
-            slideChanger.changeSlideTo(2);
-            expect(sources[1].current.classList.contains(FADE_OUT_CLASS_NAME)).toBeFalsy();
-        });
-
-        it('should add fadeIn class to current source', () => {
-            slideChanger.changeSlideTo(2);
-            expect(sources[1].current.classList.contains(FADE_IN_CLASS_NAME)).toBeTruthy();
+        it('should call fade in on previous slide number', () => {
+            console.log(animateSourceFromSlideMockProperty)
         });
     });
 });
