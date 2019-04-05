@@ -9,6 +9,9 @@ class Toolbar extends Component {
         this.close = this.close.bind(this);
         this.fullscreen = this.fullscreen.bind(this);
     }
+// TODO : TOGGGLING FULLSCREEN ICON
+    // TODO : D: M682 342h128v84h-212v-212h84v128zM598 810v-212h212v84h-128v128h-84zM342 342v-128h84v212h-212v-84h128zM214 682v-84h212v212h-84v-128h-128z
+    // TODO: VIEWBOX 1024
 
     fullscreen() {
         (this.props.data.isFullscreenOpen) ?

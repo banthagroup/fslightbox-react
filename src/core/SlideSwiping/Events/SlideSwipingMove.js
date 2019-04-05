@@ -23,6 +23,7 @@ export function SlideSwipingMove(
         if (!getIsSwipingSlides() || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
+        console.log(2);
         actions.setMoveEvent(e);
         actions.runActions();
     };

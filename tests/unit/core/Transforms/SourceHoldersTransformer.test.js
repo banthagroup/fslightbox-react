@@ -139,7 +139,14 @@ describe('transformStageSourceHolders', () => {
 
 
 const fsLightboxMock = new FsLightboxMock();
-const fsLightbox = fsLightboxMock.getFsLightbox();
+/** @var { FsLightbox } fsLightbox */
+let fsLightbox;
+
+beforeEach(() => {
+    fsLightboxMock.instantiateNewFsLightbox();
+    fsLightbox = fsLightboxMock.getFsLightbox();
+});
+
 /** @var { SourceHoldersTransformer } */
 let sourceHoldersTransformer;
 
@@ -202,29 +209,30 @@ describe('transformStageSourceHoldersByValue', () => {
     describe(`creating new instance after first call transform 
             (stageSourcesIndexes.current !== fslightbox.state.slide - 1)`, () => {
         beforeEach(() => {
-            // calling transform for first time
-            createNewSourceHoldersInstanceAndCallTransform();
-
             // to test if we are creating an instance we need to mock initial creating of
             // StageSourceHoldersByValueTransformer and set current index on it's stageSourcesIndexes property
             // to not equals array index of slide
-            fsLightbox.injector.transforms.getInitialStageSourceHoldersByValueTransformer = jest.fn(() => ({
+            fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer = jest.fn(() => ({
                 stageSourcesIndexes: {
-                    current: 0
+                    current: 0,
                 },
                 transformByValue: transformByValueMock
             }));
-            fsLightbox.state.slide = 2;
-            fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer = jest.fn();
+            // calling transform for first time
             createNewSourceHoldersInstanceAndCallTransform();
+            fsLightbox.state.slide = 2;
+            // calling transform for second time
+            sourceHoldersTransformer.transformStageSourceHoldersByValue(200);
         });
 
-        it('should create new StageSourceHoldersByValueTransformer instance', () => {
-            expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer).toBeCalled();
+        it('should create new StageSourceHoldersByValueTransformer instance twice', () => {
+            expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer.mock.calls.length)
+                .toEqual(2);
         });
 
-        it('should call transform on instance with correct value', () => {
+        it('should call transform on instance with correct value twice with correct values', () => {
             expect(transformByValueMock).toBeCalledWith(100);
+            expect(transformByValueMock).toBeCalledWith(200);
         });
     });
 });
@@ -254,7 +262,9 @@ describe('transform single stage source holder at index', () => {
 
 
 describe('checking if stage source holder is valid for transform', () => {
-    sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
+    beforeEach(() => {
+        sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
+    });
 
     describe('stage source holder is not valid for transform', () => {
         it('should return false due to index is undefined', () => {

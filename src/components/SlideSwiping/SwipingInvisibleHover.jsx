@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // this component enables up event over the youtube video because it hovers it up with bigger z-index
 const SwipingInvisibleHover = ({ isSwipingSlides }) => {
-    // if (!isSwipingSlides)
+     if (!isSwipingSlides)
         return null;
 
     return (

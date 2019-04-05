@@ -4,10 +4,6 @@ import SourceHolder from "../Sources/SourceHolder.jsx";
 import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 
 class MediaHolder extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const sourceHolders = [];
         for (let i = 0; i < this.props.data.totalSlides; i++) {

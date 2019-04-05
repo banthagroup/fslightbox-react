@@ -7,6 +7,7 @@ export function SourceHolderTransformer({ sourcesData: { slideDistance } }) {
     let transformValue = 0;
 
     this.setSourceHolder = (sourceHolder) => {
+        transformValue = 0;
         sourceHolderStyle = sourceHolder.current.style;
     };
 

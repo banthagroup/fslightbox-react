@@ -1,23 +1,30 @@
+import { FADE_IN_ANIMATION_TIME } from "../../constants/CssConstants";
+
 /**
  * @class
- * @param { FsLightbox.core.sourceAnimator | SourceAnimator } sourceAnimator
+ * @param { FsLightbox.core.sourceAnimator.animateSourceFromSlide | function(): SourceAnimator } animateSourceFromSlide
  * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  * @param { FsLightbox.getters.getSlide | Function } getSlide
  * @param { FsLightbox.setters.setState | Function } setState
  */
 export function SlideChanger(
     {
-        elements: { sources },
-        core: { sourceAnimator, sourceHoldersTransformer },
+        core: {
+            sourceAnimator: { animateSourceFromSlide },
+            sourceHoldersTransformer
+        },
         getters: { getSlide },
         setters: { setState },
+        elements: { sources }
     }
 ) {
+    let previousSlideNumber;
     let newSlideNumber;
 
     this.changeSlideTo = (newSlide) => {
+        previousSlideNumber = getSlide();
         newSlideNumber = newSlide;
-        animate();
+        animateSourceHolders();
         setState({
             slide: newSlideNumber
         }, () => {
@@ -25,15 +32,16 @@ export function SlideChanger(
         });
     };
 
-    const animate = () => {
-        let previousSlide = getSlide();
-        sourceAnimator.animateSourceFromSlide(previousSlide).removeFadeIn();
-        sourceAnimator.animateSourceFromSlide(previousSlide).fadeOut();
-        sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
-        sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
+    const animateSourceHolders = () => {
+        animateSourceFromSlide(previousSlideNumber).removeFadeIn();
+        animateSourceFromSlide(previousSlideNumber).fadeOut();
+        animateSourceFromSlide(newSlideNumber).removeFadeOut();
+        animateSourceFromSlide(newSlideNumber).fadeIn();
         setTimeout(() => {
-            sourceAnimator.animateSourceFromSlide(previousSlide).removeFadeOut();
-            // sources[previousSlide - 1].current.style.opacity = '1';
-        }, 250)
+            if (!sources[previousSlideNumber - 1].current) {
+                return;
+            }
+            animateSourceFromSlide(previousSlideNumber).removeFadeOut();
+        }, FADE_IN_ANIMATION_TIME)
     }
 }

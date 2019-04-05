@@ -73,13 +73,11 @@ class FsLightbox extends Component {
     }
 
     setUpGetters() {
-        /**
-         * @type {{initialize: (function(): void), getSlide: (function(): *)}}
-         */
         this.getters = {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide,
             getIsSwipingSlides: () => this.state.isSwipingSlides,
+            getIsFullscreenOpen: () => {}
         };
     }
 

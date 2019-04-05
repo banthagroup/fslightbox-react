@@ -8,7 +8,7 @@ class Svg extends Component {
                  height={ this.props.size }
                  viewBox={ this.props.viewBox }
                  xmlns="http://www.w3.org/2000/svg">
-                <path className="fslightbox-svg-path" d={ this.props.d }></path>
+                <path fill="#fff" className="fslightbox-svg-path" d={ this.props.d }></path>
             </svg>
         );
     }
