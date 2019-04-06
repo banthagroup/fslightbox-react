@@ -77,7 +77,9 @@ class FsLightbox extends Component {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide,
             getIsSwipingSlides: () => this.state.isSwipingSlides,
-            getIsFullscreenOpen: () => {}
+            // TODO: ? - CHECK IF IT IS USED
+            getIsFullscreenOpen: () => {
+            }
         };
     }
 

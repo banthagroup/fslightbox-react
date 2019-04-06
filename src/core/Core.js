@@ -8,6 +8,7 @@ import { SlideChanger } from "./Slide/SlideChanger";
 import { EventsControllers } from "./EventsControllers/EventsControllers";
 import { SizeController } from "./Size/SizeController";
 import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
+import { SwipingSlideChanger } from "./Slide/SwipingSlideChanger";
 
 /**
  * @class
@@ -25,6 +26,7 @@ export function Core(fsLightbox) {
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
     this.slideSwiping = new SlideSwiping(fsLightbox);
+    this.swipingSlideChanger = new SwipingSlideChanger(fsLightbox);
     this.sizeController = new SizeController(fsLightbox);
     this.eventsControllers = new EventsControllers(fsLightbox);
     this.closeOpenLightbox = new CloseOpenLightbox(fsLightbox);

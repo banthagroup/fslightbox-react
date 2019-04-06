@@ -47,11 +47,16 @@ export function StageSources({ getters: { getSlide }, data }) {
         const stageSourcesIndexes = {
             current: getSlide() - 1
         };
-        if (data.totalSlides > 1) {
-            stageSourcesIndexes['next'] = this.getNextSlideIndex();
+        if (data.totalSlides === 2) {
+            if (getSlide() === 2) {
+                stageSourcesIndexes.previous = this.getPreviousSlideIndex();
+            } else {
+                stageSourcesIndexes.next = this.getNextSlideIndex();
+            }
         }
         if (data.totalSlides > 2) {
-            stageSourcesIndexes['previous'] = this.getPreviousSlideIndex();
+            stageSourcesIndexes.previous = this.getPreviousSlideIndex();
+            stageSourcesIndexes.next = this.getNextSlideIndex();
         }
         return stageSourcesIndexes;
     };
