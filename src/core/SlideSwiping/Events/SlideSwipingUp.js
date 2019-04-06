@@ -2,10 +2,11 @@
  * @class
  * @param { FsLightbox.getters.getIsSwipingSlides | function(): boolean } getIsSwipingSlides
  * @param { FsLightbox.injector.slideSwiping.getUpActionsForSwipingProps | Function } getUpActionsForSwipingProps
- * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
+ * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingUp(
     {
+        setters,
         getters: {
             getIsSwipingSlides
         },
@@ -13,17 +14,32 @@ export function SlideSwipingUp(
             slideSwiping: {
                 getUpActionsForSwipingProps
             }
-        }
+        },
+        core,
     }, swipingProps
 ) {
     /** @var { SlideSwipingUpActions } actions */
     const actions = getUpActionsForSwipingProps(swipingProps);
 
-    this.listener = (e) => {
-        if (!getIsSwipingSlides() || swipingProps.swipedDifference === 0 || swipingProps.isAfterSwipeAnimationRunning) {
+    this.listener = () => {
+        if (!getIsSwipingSlides() || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
-        actions.setUpEvent(e);
+        // TODO: TEST AND REFACTOR
+        if(swipingProps.swipedDifference === 0 && !swipingProps.isSourceDownEventTarget) {
+            setters.setState({
+                isSwipingSlides: false
+            }, () => {
+                core.closeOpenLightbox.closeLightbox();
+            });
+            return;
+        }
+        // TODO: TEST AND REFACTOR
+        swipingProps.isSourceDownEventTarget = false;
+
+        // TODO THIS NO LONGER NEED EVENT TEST IT
+        // actions.setUpEvent(e);
+
         actions.runActions();
     };
 }

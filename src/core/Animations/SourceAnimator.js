@@ -38,6 +38,12 @@ export function SourceAnimator({ elements: { sources } }) {
             getCurrentSourceClassList().remove(FADE_IN_COMPLETE_CLASS_NAME);
     };
 
+    this.removeFadeOutFromAllSources = () => {
+        sources.forEach((source) => {
+            source.current.classList.remove(FADE_OUT_CLASS_NAME);
+        });
+    };
+
     const getCurrentSourceClassList = () => {
         return sources[i].current.classList;
     };

@@ -26,7 +26,6 @@ export function Core(fsLightbox) {
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
     this.slideSwiping = new SlideSwiping(fsLightbox);
-    this.swipingSlideChanger = new SwipingSlideChanger(fsLightbox);
     this.sizeController = new SizeController(fsLightbox);
     this.eventsControllers = new EventsControllers(fsLightbox);
     this.closeOpenLightbox = new CloseOpenLightbox(fsLightbox);

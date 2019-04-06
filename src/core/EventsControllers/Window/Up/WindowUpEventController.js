@@ -10,6 +10,6 @@ export function WindowUpEventController({ core: { slideSwiping: { up } } }) {
 
     this.removeListener = () => {
         window.removeEventListener('mouseup', up.listener);
-        window.removeEventListener('touchend', up.listener, { passive: true });
+        window.removeEventListener('touchend', up.listener);
     };
 }

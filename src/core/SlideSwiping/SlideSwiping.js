@@ -10,6 +10,7 @@ export function SlideSwiping(fsLightbox) {
         downClientX: 0,
         isAfterSwipeAnimationRunning: false,
         swipedDifference: 0,
+        isSourceDownEventTarget: false,
     };
 
     this.down = new SlideSwipingDown(fsLightbox, swipingProps);
