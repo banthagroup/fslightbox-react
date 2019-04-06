@@ -29,6 +29,7 @@ export function SourceHoldersTransformer(fsLightbox) {
     };
 
     this.transformStageSourceHoldersByValue = (value) => {
+        // recreating an instance only when slide is change (it improves performance)
         if (sourceHoldersByValueTransformer.stageSourcesIndexes.current !== getSlide() - 1) {
             sourceHoldersByValueTransformer = getStageSourceHoldersByValueTransformer();
         }

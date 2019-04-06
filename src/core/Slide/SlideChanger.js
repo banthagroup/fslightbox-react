@@ -3,23 +3,26 @@ import { FADE_IN_ANIMATION_TIME } from "../../constants/CssConstants";
 /**
  * @class
  * @param { FsLightbox.core.sourceAnimator.animateSourceFromSlide | function(): SourceAnimator } animateSourceFromSlide
- * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
+ * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
+ * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
  * @param { FsLightbox.getters.getSlide | Function } getSlide
  * @param { FsLightbox.setters.setState | Function } setState
+ * @param { StageSources } stageSources
  */
 export function SlideChanger(
     {
         core: {
+            stageSources: { getPreviousSlideIndex, getNextSlideIndex },
             sourceAnimator: { animateSourceFromSlide },
-            sourceHoldersTransformer
+            sourceHoldersTransformer: { transformStageSourceHolders }
         },
         getters: { getSlide },
         setters: { setState },
-        elements: { sources }
     }
 ) {
     let previousSlideNumber;
     let newSlideNumber;
+    let wasSlideChangedDuringAnimationArray = [];
 
     this.changeSlideTo = (newSlide) => {
         previousSlideNumber = getSlide();
@@ -28,7 +31,7 @@ export function SlideChanger(
         setState({
             slide: newSlideNumber
         }, () => {
-            sourceHoldersTransformer.transformStageSourceHolders().withTimeout();
+            transformStageSourceHolders().withTimeout();
         });
     };
 
@@ -37,11 +40,18 @@ export function SlideChanger(
         animateSourceFromSlide(previousSlideNumber).fadeOut();
         animateSourceFromSlide(newSlideNumber).removeFadeOut();
         animateSourceFromSlide(newSlideNumber).fadeIn();
+        removeFadeOutAfterFromPreviousSlideAfterTimeout();
+    };
+
+    const removeFadeOutAfterFromPreviousSlideAfterTimeout = () => {
+        wasSlideChangedDuringAnimationArray.push(true);
         setTimeout(() => {
-            if (!sources[previousSlideNumber - 1].current) {
+            wasSlideChangedDuringAnimationArray.pop();
+            if(wasSlideChangedDuringAnimationArray.length !== 0) {
                 return;
             }
-            animateSourceFromSlide(previousSlideNumber).removeFadeOut();
-        }, FADE_IN_ANIMATION_TIME)
-    }
+            animateSourceFromSlide(getPreviousSlideIndex() + 1).removeFadeOut();
+            animateSourceFromSlide(getNextSlideIndex() + 1).removeFadeOut();
+        }, FADE_IN_ANIMATION_TIME);
+    };
 }
