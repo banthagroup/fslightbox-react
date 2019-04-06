@@ -8,6 +8,7 @@ class Image extends Component {
     }
 
     imageOnLoad(e) {
+        this.props.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
         if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             return;
         }

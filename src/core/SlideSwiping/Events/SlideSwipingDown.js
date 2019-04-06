@@ -2,7 +2,7 @@
  * @class
  * @param { FsLightbox.data.deviceType } deviceType
  * @param { FsLightbox.setters.setState | Function } setState
- * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
+ * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingDown({ setters: { setState } }, swipingProps) {
     /** @var { MouseEvent | TouchEvent } event */
@@ -10,6 +10,10 @@ export function SlideSwipingDown({ setters: { setState } }, swipingProps) {
 
     this.listener = (e) => {
         event = e;
+        // TODO: TEST AND REFACTOR
+        if (e.target.classList.contains('fslightbox-single-source')) {
+            swipingProps.isSourceDownEventTarget = true;
+        }
         preventDefaultIfNeeded();
         setIsSwipingSlideStateToTrue();
         setDownClientX();

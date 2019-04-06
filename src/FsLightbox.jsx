@@ -15,6 +15,8 @@ import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSou
 import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
 import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/SlideSwipingMoveActions";
 import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/SlideSwipingUpActions";
+import { SwipingTransitioner } from "./core/Transitions/SwipingTransitioner";
+import { SwipingSlideChanger } from "./core/Slide/SwipingSlideChanger";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -115,6 +117,8 @@ class FsLightbox extends Component {
             slideSwiping: {
                 getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
                 getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps),
+                getSwipingTransitioner: () => new SwipingTransitioner(this),
+                getSwipingSlideChangerForSwipingTransitioner: (transitioner) => new SwipingSlideChanger(this, transitioner)
             }
         };
     }

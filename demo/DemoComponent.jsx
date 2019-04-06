@@ -6,20 +6,17 @@ import FsLightbox from "../src";
 class DemoComponent extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             isOpen: true,
         };
         this.slide = 1;
-        this.videosPosters = [];
-        this.videosPosters[0] = '../demo/images/1.jpeg';
         this.toggleLightbox = this.toggleLightbox.bind(this);
     }
 
     toggleLightbox() {
         this.setState({
             isOpen: !this.state.isOpen
-        })
+        });
     }
 
     render() {
@@ -35,8 +32,8 @@ class DemoComponent extends Component {
                     isOpen={ this.state.isOpen }
                     urls={ [
                         // testYoutubeURL,
-                        // testVideoURL,
-                        // 'ima invalid source',
+                        testVideoURL,
+                        'ima invalid source',
                         "../demo/images/1.jpeg",
                         "../demo/images/2.jpg",
                         // "../demo/images/3.jpeg",
@@ -48,7 +45,7 @@ class DemoComponent extends Component {
                     ] }
                     slide={ this.slide }
                     videosPosters={ [
-                        testImageURL
+                        "../demo/images/1.jpeg"
                     ] }
                 />
             </>

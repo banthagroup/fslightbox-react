@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { getYoutubeVideoIDFromURL } from "../../../utils/SourceType/getYoutubeVideoIDFromURL";
 
 class Youtube extends Component {
-
     componentDidMount() {
+        this.props.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
         if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             return;
         }

@@ -1,30 +1,38 @@
 /**
  * @class
+ * @param { SwipingTransitioner } swipingTransitioner
  */
 export function SwipingSlideChanger(
     {
         setters: {
             setState
         },
-        getters: {
-            getSlide
-        },
         core: {
             sourceHoldersTransformer: { transformStageSourceHolders },
-            sourceAnimator
         }
-    }
+    }, swipingTransitioner
 ) {
-    let previousSlideNumber;
-    let newSlideNumber;
+    /** @var {{previous: number | undefined , current: number, next: number | undefined}} stageSourcesIndexes */
+    let stageSourcesIndexes;
 
-    this.changeSlideTo = (slideNumber) => {
-        setState({
-            slide: slideNumber
-        }, callTransforms);
+    this.setStageSourcesIndexes = (indexes) => {
+        stageSourcesIndexes = indexes;
     };
 
-    const callTransforms = () => {
+    this.changeSlideToNext = () => {
+        callTransformsAndSetSlideTo(stageSourcesIndexes.next + 1);
+        swipingTransitioner.addTransitionToCurrentAndNext();
+    };
+
+    this.changeSlideToPrevious = () => {
+        callTransformsAndSetSlideTo(stageSourcesIndexes.previous + 1);
+        swipingTransitioner.addTransitionToCurrentAndPrevious();
+    };
+
+    const callTransformsAndSetSlideTo = (slide) => {
+        setState({
+            slide: slide
+        });
         transformStageSourceHolders().withoutTimeout();
     };
 }

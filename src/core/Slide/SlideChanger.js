@@ -3,6 +3,7 @@ import { FADE_IN_ANIMATION_TIME } from "../../constants/CssConstants";
 /**
  * @class
  * @param { FsLightbox.core.sourceAnimator.animateSourceFromSlide | function(): SourceAnimator } animateSourceFromSlide
+ * @param { FsLightbox.core.sourceAnimator.removeFadeOutFromAllSources | Function } removeFadeOutFromAllSources
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
  * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
  * @param { FsLightbox.getters.getSlide | Function } getSlide
@@ -12,8 +13,7 @@ import { FADE_IN_ANIMATION_TIME } from "../../constants/CssConstants";
 export function SlideChanger(
     {
         core: {
-            stageSources: { getPreviousSlideIndex, getNextSlideIndex },
-            sourceAnimator: { animateSourceFromSlide },
+            sourceAnimator: { animateSourceFromSlide, removeFadeOutFromAllSources },
             sourceHoldersTransformer: { transformStageSourceHolders }
         },
         getters: { getSlide },
@@ -50,8 +50,7 @@ export function SlideChanger(
             if(wasSlideChangedDuringAnimationArray.length !== 0) {
                 return;
             }
-            animateSourceFromSlide(getPreviousSlideIndex() + 1).removeFadeOut();
-            animateSourceFromSlide(getNextSlideIndex() + 1).removeFadeOut();
+            removeFadeOutFromAllSources();
         }, FADE_IN_ANIMATION_TIME);
     };
 }

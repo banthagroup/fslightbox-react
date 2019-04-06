@@ -1,10 +1,12 @@
 import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/CssConstants";
 
+
+// TODO: TEST AND REFACTOR
 /**
  * @class
  * @param { FsLightbox } fsLightbox
  */
-export function SourceHoldersTransitioner(fsLightbox) {
+export function SwipingTransitioner(fsLightbox) {
     /** @var {{previous: number | undefined , current: number, next: number | undefined}} stageSourcesIndexes */
     let stageSourcesIndexes;
 
