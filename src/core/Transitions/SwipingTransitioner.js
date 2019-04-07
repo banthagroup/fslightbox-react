@@ -2,7 +2,7 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/CssConstants";
 
 /**
  * @class
- * @param { FsLightbox } fsLightbox
+ * @param { FsLightbox.elements.sourceHolders | Array } sourceHolders
  */
 export function SwipingTransitioner({ elements: { sourceHolders } }) {
     /** @var {{previous: number | undefined , current: number, next: number | undefined}} stageSourcesIndexes */

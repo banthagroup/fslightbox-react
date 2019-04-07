@@ -86,9 +86,6 @@ class FsLightbox extends Component {
     }
 
     setUpSetters() {
-        /**
-         * @type {{setState: (function(*=, *=): void)}}
-         */
         this.setters = {
             setState: (value, callback) => this.setState(value, callback)
         }
@@ -116,15 +113,12 @@ class FsLightbox extends Component {
             },
             slideSwiping: {
                 getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
-                getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps),
-                getSwipingTransitioner: () => new SwipingTransitioner(this),
-                getSwipingSlideChangerForSwipingTransitioner: (transitioner) => new SwipingSlideChanger(this, transitioner)
+                getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps), getSwipingTransitioner: () => new SwipingTransitioner(this),
             }
         };
     }
 
     setUpCore() {
-        /** @type { Core } */
         this.core = new Core(this);
     }
 
