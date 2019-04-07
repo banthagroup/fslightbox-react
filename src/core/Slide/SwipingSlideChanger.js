@@ -19,20 +19,21 @@ export function SwipingSlideChanger(
         stageSourcesIndexes = indexes;
     };
 
-    this.changeSlideToNext = () => {
-        callTransformsAndSetSlideTo(stageSourcesIndexes.next + 1);
+    this.changeSlideToPrevious = () => {
+        callTransformsAndSetSlideTo(stageSourcesIndexes.previous + 1);
         swipingTransitioner.addTransitionToCurrentAndNext();
     };
 
-    this.changeSlideToPrevious = () => {
-        callTransformsAndSetSlideTo(stageSourcesIndexes.previous + 1);
+    this.changeSlideToNext = () => {
+        callTransformsAndSetSlideTo(stageSourcesIndexes.next + 1);
         swipingTransitioner.addTransitionToCurrentAndPrevious();
     };
 
     const callTransformsAndSetSlideTo = (slide) => {
         setState({
             slide: slide
+        }, () => {
+            transformStageSourceHolders().withoutTimeout();
         });
-        transformStageSourceHolders().withoutTimeout();
     };
 }

@@ -1,12 +1,10 @@
 import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/CssConstants";
 
-
-// TODO: TEST AND REFACTOR
 /**
  * @class
  * @param { FsLightbox } fsLightbox
  */
-export function SwipingTransitioner(fsLightbox) {
+export function SwipingTransitioner({ elements: { sourceHolders } }) {
     /** @var {{previous: number | undefined , current: number, next: number | undefined}} stageSourcesIndexes */
     let stageSourcesIndexes;
 
@@ -14,25 +12,35 @@ export function SwipingTransitioner(fsLightbox) {
         stageSourcesIndexes = indexes;
     };
 
-    this.removeAll = () => {
-        for (let index in stageSourcesIndexes) {
-            if (fsLightbox.elements.sourceHolders[stageSourcesIndexes[index]])
-                fsLightbox.elements.sourceHolders[stageSourcesIndexes[index]].current.classList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
-        }
+    this.addTransitionToCurrentAndPrevious = () => {
+        addTransitionToSourceHolderByIndex(stageSourcesIndexes.current);
+        addTransitionToSourceHolderByIndex(stageSourcesIndexes.previous);
     };
 
     this.addTransitionToCurrentAndNext = () => {
-        this.addTransitionToCurrent();
-        fsLightbox.elements.sourceHolders[stageSourcesIndexes.next].current.classList.add(TRANSFORM_TRANSITION_CLASS_NAME)
+        addTransitionToSourceHolderByIndex(stageSourcesIndexes.current);
+        addTransitionToSourceHolderByIndex(stageSourcesIndexes.next);
     };
-
-    this.addTransitionToCurrentAndPrevious = () => {
-        this.addTransitionToCurrent();
-        fsLightbox.elements.sourceHolders[stageSourcesIndexes.previous].current.classList.add(TRANSFORM_TRANSITION_CLASS_NAME)
-    };
-
 
     this.addTransitionToCurrent = () => {
-        fsLightbox.elements.sourceHolders[stageSourcesIndexes.current].current.classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
+        addTransitionToSourceHolderByIndex(stageSourcesIndexes.current);
+    };
+
+    this.removeAllTransitionsFromStageSources = () => {
+        for (let index in stageSourcesIndexes) {
+            let sourceHolderClassList = getSourceHolderClassListByIndex(stageSourcesIndexes[index]);
+            if (sourceHolderClassList.contains(TRANSFORM_TRANSITION_CLASS_NAME)) {
+                sourceHolderClassList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
+            }
+        }
+    };
+
+    const addTransitionToSourceHolderByIndex = (sourceHolderIndex) => {
+        getSourceHolderClassListByIndex(sourceHolderIndex).add(TRANSFORM_TRANSITION_CLASS_NAME);
+    };
+
+    /** @return { DOMTokenList } */
+    const getSourceHolderClassListByIndex = (sourceHolderIndex) => {
+        return sourceHolders[sourceHolderIndex].current.classList;
     };
 }

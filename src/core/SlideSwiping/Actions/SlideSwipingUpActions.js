@@ -12,9 +12,7 @@ export function SlideSwipingUpActions(fsLightbox, swipingProps) {
         swipingTransitioner.setStageSourcesIndexes(stageSourcesIndexes);
         swipingSlideChanger.setStageSourcesIndexes(stageSourcesIndexes);
 
-        (swipingProps.swipedDifference < 0) ?
-            transformSourceHoldersForward() :
-            transformSourceHoldersBackward();
+        transformSourceHolders();
 
         swipingProps.isAfterSwipeAnimationRunning = true;
         fsLightbox.setters.setState({
@@ -23,43 +21,49 @@ export function SlideSwipingUpActions(fsLightbox, swipingProps) {
         swipingProps.swipedDifference = 0;
 
         setTimeout(() => {
-            swipingTransitioner.removeAll();
+            swipingTransitioner.removeAllTransitionsFromStageSources();
             swipingProps.isAfterSwipeAnimationRunning = false;
         }, 250);
+    };
+
+    const transformSourceHolders = () => {
+        if (fsLightbox.data.totalSlides === 1) {
+            swipingTransitioner.addTransitionToCurrent();
+            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex(0).zero();
+            return;
+        }
+
+        (swipingProps.swipedDifference < 0) ?
+            transformSourceHoldersForward() :
+            transformSourceHoldersBackward();
     };
 
     const transformSourceHoldersForward = () => {
         if (fsLightbox.data.totalSlides >= 3) {
             swipingSlideChanger.changeSlideToNext();
-        } else if (fsLightbox.data.totalSlides === 2) {
+        } else {
             if (fsLightbox.getters.getSlide() === 1) {
                 swipingSlideChanger.changeSlideToNext();
             } else {
-                swipingTransitioner.addTransitionToCurrent();
-                fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders();
+                addTransitionToCurrentAndTransformStageSourceHolders();
             }
-        } else {
-            addTransitionToCurrentSlideAndTransformItToZero();
         }
     };
 
     const transformSourceHoldersBackward = () => {
         if (fsLightbox.data.totalSlides >= 3) {
             swipingSlideChanger.changeSlideToPrevious();
-        } else if (fsLightbox.data.totalSlides === 2) {
+        } else {
             if (fsLightbox.getters.getSlide() === 1) {
-                swipingTransitioner.addTransitionToCurrent();
-                fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders();
+                addTransitionToCurrentAndTransformStageSourceHolders();
             } else {
                 swipingSlideChanger.changeSlideToPrevious();
             }
-        } else {
-            addTransitionToCurrentSlideAndTransformItToZero();
         }
     };
 
-    const addTransitionToCurrentSlideAndTransformItToZero = () => {
+    const addTransitionToCurrentAndTransformStageSourceHolders = () => {
         swipingTransitioner.addTransitionToCurrent();
-        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex(0).zero();
+        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders();
     };
 }
