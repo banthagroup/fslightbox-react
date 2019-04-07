@@ -1,5 +1,6 @@
 import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
 import { SlideSwipingDown } from "../../../../../src/core/SlideSwiping/Events/SlideSwipingDown";
+import { switchCase } from "@babel/types";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
@@ -74,7 +75,7 @@ describe('setting isSourceDownEventTarget if source is target', () => {
             isAfterSwipeAnimationRunning: false,
             swipedDifference: 0,
             isSourceDownEventTarget: false,
-        }
+        };
         slideSwipingDown = new SlideSwipingDown(fsLightbox, mockSwipingProps);
         mockEvent = {
             target: {
@@ -97,14 +98,26 @@ describe('setting isSourceDownEventTarget if source is target', () => {
         });
     });
 
-    describe('setting isSourceDownEventTraget', () => {
+    describe('setting isSourceDownEventTarget', () => {
         beforeEach(() => {
             mockEvent.target.classList.contains = () => true;
             slideSwipingDown.listener(mockEvent);
         });
 
-        it('should set isSourceDownEventTargetToTrue', () => {
+        it('should set isSourceDownEventTarget to true', () => {
             expect(mockSwipingProps.isSourceDownEventTarget).toBeTruthy();
+        });
+    });
+
+    describe('setting isSourceDownEventTarget from true to false', () => {
+        beforeEach(() => {
+            mockSwipingProps.isSourceDownEventTarget = true;
+            mockEvent.target.classList.contains = () => false;
+            slideSwipingDown.listener(mockEvent);
+        });
+
+        it('should set isSourceDownEventTarget to true', () => {
+            expect(mockSwipingProps.isSourceDownEventTarget).toBeFalsy();
         });
     });
 });
