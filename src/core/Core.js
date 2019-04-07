@@ -8,7 +8,6 @@ import { SlideChanger } from "./Slide/SlideChanger";
 import { EventsControllers } from "./EventsControllers/EventsControllers";
 import { SizeController } from "./Size/SizeController";
 import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
-import { SwipingSlideChanger } from "./Slide/SwipingSlideChanger";
 
 /**
  * @class
