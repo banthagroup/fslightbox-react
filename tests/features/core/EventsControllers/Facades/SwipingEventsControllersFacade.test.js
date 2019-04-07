@@ -51,7 +51,7 @@ describe('removing swiping listeners', () => {
 
         it('should remove touchmove listener', () => {
             expect(window.removeEventListener)
-                .toHaveBeenCalledWith('touchmove', fsLightbox.core.slideSwiping.move.listener, { passive: true });
+                .toHaveBeenCalledWith('touchmove', fsLightbox.core.slideSwiping.move.listener);
         });
     });
 
@@ -63,7 +63,7 @@ describe('removing swiping listeners', () => {
 
         it('should remove touchend listener', () => {
             expect(window.removeEventListener)
-                .toHaveBeenCalledWith('touchend', fsLightbox.core.slideSwiping.up.listener, { passive: true });
+                .toHaveBeenCalledWith('touchend', fsLightbox.core.slideSwiping.up.listener);
         });
     });
 });

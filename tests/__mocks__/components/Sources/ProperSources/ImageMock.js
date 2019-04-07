@@ -25,15 +25,13 @@ export function ImageMock(fsLightbox) {
     };
 
     this.createImageMock = () => {
-         imageMock = mount(<Image
-             urls={ fsLightbox.data.urls }
-             sourcesData={ fsLightbox.sourcesData }
-             sources={ fsLightbox.elements.sources }
-             i={ (index) ? index : 0 }
-             onFirstSourceLoad={ (onFirstSourceLoad) ? onFirstSourceLoad : jest.fn }
-         />);
+        imageMock = mount(<Image
+            fsLightbox={ fsLightbox }
+            i={ (index) ? index : 0 }
+            onFirstSourceLoad={ (onFirstSourceLoad) ? onFirstSourceLoad : jest.fn }
+        />);
 
-         return returnObjectWithGetImageMockFunction();
+        return returnObjectWithGetImageMockFunction();
     };
 
     const returnObjectWithGetImageMockFunction = () => {

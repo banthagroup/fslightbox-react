@@ -6,42 +6,31 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 class MediaHolder extends Component {
     render() {
         const sourceHolders = [];
-        for (let i = 0; i < this.props.data.totalSlides; i++) {
+        for (let i = 0; i < this.props.fsLightbox.data.totalSlides; i++) {
             sourceHolders.push(
                 <SourceHolder
-                    key={ i }
+                    fsLightbox={ this.props.fsLightbox }
                     i={ i }
-                    collections={ this.props.collections }
-                    core={ this.props.core }
-                    data={ this.props.data }
-                    elements={ this.props.elements }
-                    slide={ this.props.slide }
-                    sourcesData={ this.props.sourcesData }
+                    key={ i }
                 />
             );
         }
 
-        const cursorGrabbingClass = this.props.isSwipingSlides ? CURSOR_GRABBING_CLASS_NAME : '';
+        const cursorGrabbingClass = this.props.fsLightbox.state.isSwipingSlides ? CURSOR_GRABBING_CLASS_NAME : '';
 
         return (
             <div className={ 'fslightbox-media-holder ' + cursorGrabbingClass }
-                 onMouseDown={ this.props.core.slideSwiping.down.listener }
-                 onTouchStart={ this.props.core.slideSwiping.down.listener }
-                 ref={ this.props.elements.mediaHolder }>
+                 onMouseDown={ this.props.fsLightbox.core.slideSwiping.down.listener }
+                 onTouchStart={ this.props.fsLightbox.core.slideSwiping.down.listener }
+                 ref={ this.props.fsLightbox.elements.mediaHolder }>
                 { sourceHolders }
             </div>
         );
     }
 }
 
-
 MediaHolder.propTypes = {
-    collections: PropTypes.object.isRequired,
-    core: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired,
-    isSwipingSlides: PropTypes.bool.isRequired,
-    slide: PropTypes.number.isRequired,
-    sourcesData: PropTypes.object.isRequired
+    fsLightbox: PropTypes.object.isRequired,
 };
+
 export default MediaHolder;

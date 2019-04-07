@@ -10,11 +10,7 @@ import { testSourceDimensions } from "../../../../schemas/testVariables";
 export function VideoMock(fsLightbox) {
     let index;
     let onFirstSourceLoad;
-    let imageMock
-
-    this.fakeSourceDimensions = () => {
-        fsLightbox.sourcesData.sourcesDimensions[0] = testSourceDimensions;
-    };
+    let imageMock;
 
     this.setIndex = (i) => {
         index = i;
@@ -26,9 +22,7 @@ export function VideoMock(fsLightbox) {
 
     this.createVideoMock = () => {
         imageMock = mount(<Video
-            urls={ fsLightbox.data.urls }
-            sourcesData={ fsLightbox.sourcesData }
-            sources={ fsLightbox.elements.sources }
+            fsLightbox={ fsLightbox }
             i={ (index) ? index : 0 }
             onFirstSourceLoad={ (onFirstSourceLoad) ? onFirstSourceLoad : jest.fn }
         />);

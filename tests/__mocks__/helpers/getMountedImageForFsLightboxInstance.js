@@ -8,9 +8,7 @@ import Image from "../../../src/components/Sources/ProperSources/Image";
  */
 export const getMountedImageForFsLightboxInstance = (fsLightboxInstance) => {
     return mount(<Image
-        urls={ fsLightboxInstance.data.urls }
-        sourcesData={ fsLightboxInstance.sourcesData }
-        sources={ fsLightboxInstance.elements.sources }
+        fsLightbox={ fsLightboxInstance }
         i={ 0 }
         onFirstSourceLoad={ jest.fn }
     />);

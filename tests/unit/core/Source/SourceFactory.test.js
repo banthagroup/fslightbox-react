@@ -21,12 +21,10 @@ describe('SourceFactory', () => {
 
     it('should return correct Image source', () => {
         sourceFactory.setSourceIndex(0);
-        sourceFactory.attachOnFirstSourceLoad(jest.fn);
+        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Image
-                sources={ fsLightboxInstance.elements.sources }
-                urls={ fsLightboxInstance.data.urls }
-                sourcesData={ fsLightboxInstance.sourcesData }
+                fsLightbox={ fsLightboxInstance }
                 i={ 0 }
                 onFirstSourceLoad={ jest.fn }
             />
@@ -35,12 +33,10 @@ describe('SourceFactory', () => {
 
     it('should return correct Video source', () => {
         sourceFactory.setSourceIndex(1);
-        sourceFactory.attachOnFirstSourceLoad(jest.fn);
+        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Video
-                sources={ fsLightboxInstance.elements.sources }
-                urls={ fsLightboxInstance.data.urls }
-                sourcesData={ fsLightboxInstance.sourcesData }
+                fsLightbox={ fsLightboxInstance }
                 i={ 1 }
                 onFirstSourceLoad={ jest.fn }
             />
@@ -49,12 +45,10 @@ describe('SourceFactory', () => {
 
     it('should return correct YouTube source', () => {
         sourceFactory.setSourceIndex(2);
-        sourceFactory.attachOnFirstSourceLoad(jest.fn);
+        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Youtube
-                sources={ fsLightboxInstance.elements.sources }
-                urls={ fsLightboxInstance.data.urls }
-                sourcesData={ fsLightboxInstance.sourcesData }
+                fsLightbox={ fsLightboxInstance }
                 i={ 2 }
                 onFirstSourceLoad={ jest.fn }
             />
@@ -64,7 +58,7 @@ describe('SourceFactory', () => {
 
     it('should return correct Invalid source', () => {
         sourceFactory.setSourceIndex(3);
-        sourceFactory.attachOnFirstSourceLoad(jest.fn);
+        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Invalid
                 fsLightbox={ fsLightboxInstance }
