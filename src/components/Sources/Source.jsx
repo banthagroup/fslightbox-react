@@ -14,7 +14,7 @@ class Source extends Component {
         shouldCallUpdateAfterMount = false;
         isLoaderVisible = true;
         // request succeeded when lightbox was closed
-        if (this.props.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
+        if (this.props.fsLightbox.sourcesData.sourcesToCreateOnConstruct[this.props.i]) {
             shouldCallUpdateAfterMount = true;
             this.createSource();
         }
@@ -23,10 +23,10 @@ class Source extends Component {
 
     createSource() {
         isLoaderVisible = false;
-        const sourceFactory = new SourceFactory(this.props);
-        sourceFactory.attachOnFirstSourceLoad(this.onFirstSourceLoad);
+        const sourceFactory = new SourceFactory(this.props.fsLightbox);
+        sourceFactory.setOnFirstSourceLoad(this.onFirstSourceLoad);
         sourceFactory.setSourceIndex(this.props.i);
-        this.props.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSourceComponent();
+        this.props.fsLightbox.elements.sourcesJSXComponents[this.props.i] = sourceFactory.getSourceComponent();
         if (!shouldCallUpdateAfterMount) {
             this.sourceWasCreated();
         }
@@ -42,7 +42,7 @@ class Source extends Component {
             this.sourceWasCreated();
         }
         // if source was already loaded we need to call onSourceLoad after component mount
-        if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
+        if (this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             this.onSourceLoad();
         }
     }
@@ -50,46 +50,46 @@ class Source extends Component {
 
     onFirstSourceLoad() {
         // TODO: THERE WAS LINE WITH CLASSING REMOVE REMOVED TEST IT
-        // this.props.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
-        this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
+        // this.props.fsLightbox.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
+        this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
         // we are creating source size adjuster after first load because we need already source dimensions
-        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props);
+        const sourceSizeAdjuster = new SourceSizeAdjuster(this.props.fsLightbox);
         sourceSizeAdjuster.setIndex(this.props.i);
-        this.props.collections.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
+        this.props.fsLightbox.collections.sourceSizeAdjusters[this.props.i] = sourceSizeAdjuster;
         this.onSourceLoad();
     }
 
     onSourceLoad() {
         this.fadeInSource();
         // source size adjuster may be not set if source is invalid
-        if (this.props.collections.sourceSizeAdjusters[this.props.i])
-            this.props.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
+        if (this.props.fsLightbox.collections.sourceSizeAdjusters[this.props.i])
+            this.props.fsLightbox.collections.sourceSizeAdjusters[this.props.i].adjustSourceSize();
     }
 
 
     fadeInSource() {
         // we are fading in source only if it's in stage
-        if (!this.props.core.stageSources.isSourceInStage(this.props.i))
+        if (!this.props.fsLightbox.core.stageSources.isSourceInStage(this.props.i))
             return;
 
         // we will add longer fade-in for better UX
-        if (this.props.i === this.props.slide - 1) {
-            this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME)
+        if (this.props.i === this.props.fsLightbox.state.slide - 1) {
+            this.props.fsLightbox.elements.sources[this.props.i].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME)
         } else {
-            this.props.elements.sources[this.props.i].current.classList.add(FADE_IN_CLASS_NAME);
+            this.props.fsLightbox.elements.sources[this.props.i].current.classList.add(FADE_IN_CLASS_NAME);
         }
     }
 
 
     render() {
-        const loader = (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i] ||
+        const loader = (this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i] ||
             !isLoaderVisible) ?
             null : <Loader/>;
 
         return (
             <>
                 { loader }
-                { this.props.elements.sourcesJSXComponents[this.props.i] }
+                { this.props.fsLightbox.elements.sourcesJSXComponents[this.props.i] }
             </>
         );
     }
@@ -97,12 +97,7 @@ class Source extends Component {
 
 
 Source.propTypes = {
-    i: PropTypes.number.isRequired,
-    collections: PropTypes.object.isRequired,
-    core: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired,
-    slide: PropTypes.number.isRequired,
-    sourcesData: PropTypes.object.isRequired
+    fsLightbox: PropTypes.object.isRequired,
+    i: PropTypes.number.isRequired
 };
 export default Source;

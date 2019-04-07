@@ -183,13 +183,7 @@ class FsLightbox extends Component {
                     </> : null
                 }
                 <MediaHolder
-                    collections={ this.collections }
-                    core={ this.core }
-                    data={ this.data }
-                    elements={ this.elements }
-                    isSwipingSlides={ this.state.isSwipingSlides }
-                    slide={ this.state.slide }
-                    sourcesData={ this.sourcesData }
+                    fsLightbox={ this }
                 />
             </div>
         );

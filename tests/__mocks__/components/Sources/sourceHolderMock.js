@@ -16,13 +16,8 @@ export function SourceHolderMock(fsLightbox) {
 
     this.getSourceHolder = () => {
         sourceHolder = new SourceHolder({
+            fsLightbox: fsLightbox
             i: index ? index : 0,
-            collections: fsLightbox.collections,
-            core: fsLightbox.core,
-            data: fsLightbox.data,
-            elements: fsLightbox.elements,
-            slide: fsLightbox.state.slide,
-            sourcesData: fsLightbox.sourcesData
         });
         return sourceHolder;
     };

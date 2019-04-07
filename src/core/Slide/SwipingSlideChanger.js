@@ -21,12 +21,12 @@ export function SwipingSlideChanger(
 
     this.changeSlideToPrevious = () => {
         callTransformsAndSetSlideTo(stageSourcesIndexes.previous + 1);
-        swipingTransitioner.addTransitionToCurrentAndNext();
+        swipingTransitioner.addTransitionToCurrentAndPrevious();
     };
 
     this.changeSlideToNext = () => {
         callTransformsAndSetSlideTo(stageSourcesIndexes.next + 1);
-        swipingTransitioner.addTransitionToCurrentAndPrevious();
+        swipingTransitioner.addTransitionToCurrentAndNext();
     };
 
     const callTransformsAndSetSlideTo = (slide) => {

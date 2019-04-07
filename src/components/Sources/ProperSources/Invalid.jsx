@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 class Invalid extends Component {
     constructor(props) {
         super(props);
-        if (!this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
-            this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
+        if (!this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
+            this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
         }
     }
 
@@ -13,7 +13,7 @@ class Invalid extends Component {
         return (
             <div
                 className="fslightbox-invalid-file-wrapper fslightbox-flex-centered"
-                ref={ this.props.sources[this.props.i] }>
+                ref={ this.props.fsLightbox.elements.sources[this.props.i] }>
                 Invalid file
             </div>
         );
@@ -21,8 +21,7 @@ class Invalid extends Component {
 }
 
 Invalid.propTypes = {
-    sources: PropTypes.array.isRequired,
-    sourcesData: PropTypes.object.isRequired,
+    fsLightbox: PropTypes.object.isRequired,
     i: PropTypes.number.isRequired
 };
 export default Invalid;
