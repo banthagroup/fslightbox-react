@@ -26,11 +26,12 @@ export function SlideSwipingUp(
             return;
         }
         // TODO: TEST AND REFACTOR
-        if(swipingProps.swipedDifference === 0 && !swipingProps.isSourceDownEventTarget) {
+        if (swipingProps.swipedDifference === 0) {
             setters.setState({
                 isSwipingSlides: false
             }, () => {
-                core.closeOpenLightbox.closeLightbox();
+                if (!swipingProps.isSourceDownEventTarget)
+                    core.closeOpenLightbox.closeLightbox();
             });
             return;
         }

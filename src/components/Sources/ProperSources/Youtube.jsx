@@ -15,7 +15,6 @@ class Youtube extends Component {
         this.props.onFirstSourceLoad();
     }
 
-
     render() {
         return (
             <iframe
