@@ -49,7 +49,6 @@ class Source extends Component {
 
 
     onFirstSourceLoad() {
-        // TODO: THERE WAS LINE WITH CLASSING REMOVE REMOVED TEST IT
         // this.props.fsLightbox.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
         this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i] = true;
         // we are creating source size adjuster after first load because we need already source dimensions
