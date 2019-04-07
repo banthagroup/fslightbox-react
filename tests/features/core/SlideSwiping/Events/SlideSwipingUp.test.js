@@ -23,7 +23,7 @@ const createSlideSwipingUpAndRunListener = () => {
     slideSwipingUp.listener(mockEvent);
 };
 
-describe('not calling actions', () => {
+describe('not calling runActions', () => {
     describe(`due to user is not swiping, even if animation is not running and swiped difference not equal 0`,
         () => {
             beforeEach(() => {
@@ -35,30 +35,6 @@ describe('not calling actions', () => {
                 createSlideSwipingUpAndRunListener();
             });
 
-            it('should not call set up event', () => {
-                expect(mockUpActions.setUpEvent).not.toBeCalled();
-            });
-
-            it('should not call run actions', () => {
-                expect(mockUpActions.runActions).not.toBeCalled();
-            });
-        });
-
-    describe(`due to swiped difference is equal 0, even if animation is not running and user is swiping`,
-        () => {
-            beforeEach(() => {
-                mockSwipingProps = {
-                    swipedDifference: 0,
-                    isAfterSwipeAnimationRunning: false
-                };
-                fsLightbox.state.isSwipingSlides = true;
-                createSlideSwipingUpAndRunListener();
-            });
-
-            it('should not call set up event', () => {
-                expect(mockUpActions.setUpEvent).not.toBeCalled();
-            });
-
             it('should not call run actions', () => {
                 expect(mockUpActions.runActions).not.toBeCalled();
             });
@@ -68,15 +44,28 @@ describe('not calling actions', () => {
         () => {
             beforeEach(() => {
                 mockSwipingProps = {
-                    swipedDifference: 0,
+                    swipedDifference: 100,
                     isAfterSwipeAnimationRunning: true
                 };
                 fsLightbox.state.isSwipingSlides = true;
                 createSlideSwipingUpAndRunListener();
             });
 
-            it('should not call set up event', () => {
-                expect(mockUpActions.setUpEvent).not.toBeCalled();
+            it('should not call run actions', () => {
+                expect(mockUpActions.runActions).not.toBeCalled();
+            });
+        });
+
+    describe(`due to swiped difference equals 0, even if user is swiping and swiping animation is not running`,
+        () => {
+            beforeEach(() => {
+                mockSwipingProps = {
+                    isSourceDownEventTarget: true,
+                    swipedDifference: 0,
+                    isAfterSwipeAnimationRunning: false
+                };
+                fsLightbox.state.isSwipingSlides = true;
+                createSlideSwipingUpAndRunListener();
             });
 
             it('should not call run actions', () => {
@@ -85,18 +74,59 @@ describe('not calling actions', () => {
         });
 });
 
-describe('calling actions', () => {
-     beforeEach(() => {
-         mockSwipingProps = {
-             swipedDifference: 100,
-             isAfterSwipeAnimationRunning: false
-         };
-         fsLightbox.state.isSwipingSlides = true;
-         createSlideSwipingUpAndRunListener();
-     });
 
-    it('should call set up event with event', () => {
-        expect(mockUpActions.setUpEvent).toBeCalledWith(mockEvent);
+describe('setting isSwipingSlides to false and closing lightbox if source is not down event target', () => {
+    beforeEach(() => {
+        fsLightbox.core.closeOpenLightbox.closeLightbox = jest.fn();
+        mockSwipingProps = {
+            isSourceDownEventTarget: false,
+            swipedDifference: 0,
+            isAfterSwipeAnimationRunning: false
+        };
+        fsLightbox.state.isSwipingSlides = true;
+    });
+
+    describe('setting isSwipingSlides to false', () => {
+        beforeEach(() => {
+            createSlideSwipingUpAndRunListener();
+        });
+
+        it('should set isSwipingSlides to false', () => {
+            expect(fsLightbox.state.isSwipingSlides).toBeFalsy();
+        });
+    });
+
+    describe('not closing lightbox due to source is down event target', () => {
+        beforeEach(() => {
+            mockSwipingProps.isSourceDownEventTarget = true;
+            createSlideSwipingUpAndRunListener();
+        });
+
+        it('should not call closeLightbox', () => {
+            expect(fsLightbox.core.closeOpenLightbox.closeLightbox).not.toBeCalled();
+        });
+    });
+
+    describe('closing lightbox - source is not event target', () => {
+        beforeEach(() => {
+            mockSwipingProps.isSourceDownEventTarget = false;
+            createSlideSwipingUpAndRunListener();
+        });
+
+        it('should call closeLightbox', () => {
+            expect(fsLightbox.core.closeOpenLightbox.closeLightbox).toBeCalled();
+        });
+    });
+});
+
+describe('calling actions', () => {
+    beforeEach(() => {
+        mockSwipingProps = {
+            swipedDifference: 100,
+            isAfterSwipeAnimationRunning: false
+        };
+        fsLightbox.state.isSwipingSlides = true;
+        createSlideSwipingUpAndRunListener();
     });
 
     it('should call run actions', () => {

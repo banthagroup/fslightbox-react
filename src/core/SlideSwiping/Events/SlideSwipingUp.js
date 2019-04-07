@@ -2,6 +2,7 @@
  * @class
  * @param { FsLightbox.getters.getIsSwipingSlides | function(): boolean } getIsSwipingSlides
  * @param { FsLightbox.injector.slideSwiping.getUpActionsForSwipingProps | Function } getUpActionsForSwipingProps
+ * @param { FsLightbox.core.closeOpenLightbox.closeLightbox | Function } closeLightbox
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingUp(
@@ -25,22 +26,24 @@ export function SlideSwipingUp(
         if (!getIsSwipingSlides() || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
-        // TODO: TEST AND REFACTOR
-        if (swipingProps.swipedDifference === 0) {
-            setters.setState({
-                isSwipingSlides: false
-            }, () => {
-                if (!swipingProps.isSourceDownEventTarget)
-                    core.closeOpenLightbox.closeLightbox();
-            });
-            return;
+        if (!hasUserSwiped()) {
+            return resetSwipingAndCloseLightboxIfNeeded();
         }
-        // TODO: TEST AND REFACTOR
-        swipingProps.isSourceDownEventTarget = false;
-
-        // TODO THIS NO LONGER NEED EVENT TEST IT
-        // actions.setUpEvent(e);
-
         actions.runActions();
+    };
+
+    const hasUserSwiped = () => {
+        return swipingProps.swipedDifference !== 0;
+    };
+
+    const resetSwipingAndCloseLightboxIfNeeded = () => {
+        setters.setState({
+            isSwipingSlides: false
+        }, ifSourceIsNotEventTargetCloseLightbox);
+    };
+
+    const ifSourceIsNotEventTargetCloseLightbox = () => {
+        if (!swipingProps.isSourceDownEventTarget)
+            core.closeOpenLightbox.closeLightbox();
     };
 }

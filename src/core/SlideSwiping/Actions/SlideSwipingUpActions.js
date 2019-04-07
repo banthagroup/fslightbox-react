@@ -1,7 +1,7 @@
 /**
  * @class
  * @param { FsLightbox } fsLightbox
- * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
+ * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingUpActions(fsLightbox, swipingProps) {
     const swipingTransitioner = fsLightbox.injector.slideSwiping.getSwipingTransitioner();
