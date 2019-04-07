@@ -21,10 +21,9 @@ export function SlideSwipingMove(
     const actions = getMoveActionsForSwipingProps(swipingProps);
 
     this.listener = (e) => {
-        // TODO: TEST
-        // if there is only 1 slide swiping actions are disabled so if user swiped to prevent lightbox from closing
-        // we simply set swipedDifference to 1
-        if(data.totalSlides === 1) {
+        // if there is only 1 slide swiping actions are disabled
+        // so to prevent lightbox from closing if user swiped we simply set swipedDifference to 1
+        if(isThereOnlyOneSlide()) {
             simulateSwipe();
             return;
         }
@@ -33,6 +32,10 @@ export function SlideSwipingMove(
         }
         actions.setMoveEvent(e);
         actions.runActions();
+    };
+
+    const isThereOnlyOneSlide = () => {
+        return data.totalSlides === 1;
     };
 
     const simulateSwipe = () => {

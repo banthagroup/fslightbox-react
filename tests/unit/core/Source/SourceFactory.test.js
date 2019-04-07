@@ -67,8 +67,7 @@ describe('SourceFactory', () => {
         sourceFactory.attachOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Invalid
-                sources={ fsLightboxInstance.elements.sources }
-                sourcesData={ fsLightboxInstance.sourcesData }
+                fsLightbox={ fsLightboxInstance }
                 i={ 3 }
             />
         );

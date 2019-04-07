@@ -10,6 +10,6 @@ export function WindowMoveEventController({ core: { slideSwiping: { move } } }) 
 
     this.removeListener = () => {
         window.removeEventListener('mousemove', move.listener);
-        window.removeEventListener('touchmove', move.listener, { passive: true });
+        window.removeEventListener('touchmove', move.listener,);
     };
 }

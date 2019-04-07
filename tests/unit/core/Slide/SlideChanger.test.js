@@ -7,27 +7,43 @@ const fsLightbox = fsLightboxMock.getFsLightbox();
 let slideChanger;
 let sourceHolders;
 
+beforeEach(() => {
+    fsLightboxMock.setAllSourcesToDivs();
+    sourceHolders = fsLightboxMock.setAllSourceHoldersToDivs().getSourceHoldersArray();
+    fsLightbox.state.slide = 1;
+});
+
 describe('changeSlideTo', () => {
-    beforeEach(() => {
-        fsLightboxMock.setAllSourcesToDivs();
-        sourceHolders = fsLightboxMock.setAllSourceHoldersToDivs().getSourceHoldersArray();
-        fsLightbox.state.slide = 1;
-        slideChanger = new SlideChanger(fsLightbox);
+    describe('changing slide', () => {
+        beforeEach(() => {
+            slideChanger = new SlideChanger(fsLightbox);
+        });
+
+        it('should change slide', () => {
+            slideChanger.changeSlideTo(2);
+            expect(fsLightbox.state.slide).toEqual(2);
+        });
     });
 
-    it('should change slide', () => {
-        slideChanger.changeSlideTo(2);
-        expect(fsLightbox.state.slide).toEqual(2);
-    });
+    describe('transforming stage source holders with timeout', () => {
+        let withTimeoutMock;
 
-    it('should transform stage sourceHolders with timeout', () => {
-        window.innerWidth = 100;
-        jest.useFakeTimers();
-        slideChanger.changeSlideTo(2);
-        jest.runAllTimers();
-        expect(sourceHolders[0].current.style.transform).toEqual('translate(-130px,0)');
-        expect(sourceHolders[1].current.style.transform).toEqual('translate(0px,0)');
-        expect(sourceHolders[2].current.style.transform).toEqual('translate(130px,0)');
+        beforeEach(() => {
+            withTimeoutMock = jest.fn();
+            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+                withTimeout: withTimeoutMock
+            }));
+            slideChanger = new SlideChanger(fsLightbox);
+            slideChanger.changeSlideTo(2);
+        });
+
+        it('should call transformStageSourceHolders', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders.mock.calls.length).toEqual(1);
+        });
+
+        it('should call with timeout', () => {
+            expect(withTimeoutMock).toBeCalled();
+        });
     });
 
     describe('animating source holders', () => {
@@ -119,115 +135,33 @@ describe('changeSlideTo', () => {
     });
 
 
-    describe('removing fade out from previous and next slide after timeout', () => {
-        let animateSourceFromSlideMockProperty;
-
+    describe('removing fade out from all sources after timeout', () => {
         beforeEach(() => {
-            jest.useFakeTimers();
-            fsLightbox.core.sourceAnimator.animateSourceFromSlide = jest.fn(() => ({
-                removeFadeIn: jest.fn(),
-                fadeOut: jest.fn(),
-                removeFadeOut: jest.fn(),
-                fadeIn: jest.fn()
-            }));
-            animateSourceFromSlideMockProperty = fsLightbox.core.sourceAnimator.animateSourceFromSlide.mock;
+            fsLightbox.core.sourceAnimator.removeFadeOutFromAllSources = jest.fn();
             slideChanger = new SlideChanger(fsLightbox);
-            slideChanger.changeSlideTo(2);
+            jest.useFakeTimers();
         });
 
-
-        describe('not calling removeFadeOut (due to slide was changed during fade out animation)', () => {
+        describe("not calling removeFadeOutFromAllSources due to previous timeout hasn't finish", () => {
             beforeEach(() => {
-                // changing slide before running timers(it mocks changing slide during animation)
+                slideChanger.changeSlideTo(2);
                 slideChanger.changeSlideTo(3);
-                jest.runOnlyPendingTimers();
-            });
-
-            it('should not call removeFadeOut for previous slide', () => {
-                const animateSourceFromSlideCalls = [];
-                let wasRemoveFadeOutCalled = false;
-                animateSourceFromSlideMockProperty.calls.forEach((params, index) => {
-                    // we are testing only first change slide because we are running in the same time both timers
-                    // so even if first would shown that removeFadeOut is not called second would say that is was called
-                    // anyway
-                    if(index > animateSourceFromSlideMockProperty.calls.length / 2) {
-                        return;
-                    }
-                    // previous slide number ( current slide - 2 )
-                    if (params[0] === 1) {
-                        animateSourceFromSlideCalls.push(animateSourceFromSlideMockProperty.results[index].value);
-                    }
-                });
-                for (let animateSourceFromSlide of animateSourceFromSlideCalls) {
-                    if (animateSourceFromSlide.removeFadeOut.mock.calls.length === 1) {
-                        wasRemoveFadeOutCalled = true;
-                    }
-                }
-                expect(wasRemoveFadeOutCalled).toBeFalsy();
-            });
-
-            it('should not call removeFadeOut for next slide', () => {
-                const animateSourceFromSlideCalls = [];
-                let wasRemoveFadeOutCalled = false;
-                animateSourceFromSlideMockProperty.calls.forEach((params, index) => {
-                    // we are testing only first change slide because we are running in the same time both timers
-                    // so even if first would shown that removeFadeOut is not called second would say that is was called
-                    // anyway
-                    if(index > animateSourceFromSlideMockProperty.calls.length / 2) {
-                        return;
-                    }
-                    // previous slide number ( current slide - 3 )
-                    if (params[0] === 3) {
-                        animateSourceFromSlideCalls.push(animateSourceFromSlideMockProperty.results[index].value);
-                    }
-                });
-                for (let animateSourceFromSlide of animateSourceFromSlideCalls) {
-                    if (animateSourceFromSlide.removeFadeOut.mock.calls.length === 1) {
-                        wasRemoveFadeOutCalled = true;
-                    }
-                }
-                expect(wasRemoveFadeOutCalled).toBeFalsy();
-            });
-        });
-
-
-        describe('calling removeFadeOut', () => {
-            beforeEach(() => {
                 jest.runAllTimers();
             });
 
-            it('should call removeFadeOut for previous slide', () => {
-                const animateSourceFromSlideCalls = [];
-                let wasRemoveFadeOutCalled = false;
-                animateSourceFromSlideMockProperty.calls.forEach((params, index) => {
-                    // previous slide
-                    if (params[0] === 1) {
-                        animateSourceFromSlideCalls.push(animateSourceFromSlideMockProperty.results[index].value);
-                    }
-                });
-                for (let animateSourceFromSlide of animateSourceFromSlideCalls) {
-                    if (animateSourceFromSlide.removeFadeOut.mock.calls.length === 1) {
-                        wasRemoveFadeOutCalled = true;
-                    }
-                }
-                expect(wasRemoveFadeOutCalled).toBeTruthy();
+            it('should call removeFadeOutFromAllSources only 1 time even if slide was changed two times', () => {
+                expect(fsLightbox.core.sourceAnimator.removeFadeOutFromAllSources).toBeCalledTimes(1);
+            });
+        });
+
+        describe('calling remove fadeOutFromAllSources', () => {
+            beforeEach(() => {
+                slideChanger.changeSlideTo(2);
+                jest.runAllTimers();
             });
 
-            it('should call removeFadeOut for next slide', () => {
-                const animateSourceFromSlideCalls = [];
-                let wasRemoveFadeOutCalled = false;
-                animateSourceFromSlideMockProperty.calls.forEach((params, index) => {
-                    // next slide
-                    if (params[0] === 3) {
-                        animateSourceFromSlideCalls.push(animateSourceFromSlideMockProperty.results[index].value);
-                    }
-                });
-                for (let animateSourceFromSlide of animateSourceFromSlideCalls) {
-                    if (animateSourceFromSlide.removeFadeOut.mock.calls.length === 1) {
-                        wasRemoveFadeOutCalled = true;
-                    }
-                }
-                expect(wasRemoveFadeOutCalled).toBeTruthy();
+            it('should call removeFadeOutFromAllSources', () => {
+                expect(fsLightbox.core.sourceAnimator.removeFadeOutFromAllSources).toBeCalled();
             });
         });
     });

@@ -106,10 +106,10 @@ describe('transformStageSourceHolders', () => {
             });
         });
 
-        it('should have called transform positive at 0 index. because this is next slide', () => {
+        it('should have called transform negative at 0 index. because this is previous slide', () => {
             transformStageSourceHolderMock.calls.forEach((parameters, index) => {
                 if (parameters[0] === 0) {
-                    expect(transformStageSourceHolderMock.results[index].value.positive).toBeCalled();
+                    expect(transformStageSourceHolderMock.results[index].value.negative).toBeCalled();
                 }
             });
         });
