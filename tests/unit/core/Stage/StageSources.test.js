@@ -70,13 +70,23 @@ describe('StageSources', () => {
             });
         });
 
+        describe('there are only 2 sources', () => {
+            it('should return only current and next source index (current slide is 1)', () => {
+                fsLightbox.data.totalSlides = 2;
+                fsLightbox.state.slide = 1;
+                expect(stageSources.getAllStageIndexes()).toEqual({
+                    current: 0,
+                    next: 1
+                });
+            });
 
-        it('should return only 2 indexes from getAllStageIndexes due to only 2 slides', () => {
-            fsLightbox.data.totalSlides = 2;
-            fsLightbox.state.slide = 2;
-            expect(stageSources.getAllStageIndexes()).toEqual({
-                current: 1,
-                next: 0
+            it('should return only current and previous source index (current slide is 2)', () => {
+                fsLightbox.data.totalSlides = 2;
+                fsLightbox.state.slide = 2;
+                expect(stageSources.getAllStageIndexes()).toEqual({
+                    current: 1,
+                    previous: 0
+                });
             });
         });
 

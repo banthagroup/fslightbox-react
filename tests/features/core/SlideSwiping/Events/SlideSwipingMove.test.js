@@ -19,6 +19,7 @@ const callListenerOnNewSlideSwipingMoveInstance = () => {
 };
 
 beforeEach(() => {
+    fsLightbox.data.totalSlides = 4;
     mockMoveEvent = {};
     mockMoveActions = {
         setMoveEvent: jest.fn(),
@@ -27,7 +28,39 @@ beforeEach(() => {
     fsLightbox.injector.slideSwiping.getMoveActionsForSwipingProps = () => mockMoveActions;
 });
 
+describe('simulating swipe (if there is only 1 slide)', () => {
+    beforeEach(() => {
+        fsLightbox.data.totalSlides = 1;
+        mockSwipingProps = {
+            swipedDifference: 0
+        };
+        callListenerOnNewSlideSwipingMoveInstance();
+    });
+
+    it('should set swipedDifference to 1', () => {
+        expect(mockSwipingProps.swipedDifference).toEqual(1);
+    });
+});
+
 describe('not calling actions', () => {
+    describe('due to there is only 1 slide', () => {
+        beforeEach(() => {
+            fsLightbox.data.totalSlides = 1;
+            mockSwipingProps = {
+                swipedDifference: 0
+            };
+            callListenerOnNewSlideSwipingMoveInstance();
+        });
+
+        it('should not call setMoveEvent', () => {
+            expect(mockMoveActions.setMoveEvent).not.toBeCalled();
+        });
+
+        it('should not call runActions', () => {
+            expect(mockMoveActions.runActions).not.toBeCalled();
+        });
+    });
+
     describe("due to down event hasn't occurred and animation is running", () => {
         beforeEach(() => {
             mockSwipingProps = {

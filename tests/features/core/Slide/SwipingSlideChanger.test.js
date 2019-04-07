@@ -1,55 +1,79 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { SwipingSlideChanger } from "../../../../src/core/Slide/SwipingSlideChanger";
+import { SwipingTransitioner } from "../../../../src/core/Transitions/SwipingTransitioner";
 
 const fsLightboxMock = new FsLightboxMock();
-/** @var { FsLightbox } fsLightbox */
-let fsLightbox;
+const fsLightbox = fsLightboxMock.getFsLightbox();
+fsLightboxMock.setAllSourceHoldersToDivs();
+/** @var { SwipingTransitioner } swipingTransitioner */
+let swipingTransitioner;
 /** @var { SwipingSlideChanger } swipingSlideChanger */
 let swipingSlideChanger;
+const stageSourcesIndexes = {
+    previous: 0,
+    current: 1,
+    next: 2,
+};
+let withoutTimeout;
 
 beforeEach(() => {
-    fsLightbox = fsLightboxMock.getFsLightbox();
-    // we are transforming source holders in swipingSlideChanger so we need to mock them
-    fsLightboxMock.setAllSourceHoldersToDivs();
+    fsLightbox.state.slide = 2;
+    withoutTimeout = jest.fn();
+    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+        withoutTimeout: withoutTimeout
+    }));
+    swipingTransitioner = new SwipingTransitioner(fsLightbox);
+    swipingSlideChanger = new SwipingSlideChanger(fsLightbox, swipingTransitioner);
+    swipingSlideChanger.setStageSourcesIndexes(stageSourcesIndexes);
+    swipingTransitioner.setStageSourcesIndexes(stageSourcesIndexes);
+    swipingTransitioner.addTransitionToCurrentAndPrevious = jest.fn();
+    swipingTransitioner.addTransitionToCurrentAndNext = jest.fn();
 });
 
-const createNewSlideChangerAndChangeSlideTo = (slide) => {
-    swipingSlideChanger = new SwipingSlideChanger(fsLightbox);
-    swipingSlideChanger.changeSlideTo(2);
-};
-
-describe('changing slide', () => {
+describe('changing slide to previous', () => {
     beforeEach(() => {
-        fsLightbox.state.slide = 1;
-        createNewSlideChangerAndChangeSlideTo(2);
+        swipingSlideChanger.changeSlideToPrevious();
     });
 
-    it('should change slide', () => {
-        expect(fsLightbox.state.slide).toEqual(2);
+    it('should change slide to previous', () => {
+        expect(fsLightbox.state.slide).toEqual(1);
+    });
+
+    describe('calling transformStageSourceHolders without timeout', () => {
+        it('should call transformStageSourceHolders', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders.mock.calls.length).toEqual(1);
+        });
+
+        it('should call withoutTimeout', () => {
+            expect(withoutTimeout).toBeCalled();
+        });
+    });
+
+    it('should call addTransitionToCurrentAndPrevious from swipingTransitioner', () => {
+        expect(swipingTransitioner.addTransitionToCurrentAndPrevious).toBeCalled();
     });
 });
 
-describe('transforming sources (for swiping with timeout)', () => {
-    let withoutTimeout;
-
+describe('changing slide to next', () => {
     beforeEach(() => {
-        withoutTimeout = jest.fn();
-        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
-            withoutTimeout: withoutTimeout
-        }));
-        createNewSlideChangerAndChangeSlideTo(2)
+        swipingSlideChanger.changeSlideToNext();
     });
 
-    it('should call transformStageSourceHolders', () => {
-        expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders.mock.calls.length).toEqual(1);
+    it('should change slide to next', () => {
+        expect(fsLightbox.state.slide).toEqual(3);
     });
 
-    it('should call withTimeout', () => {
-        expect(withoutTimeout).toBeCalled();
+    describe('calling transformStageSourceHolders without timeout', () => {
+        it('should call transformStageSourceHolders', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders.mock.calls.length).toEqual(1);
+        });
+
+        it('should call withoutTimeout', () => {
+            expect(withoutTimeout).toBeCalled();
+        });
     });
-});
 
-
-describe('animating sources', () => {
-
+    it('should call addTransitionToCurrentAndNext from swipingTransitioner', () => {
+        expect(swipingTransitioner.addTransitionToCurrentAndNext).toBeCalled();
+    });
 });
