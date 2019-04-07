@@ -8,12 +8,12 @@ class Image extends Component {
     }
 
     imageOnLoad(e) {
-        this.props.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
-        if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
+        this.props.fsLightbox.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
+        if (this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             return;
         }
 
-        this.props.sourcesData.sourcesDimensions[this.props.i] = {
+        this.props.fsLightbox.sourcesData.sourcesDimensions[this.props.i] = {
             width: e.target.width,
             height: e.target.height
         };
@@ -26,9 +26,9 @@ class Image extends Component {
                 <img
                     onLoad={ this.imageOnLoad }
                     className={ "fslightbox-single-source fslightbox-opacity-0" }
-                    ref={ this.props.sources[this.props.i] }
-                    src={ this.props.urls[this.props.i] }
-                    alt={ this.props.urls[this.props.i] }
+                    ref={ this.props.fsLightbox.elements.sources[this.props.i] }
+                    src={ this.props.fsLightbox.data.urls[this.props.i] }
+                    alt={ this.props.fsLightbox.data.urls[this.props.i] }
                 />
             </>
         );
@@ -37,9 +37,7 @@ class Image extends Component {
 
 
 Image.propTypes = {
-    urls: PropTypes.array.isRequired,
-    sourcesData: PropTypes.object.isRequired,
-    sources: PropTypes.array.isRequired,
+    fsLightbox: PropTypes.object.isRequired,
     i: PropTypes.number.isRequired,
     onFirstSourceLoad: PropTypes.func.isRequired,
 };

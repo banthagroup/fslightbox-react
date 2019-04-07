@@ -13,7 +13,7 @@ class SourceHolder extends Component {
         this.source = React.createRef();
         this.processReceivedSourceType = this.processReceivedSourceType.bind(this);
 
-        if (!this.props.sourcesData.sourcesTypes[this.props.i])
+        if (!this.props.fsLightbox.sourcesData.sourcesTypes[this.props.i])
             this.initRequest();
 
         isMounted = false;
@@ -22,16 +22,16 @@ class SourceHolder extends Component {
 
     initRequest() {
         const sourceTypeChecker = new SourceTypeChecker();
-        sourceTypeChecker.setUrlToCheck(this.props.data.urls[this.props.i]);
+        sourceTypeChecker.setUrlToCheck(this.props.fsLightbox.data.urls[this.props.i]);
         sourceTypeChecker.getSourceType()
             .then(this.processReceivedSourceType);
     }
 
     processReceivedSourceType(sourceType) {
-        this.props.sourcesData.sourcesTypes[this.props.i] = sourceType;
+        this.props.fsLightbox.sourcesData.sourcesTypes[this.props.i] = sourceType;
         if (isMounted) {
             if (this.source.current === null) {
-                this.props.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
+                this.props.fsLightbox.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
                 return;
             }
             this.source.current.createSource();
@@ -46,8 +46,8 @@ class SourceHolder extends Component {
 
     componentDidMount() {
         isMounted = true;
-        if(!this.props.core.stageSources.isSourceInStage(this.props.i)) {
-            this.props.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex(this.props.i).negative();
+        if (!this.props.fsLightbox.core.stageSources.isSourceInStage(this.props.i)) {
+            this.props.fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex(this.props.i).negative();
         }
         if (isTypeCheckedAndSourceIsNotCreated) {
             this.source.current.createSource();
@@ -56,17 +56,12 @@ class SourceHolder extends Component {
 
     render() {
         return (
-            <div ref={ this.props.elements.sourceHolders[this.props.i] }
+            <div ref={ this.props.fsLightbox.elements.sourceHolders[this.props.i] }
                  className="fslightbox-source-holder fslightbox-full-dimension">
                 <Source
+                    fsLightbox={ this.props.fsLightbox }
                     i={ this.props.i }
                     ref={ this.source }
-                    collections={ this.props.collections }
-                    core={ this.props.core }
-                    data={ this.props.data }
-                    elements={ this.props.elements }
-                    slide={ this.props.slide }
-                    sourcesData={ this.props.sourcesData }
                 />
             </div>
         );
@@ -74,13 +69,8 @@ class SourceHolder extends Component {
 }
 
 SourceHolder.propTypes = {
-    i: PropTypes.number,
-    collections: PropTypes.object.isRequired,
-    core: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired,
-    slide: PropTypes.number.isRequired,
-    sourcesData: PropTypes.object.isRequired
+    fsLightbox: PropTypes.object.isRequired,
+    i: PropTypes.number
 };
 
 export default SourceHolder;

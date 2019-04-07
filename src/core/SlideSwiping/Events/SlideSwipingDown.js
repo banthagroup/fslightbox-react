@@ -10,14 +10,17 @@ export function SlideSwipingDown({ setters: { setState } }, swipingProps) {
 
     this.listener = (e) => {
         event = e;
-        // TODO: TEST AND REFACTOR
-        if (e.target.classList.contains('fslightbox-single-source')) {
-            swipingProps.isSourceDownEventTarget = true;
-        }
         preventDefaultIfNeeded();
+        setIsSourceDownEventTargetIfTargetIsSource();
         setIsSwipingSlideStateToTrue();
         setDownClientX();
         resetSwipedDifference();
+    };
+
+    const setIsSourceDownEventTargetIfTargetIsSource = () => {
+        if (event.target.classList.contains('fslightbox-single-source')) {
+            swipingProps.isSourceDownEventTarget = true;
+        }
     };
 
     const preventDefaultIfNeeded = () => {

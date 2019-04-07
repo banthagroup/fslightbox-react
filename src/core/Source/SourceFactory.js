@@ -7,18 +7,20 @@ import Image from "../../components/Sources/ProperSources/Image.jsx";
 
 
 /**
- * @param { FsLightbox.sourcesData } sourcesData
- * @param { FsLightbox.data } data
- * @param { FsLightbox.elements } elements
  * @class
+ * @param { FsLightbox } fsLightbox
  */
-export function SourceFactory({ sourcesData, data, elements }) {
+export function SourceFactory(fsLightbox) {
+    const {
+        sourcesData,
+    } = fsLightbox;
+
     let ProperSourceComponentName;
     let SourceComponent;
     let sourceIndex;
     let onFirstSourceLoad;
 
-    this.attachOnFirstSourceLoad = (func) => {
+    this.setOnFirstSourceLoad = (func) => {
         onFirstSourceLoad = func;
     };
 
@@ -42,8 +44,7 @@ export function SourceFactory({ sourcesData, data, elements }) {
 
     const createInvalidSource = () => {
         SourceComponent = <Invalid
-            sources={ elements.sources }
-            sourcesData={ sourcesData }
+            fsLightbox={ fsLightbox }
             i={ sourceIndex }
         />;
     };
@@ -75,9 +76,7 @@ export function SourceFactory({ sourcesData, data, elements }) {
 
     const createProperSourceComponent = () => {
         SourceComponent = <ProperSourceComponentName
-            urls={ data.urls }
-            sources={ elements.sources }
-            sourcesData={ sourcesData }
+            fsLightbox={ fsLightbox }
             i={ sourceIndex }
             onFirstSourceLoad={ onFirstSourceLoad }
         />;

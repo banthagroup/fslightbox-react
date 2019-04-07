@@ -4,11 +4,11 @@ import { getYoutubeVideoIDFromURL } from "../../../utils/SourceType/getYoutubeVi
 
 class Youtube extends Component {
     componentDidMount() {
-        this.props.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
-        if (this.props.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
+        this.props.fsLightbox.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
+        if (this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
             return;
         }
-        this.props.sourcesData.sourcesDimensions[this.props.i] = {
+        this.props.fsLightbox.sourcesData.sourcesDimensions[this.props.i] = {
             width: 1920,
             height: 1080,
         };
@@ -19,10 +19,10 @@ class Youtube extends Component {
         return (
             <iframe
                 className="fslightbox-single-source fslightbox-opacity-0"
-                ref={ this.props.sources[this.props.i] }
+                ref={ this.props.fsLightbox.elements.sources[this.props.i] }
                 src={
                     "https://www.youtube.com/embed/"
-                    + getYoutubeVideoIDFromURL(this.props.urls[this.props.i])
+                    + getYoutubeVideoIDFromURL(this.props.fsLightbox.data.urls[this.props.i])
                     + '?enablejsapi=1'
                 }
                 allowFullScreen={ true }
@@ -33,10 +33,8 @@ class Youtube extends Component {
 }
 
 Youtube.propTypes = {
-    urls: PropTypes.array.isRequired,
-    sourcesData: PropTypes.object.isRequired,
-    sources: PropTypes.array.isRequired,
-    onFirstSourceLoad: PropTypes.func.isRequired,
+    fsLightbox: PropTypes.object.isRequired,
     i: PropTypes.number.isRequired,
+    onFirstSourceLoad: PropTypes.func.isRequired,
 };
 export default Youtube;

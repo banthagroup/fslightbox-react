@@ -11,7 +11,12 @@ describe('calling or not calling preventDefault', () => {
 
     beforeEach(() => {
         mockEvent = {
-            target: {},
+            target: {
+                classList: {
+                    contains: () => {
+                    }
+                }
+            },
             preventDefault: jest.fn(),
         };
     });
@@ -57,6 +62,54 @@ describe('calling or not calling preventDefault', () => {
 });
 
 
+describe('setting isSourceDownEventTarget if source is target', () => {
+    /** @var { SlideSwipingDown } slideSwipingDown */
+    let slideSwipingDown;
+    let mockSwipingProps;
+    let mockEvent;
+
+    beforeEach(() => {
+        mockSwipingProps = {
+            downClientX: 0,
+            isAfterSwipeAnimationRunning: false,
+            swipedDifference: 0,
+            isSourceDownEventTarget: false,
+        }
+        slideSwipingDown = new SlideSwipingDown(fsLightbox, mockSwipingProps);
+        mockEvent = {
+            target: {
+                classList: {
+                    contains: () => {
+                    }
+                }
+            }
+        }
+    });
+
+    describe('not setting isSourceDownEventTarget', () => {
+        beforeEach(() => {
+            mockEvent.target.classList.contains = () => false;
+            slideSwipingDown.listener(mockEvent);
+        });
+
+        it('should not set isSourceDownEventTarget', () => {
+            expect(mockSwipingProps.isSourceDownEventTarget).toBeFalsy();
+        });
+    });
+
+    describe('setting isSourceDownEventTraget', () => {
+        beforeEach(() => {
+            mockEvent.target.classList.contains = () => true;
+            slideSwipingDown.listener(mockEvent);
+        });
+
+        it('should set isSourceDownEventTargetToTrue', () => {
+            expect(mockSwipingProps.isSourceDownEventTarget).toBeTruthy();
+        });
+    });
+});
+
+
 
 describe('setting isSwipingSlides state to true', () => {
     // by default isSwipingSlides state should be false
@@ -67,7 +120,12 @@ describe('setting isSwipingSlides state to true', () => {
     it('should set isSwipingSlides state to true', () => {
         // because we are calling listener we need to mock event of it will throw error
         const mockEvent = {
-            target: {}
+            target: {
+                classList: {
+                    contains: () => {
+                    }
+                }
+            }
         };
         fsLightbox.core.slideSwiping.down.listener(mockEvent);
         expect(fsLightbox.state.isSwipingSlides).toBeTruthy();
@@ -92,7 +150,12 @@ describe('setting down client x', () => {
     describe('event is mousedown', () => {
         // no touches property in event so it is mouse down
         const mouseDownEvent = {
-            target: {},
+            target: {
+                classList: {
+                    contains: () => {
+                    }
+                }
+            },
             clientX: 1000
         };
         it('should set clientX to 1000 due to its the value in event', () => {
@@ -104,8 +167,13 @@ describe('setting down client x', () => {
     describe('event is touchstart', () => {
         // there is touch property with clientX so it is touchstart event
         const touchStartEvent = {
-            target: {},
-            touches: [{clientX: 1500}]
+            target: {
+                classList: {
+                    contains: () => {
+                    }
+                }
+            },
+            touches: [{ clientX: 1500 }]
         };
         it('should set clientX to 1500 due to its the value in event', () => {
             slideSwipingDown.listener(touchStartEvent);
@@ -125,7 +193,16 @@ describe('resetting swipedDifference', () => {
     });
 
     it('should set swipedDifference swiping prop to 0', () => {
-        slideSwipingDown.listener({ target: {}, });
+        slideSwipingDown.listener(
+            {
+                target: {
+                    classList: {
+                        contains: () => {
+                        }
+                    }
+                },
+            }
+        );
         expect(mockSwipingProps.swipedDifference).toEqual(0);
     });
 });
