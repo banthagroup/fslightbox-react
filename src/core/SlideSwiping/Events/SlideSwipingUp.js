@@ -1,14 +1,17 @@
-// TODO: JS DOC FOR ALL SLIDE SWIPING DOWN
-// TODO: TESTS FOR ALL SLIDE SWIPING DOWN
-
 /**
  * @class
- * @param { FsLightbox } fsLightbox
+ * @param { FsLightbox.setters.setState | Function } setState
+ * @param { FsLightbox.getters.getIsSwipingSlides | function: boolean } getIsSwipingSlides
+ * @param { FsLightbox.injector.slideSwiping.getUpActionsForSwipingProps
+ * | function: SlideSwipingUpActions } getUpActionsForSwipingProps
+ * @param { FsLightbox.core | Core } core
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingUp(
     {
-        setters,
+        setters: {
+            setState
+        },
         getters: {
             getIsSwipingSlides
         },
@@ -20,9 +23,8 @@ export function SlideSwipingUp(
         core,
     }, swipingProps
 ) {
-    /** @var { SlideSwipingUpActions } actions */
     const actions = getUpActionsForSwipingProps(swipingProps);
-    actions.setUpMethodsAccordingToNumberOfSlides();
+    actions.setUpTransformSourceHolders();
 
     this.listener = () => {
         if (!getIsSwipingSlides() || swipingProps.isAfterSwipeAnimationRunning) {
@@ -39,7 +41,7 @@ export function SlideSwipingUp(
     };
 
     const resetSwipingAndCloseLightboxIfSourceIsNotDownEventTarget = () => {
-        setters.setState({
+        setState({
             isSwipingSlides: false
         }, ifSourceIsNotEventTargetCloseLightbox);
     };

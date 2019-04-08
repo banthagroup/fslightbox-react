@@ -1,2 +1,2 @@
 ## Modules: 
-- SlideSwipingUpActions
+- SlideSwipingUpActions (transformSourceHolders)

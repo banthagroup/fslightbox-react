@@ -3,7 +3,8 @@
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
  * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
- * @param { FsLightbox.core.slideSwiping.up.swipingTransitioner | SwipingTransitioner } swipingTransitioner
+ * @param { SwipingTransitioner.addTransitionToCurrentAndPrevious | Function } addTransitionToCurrentAndPrevious
+ * @param { SwipingTransitioner.addTransitionToCurrentAndNext | Function } addTransitionToCurrentAndNext
  */
 export function SwipingSlideChanger(
     {
@@ -14,11 +15,9 @@ export function SwipingSlideChanger(
             sourceHoldersTransformer: { transformStageSourceHolders },
         },
     }, {
-        swipingTransitioner: {
-            addTransitionToCurrentAndPrevious,
-            addTransitionToCurrentAndNext
-        }
-    }
+        addTransitionToCurrentAndPrevious,
+        addTransitionToCurrentAndNext,
+    },
 ) {
     /** @var {{previous: number | undefined , current: number, next: number | undefined}} stageSourcesIndexes */
     let stageSourcesIndexes;

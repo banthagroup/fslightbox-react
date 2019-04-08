@@ -1,4 +1,4 @@
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/CssConstants";
+import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/CssConstants";
 
 /**
  * @class

@@ -1,14 +1,18 @@
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { SwipingSlideChanger } from "../../../../src/core/Slide/SwipingSlideChanger";
-import { SwipingTransitioner } from "../../../../src/core/Transitions/SwipingTransitioner";
+import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
+import { SwipingSlideChanger } from "../../../../../../src/core/SlideSwiping/Actions/Up/SwipingSlideChanger";
+import { SlideSwipingUpActions } from "../../../../../../src/core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
+import { SwipingTransitioner } from "../../../../../../src/core/SlideSwiping/Actions/Up/SwipingTransitioner";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
 fsLightboxMock.setAllSourceHoldersToDivs();
-/** @var { SwipingTransitioner } swipingTransitioner */
-let swipingTransitioner;
+/** @var { SlideSwipingUpActions } slideSwipingUpActions */
+let slideSwipingUpActions;
 /** @var { SwipingSlideChanger } swipingSlideChanger */
 let swipingSlideChanger;
+/** @var { SwipingTransitioner } swipingTransitioner */
+let swipingTransitioner;
+
 const stageSourcesIndexes = {
     previous: 0,
     current: 1,
@@ -22,12 +26,12 @@ beforeEach(() => {
     fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
         withoutTimeout: withoutTimeout
     }));
+    slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, {});
     swipingTransitioner = new SwipingTransitioner(fsLightbox);
-    swipingSlideChanger = new SwipingSlideChanger(fsLightbox, swipingTransitioner);
-    swipingSlideChanger.setStageSourcesIndexes(stageSourcesIndexes);
-    swipingTransitioner.setStageSourcesIndexes(stageSourcesIndexes);
     swipingTransitioner.addTransitionToCurrentAndPrevious = jest.fn();
     swipingTransitioner.addTransitionToCurrentAndNext = jest.fn();
+    swipingSlideChanger = new SwipingSlideChanger(fsLightbox, swipingTransitioner);
+    swipingSlideChanger.setStageSourcesIndexes(stageSourcesIndexes);
 });
 
 describe('changing slide to previous', () => {
@@ -49,7 +53,7 @@ describe('changing slide to previous', () => {
         });
     });
 
-    it('should call addTransitionToCurrentAndPrevious from swipingTransitioner', () => {
+    it('should call addTransitionToCurrentAndPrevious from transitioner', () => {
         expect(swipingTransitioner.addTransitionToCurrentAndPrevious).toBeCalled();
     });
 });
@@ -73,7 +77,7 @@ describe('changing slide to next', () => {
         });
     });
 
-    it('should call addTransitionToCurrentAndNext from swipingTransitioner', () => {
+    it('should call addTransitionToCurrentAndNext from transitioner', () => {
         expect(swipingTransitioner.addTransitionToCurrentAndNext).toBeCalled();
     });
 });
