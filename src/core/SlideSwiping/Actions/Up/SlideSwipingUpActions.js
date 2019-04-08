@@ -1,14 +1,14 @@
 import { FADE_IN_ANIMATION_TIME } from "../../../../constants/CssConstants";
 
 /**
- * @class
+ * @class SlideSwipingUpActions
  * @param { FsLightbox.data } data
- * @param { FsLightbox.getters.getSlide | function(): number } getSlide,
- * @param { FsLightbox.setters.setState | Function } setState,
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex
- * | function(number): SourceHolderTransformer } transformStageSourceHolderAtIndex
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
- * | function(number): StageSourceHoldersTransformer } transformStageSourceHolders
+ * @param { FsLightbox.getters.getSlide | function(): number } getSlide
+ * @param { FsLightbox.setters.setState | Function } setState
+ * @param { SourceHoldersTransformer.transformStageSourceHolderAtIndex
+ * | function(): SourceHolderTransformer} transformStageSourceHolderAtIndex
+ * @param { SourceHoldersTransformer.transformStageSourceHolders
+ * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
  * @param { FsLightbox.injector.slideSwiping.getSwipingTransitioner
  * | function(): SwipingTransitioner } getSwipingTransitioner
  * @param { FsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner
@@ -23,7 +23,7 @@ export function SlideSwipingUpActions(
         },
         setters: {
             setState
-        },
+    },
         core: {
             stageSources: {
                 getAllStageIndexes

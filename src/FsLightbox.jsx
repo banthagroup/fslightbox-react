@@ -121,6 +121,7 @@ class FsLightbox extends Component {
     }
 
     setUpCore() {
+        /** @type { Core } */
         this.core = new Core(this);
     }
 
