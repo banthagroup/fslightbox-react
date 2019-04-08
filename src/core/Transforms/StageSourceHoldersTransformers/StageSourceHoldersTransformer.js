@@ -1,4 +1,5 @@
 import { BaseStageSourceHoldersTransformer } from "./BaseStageSourceHoldersTransformer";
+import { FADE_IN_ANIMATION_TIME } from "../../../constants/CssConstants";
 
 /**
  * @class
@@ -26,10 +27,11 @@ export function StageSourceHoldersTransformer(fsLightbox) {
     };
 
     this.withTimeout = () => {
+        // transforming for less than animation time to avoid flashing
         setTimeout(() => {
             transformNegative();
             transformPositive();
-        }, 220);
+        }, FADE_IN_ANIMATION_TIME - 30);
     };
 
     const transformNegative = () => {
