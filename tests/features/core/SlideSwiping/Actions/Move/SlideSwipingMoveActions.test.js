@@ -1,5 +1,5 @@
-import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
-import { SlideSwipingMoveActions } from "../../../../../src/core/SlideSwiping/Actions/SlideSwipingMoveActions";
+import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
+import { SlideSwipingMoveActions } from "../../../../../../src/core/SlideSwiping/Actions/Move/SlideSwipingMoveActions";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();

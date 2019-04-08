@@ -13,10 +13,10 @@ import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
 import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
 import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
-import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/SlideSwipingMoveActions";
-import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/SlideSwipingUpActions";
-import { SwipingTransitioner } from "./core/Transitions/SwipingTransitioner";
-import { SwipingSlideChanger } from "./core/Slide/SwipingSlideChanger";
+import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/Move/SlideSwipingMoveActions";
+import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
+import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
+import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -113,7 +113,9 @@ class FsLightbox extends Component {
             },
             slideSwiping: {
                 getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
-                getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps), getSwipingTransitioner: () => new SwipingTransitioner(this),
+                getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps),
+                getSwipingTransitioner: () => new SwipingTransitioner(this),
+                getSwipingSlideChangerForSwipingTransitioner: (swipingTransitioner) => new SwipingSlideChanger(this, swipingTransitioner),
             }
         };
     }

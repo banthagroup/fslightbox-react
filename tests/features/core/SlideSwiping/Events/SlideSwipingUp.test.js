@@ -4,7 +4,7 @@ import { SlideSwipingUp } from "../../../../../src/core/SlideSwiping/Events/Slid
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
 let mockEvent;
-let mockSwipingProps;
+let mockSwipingProps = {};
 let mockUpActions;
 /** @var { SlideSwipingUp } slideSwipingUp */
 let slideSwipingUp;
@@ -12,16 +12,32 @@ let slideSwipingUp;
 beforeEach(() => {
     mockEvent = {};
     mockUpActions = {
+        setUpMethodsAccordingToNumberOfSlides: jest.fn(),
+        setUpTransformSourceHolders: jest.fn(),
         setUpEvent: jest.fn(),
         runActions: jest.fn(),
     };
-    fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps = () => mockUpActions;
+    fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps = jest.fn(() => mockUpActions);
 });
 
 const createSlideSwipingUpAndRunListener = () => {
     slideSwipingUp = new SlideSwipingUp(fsLightbox, mockSwipingProps);
     slideSwipingUp.listener(mockEvent);
 };
+
+describe('constructor', () => {
+    beforeEach(() => {
+        slideSwipingUp = new SlideSwipingUp(fsLightbox, mockSwipingProps);
+    });
+
+    it('should call getUpActionsForSwipingProps with swiping props', () => {
+        expect(fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps).toBeCalledWith(mockSwipingProps);
+    });
+
+    it('should call setUpTransformSourceHolders on actions instance', () => {
+        expect(mockUpActions.setUpTransformSourceHolders).toBeCalled();
+    });
+});
 
 describe('not calling runActions', () => {
     describe(`due to user is not swiping, even if animation is not running and swiped difference not equal 0`,
