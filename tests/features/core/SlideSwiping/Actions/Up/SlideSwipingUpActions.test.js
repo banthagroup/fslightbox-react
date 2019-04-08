@@ -14,7 +14,6 @@ const createNewSlideSwipingUpActionsAndCallMethods = () => {
     slideSwipingUpActions.runActions();
 };
 
-
 describe('setting stage sources indexes', () => {
     let setStageSourcesIndexes;
 

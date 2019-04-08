@@ -4,32 +4,42 @@ import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../con
 /**
  * @class CloseOpenLightbox
  * @param { { current } } container
- * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer  } sourceHoldersTransformer
- * @param { FsLightbox.core.fullscreenToggler | FullscreenToggler  } fullscreenToggler
- * @param { FsLightbox.core.sizeController | SizeController  } sizeController
- * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController  } windowResizeEventController
- * @param { FsLightbox.core.eventsControllers.window.swiping | SwipingEventsControllersFacade } swipingEventsControllersFacade
  * @param { FsLightbox.data } data
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.initialize | Function } initialize
+ * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders | function(): StageSourceHoldersTransformer } transformStageSourceHolders
+ * @param { FsLightbox.core.fullscreenToggler.turnOffFullscreen | Function  } turnOffFullscreen
+ * @param { FsLightbox.core.sizeController.controlAllSizes | Function  } controlAllSizes
+ * @param { FsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes | Function  } adjustAllSourcesSizes
+ * @param { FsLightbox.core.eventsControllers.window.resize.removeListener | Function  } removeResizeListener
+ * @param { FsLightbox.core.eventsControllers.window.resize.attachListener | Function  } attachResizeListener
+ * @param { FsLightbox.core.eventsControllers.window.swiping.removeListeners | Function  } removeSwipingListeners
+ * @param { FsLightbox.core.eventsControllers.window.resize.attachListeners | Function  } attachSwipingListeners
  */
 export function CloseOpenLightbox(
     {
-        elements: { container },
-        core: {
-            sourceHoldersTransformer,
-            fullscreenToggler,
-            sizeController,
-            eventsControllers: {
-                window: {
-                    resize: windowResizeEventController,
-                    swiping: swipingEventsControllersFacade
-                }
-            }
-        },
         data,
         setters: { setState },
         getters: { initialize },
+        elements: { container },
+        core: {
+            sourceHoldersTransformer: { transformStageSourceHolders },
+            fullscreenToggler: { turnOffFullscreen },
+            sizeController: { controlAllSizes },
+            sourceSizeAdjusterIterator: { adjustAllSourcesSizes },
+            eventsControllers: {
+                window: {
+                    resize: {
+                        removeListener: removeResizeListener,
+                        attachListener: attachResizeListener
+                    },
+                    swiping: {
+                        removeListeners: removeSwipingListeners,
+                        attachListeners: attachSwipingListeners,
+                    }
+                }
+            }
+        },
     }
 ) {
     const documentClassList = document.documentElement.classList;
@@ -52,9 +62,9 @@ export function CloseOpenLightbox(
         if (fadingOut) return;
         fadingOut = true;
         container.current.classList.add(FADE_OUT_COMPLETE_CLASS_NAME);
-        swipingEventsControllersFacade.removeListeners();
+        removeSwipingListeners();
         if (data.isFullscreenOpen) {
-            fullscreenToggler.turnOffFullscreen();
+            turnOffFullscreen();
         }
         setTimeout(() => {
             afterFadeOut();
@@ -66,10 +76,11 @@ export function CloseOpenLightbox(
             initialize();
             return;
         }
-        windowResizeEventController.attachListener();
-        swipingEventsControllersFacade.attachListeners();
-        sizeController.adjustMediaHolderSize();
-        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
+        attachResizeListener();
+        attachSwipingListeners();
+        controlAllSizes();
+        adjustAllSourcesSizes();
+        transformStageSourceHolders().withoutTimeout();
     };
 
     const afterFadeOut = () => {
@@ -79,6 +90,6 @@ export function CloseOpenLightbox(
         setState({
             isOpen: false
         });
-        windowResizeEventController.removeListener();
+        removeResizeListener();
     };
 }

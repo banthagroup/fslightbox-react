@@ -10,6 +10,8 @@ describe('closing lightbox', () => {
     let fsLightbox;
     /** @var { Element } fsLightboxContainer */
     let fsLightboxContainer;
+    /** @var { CloseOpenLightbox } closeOpenLightbox */
+    let closeOpenLightbox;
 
     beforeEach(() => {
         fsLightboxMock.instantiateNewFsLightbox();
@@ -19,10 +21,15 @@ describe('closing lightbox', () => {
         fsLightbox.elements.container.current = fsLightboxContainer;
     });
 
+    const createNewCloseOpenLightboxAndCallClose = () => {
+        closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
+        closeOpenLightbox.closeLightbox();
+    };
+
     describe('before fadeOut', () => {
         beforeEach(() => {
             fsLightbox.core.eventsControllers.window.swiping.removeListeners = jest.fn();
-            fsLightbox.core.closeOpenLightbox.closeLightbox();
+            createNewCloseOpenLightboxAndCallClose();
         });
 
         it('should add complete fade out class to fslightbox container', () => {
@@ -44,10 +51,11 @@ describe('closing lightbox', () => {
             fsLightbox.elements.mediaHolder.current = document.createElement('div');
 
             fsLightbox.core.eventsControllers.window.resize.removeListener = jest.fn();
+            closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
             // opening lightbox that we will close
-            fsLightbox.core.closeOpenLightbox.openLightbox();
+            closeOpenLightbox.openLightbox();
             jest.useFakeTimers();
-            fsLightbox.core.closeOpenLightbox.closeLightbox();
+            closeOpenLightbox.closeLightbox();
             jest.runAllTimers();
         });
 
@@ -68,26 +76,28 @@ describe('closing lightbox', () => {
 describe('Fullscreen', () => {
     let fsLightboxMock;
     let fsLightbox;
+    /** @var { CloseOpenLightbox } closeOpenLightbox */
+    let closeOpenLightbox;
 
     // setting up instance before each test because we are closing lightbox in tests so need to reset lightbox because
     // we cannot for e.g. close lightbox twice
     beforeEach(() => {
         fsLightboxMock = new FsLightboxMock();
         fsLightbox = fsLightboxMock.getFsLightbox();
+        fsLightbox.core.fullscreenToggler.turnOffFullscreen = jest.fn();
         fsLightbox.elements.container.current = document.createElement('div');
+        closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
     });
 
     it('should not close fullscreen due to fullscreen not open', () => {
-        fsLightbox.core.fullscreenToggler.turnOffFullscreen = jest.fn();
         fsLightbox.data.isFullscreenOpen = false;
-        fsLightbox.core.closeOpenLightbox.closeLightbox();
+        closeOpenLightbox.closeLightbox();
         expect(fsLightbox.core.fullscreenToggler.turnOffFullscreen).not.toBeCalled();
     });
 
     it('should close fullscreen because fullscreen is open', () => {
-        fsLightbox.core.fullscreenToggler.turnOffFullscreen = jest.fn();
         fsLightbox.data.isFullscreenOpen = true;
-        fsLightbox.core.closeOpenLightbox.closeLightbox();
+        closeOpenLightbox.closeLightbox();
         expect(fsLightbox.core.fullscreenToggler.turnOffFullscreen).toBeCalled();
     });
 });
@@ -112,31 +122,37 @@ describe('componentMountedAfterOpen and component is initialized', () => {
     fsLightboxMock.instantiateNewFsLightbox();
     fsLightboxMock.setAllSourceHoldersToDivs();
     const fsLightbox = fsLightboxMock.getFsLightbox();
-    const closeOpenLightbox = fsLightbox.core.closeOpenLightbox;
+    let closeOpenLightbox;
     fsLightbox.data.isInitialized = true;
     fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
     fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
-    fsLightbox.core.sizeController.adjustMediaHolderSize = jest.fn();
+    fsLightbox.core.sizeController.controlAllSizes = jest.fn();
+    fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
+    const transformSourceHoldersMock = new TransformStageSourcesMock(fsLightbox);
+
+    beforeEach(() => {
+        closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
+        closeOpenLightbox.openLightbox();
+    });
 
     it('should attach window resize listener', () => {
-        closeOpenLightbox.openLightbox();
         expect(fsLightbox.core.eventsControllers.window.resize.attachListener).toBeCalled();
     });
 
     it('should attach window swiping listeners', () => {
-        closeOpenLightbox.openLightbox();
         expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
-    })
+    });
 
     it('should call adjustMediaHolderSize', () => {
-        closeOpenLightbox.openLightbox();
-        expect(fsLightbox.core.sizeController.adjustMediaHolderSize).toBeCalled();
+        expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
+    });
+
+    it('should call adjustAllSourcesSizes', () => {
+        expect(fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
     });
 
     it('should call transform stage Sources without timeout', () => {
-        const transformStagesSoruceMock = new TransformStageSourcesMock(fsLightbox);
-        closeOpenLightbox.openLightbox();
-        expect(transformStagesSoruceMock.withoutTimeout).toBeCalled();
+        expect(transformSourceHoldersMock.withoutTimeout).toBeCalled();
     });
 });
 

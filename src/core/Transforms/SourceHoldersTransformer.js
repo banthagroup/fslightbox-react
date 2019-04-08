@@ -23,7 +23,7 @@ export function SourceHoldersTransformer(fsLightbox) {
     const sourceHolderTransformer = getSourceHolderTransformer();
     let sourceHoldersByValueTransformer = getInitialStageSourceHoldersByValueTransformer();
 
-    /** @return {StageSourceHoldersTransformer} */
+    /** @return { StageSourceHoldersTransformer } */
     this.transformStageSourceHolders = () => {
         return new StageSourceHoldersTransformer(fsLightbox);
     };
