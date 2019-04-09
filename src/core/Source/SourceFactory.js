@@ -4,6 +4,7 @@ import Video from "../../components/Sources/ProperSources/Video.jsx";
 import Youtube from "../../components/Sources/ProperSources/Youtube.jsx";
 import Invalid from "../../components/Sources/ProperSources/Invalid.jsx";
 import Image from "../../components/Sources/ProperSources/Image.jsx";
+import { ProperSourceController } from "../../ComponentsControllers/Sources/ProperSources/ProperSourceController";
 
 
 /**
@@ -18,11 +19,6 @@ export function SourceFactory(fsLightbox) {
     let ProperSourceComponentName;
     let SourceComponent;
     let sourceIndex;
-    let onFirstSourceLoad;
-
-    this.setOnFirstSourceLoad = (func) => {
-        onFirstSourceLoad = func;
-    };
 
     this.setSourceIndex = (i) => {
         sourceIndex = i;
@@ -78,7 +74,6 @@ export function SourceFactory(fsLightbox) {
         SourceComponent = <ProperSourceComponentName
             fsLightbox={ fsLightbox }
             i={ sourceIndex }
-            onFirstSourceLoad={ onFirstSourceLoad }
         />;
     };
 }

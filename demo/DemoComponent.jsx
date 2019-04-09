@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
-import { testImageURL, testVideoURL, testYoutubeURL } from "../tests/schemas/testVariables";
 import FsLightbox from "../src";
 
 class DemoComponent extends Component {
@@ -31,16 +30,13 @@ class DemoComponent extends Component {
                 <FsLightbox
                     isOpen={ this.state.isOpen }
                     urls={ [
-                        // testYoutubeURL,
-                        testVideoURL,
-                        'ima invalid source',
                         // "../demo/images/1.jpeg",
                         // "../demo/images/2.jpg",
                         // "../demo/images/3.jpeg",
                         // "../demo/images/4.jpeg",
-                        // "../demo/images/5.jpg",
-                        // "../demo/images/6.jpg",
-                        // "../demo/images/7.jpg",
+                        "../demo/images/5.jpg",
+                        "../demo/images/6.jpg",
+                        "../demo/images/7.jpg",
                         // "../demo/images/6.jpg"
                     ] }
                     slide={ this.slide }

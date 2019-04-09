@@ -36,7 +36,7 @@ class Toolbar extends Component {
                 <ToolbarButton
                     onClick={ this.fullscreen }
                     viewBox={ (this.state.isFullscreenOpen) ?
-                        "0 0 990 955" :
+                        "0 0 950 1024" :
                         "0 0 18 18"
                     }
                     size={ (this.state.isFullscreenOpen) ?
