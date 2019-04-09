@@ -17,6 +17,7 @@ import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/Move/SlideS
 import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
 import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
 import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
+import { ComponentsControllers } from "./ComponentsControllers/ComponentsControllers";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -30,6 +31,7 @@ class FsLightbox extends Component {
         this.setUpCollections();
         this.setUpInjector();
         this.setUpCore();
+        this.setUpComponentsControllers();
     }
 
     setUpData() {
@@ -39,7 +41,7 @@ class FsLightbox extends Component {
         this.data = {
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
-            isFullscreenOpen: false,
+            isToolbarCoreInitialized: false,
             isInitialized: false,
             isSwipingSlides: false,
             deviceType: getDeviceType()
@@ -79,9 +81,7 @@ class FsLightbox extends Component {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide,
             getIsSwipingSlides: () => this.state.isSwipingSlides,
-            // TODO: ? - CHECK IF IT IS USED
-            getIsFullscreenOpen: () => {
-            }
+            getIsFullscreenOpen: () => {}
         };
     }
 
@@ -102,6 +102,16 @@ class FsLightbox extends Component {
             sourceHolders: createRefsArrayForNumberOfSlides(this.data.totalSlides),
             sourcesJSXComponents: createNullArrayForNumberOfSlides(this.data.totalSlides),
         };
+    }
+
+    setUpCollections() {
+        /**
+         * @type {{sourceSizeAdjusters: Array}}
+         */
+        this.collections = {
+            // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
+            sourceSizeAdjusters: []
+        }
     }
 
     setUpInjector() {
@@ -125,14 +135,8 @@ class FsLightbox extends Component {
         this.core = new Core(this);
     }
 
-    setUpCollections() {
-        /**
-         * @type {{sourceSizeAdjusters: Array}}
-         */
-        this.collections = {
-            // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
-            sourceSizeAdjusters: []
-        }
+    setUpComponentsControllers() {
+        this.componentsControllers = new ComponentsControllers(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -169,6 +173,7 @@ class FsLightbox extends Component {
                 <DownEventDetector isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
                 <SwipingInvisibleHover isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
                 <Nav
+                    fsLightbox={ this }
                     core={ this.core }
                     data={ this.data }
                     slide={ this.state.slide }

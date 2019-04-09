@@ -20,7 +20,7 @@ export function CloseOpenLightbox(
     {
         data,
         setters: { setState },
-        getters: { initialize },
+        getters: { initialize, getIsFullscreenOpen },
         elements: { container },
         core: {
             sourceHoldersTransformer: { transformStageSourceHolders },
@@ -63,7 +63,7 @@ export function CloseOpenLightbox(
         fadingOut = true;
         container.current.classList.add(FADE_OUT_COMPLETE_CLASS_NAME);
         removeSwipingListeners();
-        if (data.isFullscreenOpen) {
+        if (getIsFullscreenOpen()) {
             turnOffFullscreen();
         }
         setTimeout(() => {

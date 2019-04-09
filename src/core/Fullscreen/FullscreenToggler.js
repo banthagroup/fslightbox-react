@@ -3,8 +3,15 @@
  * @param { FsLightbox.data } data
  */
 export function FullscreenToggler({ data }) {
+    let toolbar;
+    this.setToolbar = (toolbarInstance) => {
+        toolbar = toolbarInstance;
+    };
+
     this.turnOnFullscreen = () => {
-        data.isFullscreenOpen = true;
+        toolbar.setState({
+            isFullscreenOpen: true
+        });
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();
@@ -18,7 +25,9 @@ export function FullscreenToggler({ data }) {
     };
 
     this.turnOffFullscreen = () => {
-        data.isFullscreenOpen = false;
+        toolbar.setState({
+            isFullscreenOpen: false
+        });
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {

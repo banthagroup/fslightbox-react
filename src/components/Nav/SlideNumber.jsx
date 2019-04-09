@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class SlideNumber extends Component {
-    render() {
-        return (
-            <div className="fslightbox-slide-number-container fslightbox-flex-centered">
-                <div>{ this.props.slide }</div>
-                <div className="fslightbox-slash">/</div>
-                <div>{ this.props.totalSlides }</div>
-            </div>
-        );
-    }
-}
+const SlideNumber = ({ fsLightbox: { state: { slide }, data: { totalSlides }} }) => (
+    <div className="fslightbox-slide-number-container fslightbox-flex-centered">
+        <div>{ slide }</div>
+        <div className="fslightbox-slash">/</div>
+        <div>{ totalSlides }</div>
+    </div>
+);
 
 SlideNumber.propTypes = {
-    slide: PropTypes.number.isRequired,
-    totalSlides: PropTypes.number.isRequired,
+    fsLightbox: PropTypes.object.isRequired
 };
-export default SlideNumber;
+export default SlideNumber;``

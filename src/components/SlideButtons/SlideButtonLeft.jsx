@@ -18,6 +18,7 @@ class SlideButtonLeft extends Component {
     render() {
         return (
             <div onClick={ this.goToPreviousSlide }
+                 title="Previous slide"
                  className="fslightbox-slide-btn-container fslightbox-slide-btn-left-container">
                 <div className="fslightbox-slide-btn fslightbox-flex-centered">
                     <Svg

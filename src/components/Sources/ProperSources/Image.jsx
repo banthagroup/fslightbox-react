@@ -1,39 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from "prop-types";
 
-class Image extends Component {
-    constructor(props) {
-        super(props);
-        this.imageOnLoad = this.imageOnLoad.bind(this);
+const Image = (
+    {
+        fsLightbox: {
+            elements: { sources },
+            data: { urls },
+            componentsControllers: { sources: { properSources } }
+        },
+        i,
+        onFirstSourceLoad
     }
+) => {
+    const onImageLoad = ({ target }) => {
+        properSources.setIndex(i);
+        properSources.setOnFirstSourceLoad(onFirstSourceLoad);
+        properSources.setSourceWidth(target.width);
+        properSources.setSourceHeight(target.height);
+        properSources.handleLoad();
+    };
 
-    imageOnLoad(e) {
-        this.props.fsLightbox.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
-        if (this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
-            return;
-        }
+    return (
+        <img
+            onLoad={ onImageLoad }
+            className={ "fslightbox-single-source fslightbox-opacity-0" }
+            ref={ sources[i] }
+            src={ urls[i] }
+            alt={ urls[i] }
+        />
+    );
+};
 
-        this.props.fsLightbox.sourcesData.sourcesDimensions[this.props.i] = {
-            width: e.target.width,
-            height: e.target.height
-        };
-        this.props.onFirstSourceLoad();
-    }
-
-    render() {
-        return (
-            <>
-                <img
-                    onLoad={ this.imageOnLoad }
-                    className={ "fslightbox-single-source fslightbox-opacity-0" }
-                    ref={ this.props.fsLightbox.elements.sources[this.props.i] }
-                    src={ this.props.fsLightbox.data.urls[this.props.i] }
-                    alt={ this.props.fsLightbox.data.urls[this.props.i] }
-                />
-            </>
-        );
-    }
-}
 
 
 Image.propTypes = {
