@@ -7,16 +7,16 @@ const Video = (
             elements: { sources },
             sourcesData: { videosPosters },
             data: { urls },
-            componentsControllers: { properSource }
+            componentsControllers: { properSource: properSourceController }
         },
-        i
+        index
     }
 ) => {
     const onLoadedMetaData = ({ target }) => {
-        properSource.setIndex(i);
-        properSource.setSourceWidth(target.videoWidth);
-        properSource.setSourceHeight(target.videoHeight);
-        properSource.handleLoad();
+        properSourceController.setIndex(index);
+        properSourceController.setSourceWidth(target.videoWidth);
+        properSourceController.setSourceHeight(target.videoHeight);
+        properSourceController.handleLoad();
     };
 
     return (
@@ -24,16 +24,16 @@ const Video = (
             onLoadedMetadata={ onLoadedMetaData }
             className="fslightbox-single-source fslightbox-video fslightbox-opacity-0"
             controls
-            ref={ sources[i] }
-            poster={ videosPosters[i] }>
-            <source src={ urls[i] }/>
+            ref={ sources[index] }
+            poster={ videosPosters[index] }>
+            <source src={ urls[index] }/>
         </video>
     );
 };
 
 Video.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired
 };
 
 export default Video;

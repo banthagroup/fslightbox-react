@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
 
-const Source = (props) => {
-    const { fsLightbox, i } = props;
+const Source = ({ fsLightbox, index }) => {
     const {
         sourcesData: { isSourceAlreadyLoadedArray },
         elements: { sourcesJSXComponents },
         componentsControllers: { sources: sourcesControllers },
     } = fsLightbox;
 
-    const [isProperSourceRendered, setIsProperSourceRendered] = useState(false);
-    sourcesControllers[i].setIsProperSourceRenderedSetter(setIsProperSourceRendered);
+    useEffect(() => {
+        sourcesControllers[index].componentDidMount();
+    });
 
-    const loader = (isSourceAlreadyLoadedArray[i] ||
-        !isProperSourceRendered) ?
+    const [isProperSourceRendered, setIsProperSourceRendered] = useState(false);
+    sourcesControllers[index].setIsProperSourceRenderedSetter(setIsProperSourceRendered);
+    const loader = (isSourceAlreadyLoadedArray[index] ||
+        isProperSourceRendered) ?
         null : <Loader/>;
 
     return (
         <>
             { loader }
-            { sourcesJSXComponents[i] }
+            { sourcesJSXComponents[index] }
         </>
     );
 };
@@ -28,6 +30,6 @@ const Source = (props) => {
 
 Source.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired
 };
 export default Source;
