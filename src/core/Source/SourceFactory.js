@@ -41,7 +41,7 @@ export function SourceFactory(fsLightbox) {
     const createInvalidSource = () => {
         SourceComponent = <Invalid
             fsLightbox={ fsLightbox }
-            i={ sourceIndex }
+            index={ sourceIndex }
         />;
     };
 
@@ -73,7 +73,7 @@ export function SourceFactory(fsLightbox) {
     const createProperSourceComponent = () => {
         SourceComponent = <ProperSourceComponentName
             fsLightbox={ fsLightbox }
-            i={ sourceIndex }
+            index={ sourceIndex }
         />;
     };
 }

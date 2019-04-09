@@ -7,17 +7,17 @@ const Invalid = (
             sourcesData: { isSourceAlreadyLoadedArray },
             elements: { sources }
         },
-        i
+        index
     }
 ) => {
-    if (!isSourceAlreadyLoadedArray[i]) {
-        isSourceAlreadyLoadedArray[i] = true;
+    if (!isSourceAlreadyLoadedArray[index]) {
+        isSourceAlreadyLoadedArray[index] = true;
     }
 
     return (
         <div
             className="fslightbox-invalid-file-wrapper fslightbox-flex-centered"
-            ref={ sources[i] }>
+            ref={ sources[index] }>
             Invalid file
         </div>
     );
@@ -25,6 +25,6 @@ const Invalid = (
 
 Invalid.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired
 };
 export default Invalid;

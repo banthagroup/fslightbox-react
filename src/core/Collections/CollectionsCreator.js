@@ -17,6 +17,7 @@ export function CollectionsCreator(fsLightbox) {
     };
 
     this.getCollection = () => {
+        collection = [];
         setUpCollection();
         return collection;
     };

@@ -7,25 +7,25 @@ const Youtube = (
         fsLightbox: {
             elements: { sources },
             data: { urls },
-            componentsControllers: { properSource }
+            componentsControllers: { properSource: properSourceController }
         },
-        i,
+        index,
     }
 ) => {
     useEffect(() => {
-        properSource.setIndex(i);
-        properSource.setSourceWidth(1920);
-        properSource.setSourceHeight(1080);
-        properSource.handleLoad();
+        properSourceController.setIndex(index);
+        properSourceController.setSourceWidth(1920);
+        properSourceController.setSourceHeight(1080);
+        properSourceController.handleLoad();
     });
 
     return (
         <iframe
             className="fslightbox-single-source fslightbox-youtube-iframe fslightbox-opacity-0"
-            ref={ sources[i] }
+            ref={ sources[index] }
             src={
                 "https://www.youtube.com/embed/"
-                + getYoutubeVideoIDFromURL(urls[i])
+                + getYoutubeVideoIDFromURL(urls[index])
                 + '?enablejsapi=1'
             }
             allowFullScreen={ true }
@@ -35,6 +35,6 @@ const Youtube = (
 
 Youtube.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired
+    index: PropTypes.number.isRequired
 };
 export default Youtube;

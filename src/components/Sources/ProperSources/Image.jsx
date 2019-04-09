@@ -6,32 +6,32 @@ const Image = (
         fsLightbox: {
             elements: { sources },
             data: { urls },
-            componentsControllers: { properSource }
+            componentsControllers: { properSource: properSourceController }
         },
-        i
+        index
     }
 ) => {
     const onImageLoad = ({ target }) => {
-        properSource.setIndex(i);
-        properSource.setSourceWidth(target.width);
-        properSource.setSourceHeight(target.height);
-        properSource.handleLoad();
+        properSourceController.setIndex(index);
+        properSourceController.setSourceWidth(target.width);
+        properSourceController.setSourceHeight(target.height);
+        properSourceController.handleLoad();
     };
 
     return (
         <img
             onLoad={ onImageLoad }
             className={ "fslightbox-single-source fslightbox-opacity-0" }
-            ref={ sources[i] }
-            src={ urls[i] }
-            alt={ urls[i] }
+            ref={ sources[index] }
+            src={ urls[index] }
+            alt={ urls[index] }
         />
     );
 };
 
 Image.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
 };
 
 export default Image;

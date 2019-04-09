@@ -18,7 +18,7 @@ export function SourceMock(fsLightbox) {
     this.getSource = () => {
         source = new Source({
             fsLightbox: fsLightbox,
-            i: index ? index : 0,
+            index: index ? index : 0,
         });
         return source;
     };

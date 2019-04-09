@@ -11,8 +11,8 @@ export function SourceController(fsLightbox) {
     let shouldCallUpdateAfterMount;
     let setIsProperSourceRendered;
 
-    this.setIndex = (sourceIndex) => {
-        index = sourceIndex;
+    this.setIndex = (i) => {
+        index = i;
     };
 
     this.setIsProperSourceRenderedSetter = (setter) => {
