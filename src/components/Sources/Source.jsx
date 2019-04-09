@@ -9,6 +9,8 @@ const Source = ({ fsLightbox, index }) => {
         componentsControllers: { sources: sourcesControllers },
     } = fsLightbox;
 
+    sourcesControllers[index].init();
+
     useEffect(() => {
         sourcesControllers[index].componentDidMount();
     });

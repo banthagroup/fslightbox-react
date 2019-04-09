@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class Svg extends Component {
-    render() {
-        return (
-            <svg width={ this.props.size }
-                 height={ this.props.size }
-                 viewBox={ this.props.viewBox }
-                 xmlns="http://www.w3.org/2000/svg">
-                <path fill="#fff" className="fslightbox-svg-path" d={ this.props.d }></path>
-            </svg>
-        );
-    }
-}
+const Svg = ({ size, viewBox, d }) =>
+    (
+        <svg width={ size }
+             height={ size }
+             viewBox={ viewBox }
+             xmlns="http://www.w3.org/2000/svg">
+            <path fill="#fff" className="fslightbox-svg-path" d={ d }></path>
+        </svg>
+    );
 
 Svg.propTypes = {
     viewBox: PropTypes.string.isRequired,

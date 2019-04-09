@@ -30,7 +30,8 @@ export function SourceHolderController(fsLightbox) {
     {
         fsLightbox.sourcesData.sourcesTypes[index] = sourceType;
         if (isMounted) {
-            if (fsLightbox.componentsControllers.sources[index] === null) {
+            console.log('source type received')
+            if (fsLightbox.elements.sourceHolders[index].current === null) {
                 fsLightbox.sourcesData.sourcesToCreateOnConstruct[index] = true;
                 return;
             }

@@ -1,4 +1,4 @@
-import { ProperSourceController } from "./Sources/ProperSources/ProperSourceController";
+import { ProperSourceController } from "./Sources/ProperSourceController";
 import { SourceController } from "./Sources/SourceController";
 import { SourceHolderController } from "./Sources/SourceHolderController";
 

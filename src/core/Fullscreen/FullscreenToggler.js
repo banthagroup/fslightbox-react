@@ -2,16 +2,16 @@
  * @class
  * @param { FsLightbox.data } data
  */
-export function FullscreenToggler({ data }) {
-    let toolbar;
-    this.setToolbar = (toolbarInstance) => {
-        toolbar = toolbarInstance;
-    };
-
+export function FullscreenToggler(
+    {
+        data,
+        componentsStates: {
+            isFullscreenOpen: isFullscreenOpenState
+        }
+    }
+) {
     this.turnOnFullscreen = () => {
-        toolbar.setState({
-            isFullscreenOpen: true
-        });
+        isFullscreenOpenState.set(true);
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();
@@ -25,9 +25,7 @@ export function FullscreenToggler({ data }) {
     };
 
     this.turnOffFullscreen = () => {
-        toolbar.setState({
-            isFullscreenOpen: false
-        });
+        isFullscreenOpenState.set(false);
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {

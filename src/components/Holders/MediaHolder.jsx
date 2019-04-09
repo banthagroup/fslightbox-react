@@ -6,7 +6,6 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 const MediaHolder = ({ fsLightbox }) => {
     const {
         data,
-        state,
         elements: {
             mediaHolder
         },
@@ -30,10 +29,8 @@ const MediaHolder = ({ fsLightbox }) => {
         );
     }
 
-    const cursorGrabbingClass = state.isSwipingSlides ? CURSOR_GRABBING_CLASS_NAME : '';
-
     return (
-        <div className={ 'fslightbox-media-holder ' + cursorGrabbingClass }
+        <div className={ 'fslightbox-media-holder' }
              onMouseDown={ listener }
              onTouchStart={ listener }
              ref={ mediaHolder }>
