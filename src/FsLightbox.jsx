@@ -67,6 +67,14 @@ class FsLightbox extends Component {
     }
 
     setUpStates() {
+        // to objects are assigned in correct components two methods:
+        // - get(): boolean
+        // - set(value, callback=()=>{})
+        this.componentsStates = {
+            isFullscreenOpen: {},
+            isSwipingSlides: {},
+        };
+
         this.state = {
             isOpen: this.props.isOpen,
             isSwipingSlides: false,
@@ -79,13 +87,12 @@ class FsLightbox extends Component {
             initialize: () => this.initialize(),
             getSlide: () => this.state.slide,
             getIsSwipingSlides: () => this.state.isSwipingSlides,
-            getIsFullscreenOpen: () => {}
         };
     }
 
     setUpSetters() {
         this.setters = {
-            setState: (value, callback) => this.setState(value, callback)
+            setState: (value, callback) => this.setState(value, callback),
         }
     }
 
@@ -163,8 +170,8 @@ class FsLightbox extends Component {
 
         return (
             <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension">
-                <DownEventDetector isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
-                <SwipingInvisibleHover isSwipingSlides={ this.state.isSwipingSlides } core={ this.core }/>
+                <DownEventDetector fsLightbox={ this }/>
+                <SwipingInvisibleHover fsLightbox={ this }/>
                 <Nav
                     fsLightbox={ this }
                     core={ this.core }
