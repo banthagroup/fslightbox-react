@@ -18,6 +18,7 @@ import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipi
 import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
 import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
 import { ComponentsControllers } from "./ComponentsControllers/ComponentsControllers";
+import { CollectionsCreator } from "./core/Collections/CollectionsCreator";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class FsLightbox extends Component {
 
     setUpData() {
         /**
-         * @type {{deviceType: number, urls: Array, totalSlides: number, isInitialized: boolean, isSwipingSlides: boolean, isFullscreenOpen: boolean}}
+         * @type {{isToolbarCoreInitialized: boolean, deviceType: number, urls: Array, totalSlides: number, isInitialized: boolean, isSwipingSlides: boolean}}
          */
         this.data = {
             urls: this.props.urls,
@@ -45,7 +46,7 @@ class FsLightbox extends Component {
             isInitialized: false,
             isSwipingSlides: false,
             deviceType: getDeviceType()
-        }
+        };
     }
 
     setUpSourcesData() {
@@ -66,9 +67,6 @@ class FsLightbox extends Component {
     }
 
     setUpStates() {
-        /**
-         * @type {{isOpen: Boolean, slide: *, isSwipingSlides: boolean}}
-         */
         this.state = {
             isOpen: this.props.isOpen,
             isSwipingSlides: false,
@@ -92,9 +90,6 @@ class FsLightbox extends Component {
     }
 
     setUpElements() {
-        /**
-         * @type {{container: React.RefObject<any>, sourcesJSXComponents: Array, sources: Array, mediaHolder: React.RefObject<any>, sourceHolders: Array}}
-         */
         this.elements = {
             container: React.createRef(),
             mediaHolder: React.createRef(),
@@ -105,12 +100,10 @@ class FsLightbox extends Component {
     }
 
     setUpCollections() {
-        /**
-         * @type {{sourceSizeAdjusters: Array}}
-         */
+        this.collectionsCreator = new CollectionsCreator(this);
         this.collections = {
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
-            sourceSizeAdjusters: []
+            sourceSizeAdjusters: [],
         }
     }
 

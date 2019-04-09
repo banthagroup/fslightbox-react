@@ -7,18 +7,16 @@ const Video = (
             elements: { sources },
             sourcesData: { videosPosters },
             data: { urls },
-            componentsControllers: { sources: { properSources } }
+            componentsControllers: { properSource }
         },
-        i,
-        onFirstSourceLoad
+        i
     }
 ) => {
     const onLoadedMetaData = ({ target }) => {
-        properSources.setIndex(i);
-        properSources.setOnFirstSourceLoad(onFirstSourceLoad);
-        properSources.setSourceWidth(target.videoWidth);
-        properSources.setSourceHeight(target.videoHeight);
-        properSources.handleLoad();
+        properSource.setIndex(i);
+        properSource.setSourceWidth(target.videoWidth);
+        properSource.setSourceHeight(target.videoHeight);
+        properSource.handleLoad();
     };
 
     return (
@@ -35,7 +33,7 @@ const Video = (
 
 Video.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired,
-    onFirstSourceLoad: PropTypes.func.isRequired,
+    i: PropTypes.number.isRequired
 };
+
 export default Video;

@@ -9,8 +9,11 @@ let isTypeCheckedAndSourceIsNotCreated;
 class SourceHolder extends Component {
     constructor(props) {
         super(props);
+
+
         // component need to be mounted to call method from child by ref
-        this.source = React.createRef();
+
+
         this.processReceivedSourceType = this.processReceivedSourceType.bind(this);
 
         if (!this.props.fsLightbox.sourcesData.sourcesTypes[this.props.i])
@@ -30,11 +33,11 @@ class SourceHolder extends Component {
     processReceivedSourceType(sourceType) {
         this.props.fsLightbox.sourcesData.sourcesTypes[this.props.i] = sourceType;
         if (isMounted) {
-            if (this.source.current === null) {
+            if (this.props.fsLightbox.componentsControllers.sources[this.props.i] === null) {
                 this.props.fsLightbox.sourcesData.sourcesToCreateOnConstruct[this.props.i] = true;
                 return;
             }
-            this.source.current.createSource();
+            this.props.fsLightbox.componentsControllers.sources[this.props.i].createSource();
         } else {
             isTypeCheckedAndSourceIsNotCreated = true;
         }
@@ -50,7 +53,7 @@ class SourceHolder extends Component {
             this.props.fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex(this.props.i).negative();
         }
         if (isTypeCheckedAndSourceIsNotCreated) {
-            this.source.current.createSource();
+            this.props.fsLightbox.componentsControllers.sources[this.props.i].createSource();
         }
     }
 
@@ -61,7 +64,6 @@ class SourceHolder extends Component {
                 <Source
                     fsLightbox={ this.props.fsLightbox }
                     i={ this.props.i }
-                    ref={ this.source }
                 />
             </div>
         );

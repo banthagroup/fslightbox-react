@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import PropTypes from "prop-types";
 
 const Image = (
@@ -6,18 +6,16 @@ const Image = (
         fsLightbox: {
             elements: { sources },
             data: { urls },
-            componentsControllers: { sources: { properSources } }
+            componentsControllers: { properSource }
         },
-        i,
-        onFirstSourceLoad
+        i
     }
 ) => {
     const onImageLoad = ({ target }) => {
-        properSources.setIndex(i);
-        properSources.setOnFirstSourceLoad(onFirstSourceLoad);
-        properSources.setSourceWidth(target.width);
-        properSources.setSourceHeight(target.height);
-        properSources.handleLoad();
+        properSource.setIndex(i);
+        properSource.setSourceWidth(target.width);
+        properSource.setSourceHeight(target.height);
+        properSource.handleLoad();
     };
 
     return (
@@ -31,11 +29,9 @@ const Image = (
     );
 };
 
-
-
 Image.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
     i: PropTypes.number.isRequired,
-    onFirstSourceLoad: PropTypes.func.isRequired,
 };
+
 export default Image;

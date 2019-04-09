@@ -1,24 +1,19 @@
 /**
  * @class
  */
-export function ProperSourcesController(
-    {
+export function ProperSourceController(fsLightbox) {
+    const {
         sourcesData: { isSourceAlreadyLoadedArray, sourcesDimensions },
         elements: { sources },
+        componentsControllers: { sources: sourcesControllers }
+    } = fsLightbox;
 
-    }
-) {
     let index;
-    let onFirstSourceLoad;
     let sourceWidth;
     let sourceHeight;
 
     this.setIndex = (sourceIndex) => {
         index = sourceIndex;
-    };
-
-    this.setOnFirstSourceLoad = (func) => {
-        onFirstSourceLoad = func;
     };
 
     this.setSourceWidth = (width) => {
@@ -38,6 +33,6 @@ export function ProperSourcesController(
             width: sourceWidth,
             height: sourceHeight
         };
-        onFirstSourceLoad();
+        sourcesControllers[index].onFirstSourceLoad();
     };
 }

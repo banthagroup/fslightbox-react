@@ -1,40 +1,40 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { getYoutubeVideoIDFromURL } from "../../../utils/SourceType/getYoutubeVideoIDFromURL";
 
-class Youtube extends Component {
-    componentDidMount() {
-        this.props.fsLightbox.elements.sources[this.props.i].current.classList.remove('fslightbox-opacity-0');
-        if (this.props.fsLightbox.sourcesData.isSourceAlreadyLoadedArray[this.props.i]) {
-            return;
-        }
-        this.props.fsLightbox.sourcesData.sourcesDimensions[this.props.i] = {
-            width: 1920,
-            height: 1080,
-        };
-        this.props.onFirstSourceLoad();
+const Youtube = (
+    {
+        fsLightbox: {
+            elements: { sources },
+            data: { urls },
+            componentsControllers: { properSource }
+        },
+        i,
     }
+) => {
+    useEffect(() => {
+        properSource.setIndex(i);
+        properSource.setSourceWidth(1920);
+        properSource.setSourceHeight(1080);
+        properSource.handleLoad();
+    });
 
-    render() {
-        return (
-            <iframe
-                className="fslightbox-single-source fslightbox-opacity-0"
-                ref={ this.props.fsLightbox.elements.sources[this.props.i] }
-                src={
-                    "https://www.youtube.com/embed/"
-                    + getYoutubeVideoIDFromURL(this.props.fsLightbox.data.urls[this.props.i])
-                    + '?enablejsapi=1'
-                }
-                allowFullScreen={ true }
-                frameBorder="0"
-            />
-        );
-    }
-}
+    return (
+        <iframe
+            className="fslightbox-single-source fslightbox-youtube-iframe fslightbox-opacity-0"
+            ref={ sources[i] }
+            src={
+                "https://www.youtube.com/embed/"
+                + getYoutubeVideoIDFromURL(urls[i])
+                + '?enablejsapi=1'
+            }
+            allowFullScreen={ true }
+        />
+    );
+};
 
 Youtube.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    i: PropTypes.number.isRequired,
-    onFirstSourceLoad: PropTypes.func.isRequired,
+    i: PropTypes.number.isRequired
 };
 export default Youtube;
