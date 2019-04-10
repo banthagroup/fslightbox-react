@@ -61,9 +61,7 @@ export function SourceTypeChecker() {
 
     const abortRequestAndResolvePromise = () => {
         xhr.abort();
-        setTimeout(() => {
-            resolveAndReturnSourceType(sourceType);
-        }, 1000);
+        resolveAndReturnSourceType(sourceType);
     };
 
     const callCorrectActionsDependingOnSourceType = (type) => {

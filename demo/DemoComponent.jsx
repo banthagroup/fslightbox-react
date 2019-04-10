@@ -33,7 +33,7 @@ class DemoComponent extends Component {
                     urls={ [
                         // "invalid",
                         // testVideoURL,
-                        "../demo/images/1.jpeg",
+                        // "../demo/images/1.jpeg",
                         "../demo/images/2.jpg",
                         "../demo/images/3.jpeg",
                         // "../demo/images/4.jpeg",
