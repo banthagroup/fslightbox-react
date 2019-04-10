@@ -6,7 +6,7 @@ const Image = (
         fsLightbox: {
             elements: { sources },
             data: { urls },
-            componentsControllers: { properSource: properSourceController }
+            core: { properSourceController }
         },
         index
     }

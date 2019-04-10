@@ -10,4 +10,3 @@ export const INVALID_TYPE  = 'invalid';
 export const PREVIOUS_POSITION = -1;
 export const CURRENT_POSITION  = 0;
 export const NEXT_POSITION  = 1;
-export const NOT_IN_STAGE = null;

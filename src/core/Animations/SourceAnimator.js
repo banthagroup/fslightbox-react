@@ -1,6 +1,6 @@
 import {
     FADE_IN_CLASS_NAME,
-    FADE_IN_COMPLETE_CLASS_NAME,
+    LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
 } from "../../constants/CssConstants";
 
@@ -13,12 +13,25 @@ export function SourceAnimator({ elements: { sources } }) {
     let animatedSourceClassList;
 
     /**
+     * @param index
+     * @return { this }
+     */
+    this.animateSourceFromIndex = (index) => {
+        setClassListForSourceByIndex(index);
+        return this;
+    };
+
+    /**
      * @param slideNumber
-     * @return { SourceAnimator }
+     * @return { this }
      */
     this.animateSourceFromSlide = (slideNumber) => {
-        animatedSourceClassList = getSourceClassListByIndex(slideNumber - 1);
+        setClassListForSourceByIndex(slideNumber - 1);
         return this;
+    };
+
+    const setClassListForSourceByIndex = (index) => {
+        animatedSourceClassList = getSourceClassListByIndex(index);
     };
 
     this.fadeOut = () => {
@@ -29,6 +42,10 @@ export function SourceAnimator({ elements: { sources } }) {
         animatedSourceClassList.add(FADE_IN_CLASS_NAME);
     };
 
+    this.longFadeIn = () => {
+        animatedSourceClassList.add(LONG_FADE_IN_CLASS_NAME);
+    };
+
     this.removeFadeOut = () => {
         animatedSourceClassList.remove(FADE_OUT_CLASS_NAME);
     };
@@ -36,8 +53,8 @@ export function SourceAnimator({ elements: { sources } }) {
     this.removeFadeIn = () => {
         if (animatedSourceClassList.contains(FADE_IN_CLASS_NAME))
             animatedSourceClassList.remove(FADE_IN_CLASS_NAME);
-        if (animatedSourceClassList.contains(FADE_IN_COMPLETE_CLASS_NAME))
-            animatedSourceClassList.remove(FADE_IN_COMPLETE_CLASS_NAME);
+        if (animatedSourceClassList.contains(LONG_FADE_IN_CLASS_NAME))
+            animatedSourceClassList.remove(LONG_FADE_IN_CLASS_NAME);
     };
 
     this.removeFadeOutFromAllSources = () => {

@@ -1,6 +1,5 @@
 /**
  * @class
- * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
  * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
  * @param { SwipingTransitioner.addTransitionToCurrentAndPrevious | Function } addTransitionToCurrentAndPrevious
@@ -36,6 +35,8 @@ export function SwipingSlideChanger(
 
     const callTransformsAndSetSlideTo = (slide) => {
         slideState.set(slide);
-        transformStageSourceHolders().withoutTimeout();
+        slideState.onUpdate = () => {
+            transformStageSourceHolders().withoutTimeout();
+        };
     };
 }

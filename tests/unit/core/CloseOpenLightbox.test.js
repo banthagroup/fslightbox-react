@@ -2,7 +2,7 @@ import React from 'react';
 import { CloseOpenLightbox } from "../../../src/core/CloseOpenLightbox";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
-import { FADE_OUT_COMPLETE_CLASS_NAME } from "../../../src/constants/CssConstants";
+import { LONG_FADE_OUT_CLASS_NAME } from "../../../src/constants/CssConstants";
 
 describe('closing lightbox', () => {
     const fsLightboxMock = new FsLightboxMock();
@@ -33,7 +33,7 @@ describe('closing lightbox', () => {
         });
 
         it('should add complete fade out class to fslightbox container', () => {
-            expect(fsLightboxContainer.classList.contains(FADE_OUT_COMPLETE_CLASS_NAME)).toBeTruthy();
+            expect(fsLightboxContainer.classList.contains(LONG_FADE_OUT_CLASS_NAME)).toBeTruthy();
         });
 
         it('should remove window swiping events', () => {
@@ -60,7 +60,7 @@ describe('closing lightbox', () => {
         });
 
         it('should remove complete fade out class from fslightbox container', () => {
-            expect(fsLightboxContainer.classList.contains(FADE_OUT_COMPLETE_CLASS_NAME)).toBeFalsy();
+            expect(fsLightboxContainer.classList.contains(LONG_FADE_OUT_CLASS_NAME)).toBeFalsy();
         });
 
         it('should should remove window resize event listener', () => {

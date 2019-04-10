@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Loader extends Component {
-    render() {
-        return (
-            <div className="fslightbox-loader">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        );
-    }
-}
+const Loader = () =>
+    (
+        <div className="fslightbox-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    );
 
 export default Loader;

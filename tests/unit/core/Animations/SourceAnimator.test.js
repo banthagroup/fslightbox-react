@@ -4,7 +4,7 @@ import FsLightbox from "../../../../src";
 import { testProps } from "../../../schemas/testVariables";
 import {
     FADE_IN_CLASS_NAME,
-    FADE_IN_COMPLETE_CLASS_NAME,
+    LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
 } from "../../../../src/constants/CssConstants";
 
@@ -43,19 +43,19 @@ describe('animateSourceFromSlide', () => {
         });
 
         it('should fslightbox-fade-in-complete, due to source has this this class', () => {
-            fsLightboxInstance.elements.sources[0].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME);
+            fsLightboxInstance.elements.sources[0].current.classList.add(LONG_FADE_IN_CLASS_NAME);
             sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_IN_COMPLETE_CLASS_NAME))
+            expect(fsLightboxInstance.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME))
                 .toBeFalsy();
         });
 
         it(`should remove both fslightbox-fade-in and fslightbox-fade-in-complete 
             (that case may happen when source which have fslightbox-fade-in-complete 
             after reopen is in stage and receives fslightbox-fade-in`, () => {
-            fsLightboxInstance.elements.sources[0].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME);
+            fsLightboxInstance.elements.sources[0].current.classList.add(LONG_FADE_IN_CLASS_NAME);
             fsLightboxInstance.elements.sources[0].current.classList.add(FADE_IN_CLASS_NAME);
             sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_IN_COMPLETE_CLASS_NAME))
+            expect(fsLightboxInstance.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME))
                 .toBeFalsy();
             expect(fsLightboxInstance.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
                 .toBeFalsy();

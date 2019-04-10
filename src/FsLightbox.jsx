@@ -17,8 +17,7 @@ import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/Move/SlideS
 import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
 import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
 import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
-import { ComponentsControllers } from "./ComponentsControllers/ComponentsControllers";
-import { CollectionsCreator } from "./core/Collections/CollectionsCreator";
+import { SourceFactory } from "./core/Source/SourceFactory";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -32,7 +31,6 @@ class FsLightbox extends Component {
         this.setUpCollections();
         this.setUpInjector();
         this.setUpCore();
-        this.setUpComponentsControllers();
     }
 
     setUpData() {
@@ -55,7 +53,7 @@ class FsLightbox extends Component {
          */
         this.sourcesData = {
             sourcesTypes: [],
-            isSourceAlreadyLoadedArray: [],
+            isSourceAlreadyInitializedArray: [],
             // if lightbox will be closed during source type check we need call create source after next open
             sourcesToCreateOnConstruct: [],
             videosPosters: (this.props.videosPosters) ? this.props.videosPosters : [],
@@ -107,15 +105,18 @@ class FsLightbox extends Component {
     }
 
     setUpCollections() {
-        this.collectionsCreator = new CollectionsCreator(this);
         this.collections = {
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
             sourceSizeAdjusters: [],
+            properSourcesControllers: [],
         }
     }
 
     setUpInjector() {
         this.injector = {
+            source: {
+                getSourceFactory: () => new SourceFactory(fsLightbox)
+            },
             transforms: {
                 getSourceHolderTransformer: () => new SourceHolderTransformer(this),
                 getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
@@ -133,10 +134,6 @@ class FsLightbox extends Component {
     setUpCore() {
         /** @type { Core } */
         this.core = new Core(this);
-    }
-
-    setUpComponentsControllers() {
-        this.componentsControllers = new ComponentsControllers(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -169,7 +166,7 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
 
         return (
-            <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension">
+            <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long">
                 <DownEventDetector fsLightbox={ this }/>
                 <SwipingInvisibleHover fsLightbox={ this }/>
                 <Nav

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Source from "./Source.jsx";
 import { SourceTypeChecker } from "../../core/Source/SourceType/SourceTypeChecker";
@@ -10,9 +10,6 @@ const SourceHolder = ({ fsLightbox, index }) => {
             sourcesTypes,
             sourcesToCreateOnConstruct,
         },
-        componentsControllers: {
-            sources: sourcesControllers,
-        },
         elements: {
             sourceHolders
         },
@@ -23,6 +20,10 @@ const SourceHolder = ({ fsLightbox, index }) => {
     } = fsLightbox;
     let isMounted = false;
     let isTypeCheckedAndSourceIsNotCreated = false;
+
+    const sourceCreator = {
+        createSource: () => {}
+    };
 
     const initRequest = () => {
         const sourceTypeChecker = new SourceTypeChecker();
@@ -37,7 +38,7 @@ const SourceHolder = ({ fsLightbox, index }) => {
                 sourcesToCreateOnConstruct[index] = true;
                 return;
             }
-            sourcesControllers[index].createSource();
+            sourceCreator.createSource();
         } else {
             isTypeCheckedAndSourceIsNotCreated = true;
         }
@@ -49,7 +50,7 @@ const SourceHolder = ({ fsLightbox, index }) => {
             transformStageSourceHolderAtIndex(index).negative();
         }
         if (isTypeCheckedAndSourceIsNotCreated) {
-            sourcesControllers[index].createSource();
+            sourceCreator.createSource();
         }
     });
 
@@ -62,6 +63,8 @@ const SourceHolder = ({ fsLightbox, index }) => {
             <Source
                 fsLightbox={ fsLightbox }
                 index={ index }
+                sourceCreator={ sourceCreator }
+
             />
         </div>
     );

@@ -7,7 +7,7 @@ const Video = (
             elements: { sources },
             sourcesData: { videosPosters },
             data: { urls },
-            componentsControllers: { properSource: properSourceController }
+            core: { properSourceController }
         },
         index
     }

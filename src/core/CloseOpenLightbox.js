@@ -1,10 +1,11 @@
 import { CONTAINER_FADE_OUT_TIME } from "../constants/CoreConstants";
-import { FADE_OUT_COMPLETE_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../constants/CssConstants";
+import { LONG_FADE_OUT_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../constants/CssConstants";
 
 /**
  * @class CloseOpenLightbox
  * @param { { current } } container
  * @param { FsLightbox.data } data
+ * @param { FsLightbox.componentsStates.isFullscreenOpen | { get: function(): boolean, set: function(boolean)} } isFullscreenOpenState
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.initialize | Function } initialize
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders | function(): StageSourceHoldersTransformer } transformStageSourceHolders
@@ -64,7 +65,7 @@ export function CloseOpenLightbox(
     this.closeLightbox = () => {
         if (fadingOut) return;
         fadingOut = true;
-        container.current.classList.add(FADE_OUT_COMPLETE_CLASS_NAME);
+        getContainerClassList().add(LONG_FADE_OUT_CLASS_NAME);
         removeSwipingListeners();
         if (isFullscreenOpenState.get()) {
             turnOffFullscreen();
@@ -87,12 +88,16 @@ export function CloseOpenLightbox(
     };
 
     const afterFadeOut = () => {
-        container.current.classList.remove(FADE_OUT_COMPLETE_CLASS_NAME);
+        getContainerClassList().remove(LONG_FADE_OUT_CLASS_NAME);
         fadingOut = false;
         documentClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME);
         setState({
             isOpen: false
         });
         removeResizeListener();
+    };
+
+    const getContainerClassList = () => {
+        return container.current.classList;
     };
 }
