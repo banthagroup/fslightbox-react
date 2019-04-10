@@ -1,48 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loader from "./Loader.jsx";
-import { SourceFactory } from "../../core/Source/SourceFactory";
-import { SourceSizeAdjuster } from "../../core/Source/SourceSizeAdjuster";
-import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants/CssConstants";
 
-const Source = ({ fsLightbox, index, sourceCreator }) => {
-    const {
-        sourcesData: { isSourceAlreadyLoadedArray },
-        elements: { sourcesJSXComponents },
-    } = fsLightbox;
-
-    let shouldCallUpdateAfterMount;
-    const [isProperSourceRendered, setIsProperSourceRendered] = useState(false);
-
-    const init = () => {
-        shouldCallUpdateAfterMount = false;
-        // request succeeded when lightbox was closed
-        if (fsLightbox.sourcesData.sourcesToCreateOnConstruct[index]) {
-            shouldCallUpdateAfterMount = true;
-            sourceCreator.createSource();
-        }
-    };
+/**
+ * @param { FsLightbox.sourcesData.sourcesToCreateOnConstruct } sourcesToCreateOnConstruct
+ * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
+ * @param { FsLightbox.elements.sourcesJSXComponents } sourcesJSXComponents
+ * @param { FsLightbox.core.sourceFactory | SourceFactory } sourceFactory
+ * @param { number } index
+ * @param {{ createSource: function() }} sourceCreator
+ */
+const Source = (
+    {
+        fsLightbox: {
+            sourcesData: { sourcesToCreateOnConstruct, isSourceAlreadyInitializedArray },
+            elements: { sourcesJSXComponents },
+            core: { sourceFactory }
+        },
+        index, sourceCreator
+    }
+) => {
+    let shouldCallUpdateAfterMount = false;
+    const [isProperSourceRenderedForFirstTime, setIsProperSourceRenderedForFirstTime] = useState(false);
 
     sourceCreator.createSource = () => {
-        const sourceFactory = new SourceFactory(fsLightbox);
         sourceFactory.setSourceIndex(index);
-        fsLightbox.elements.sourcesJSXComponents[index] = sourceFactory.getSourceComponent();
+        sourcesJSXComponents[index] = sourceFactory.getSourceComponent();
         if (!shouldCallUpdateAfterMount) {
-            setIsProperSourceRendered(true);
+            setIsProperSourceRenderedForFirstTime(true);
         }
     };
 
     useEffect(() => {
         if (shouldCallUpdateAfterMount) {
             // after that refresh source stored in sourcesJSXComponents is attached so we can access refs
-            setIsProperSourceRendered(true);
+            setIsProperSourceRenderedForFirstTime(true);
         }
     });
 
-    init();
+    // request succeeded when lightbox was closed
+    if (sourcesToCreateOnConstruct[index]) {
+        shouldCallUpdateAfterMount = true;
+        sourceCreator.createSource();
+    }
 
-    const loader = (isSourceAlreadyLoadedArray[index] ||
-        isProperSourceRendered) ?
+    const loader = (isSourceAlreadyInitializedArray[index] ||
+        isProperSourceRenderedForFirstTime) ?
         null : <Loader/>;
 
     return (
@@ -53,10 +56,10 @@ const Source = ({ fsLightbox, index, sourceCreator }) => {
     );
 };
 
-
 Source.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     sourceCreator: PropTypes.object.isRequired,
 };
+
 export default Source;

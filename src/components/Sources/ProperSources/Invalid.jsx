@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 
 const Invalid = (
     {
         fsLightbox: {
-            sourcesData: { isSourceAlreadyLoadedArray },
+            core: { sourceAnimator },
             elements: { sources }
         },
         index
     }
 ) => {
-    if (!isSourceAlreadyLoadedArray[index]) {
-        isSourceAlreadyLoadedArray[index] = true;
-    }
+    useEffect(() => {
+        sourceAnimator.animateSourceFromSlide(index + 1).fadeIn();
+    });
 
     return (
         <div

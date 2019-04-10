@@ -6,8 +6,6 @@ import { FADE_IN_ANIMATION_TIME } from "../../constants/CssConstants";
  * @param { FsLightbox.core.sourceAnimator.removeFadeOutFromAllSources | Function } removeFadeOutFromAllSources
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
  * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
- * @param { FsLightbox.getters.getSlide | Function } getSlide
- * @param { FsLightbox.setters.setState | Function } setState
  * @param { StageSources } stageSources
  */
 export function SlideChanger(
@@ -17,7 +15,6 @@ export function SlideChanger(
             sourceHoldersTransformer: { transformStageSourceHolders }
         },
         componentsStates: { slide: slideState },
-        setters: { setState },
     }
 ) {
     let previousSlideNumber;

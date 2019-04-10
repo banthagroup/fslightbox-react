@@ -3,22 +3,20 @@ import { FADE_IN_ANIMATION_TIME } from "../../../../constants/CssConstants";
 /**
  * @class SlideSwipingUpActions
  * @param { FsLightbox.data } data
- * @param { FsLightbox.getters.getSlide | function(): number } getSlide
+ * @param { FsLightbox.componentsStates.isSwipingSlides | { get: function(): boolean, set: function(boolean)} } isSwipingSlidesState
+ * @param { FsLightbox.componentsStates.slide | { get: function(): number, set: function(number)} } slideState
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex | function(): SourceHolderTransformer} transformStageSourceHolderAtIndex
  * @param { FsLightbox.injector.slideSwiping.getSwipingTransitioner | function(): SwipingTransitioner } getSwipingTransitioner
  * @param { FsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner | function(): SwipingSlideChanger } getSwipingSlideChangerForSwipingTransitioner
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
-
 export function SlideSwipingUpActions(
     {
         data,
-        getters: {
-            getSlide
-        },
         componentsStates: {
-            isSwipingSlides: isSwipingSlidesState
+            isSwipingSlides: isSwipingSlidesState,
+            slide: slideState,
         },
         core: {
             stageSources: {
@@ -90,7 +88,7 @@ export function SlideSwipingUpActions(
     };
 
     const isSlideEqualsOne = () => {
-        return getSlide() === 1;
+        return slideState.get() === 1;
     };
 
     const addTransitionToCurrentAndTransformStageSourceHolders = () => {

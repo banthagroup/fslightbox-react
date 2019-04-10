@@ -1,13 +1,24 @@
 import { SourceSizeAdjuster } from "./SourceSizeAdjuster";
-import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../constants/CssConstants";
 
 /**
  * @class
+ * @param { FsLightbox } fsLightbox
  */
 export function ProperSourceController(fsLightbox) {
     const {
-        sourcesData: { isSourceAlreadyLoadedArray, sourcesDimensions },
+        sourcesData: { isSourceAlreadyInitializedArray },
         elements: { sources },
+        collections: {
+            /** @var { Array<SourceSizeAdjuster> } sourceSizeAdjusters */
+            sourceSizeAdjusters
+        },
+        core: {
+            sourceAnimator: {
+                /** @var { function(number): SourceAnimator } animateSourceFromIndex */
+                animateSourceFromIndex
+            },
+            stageSources: { isSourceInStage }
+        },
     } = fsLightbox;
 
     let index;
@@ -28,46 +39,37 @@ export function ProperSourceController(fsLightbox) {
 
     this.handleLoad = () => {
         sources[index].current.classList.remove('fslightbox-opacity-0');
-        if (isSourceAlreadyLoadedArray[index]) {
-            return;
+        if (!isSourceAlreadyInitialized()) {
+            initSource();
         }
-        sourcesDimensions[index] = {
-            width: sourceWidth,
-            height: sourceHeight
-        };
-        onFirstSourceLoad();
+    };
+
+    const isSourceAlreadyInitialized = () => {
+        return isSourceAlreadyInitializedArray[index];
     };
 
 
-    const onFirstSourceLoad = () => {
-        // fsLightbox.elements.sources[index].current.classList.remove('fslightbox-opacity-0');
-        fsLightbox.sourcesData.isSourceAlreadyLoadedArray[index] = true;
-        // we are creating source size adjuster after first load because we need already source dimensions
+    const initSource = () => {
+        isSourceAlreadyInitializedArray[index] = true;
+        setUpSourceSizeAdjuster();
+        adjustSourceSize();
+        longFadeInSourceIfItsInStage();
+    };
+
+    const setUpSourceSizeAdjuster = () => {
         const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightbox);
         sourceSizeAdjuster.setIndex(index);
-        fsLightbox.collections.sourceSizeAdjusters[index] = sourceSizeAdjuster;
-
-        onSourceLoad();
+        sourceSizeAdjuster.setMaxDimensions(sourceWidth, sourceHeight);
+        sourceSizeAdjusters[index] = sourceSizeAdjuster;
     };
 
-    const onSourceLoad = () => {
-        fadeInSource();
-        // source size adjuster may be not set if source is invalid
-        if (fsLightbox.collections.sourceSizeAdjusters[index])
-            fsLightbox.collections.sourceSizeAdjusters[index].adjustSourceSize();
+    const adjustSourceSize = () => {
+        sourceSizeAdjusters[index].adjustSourceSize();
     };
 
-
-    const fadeInSource = () => {
-        // we are fading in source only if it's in stage
-        if (!fsLightbox.core.stageSources.isSourceInStage(index))
+    const longFadeInSourceIfItsInStage = () => {
+        if (!isSourceInStage(index))
             return;
-
-        // we will add longer fade-in for better UX
-        if (index === fsLightbox.state.slide - 1) {
-            fsLightbox.elements.sources[index].current.classList.add(FADE_IN_COMPLETE_CLASS_NAME)
-        } else {
-            fsLightbox.elements.sources[index].current.classList.add(FADE_IN_CLASS_NAME);
-        }
+        animateSourceFromIndex(index).longFadeIn();
     };
 }

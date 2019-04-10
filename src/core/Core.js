@@ -9,6 +9,7 @@ import { EventsControllers } from "./EventsControllers/EventsControllers";
 import { SizeController } from "./Size/SizeController";
 import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
 import { ProperSourceController } from "./Source/ProperSourceController";
+import { SourceFactory } from "./Source/SourceFactory";
 
 /**
  * @class
@@ -20,6 +21,7 @@ export function Core(fsLightbox) {
     fsLightbox.core = this;
 
     this.stageSources = new StageSources(fsLightbox);
+    this.sourceFactory = new SourceFactory(fsLightbox);
     this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
     this.properSourceController = new ProperSourceController(fsLightbox);

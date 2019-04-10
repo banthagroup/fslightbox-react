@@ -2,7 +2,7 @@ import React from 'react';
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { SourceMock } from "../../../__mocks__/components/Sources/sourceMock";
 import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
-import { FADE_IN_CLASS_NAME, FADE_IN_COMPLETE_CLASS_NAME } from "../../../../src/constants/CssConstants";
+import { FADE_IN_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../../../src/constants/CssConstants";
 import { IMAGE_TYPE } from "../../../../src/constants/CoreConstants";
 
 const fsLightboxMock = new FsLightboxMock();
@@ -38,7 +38,7 @@ describe('onSourceLoad', () => {
             source.props.slide = 100;
             source.onSourceLoad();
             expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME)).toBeFalsy();
-            expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_COMPLETE_CLASS_NAME)).toBeFalsy();
+            expect(fsLightbox.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME)).toBeFalsy();
         });
 
         it('should add complete fade in due to source is in current slide', () => {
@@ -47,7 +47,7 @@ describe('onSourceLoad', () => {
             fsLightbox.state.slide = 1;
             source.props.slide = 1;
             source.onSourceLoad();
-            expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_COMPLETE_CLASS_NAME)).toBeTruthy();
+            expect(fsLightbox.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME)).toBeTruthy();
         });
 
         it('should add normal fade in due to source is not current slide, but its in stage', () => {
