@@ -3,6 +3,7 @@ import {
     LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
 } from "../../constants/CssConstants";
+import { getClassListOfElementInArrayByIndex } from "../../utils/Source/getClassListOfElementInArrayByIndex";
 
 /**
  * @class
@@ -31,7 +32,7 @@ export function SourceAnimator({ elements: { sources } }) {
     };
 
     const setClassListForSourceByIndex = (index) => {
-        animatedSourceClassList = getSourceClassListByIndex(index);
+        animatedSourceClassList = getClassListOfElementInArrayByIndex(sources, index);
     };
 
     this.fadeOut = () => {
@@ -59,16 +60,11 @@ export function SourceAnimator({ elements: { sources } }) {
 
     this.removeFadeOutFromAllSources = () => {
         for (let i = 0; i < sources.length; i++) {
-            const sourceClassList = getSourceClassListByIndex(i);
+            const sourceClassList = getClassListOfElementInArrayByIndex(sources, i);
             if (sourceClassList.contains(FADE_OUT_CLASS_NAME)) {
                 sourceClassList.remove(FADE_OUT_CLASS_NAME);
             }
         }
-    };
-
-    /** @return { DOMTokenList } */
-    const getSourceClassListByIndex = (index) => {
-        return sources[index].current.classList;
     };
 }
 

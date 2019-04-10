@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import Source from "./Source.jsx";
 import { SourceTypeChecker } from "../../core/Source/SourceType/SourceTypeChecker";
 
+/**
+ * @param { FsLightbox }fsLightbox
+ * @param { number } index
+ */
 const SourceHolder = ({ fsLightbox, index }) => {
     const {
         data: { urls },

@@ -18,6 +18,10 @@ const SlideNumber = (
         ifOnUpdateExistsHandleItForState(slideState);
     });
 
+    if (totalSlides === 1) {
+        return null;
+    }
+
     return (
         <div className="fslightbox-slide-number-container fslightbox-flex-centered">
             <div>{ slide }</div>

@@ -1,4 +1,6 @@
 import { SourceSizeAdjuster } from "./SourceSizeAdjuster";
+import { getClassListOfElementInArrayByIndex } from "../../utils/Source/getClassListOfElementInArrayByIndex";
+import { OPACITY_0_CLASS_NAME } from "../../constants/CssConstants";
 
 /**
  * @class
@@ -37,23 +39,23 @@ export function ProperSourceController(fsLightbox) {
         sourceHeight = height
     };
 
-    this.handleLoad = () => {
-        sources[index].current.classList.remove('fslightbox-opacity-0');
-        if (!isSourceAlreadyInitialized()) {
-            initSource();
-        }
+    this.normalLoad = () => {
+        ifSourceContainsOpacityOClassRemoveIt();
     };
 
-    const isSourceAlreadyInitialized = () => {
-        return isSourceAlreadyInitializedArray[index];
-    };
-
-
-    const initSource = () => {
+    this.initialLoad = () => {
+        ifSourceContainsOpacityOClassRemoveIt();
         isSourceAlreadyInitializedArray[index] = true;
         setUpSourceSizeAdjuster();
         adjustSourceSize();
         longFadeInSourceIfItsInStage();
+    };
+
+    const ifSourceContainsOpacityOClassRemoveIt = () => {
+        const classList = getClassListOfElementInArrayByIndex(sources, index);
+        if(classList.contains(OPACITY_0_CLASS_NAME)) {
+            classList.remove(OPACITY_0_CLASS_NAME);
+        }
     };
 
     const setUpSourceSizeAdjuster = () => {

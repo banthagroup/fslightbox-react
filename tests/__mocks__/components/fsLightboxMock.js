@@ -18,6 +18,9 @@ export function FsLightboxMock() {
      */
     this.instantiateNewFsLightbox = () => {
         fsLightbox = new FsLightbox(testProps);
+        mockStateWithNameAndDefaultValue('slide', 1);
+        mockStateWithNameAndDefaultValue('isSwipingSlides', false);
+        mockStateWithNameAndDefaultValue('isFullscreenOpen', false);
         fsLightbox.setState = (newState, callback) => {
             for (let statePropertyName in newState) {
                 fsLightbox.state[statePropertyName] = newState[statePropertyName];
@@ -25,6 +28,16 @@ export function FsLightboxMock() {
             if (callback)
                 callback();
         };
+    };
+
+    const mockStateWithNameAndDefaultValue = (stateName, defaultValue) => {
+        const mockStateManager = {};
+        mockStateManager.value = defaultValue;
+        mockStateManager.get = () => mockStateManager.value;
+        mockStateManager.set = (value) => {
+            mockStateManager.value = value;
+        };
+          fsLightbox.componentsStates[stateName] = mockStateManager;
     };
 
     this.setAllSourcesToDivs = () => {

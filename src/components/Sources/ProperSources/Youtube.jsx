@@ -2,22 +2,37 @@ import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { getYoutubeVideoIDFromURL } from "../../../utils/SourceType/getYoutubeVideoIDFromURL";
 
+
+/**
+ * @param { FsLightbox.data.urls } urls
+ * @param { FsLightbox.elements.sources } sources
+ * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
+ * @param { FsLightbox.core.properSourceController | ProperSourceController } properSourceController
+ * @param { number } index
+ */
 const Youtube = (
     {
         fsLightbox: {
-            elements: { sources },
             data: { urls },
-            componentsControllers: { properSource: properSourceController }
+            sourcesData: { isSourceAlreadyInitializedArray },
+            elements: { sources },
+            core: { properSourceController }
         },
         index,
     }
 ) => {
     useEffect(() => {
         properSourceController.setIndex(index);
+        (isSourceAlreadyInitializedArray[index]) ?
+            properSourceController.normalLoad() :
+            initialLoad();
+    });
+
+    const initialLoad = () => {
         properSourceController.setSourceWidth(1920);
         properSourceController.setSourceHeight(1080);
-        properSourceController.handleLoad();
-    });
+        properSourceController.initialLoad();
+    };
 
     return (
         <iframe
@@ -37,4 +52,5 @@ Youtube.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired
 };
+
 export default Youtube;

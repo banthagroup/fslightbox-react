@@ -1,4 +1,3 @@
-import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
 import { StageSources } from "../../../../src/core/Stage/StageSources";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
@@ -9,7 +8,7 @@ describe('StageSources', () => {
     fsLightbox.data.totalSlides = 10;
 
     it('should detect that Sources in stage when its middle slide', () => {
-        fsLightbox.state.slide = 5;
+        fsLightbox.componentsStates.slide.set(5);
         expect(stageSources.isSourceInStage(0)).toBeFalsy();
         expect(stageSources.isSourceInStage(1)).toBeFalsy();
         expect(stageSources.isSourceInStage(2)).toBeFalsy();

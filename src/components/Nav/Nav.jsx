@@ -8,11 +8,7 @@ const Nav = ({ fsLightbox }) => (
         <Toolbar
             fsLightbox={ fsLightbox }
         />
-        { (fsLightbox.data.totalSlides > 1) ?
-            <SlideNumber
-                fsLightbox={ fsLightbox }
-            /> : null
-        }
+        <SlideNumber fsLightbox={ fsLightbox }/>
     </div>
 );
 

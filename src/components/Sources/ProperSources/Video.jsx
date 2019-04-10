@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+/**
+ * @param { FsLightbox.data.urls } urls
+ * @param { FsLightbox.elements.sources } sources
+ * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
+ * @param { FsLightbox.sourcesData.videosPosters } videosPosters
+ * @param { FsLightbox.core.properSourceController | ProperSourceController } properSourceController
+ * @param { number }index
+ */
 const Video = (
     {
         fsLightbox: {
-            elements: { sources },
-            sourcesData: { videosPosters },
             data: { urls },
+            elements: { sources },
+            sourcesData: { videosPosters, isSourceAlreadyInitializedArray },
             core: { properSourceController }
         },
         index
@@ -14,9 +22,15 @@ const Video = (
 ) => {
     const onLoadedMetaData = ({ target }) => {
         properSourceController.setIndex(index);
+        (isSourceAlreadyInitializedArray[index]) ?
+            properSourceController.normalLoad() :
+            initialLoad(target);
+    };
+
+    const initialLoad = (target) => {
         properSourceController.setSourceWidth(target.videoWidth);
         properSourceController.setSourceHeight(target.videoHeight);
-        properSourceController.handleLoad();
+        properSourceController.initialLoad();
     };
 
     return (

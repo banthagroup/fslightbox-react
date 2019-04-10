@@ -23,20 +23,34 @@ export function StageSources({ componentsStates: { slide: slideState }, data }) 
 
 
     this.getPreviousSlideIndex = () => {
+        return retrievePreviousSlideIndex();
+    };
+
+    this.getPreviousSlideNumber = () => {
+        return retrievePreviousSlideIndex() + 1;
+    };
+
+    const retrievePreviousSlideIndex = () => {
         let previousSlideIndex;
         (slideState.get() === 1) ?
             previousSlideIndex = data.totalSlides - 1 :
             previousSlideIndex = slideState.get() - 2;
-
         return previousSlideIndex;
     };
 
     this.getNextSlideIndex = () => {
+        return retrieveNextSlideIndex();
+    };
+
+    this.getNextSlideNumber = () => {
+        return retrieveNextSlideIndex() + 1;
+    };
+
+    const retrieveNextSlideIndex = () => {
         let nextSlideIndex;
         (slideState.get() === data.totalSlides) ?
             nextSlideIndex = 0 :
             nextSlideIndex = slideState.get();
-
         return nextSlideIndex;
     };
 

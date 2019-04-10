@@ -132,7 +132,6 @@ class FsLightbox extends Component {
     }
 
     setUpCore() {
-        /** @type { Core } */
         this.core = new Core(this);
     }
 
@@ -169,21 +168,14 @@ class FsLightbox extends Component {
             <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long">
                 <DownEventDetector fsLightbox={ this }/>
                 <SwipingInvisibleHover fsLightbox={ this }/>
-                <Nav
-                    fsLightbox={ this }
-                    core={ this.core }
-                    data={ this.data }
-                    slide={ this.state.slide }
-                />
+                <Nav fsLightbox={ this }/>
                 { (this.data.totalSlides > 1) ?
                     <>
-                        <SlideButtonLeft core={ this.core }/>
-                        <SlideButtonRight core={ this.core }/>
+                        <SlideButtonLeft fsLightbox={ this }/>
+                        <SlideButtonRight fsLightbox={ this }/>
                     </> : null
                 }
-                <MediaHolder
-                    fsLightbox={ this }
-                />
+                <MediaHolder fsLightbox={ this }/>
             </div>
         );
     }

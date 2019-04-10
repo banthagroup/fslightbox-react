@@ -1,4 +1,5 @@
 import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/CssConstants";
+import { getClassListOfElementInArrayByIndex } from "../../../../utils/Source/getClassListOfElementInArrayByIndex";
 
 /**
  * @class
@@ -28,7 +29,7 @@ export function SwipingTransitioner({ elements: { sourceHolders } }) {
 
     this.removeAllTransitionsFromStageSources = () => {
         for (let index in stageSourcesIndexes) {
-            let sourceHolderClassList = getSourceHolderClassListByIndex(stageSourcesIndexes[index]);
+            let sourceHolderClassList = getClassListOfElementInArrayByIndex(sourceHolders, stageSourcesIndexes[index]);
             if (sourceHolderClassList.contains(TRANSFORM_TRANSITION_CLASS_NAME)) {
                 sourceHolderClassList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
             }
@@ -36,11 +37,6 @@ export function SwipingTransitioner({ elements: { sourceHolders } }) {
     };
 
     const addTransitionToSourceHolderByIndex = (sourceHolderIndex) => {
-        getSourceHolderClassListByIndex(sourceHolderIndex).add(TRANSFORM_TRANSITION_CLASS_NAME);
-    };
-
-    /** @return { DOMTokenList } */
-    const getSourceHolderClassListByIndex = (sourceHolderIndex) => {
-        return sourceHolders[sourceHolderIndex].current.classList;
+        getClassListOfElementInArrayByIndex(sourceHolders, sourceHolderIndex).add(TRANSFORM_TRANSITION_CLASS_NAME);
     };
 }
