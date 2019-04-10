@@ -4,8 +4,6 @@ import Video from "../../components/Sources/ProperSources/Video.jsx";
 import Youtube from "../../components/Sources/ProperSources/Youtube.jsx";
 import Invalid from "../../components/Sources/ProperSources/Invalid.jsx";
 import Image from "../../components/Sources/ProperSources/Image.jsx";
-import { ProperSourceController } from "../../ComponentsControllers/Sources/ProperSourceController";
-
 
 /**
  * @class

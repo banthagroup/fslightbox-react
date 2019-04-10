@@ -4,7 +4,7 @@ import {
     VIDEO_TYPE,
     YOUTUBE_TYPE,
 } from "../../../constants/CoreConstants";
-import { SourceTypeCheckerUtils } from "./SourceTypeCheckerUtils";
+import { sourceTypeCheckerUtils } from "./SourceTypeCheckerUtils";
 
 /**
  * @class SourceTypeChecker
@@ -15,7 +15,6 @@ export function SourceTypeChecker() {
     /** @type XMLHttpRequest */
     let xhr = null;
     let resolveAndReturnSourceType = null;
-    const sourceTypeCheckerUtils = new SourceTypeCheckerUtils();
 
     this.setUrlToCheck = (urlToCheck) => {
         url = urlToCheck;

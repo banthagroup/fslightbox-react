@@ -12,8 +12,8 @@ export function SlideSwipingUp(
         setters: {
             setState
         },
-        getters: {
-            getIsSwipingSlides
+        componentsStates: {
+            isSwipingSlides: isSwipingSlidesState
         },
         injector: {
             slideSwiping: {
@@ -27,7 +27,7 @@ export function SlideSwipingUp(
     actions.setUpTransformSourceHolders();
 
     this.listener = () => {
-        if (!getIsSwipingSlides() || swipingProps.isAfterSwipeAnimationRunning) {
+        if (!isSwipingSlidesState.get() || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
         if (!hasUserSwiped()) {
@@ -41,9 +41,8 @@ export function SlideSwipingUp(
     };
 
     const resetSwipingAndCloseLightboxIfSourceIsNotDownEventTarget = () => {
-        setState({
-            isSwipingSlides: false
-        }, ifSourceIsNotEventTargetCloseLightbox);
+        isSwipingSlidesState.set(false);
+        ifSourceIsNotEventTargetCloseLightbox();
     };
 
     const ifSourceIsNotEventTargetCloseLightbox = () => {

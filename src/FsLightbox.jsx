@@ -67,26 +67,26 @@ class FsLightbox extends Component {
     }
 
     setUpStates() {
-        // to objects are assigned in correct components two methods:
-        // - get(): boolean
-        // - set(value, callback=()=>{})
-        this.componentsStates = {
-            isFullscreenOpen: {},
-            isSwipingSlides: {},
-        };
-
         this.state = {
             isOpen: this.props.isOpen,
-            isSwipingSlides: false,
-            slide: (this.props.slide) ? this.props.slide : 1,
+        };
+
+        // to objects are assigned in correct components two methods:
+        // - get()
+        // - set(value)
+        // And (only if it is used, be default not) property:
+        // - onUpdate - after setting it to method it will be called once component updates
+        // (its called only one time - after first call its deleted)
+        this.componentsStates = {
+            slide: {},
+            isSwipingSlides: {},
+            isFullscreenOpen: {},
         };
     }
 
     setUpGetters() {
         this.getters = {
             initialize: () => this.initialize(),
-            getSlide: () => this.state.slide,
-            getIsSwipingSlides: () => this.state.isSwipingSlides,
         };
     }
 

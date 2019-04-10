@@ -4,7 +4,7 @@
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
-export function SlideSwipingDown({ setters: { setState } }, swipingProps) {
+export function SlideSwipingDown({ componentsStates: { isSwipingSlides: isSwipingSlidesState } }, swipingProps) {
     /** @var { MouseEvent | TouchEvent } event */
     let event;
 
@@ -32,9 +32,7 @@ export function SlideSwipingDown({ setters: { setState } }, swipingProps) {
     };
 
     const setIsSwipingSlideStateToTrue = () => {
-        setState({
-            isSwipingSlides: true
-        });
+        isSwipingSlidesState.set(true);
     };
 
     const setDownClientX = () => {

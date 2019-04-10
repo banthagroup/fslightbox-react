@@ -16,7 +16,7 @@ export function SlideChanger(
             sourceAnimator: { animateSourceFromSlide, removeFadeOutFromAllSources },
             sourceHoldersTransformer: { transformStageSourceHolders }
         },
-        getters: { getSlide },
+        componentsStates: { slide: slideState },
         setters: { setState },
     }
 ) {
@@ -25,14 +25,13 @@ export function SlideChanger(
     let wasSlideChangedDuringAnimationArray = [];
 
     this.changeSlideTo = (newSlide) => {
-        previousSlideNumber = getSlide();
+        previousSlideNumber = slideState.get();
         newSlideNumber = newSlide;
         animateSourceHolders();
-        setState({
-            slide: newSlideNumber
-        }, () => {
+        slideState.set(newSlideNumber);
+        slideState.onUpdate = () => {
             transformStageSourceHolders().withTimeout();
-        });
+        };
     };
 
     const animateSourceHolders = () => {
@@ -47,7 +46,7 @@ export function SlideChanger(
         wasSlideChangedDuringAnimationArray.push(true);
         setTimeout(() => {
             wasSlideChangedDuringAnimationArray.pop();
-            if(wasSlideChangedDuringAnimationArray.length !== 0) {
+            if (wasSlideChangedDuringAnimationArray.length !== 0) {
                 return;
             }
             removeFadeOutFromAllSources();

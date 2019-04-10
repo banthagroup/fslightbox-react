@@ -5,17 +5,17 @@ import { CURRENT_POSITION, NEXT_POSITION, PREVIOUS_POSITION } from "../../consta
  * @param { FsLightbox.data } data
  * @param { FsLightbox.getters.getSlide | Function } getSlide
  */
-export function StageSources({ getters: { getSlide }, data }) {
+export function StageSources({ componentsStates: { slide: slideState }, data }) {
     this.isSourceInStage = (index) => {
         // getSlide is numbered from 1, so we need to increment array index
         index++;
-        if (getSlide() === 1 && index === data.totalSlides)
+        if (slideState.get() === 1 && index === data.totalSlides)
             return true;
 
-        if (getSlide() === data.totalSlides && index === 1)
+        if (slideState.get() === data.totalSlides && index === 1)
             return true;
 
-        const difference = getSlide() - index;
+        const difference = slideState.get() - index;
         return difference === PREVIOUS_POSITION ||
             difference === CURRENT_POSITION ||
             difference === NEXT_POSITION;
@@ -24,18 +24,18 @@ export function StageSources({ getters: { getSlide }, data }) {
 
     this.getPreviousSlideIndex = () => {
         let previousSlideIndex;
-        (getSlide() === 1) ?
+        (slideState.get() === 1) ?
             previousSlideIndex = data.totalSlides - 1 :
-            previousSlideIndex = getSlide() - 2;
+            previousSlideIndex = slideState.get() - 2;
 
         return previousSlideIndex;
     };
 
     this.getNextSlideIndex = () => {
         let nextSlideIndex;
-        (getSlide() === data.totalSlides) ?
+        (slideState.get() === data.totalSlides) ?
             nextSlideIndex = 0 :
-            nextSlideIndex = getSlide();
+            nextSlideIndex = slideState.get();
 
         return nextSlideIndex;
     };
@@ -45,10 +45,10 @@ export function StageSources({ getters: { getSlide }, data }) {
      */
     this.getAllStageIndexes = () => {
         const stageSourcesIndexes = {
-            current: getSlide() - 1
+            current: slideState.get() - 1
         };
         if (data.totalSlides === 2) {
-            if (getSlide() === 2) {
+            if (slideState.get() === 2) {
                 stageSourcesIndexes.previous = this.getPreviousSlideIndex();
             } else {
                 stageSourcesIndexes.next = this.getNextSlideIndex();

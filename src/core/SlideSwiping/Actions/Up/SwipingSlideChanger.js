@@ -8,9 +8,7 @@
  */
 export function SwipingSlideChanger(
     {
-        setters: {
-            setState
-        },
+        componentsStates: { slide: slideState },
         core: {
             sourceHoldersTransformer: { transformStageSourceHolders },
         },
@@ -37,10 +35,7 @@ export function SwipingSlideChanger(
     };
 
     const callTransformsAndSetSlideTo = (slide) => {
-        setState({
-            slide: slide
-        }, () => {
-            transformStageSourceHolders().withoutTimeout();
-        });
+        slideState.set(slide);
+        transformStageSourceHolders().withoutTimeout();
     };
 }

@@ -17,8 +17,8 @@ export function SlideSwipingUpActions(
         getters: {
             getSlide
         },
-        setters: {
-            setState
+        componentsStates: {
+            isSwipingSlides: isSwipingSlidesState
         },
         core: {
             stageSources: {
@@ -106,9 +106,7 @@ export function SlideSwipingUpActions(
         transformSourceHolders();
 
         swipingProps.isAfterSwipeAnimationRunning = true;
-        setState({
-            isSwipingSlides: false
-        });
+        isSwipingSlidesState.set(false);
         swipingProps.swipedDifference = 0;
 
         setTimeout(() => {
