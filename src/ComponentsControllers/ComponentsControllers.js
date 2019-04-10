@@ -1,6 +1,5 @@
 import { ProperSourceController } from "./Sources/ProperSourceController";
 import { SourceController } from "./Sources/SourceController";
-import { SourceHolderController } from "./Sources/SourceHolderController";
 
 /**
  * @class
@@ -12,11 +11,6 @@ export function ComponentsControllers(fsLightbox) {
         data
     } = fsLightbox;
     fsLightbox.componentsControllers = this;
-
-    this.sourceHolders = collectionsCreator
-        .setClassModule(SourceHolderController)
-        .setNumberOfItems(data.totalSlides)
-        .getCollection();
 
     this.sources = collectionsCreator
         .setClassModule(SourceController)

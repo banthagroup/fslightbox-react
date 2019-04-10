@@ -7,7 +7,7 @@ import { SourceHolderTransformer } from "./SourceHolderTransformer";
  */
 export function SourceHoldersTransformer(fsLightbox) {
     const {
-        getters: { getSlide },
+        componentsStates: { slide: slideState },
         elements: { sourceHolders },
         injector: {
             transforms: {
@@ -30,7 +30,7 @@ export function SourceHoldersTransformer(fsLightbox) {
 
     this.transformStageSourceHoldersByValue = (value) => {
         // recreating an instance only when slide is change (it improves performance)
-        if (sourceHoldersByValueTransformer.stageSourcesIndexes.current !== getSlide() - 1) {
+        if (sourceHoldersByValueTransformer.stageSourcesIndexes.current !== slideState.get() - 1) {
             sourceHoldersByValueTransformer = getStageSourceHoldersByValueTransformer();
         }
         sourceHoldersByValueTransformer.transformByValue(value);
@@ -43,6 +43,6 @@ export function SourceHoldersTransformer(fsLightbox) {
     };
 
     this.isStageSourceHolderAtIndexValidForTransform = (index) => {
-        return typeof index !== "undefined" && index !== getSlide() - 1;
+        return typeof index !== "undefined" && index !== slideState.get() - 1;
     };
 }

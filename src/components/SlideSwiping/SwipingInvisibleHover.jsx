@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 
 // this component enables up event over the youtube video because it hovers it up with bigger z-index
-const SwipingInvisibleHover = ({ fsLightbox: { state: { isSwipingSlides }, data } }) => {
+const SwipingInvisibleHover = (
+    {
+        fsLightbox: {
+            data,
+            componentsStates: {
+                isSwipingSlides: isSwipingSlidesState
+            }
+        }
+    }
+) => {
+    const [isSwipingSlides, setIsSwipingSlide] = useState(false);
+    isSwipingSlidesState.get = () => isSwipingSlides;
+    isSwipingSlidesState.set = setIsSwipingSlide;
+
     if (!isSwipingSlides)
         return null;
 

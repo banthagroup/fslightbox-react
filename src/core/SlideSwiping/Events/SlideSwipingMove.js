@@ -7,8 +7,8 @@
 export function SlideSwipingMove(
     {
         data,
-        getters: {
-            getIsSwipingSlides
+        componentsStates: {
+            isSwipingSlides: isSwipingSlidesState
         },
         injector: {
             slideSwiping: {
@@ -27,7 +27,7 @@ export function SlideSwipingMove(
             simulateSwipe();
             return;
         }
-        if (!getIsSwipingSlides() || swipingProps.isAfterSwipeAnimationRunning) {
+        if (!isSwipingSlidesState.get() || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
         actions.setMoveEvent(e);
