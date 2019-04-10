@@ -17,8 +17,6 @@ import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/Move/SlideS
 import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
 import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
 import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
-import { ComponentsControllers } from "./ComponentsControllers/ComponentsControllers";
-import { CollectionsCreator } from "./core/Collections/CollectionsCreator";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -32,7 +30,6 @@ class FsLightbox extends Component {
         this.setUpCollections();
         this.setUpInjector();
         this.setUpCore();
-        this.setUpComponentsControllers();
     }
 
     setUpData() {
@@ -107,10 +104,10 @@ class FsLightbox extends Component {
     }
 
     setUpCollections() {
-        this.collectionsCreator = new CollectionsCreator(this);
         this.collections = {
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
             sourceSizeAdjusters: [],
+            properSourcesControllers: [],
         }
     }
 
@@ -133,10 +130,6 @@ class FsLightbox extends Component {
     setUpCore() {
         /** @type { Core } */
         this.core = new Core(this);
-    }
-
-    setUpComponentsControllers() {
-        this.componentsControllers = new ComponentsControllers(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

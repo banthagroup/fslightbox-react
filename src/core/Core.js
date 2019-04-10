@@ -8,6 +8,7 @@ import { SlideChanger } from "./Slide/SlideChanger";
 import { EventsControllers } from "./EventsControllers/EventsControllers";
 import { SizeController } from "./Size/SizeController";
 import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
+import { ProperSourceController } from "./Source/ProperSourceController";
 
 /**
  * @class
@@ -21,6 +22,7 @@ export function Core(fsLightbox) {
     this.stageSources = new StageSources(fsLightbox);
     this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
+    this.properSourceController = new ProperSourceController(fsLightbox);
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
