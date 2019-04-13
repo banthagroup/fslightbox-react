@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ToolbarButton from "../ToolbarButton.jsx";
 
-const FullscreenButton = (
+function FullscreenButton(
     {
         fsLightbox: {
             componentsStates: {
@@ -16,7 +16,7 @@ const FullscreenButton = (
             }
         }
     }
-) => {
+) {
     const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
     isFullscreenOpenState.get = () => isFullscreenOpen;
     isFullscreenOpenState.set = setIsFullscreenOpen;
@@ -35,8 +35,8 @@ const FullscreenButton = (
                 "0 0 18 18"
             }
             size={ (isFullscreenOpen) ?
-                "1.5em" :
-                "1.25em"
+                "24px" :
+                "20px"
             }
             d={ (isFullscreenOpen) ?
                 "M682 342h128v84h-212v-212h84v128zM598 810v-212h212v84h-128v128h-84zM342 342v-128h84v212h-212v-84h128zM214 682v-84h212v212h-84v-128h-128z" :
@@ -45,7 +45,7 @@ const FullscreenButton = (
             title="Fullscreen"
         />
     );
-};
+}
 
 FullscreenButton.propTypes = {
     fsLightbox: PropTypes.object.isRequired

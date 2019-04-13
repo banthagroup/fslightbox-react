@@ -1,58 +1,104 @@
 import React from 'react';
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { shallow } from "enzyme";
+import { mount, shallow } from 'enzyme';
 import MediaHolder from "../../../../src/components/Holders/MediaHolder";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../src/constants/CssConstants";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
+import { IMAGE_TYPE } from "../../../../src/constants/CoreConstants";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
-
+// as we are using mount
+// we mock sourcesTypes to not load sources via Xhr, because that would be waste of performance
+fsLightbox.sourcesData.sourcesTypes = [IMAGE_TYPE, IMAGE_TYPE, IMAGE_TYPE, IMAGE_TYPE];
 let mediaHolder;
 
-describe('attaching down listener', () => {
+describe('attaching element to mediaHolder ref from fsLightbox elements object', () => {
+    beforeAll(() => {
+        mediaHolder = mount(<MediaHolder fsLightbox={ fsLightbox }/>);
+    });
+
+    it('should attach element to ref', () => {
+        expect(fsLightbox.elements.mediaHolder.current).toEqual(mediaHolder.getDOMNode());
+    });
+});
+
+
+describe('MediaHolder DOM', () => {
+    beforeAll(() => {
+        mediaHolder = shallow(<MediaHolder fsLightbox={ fsLightbox }/>)
+    });
+
+    it('should be div', () => {
+        expect(mediaHolder.type()).toBe('div');
+    });
+
+    it('should have correct className prop', () => {
+        expect(mediaHolder.prop('className')).toBe('fslightbox-media-holder');
+    });
+});
+
+
+describe('calling on mouseDown and touchStart events', () => {
     beforeEach(() => {
         fsLightbox.core.slideSwiping.down.listener = jest.fn();
         mediaHolder = shallow(<MediaHolder fsLightbox={ fsLightbox }/>);
     });
 
-    describe('mouse down event', () => {
-        it('should call slide swiping down listener', () => {
-            mediaHolder.simulate('mousedown');
+    describe('onMouseDown', () => {
+        beforeEach(() => {
+            mediaHolder.simulate('mouseDown');
+        });
+
+        it('should call down listener', () => {
             expect(fsLightbox.core.slideSwiping.down.listener).toBeCalled();
         });
     });
 
-    describe('touch start event', () => {
-        it('should call slide swiping down listener', () => {
-            mediaHolder.simulate('touchstart');
+
+    describe('onTouchStart', () => {
+        beforeEach(() => {
+            mediaHolder.simulate('touchStart');
+        });
+
+        it('should call down listener', () => {
             expect(fsLightbox.core.slideSwiping.down.listener).toBeCalled();
         });
     });
 });
 
-
-describe('adding and removing cursor grabbing class depending on isSwipingSlides', () => {
-    beforeEach(() => {
-        mediaHolder = shallow(<MediaHolder fsLightbox={ fsLightbox }/>);
-        // setting isSwipingSlides to false before each slide because this is default behavior
-        fsLightbox.state.isSwipingSlides = false;
+describe('rendering source holders', () => {
+    beforeAll(() => {
+        mediaHolder = shallow(<MediaHolder fsLightbox={ fsLightbox }/>)
     });
 
-    it('should not have fslightbox cursor grabbing class', () => {
-        expect(mediaHolder.hasClass(CURSOR_GRABBING_CLASS_NAME)).toBeFalsy();
+    describe('rendering equivalent to totalSlides number of source holders', () => {
+        it('should render 4 source holders', () => {
+            expect(mediaHolder.find('SourceHolder').length).toEqual(4);
+        });
     });
 
-    it('should add fslightbox cursor grabbing class', () => {
-        fsLightbox.state.isSwipingSlides = true;
-        mediaHolder.instance().forceUpdate();
-        expect(mediaHolder.hasClass(CURSOR_GRABBING_CLASS_NAME)).toBeTruthy();
-    });
+    describe('SourceHolders (testing correct props and dom)', () => {
+        for (let i = 0; i < fsLightbox.data.totalSlides; i++) {
+            let sourceHolder;
+            beforeAll(() => {
+                sourceHolder = mediaHolder.childAt(i);
+            });
 
-    it('should remove fslightbox cursor grabbing class', () => {
-        fsLightbox.state.isSwipingSlides = true;
-        mediaHolder.instance().forceUpdate();
-        fsLightbox.state.isSwipingSlides = false;
-        mediaHolder.instance().forceUpdate();
-        expect(mediaHolder.hasClass(CURSOR_GRABBING_CLASS_NAME)).toBeFalsy();
+            it('it should pass fsLightbox to source holders', () => {
+                expect(sourceHolder.prop('fsLightbox')).toEqual(fsLightbox);
+            });
+
+            it('should pass index to source holders', () => {
+                expect(sourceHolder.prop('index')).toEqual(i);
+            });
+
+            it('should have correct key', () => {
+                expect(sourceHolder.key()).toEqual(i.toString());
+            });
+
+            it('should hot have more children (in this component)', () => {
+                expect(sourceHolder.children().length).toBe(0);
+            });
+        }
     });
 });
+

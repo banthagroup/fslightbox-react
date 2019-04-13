@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 
 const DownEventDetector = ({ fsLightbox: { core: { slideSwiping: { down: { listener } } } } }) =>
     (

@@ -1,5 +1,5 @@
-import { mount } from "enzyme";
 import React from 'react';
+import { mount } from 'enzyme';
 import DemoComponentHiddenLightbox from "../../demo/DemoComponentHiddenLightbox";
 import FsLightbox from "../../src/FsLightbox";
 import { FsLightboxEnzymeMock } from "../__mocks__/components/fsLightboxEnzymeMock";

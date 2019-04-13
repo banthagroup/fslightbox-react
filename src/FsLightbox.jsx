@@ -49,7 +49,7 @@ class FsLightbox extends Component {
 
     setUpSourcesData() {
         /**
-         * @type {{slideDistance: *, sourcesTypes: Array, maxSourceHeight: number, videosPosters: Array, maxSourceWidth: number, sourcesToCreateOnConstruct: Array, isSourceAlreadyLoadedArray: Array, sourcesDimensions: Array}}
+         * @type {{slideDistance: *, sourcesTypes: Array, maxSourceHeight: number, isSourceAlreadyInitializedArray: Array, videosPosters: Array, maxSourceWidth: number, sourcesToCreateOnConstruct: Array, sourcesDimensions: Array}}
          */
         this.sourcesData = {
             sourcesTypes: [],

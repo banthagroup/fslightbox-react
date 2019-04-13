@@ -32,10 +32,10 @@ class DemoComponent extends Component {
                     isOpen={ this.state.isOpen }
                     urls={ [
                         // "invalid",
-                        testYoutubeURL,
-                        testVideoURL,
+                        // testYoutubeURL,
+                        // testVideoURL,
                         "../demo/images/1.jpeg",
-                        // "../demo/images/2.jpg",
+                        "../demo/images/2.jpg",
                         // "../demo/images/3.jpeg",
                         // "../demo/images/4.jpeg",
                         // "../demo/images/5.jpg",
