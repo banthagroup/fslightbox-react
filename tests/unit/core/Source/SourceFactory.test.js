@@ -21,36 +21,30 @@ describe('SourceFactory', () => {
 
     it('should return correct Image source', () => {
         sourceFactory.setSourceIndex(0);
-        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Image
                 fsLightbox={ fsLightboxInstance }
-                i={ 0 }
-                onFirstSourceLoad={ jest.fn }
+                index={ 0 }
             />
         );
     });
 
     it('should return correct Video source', () => {
         sourceFactory.setSourceIndex(1);
-        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Video
                 fsLightbox={ fsLightboxInstance }
-                i={ 1 }
-                onFirstSourceLoad={ jest.fn }
+                index={ 1 }
             />
         );
     });
 
     it('should return correct YouTube source', () => {
         sourceFactory.setSourceIndex(2);
-        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Youtube
                 fsLightbox={ fsLightboxInstance }
-                i={ 2 }
-                onFirstSourceLoad={ jest.fn }
+                index={ 2 }
             />
         );
     });
@@ -58,11 +52,10 @@ describe('SourceFactory', () => {
 
     it('should return correct Invalid source', () => {
         sourceFactory.setSourceIndex(3);
-        sourceFactory.setOnFirstSourceLoad(jest.fn);
         expect(sourceFactory.getSourceComponent()).toEqual(
             <Invalid
                 fsLightbox={ fsLightboxInstance }
-                i={ 3 }
+                index={ 3 }
             />
         );
     });

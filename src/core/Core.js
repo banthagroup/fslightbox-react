@@ -24,6 +24,7 @@ export function Core(fsLightbox) {
     this.sourceFactory = new SourceFactory(fsLightbox);
     this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
+    // TODO: TEST
     this.properSourceController = new ProperSourceController(fsLightbox);
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SourceHolder from "../Sources/SourceHolder.jsx";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 
 const MediaHolder = ({ fsLightbox }) => {
     const {

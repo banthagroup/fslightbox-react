@@ -1,8 +1,8 @@
-import FsLightbox from "../../../../src";
-import { testProps } from "../../../schemas/testVariables";
 import { FullscreenToggler } from "../../../../src/core/Fullscreen/FullscreenToggler";
+import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
-const fsLightbox = new FsLightbox(testProps);
+const fsLightboxMock = new FsLightboxMock();
+const fsLightbox = fsLightboxMock.getFsLightbox();
 const fullscreen = new FullscreenToggler(fsLightbox);
 
 describe('requestFullscreen', () => {

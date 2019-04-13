@@ -28,19 +28,8 @@ export function SourceFactory(fsLightbox) {
     };
 
     const createCorrectSourceByItsType = () => {
-        if (sourcesData.sourcesTypes[sourceIndex] === INVALID_TYPE) {
-            createInvalidSource();
-            return;
-        }
         setUpProperSourceComponent();
         createProperSourceComponent();
-    };
-
-    const createInvalidSource = () => {
-        SourceComponent = <Invalid
-            fsLightbox={ fsLightbox }
-            index={ sourceIndex }
-        />;
     };
 
     const setUpProperSourceComponent = () => {
@@ -53,6 +42,9 @@ export function SourceFactory(fsLightbox) {
                 break;
             case YOUTUBE_TYPE:
                 setUpSourceComponentToYoutube();
+                break;
+            default:
+                setUpSourceComponentToInvalid();
         }
     };
 
@@ -66,6 +58,10 @@ export function SourceFactory(fsLightbox) {
 
     const setUpSourceComponentToYoutube = () => {
         ProperSourceComponentName = Youtube;
+    };
+
+    const setUpSourceComponentToInvalid = () => {
+        ProperSourceComponentName = Invalid;
     };
 
     const createProperSourceComponent = () => {

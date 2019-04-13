@@ -30,7 +30,6 @@ export function SizeController(
         (window.innerWidth < SOURCE_DIMENSIONS_BREAK) ?
             sourcesData.maxSourceWidth = window.innerWidth :
             sourcesData.maxSourceWidth = window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE);
-
         sourcesData.maxSourceHeight = window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE);
     };
 }

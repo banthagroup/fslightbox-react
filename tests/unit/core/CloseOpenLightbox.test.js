@@ -75,6 +75,7 @@ describe('closing lightbox', () => {
 
 describe('Fullscreen', () => {
     let fsLightboxMock;
+    /** @var { FsLightbox } fsLightbox */
     let fsLightbox;
     /** @var { CloseOpenLightbox } closeOpenLightbox */
     let closeOpenLightbox;
@@ -90,13 +91,13 @@ describe('Fullscreen', () => {
     });
 
     it('should not close fullscreen due to fullscreen not open', () => {
-        fsLightbox.data.isFullscreenOpen = false;
+        fsLightbox.componentsStates.isFullscreenOpen.set(false);
         closeOpenLightbox.closeLightbox();
         expect(fsLightbox.core.fullscreenToggler.turnOffFullscreen).not.toBeCalled();
     });
 
     it('should close fullscreen because fullscreen is open', () => {
-        fsLightbox.data.isFullscreenOpen = true;
+        fsLightbox.componentsStates.isFullscreenOpen.set(true);
         closeOpenLightbox.closeLightbox();
         expect(fsLightbox.core.fullscreenToggler.turnOffFullscreen).toBeCalled();
     });

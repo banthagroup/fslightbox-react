@@ -7,7 +7,7 @@ const Svg = ({ size, viewBox, d }) =>
              height={ size }
              viewBox={ viewBox }
              xmlns="http://www.w3.org/2000/svg">
-            <path fill="#fff" className="fslightbox-svg-path" d={ d }></path>
+            <path className="fslightbox-svg-path" d={ d }></path>
         </svg>
     );
 

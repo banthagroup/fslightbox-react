@@ -25,17 +25,20 @@ const SourceHolder = ({ fsLightbox, index }) => {
     let isMounted = false;
     let isTypeCheckedAndSourceIsNotCreated = false;
 
+    if (!sourcesTypes[index])
+        initRequest();
+
+    function initRequest() {
+        const sourceTypeChecker = new SourceTypeChecker();
+        sourceTypeChecker.setUrlToCheck(urls[index]);
+        sourceTypeChecker.getSourceType().then(processReceivedSourceType);
+    }
+
     const sourceCreator = {
         createSource: () => {}
     };
 
-    const initRequest = () => {
-        const sourceTypeChecker = new SourceTypeChecker();
-        sourceTypeChecker.setUrlToCheck(urls[index]);
-        sourceTypeChecker.getSourceType().then(processReceivedSourceType);
-    };
-
-    const processReceivedSourceType = (sourceType) => {
+    function processReceivedSourceType(sourceType) {
         sourcesTypes[index] = sourceType;
         if (isMounted) {
             if (sourceHolders[index].current === null) {
@@ -46,7 +49,7 @@ const SourceHolder = ({ fsLightbox, index }) => {
         } else {
             isTypeCheckedAndSourceIsNotCreated = true;
         }
-    };
+    }
 
     useEffect(() => {
         isMounted = true;
@@ -57,9 +60,6 @@ const SourceHolder = ({ fsLightbox, index }) => {
             sourceCreator.createSource();
         }
     });
-
-    if (!sourcesTypes[index])
-        initRequest();
 
     return (
         <div ref={ sourceHolders[index] }

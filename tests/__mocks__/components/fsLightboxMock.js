@@ -13,6 +13,10 @@ export function FsLightboxMock() {
         urls: testUrls
     };
 
+    this.setProps = (props) => {
+        testProps = props;
+    };
+
     /**
      * @return {{getFsLightbox: (function(): FsLightbox)}}
      */
@@ -31,13 +35,11 @@ export function FsLightboxMock() {
     };
 
     const mockStateWithNameAndDefaultValue = (stateName, defaultValue) => {
-        const mockStateManager = {};
-        mockStateManager.value = defaultValue;
-        mockStateManager.get = () => mockStateManager.value;
-        mockStateManager.set = (value) => {
-            mockStateManager.value = value;
+        fsLightbox.componentsStates[stateName].value = defaultValue;
+        fsLightbox.componentsStates[stateName].get = () => fsLightbox.componentsStates[stateName].value;
+        fsLightbox.componentsStates[stateName].set = (value) => {
+            fsLightbox.componentsStates[stateName].value = value;
         };
-          fsLightbox.componentsStates[stateName] = mockStateManager;
     };
 
     this.setAllSourcesToDivs = () => {
