@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Loader from "./Loader.jsx";
+import SourceLoader from "../Loaders/SourceLoader.jsx";
 
 /**
  * @param { FsLightbox.sourcesData.sourcesToCreateOnConstruct } sourcesToCreateOnConstruct
@@ -46,7 +46,7 @@ const Source = (
 
     const loader = (isSourceAlreadyInitializedArray[index] ||
         isProperSourceRenderedForFirstTime) ?
-        null : <Loader/>;
+        null : <SourceLoader/>;
 
     return (
         <>

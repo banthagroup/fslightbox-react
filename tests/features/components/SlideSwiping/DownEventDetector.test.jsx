@@ -15,17 +15,8 @@ const fsLightbox = {
 let downEventDetector = shallow(<DownEventDetector fsLightbox={ fsLightbox }/>);
 
 describe('DownEventDetector DOM', () => {
-    it('should be div', () => {
-        expect(downEventDetector.type()).toBe('div');
-    });
-
-    it('should have proper className', () => {
-        expect(downEventDetector.prop('className'))
-            .toBe('fslightbox-down-event-detector fslightbox-full-dimension');
-    });
-
-    it('should not have more children', () => {
-        expect(downEventDetector.children().length).toBe(0);
+    it('should match snapshot', () => {
+        expect(downEventDetector).toMatchSnapshot();
     });
 });
 

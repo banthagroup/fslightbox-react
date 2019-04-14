@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Svg from "../Helpers/Svg.jsx";
+import Svg from "../../Helpers/Svg.jsx";
 
 const ToolbarButton = ({ onClick, viewBox, size, d, title }) => (
     <div onClick={ onClick }

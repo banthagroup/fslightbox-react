@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`isSwipingSlides DOM user is swiping slides totalSlides === 1 (swipingInvisibleHover should not contain additianl class) should match snapshot 1`] = `
+<div
+  className="fslightbox-swiping-invisible-hover fslightbox-full-dimension "
+/>
+`;
+
+exports[`isSwipingSlides DOM user is swiping slides totalSlides === 1 (swipingInvisibleHover should not contain additional class) should match snapshot 1`] = `
+<div
+  className="fslightbox-swiping-invisible-hover fslightbox-full-dimension "
+/>
+`;
+
+exports[`isSwipingSlides DOM user is swiping slides totalSlides > 1 (swipingInvisibleHover should contain additional class) should match snapshot 1`] = `
+<div
+  className="fslightbox-swiping-invisible-hover fslightbox-full-dimension fslightbox-cursor-grabbing"
+/>
+`;

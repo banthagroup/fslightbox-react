@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SlideNumber DOM totalSlides > 1 static DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-slide-number-container fslightbox-flex-centered"
+>
+  <div>
+    3
+  </div>
+  <div
+    className="fslightbox-slash"
+  >
+    /
+  </div>
+  <div>
+    5
+  </div>
+</div>
+`;

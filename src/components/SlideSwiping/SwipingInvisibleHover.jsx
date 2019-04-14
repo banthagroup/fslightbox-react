@@ -6,7 +6,7 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/CssConstants";
 const SwipingInvisibleHover = (
     {
         fsLightbox: {
-            data,
+            data: { totalSlides },
             componentsStates: {
                 isSwipingSlides: isSwipingSlidesState
             }
@@ -20,7 +20,7 @@ const SwipingInvisibleHover = (
     if (!isSwipingSlides)
         return null;
 
-    const cursorGrabbing = (data.totalSlides > 1) ?
+    const cursorGrabbing = (totalSlides > 1) ?
         CURSOR_GRABBING_CLASS_NAME :
         "";
 

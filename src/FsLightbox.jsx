@@ -4,10 +4,9 @@ import "./scss/FsLightbox.scss";
 import Nav from "./components/Nav/Nav.jsx";
 import SlideButtonLeft from "./components/SlideButtons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/SlideButtons/SlideButtonRight.jsx";
-import MediaHolder from "./components/Holders/MediaHolder.jsx";
+import SourcesHoldersWrapper from "./components/Sources/SourcesHoldersWrapper.jsx";
 import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArrayForNumberOfSlides";
 import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
-import { getDeviceType } from "./utils/getDeviceType";
 import { Core } from "./core/Core";
 import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
@@ -18,6 +17,8 @@ import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipi
 import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
 import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
 import { SourceFactory } from "./core/Source/SourceFactory";
+import { SourceCreator } from "./core/Source/SourceCreator";
+import { SourceTypeChecker } from "./core/Source/SourceType/SourceTypeChecker";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -43,7 +44,6 @@ class FsLightbox extends Component {
             isToolbarCoreInitialized: false,
             isInitialized: false,
             isSwipingSlides: false,
-            deviceType: getDeviceType()
         };
     }
 
@@ -115,7 +115,9 @@ class FsLightbox extends Component {
     setUpInjector() {
         this.injector = {
             source: {
-                getSourceFactory: () => new SourceFactory(fsLightbox)
+                getSourceFactory: () => new SourceFactory(fsLightbox),
+                getSourceTypeChecker: () => new SourceTypeChecker(),
+                getSourceCreator: () => new SourceCreator()
             },
             transforms: {
                 getSourceHolderTransformer: () => new SourceHolderTransformer(this),
@@ -165,7 +167,8 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
 
         return (
-            <div ref={ this.elements.container } className="fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long">
+            <div ref={ this.elements.container }
+                 className="fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long">
                 <DownEventDetector fsLightbox={ this }/>
                 <SwipingInvisibleHover fsLightbox={ this }/>
                 <Nav fsLightbox={ this }/>
@@ -175,7 +178,7 @@ class FsLightbox extends Component {
                         <SlideButtonRight fsLightbox={ this }/>
                     </> : null
                 }
-                <MediaHolder fsLightbox={ this }/>
+                <SourcesHoldersWrapper fsLightbox={ this }/>
             </div>
         );
     }

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SourceHolder from "../Sources/SourceHolder.jsx";
+import SourceHolder from "./SourceHolder.jsx";
 
-const MediaHolder = ({ fsLightbox }) => {
+const SourcesHoldersWrapper = ({ fsLightbox }) => {
     const {
-        data,
+        data: { totalSlides },
         elements: {
             mediaHolder
         },
@@ -18,7 +18,7 @@ const MediaHolder = ({ fsLightbox }) => {
     } = fsLightbox;
 
     const sourceHolders = [];
-    for (let i = 0; i < data.totalSlides; i++) {
+    for (let i = 0; i < totalSlides; i++) {
         sourceHolders.push(
             <SourceHolder
                 fsLightbox={ fsLightbox }
@@ -38,8 +38,8 @@ const MediaHolder = ({ fsLightbox }) => {
     );
 };
 
-MediaHolder.propTypes = {
+SourcesHoldersWrapper.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
 };
 
-export default MediaHolder;
+export default SourcesHoldersWrapper;

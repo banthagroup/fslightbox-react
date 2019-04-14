@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DownEventDetector DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-down-event-detector fslightbox-full-dimension"
+  onMouseDown={[MockFunction]}
+  onTouchStart={[MockFunction]}
+/>
+`;
