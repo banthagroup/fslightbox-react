@@ -1,5 +1,5 @@
 import React from 'react';
-import Invalid from "../../../../../src/components/Sources/ProperSources/Invalid";
+import Invalid from "../../../../../src/Components/Sources/ProperSources/Invalid";
 import { mount } from "enzyme";
 
 const fsLightbox =  {

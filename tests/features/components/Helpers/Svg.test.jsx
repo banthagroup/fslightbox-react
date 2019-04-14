@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Svg from "../../../../src/components/Helpers/Svg";
+import Svg from "../../../../src/Components/Helpers/Svg";
 
 const svg = shallow(<Svg
     viewBox={ '0 0 20 20' }

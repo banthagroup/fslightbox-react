@@ -1,9 +1,9 @@
-import { SourceAnimator } from "../../../../src/core/Animations/SourceAnimator";
+import { SourceAnimator } from "../../../../src/Core/Animations/SourceAnimator";
 import {
     FADE_IN_CLASS_NAME,
     LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
-} from "../../../../src/constants/CssConstants";
+} from "../../../../src/Constants/CssConstants";
 
 const fsLightbox = {
     elements: {

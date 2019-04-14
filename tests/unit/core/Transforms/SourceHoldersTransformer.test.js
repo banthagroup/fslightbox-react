@@ -1,13 +1,13 @@
-import { SourceHoldersTransformer } from "../../../../src/core/Transforms/SourceHoldersTransformer";
+import { SourceHoldersTransformer } from "../../../../src/Core/Transforms/SourceHoldersTransformer";
 import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
-import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { StageSourceHoldersTransformer } from "../../../../src/Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('SourceHoldersTransformer', () => {
         const mock = new FsLightboxEnzymeMock();
         const fsLightboxInstance = mock.getInstance();
 
-    // const sourceHoldersTransformer = fsLightboxInstance.core.sourceHoldersTransformer;
+    // const sourceHoldersTransformer = fsLightboxInstance.Core.sourceHoldersTransformer;
     // window.innerWidth = 1000;
     // window.innerHeight = 1000;
 
@@ -48,7 +48,7 @@ describe('transformStageSourceHolders', () => {
     const fsLightbox = fsLightboxMock.getFsLightbox();
     // fsLightboxMock.setAllSourceHoldersToDivs();
     // const sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
-    // fsLightbox.core.sourceHoldersTransformer = sourceHoldersTransformer;
+    // fsLightbox.Core.sourceHoldersTransformer = sourceHoldersTransformer;
     // let transformStageSourceHolderMock;
 
     beforeEach(() => {

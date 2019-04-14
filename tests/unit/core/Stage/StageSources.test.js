@@ -1,4 +1,4 @@
-import { StageSources } from "../../../../src/core/Stage/StageSources";
+import { StageSources } from "../../../../src/Core/Stage/StageSources";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('StageSources', () => {

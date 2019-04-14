@@ -1,6 +1,6 @@
 import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
-import { StageSourceHoldersByValueTransformer } from "../../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
-import { SourceHoldersTransformer } from "../../../../../src/core/Transforms/SourceHoldersTransformer";
+import { StageSourceHoldersByValueTransformer } from "../../../../../src/Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
+import { SourceHoldersTransformer } from "../../../../../src/Core/Transforms/SourceHoldersTransformer";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();

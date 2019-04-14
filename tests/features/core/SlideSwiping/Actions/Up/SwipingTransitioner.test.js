@@ -1,6 +1,6 @@
 import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
-import { SwipingTransitioner } from "../../../../../../src/core/SlideSwiping/Actions/Up/SwipingTransitioner";
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../../../src/constants/CssConstants";
+import { SwipingTransitioner } from "../../../../../../src/Core/SlideSwiping/Actions/Up/SwipingTransitioner";
+import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../../../src/Constants/CssConstants";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();

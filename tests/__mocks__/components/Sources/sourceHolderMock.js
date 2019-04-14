@@ -1,4 +1,4 @@
-import SourceHolder from "../../../../src/components/Sources/SourceHolder";
+import SourceHolder from "../../../../src/Components/Sources/SourceHolder";
 
 /**
  * @class SourceHolderMock

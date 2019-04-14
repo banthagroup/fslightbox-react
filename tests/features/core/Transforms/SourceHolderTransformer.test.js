@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { SourceHolderTransformer } from "../../../../src/core/Transforms/SourceHolderTransformer";
+import { SourceHolderTransformer } from "../../../../src/Core/Transforms/SourceHolderTransformer";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();

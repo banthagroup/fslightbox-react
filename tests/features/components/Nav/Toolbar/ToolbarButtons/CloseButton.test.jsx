@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import CloseButton from "../../../../../../src/components/Nav/Toolbar/ToolbarButtons/CloseButton";
+import CloseButton from "../../../../../../src/Components/Nav/Toolbar/ToolbarButtons/CloseButton";
 
 const fsLightbox = {
     core: {
