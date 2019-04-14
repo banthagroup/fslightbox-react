@@ -4,6 +4,7 @@ export const sourceTypeCheckerUtils = {
         parser.href = url;
         return parser.hostname === 'www.youtube.com';
     },
+
     getTypeFromResponseContentType: (responseContentType) => {
         return responseContentType.slice(0, responseContentType.indexOf('/'));
     }

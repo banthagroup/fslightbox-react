@@ -18,7 +18,6 @@ const SlideButtonLeft = (
         }
     }
 ) => {
-
     const goToPreviousSlide = () => {
         changeSlideTo(getPreviousSlideNumber());
     };

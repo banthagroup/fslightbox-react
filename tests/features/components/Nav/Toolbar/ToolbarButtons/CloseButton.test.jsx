@@ -1,0 +1,28 @@
+import React from 'react';
+import { shallow } from 'enzyme';
+import CloseButton from "../../../../../../src/components/Nav/Toolbar/ToolbarButtons/CloseButton";
+
+const fsLightbox = {
+    core: {
+        closeOpenLightbox: {
+            closeLightbox: jest.fn()
+        }
+    }
+};
+const closeButton = shallow(<CloseButton fsLightbox={ fsLightbox }/>);
+
+describe('CloseButton DOM', () => {
+    it('should match snapshot', () => {
+        expect(closeButton).toMatchSnapshot();
+    });
+});
+
+describe('closing lightbox on clicking close button', () => {
+    beforeAll(() => {
+        closeButton.simulate('click');
+    });
+
+    it('should call closeLightbox', () => {
+        expect(fsLightbox.core.closeOpenLightbox.closeLightbox).toBeCalled();
+    });
+});

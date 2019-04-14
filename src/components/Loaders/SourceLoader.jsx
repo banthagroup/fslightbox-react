@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loader = () =>
+const SourceLoader = () =>
     (
         <div className="fslightbox-loader">
             <div></div>
@@ -10,4 +10,4 @@ const Loader = () =>
         </div>
     );
 
-export default Loader;
+export default SourceLoader;

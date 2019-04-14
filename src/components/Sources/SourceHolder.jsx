@@ -20,23 +20,24 @@ const SourceHolder = ({ fsLightbox, index }) => {
         core: {
             sourceHoldersTransformer: { transformStageSourceHolderAtIndex },
             stageSources: { isSourceInStage }
+        },
+        injector: {
+            source: { getSourceCreator, getSourceTypeChecker }
         }
     } = fsLightbox;
     let isMounted = false;
     let isTypeCheckedAndSourceIsNotCreated = false;
+    const sourceCreator = getSourceCreator();
 
-    if (!sourcesTypes[index])
+    if (!sourcesTypes[index]) {
         initRequest();
+    }
 
     function initRequest() {
-        const sourceTypeChecker = new SourceTypeChecker();
+        const sourceTypeChecker = getSourceTypeChecker();
         sourceTypeChecker.setUrlToCheck(urls[index]);
         sourceTypeChecker.getSourceType().then(processReceivedSourceType);
     }
-
-    const sourceCreator = {
-        createSource: () => {}
-    };
 
     function processReceivedSourceType(sourceType) {
         sourcesTypes[index] = sourceType;
@@ -68,7 +69,6 @@ const SourceHolder = ({ fsLightbox, index }) => {
                 fsLightbox={ fsLightbox }
                 index={ index }
                 sourceCreator={ sourceCreator }
-
             />
         </div>
     );
@@ -76,7 +76,7 @@ const SourceHolder = ({ fsLightbox, index }) => {
 
 SourceHolder.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number
+    index: PropTypes.number.isRequired
 };
 
 export default SourceHolder;
