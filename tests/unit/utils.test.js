@@ -1,12 +1,12 @@
 import React from 'react';
-import { EventsThrower } from "../../src/utils/EventsThrower";
+import { EventsThrower } from "../../src/Helpers/EventsThrower";
 import { mount } from 'enzyme';
 import FsLightbox from "../../src/FsLightbox";
-import { testUrls, testYoutubeURL } from "../schemas/testVariables";
-import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/EventsConstants";
-import { createRefsArrayForNumberOfSlides } from "../../src/utils/Arrays/createRefsArrayForNumberOfSlides";
-import { createNullArrayForNumberOfSlides } from "../../src/utils/Arrays/createNullArrayForNumberOfSlides";
-import { getYoutubeVideoIDFromURL } from "../../src/utils/SourceType/getYoutubeVideoIDFromURL";
+import { testUrls, TEST_YOUTUBE_URL } from "../schemas/testVariables";
+import { EVENTS_CONSTANTS_NAMES } from "../../src/Constants/EventsConstants";
+import { createRefsArrayForNumberOfSlides } from "../../src/Helpers/Arrays/createRefsArrayForNumberOfSlides";
+import { createNullArrayForNumberOfSlides } from "../../src/Helpers/Arrays/createNullArrayForNumberOfSlides";
+import { getYoutubeVideoIDFromURL } from "../../src/Helpers/SourceType/getYoutubeVideoIDFromURL";
 
 
 describe('Helpers Utils', () => {
@@ -35,7 +35,7 @@ describe('Helpers Utils', () => {
 
     it('should retrieve Youtube video id', () => {
         const youtubeVideoId = 'jNQXAC9IVRw';
-        expect(getYoutubeVideoIDFromURL(testYoutubeURL)).toEqual(youtubeVideoId);
+        expect(getYoutubeVideoIDFromURL(TEST_YOUTUBE_URL)).toEqual(youtubeVideoId);
     });
 });
 

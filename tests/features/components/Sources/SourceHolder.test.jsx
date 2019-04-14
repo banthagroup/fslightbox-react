@@ -1,9 +1,9 @@
 import React from 'react';
-import { createRefsArrayForNumberOfSlides } from "../../../../src/utils/Arrays/createRefsArrayForNumberOfSlides";
-import { IMAGE_TYPE } from "../../../../src/constants/CoreConstants";
-import { testImageURL } from "../../../schemas/testVariables";
+import { createRefsArrayForNumberOfSlides } from "../../../../src/Helpers/Arrays/createRefsArrayForNumberOfSlides";
+import { IMAGE_TYPE } from "../../../../src/Constants/CoreConstants";
+import { TEST_IMAGE_URL } from "../../../schemas/testVariables";
 import { mount } from "enzyme";
-import SourceHolder from "../../../../src/components/Sources/SourceHolder";
+import SourceHolder from "../../../../src/Components/Sources/SourceHolder";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 let sourceCreator = {};
@@ -30,7 +30,7 @@ let fsLightbox = {
     injector: {
         source: {
             getSourceCreator: () => ({}),
-            getSourceTypeChecker: () => {}
+            getSourceTypeGetter: () => {}
         }
     }
 };
@@ -65,7 +65,7 @@ describe('initRequest', () => {
                 resolve(IMAGE_TYPE)
             }))
         };
-        fsLightbox.injector.source.getSourceTypeChecker = jest.fn(() => sourceTypeChecker)
+        fsLightbox.injector.source.getSourceTypeGetter = jest.fn(() => sourceTypeChecker)
     });
 
     it('should ', () => {

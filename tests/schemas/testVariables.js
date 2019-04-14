@@ -1,14 +1,14 @@
-export const testImageURL = "https://i.imgur.com/Ys15LQF.jpg";
-export const testVideoURL = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-export const testYoutubeURL = "https://www.youtube.com/watch?v=jNQXAC9IVRw";
-export const testInvalidURL = "invalid";
+export const TEST_IMAGE_URL = "https://i.imgur.com/Ys15LQF.jpg";
+export const TEST_VIDEO_URL = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+export const TEST_YOUTUBE_URL = "https://www.youtube.com/watch?v=jNQXAC9IVRw";
+export const TEST_INVALID_URL = "invalid";
 
 
 export const testUrls = [
-    testImageURL,
-    testVideoURL,
-    testYoutubeURL,
-    testInvalidURL
+    TEST_IMAGE_URL,
+    TEST_VIDEO_URL,
+    TEST_YOUTUBE_URL,
+    TEST_INVALID_URL
 ];
 
 export const testProps = {

@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import "./scss/FsLightbox.scss";
-import Nav from "./components/Nav/Nav.jsx";
-import SlideButtonLeft from "./components/SlideButtons/SlideButtonLeft.jsx";
-import SlideButtonRight from "./components/SlideButtons/SlideButtonRight.jsx";
-import SourcesHoldersWrapper from "./components/Sources/SourcesHoldersWrapper.jsx";
-import { createRefsArrayForNumberOfSlides } from "./utils/Arrays/createRefsArrayForNumberOfSlides";
-import { createNullArrayForNumberOfSlides } from "./utils/Arrays/createNullArrayForNumberOfSlides";
-import { Core } from "./core/Core";
-import DownEventDetector from "./components/SlideSwiping/DownEventDetector.jsx";
-import SwipingInvisibleHover from "./components/SlideSwiping/SwipingInvisibleHover.jsx";
-import { StageSourceHoldersByValueTransformer } from "./core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
-import { SourceHolderTransformer } from "./core/Transforms/SourceHolderTransformer";
-import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/Move/SlideSwipingMoveActions";
-import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
-import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
-import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
-import { SourceComponentGetter } from "./core/Sources/Creating/SourceComponentGetter";
-import { SourceCreator } from "./core/Sources/SourceCreator";
-import { SourceTypeGetter } from "./core/Sources/Creating/SourceTypeGetter";
-import { SourceSizeAdjusterIterator } from "./core/Sizes/SourceSizeAdjusterIterator";
+import "./Scss/FsLightbox.scss";
+import Nav from "./Components/Nav/Nav.jsx";
+import SlideButtonLeft from "./Components/SlideButtons/SlideButtonLeft.jsx";
+import SlideButtonRight from "./Components/SlideButtons/SlideButtonRight.jsx";
+import SourcesWrapper from "./Components/Sources/SourcesWrapper.jsx";
+import { createRefsArrayForNumberOfSlides } from "./Helpers/Arrays/createRefsArrayForNumberOfSlides";
+import { createNullArrayForNumberOfSlides } from "./Helpers/Arrays/createNullArrayForNumberOfSlides";
+import { Core } from "./Core/Core";
+import DownEventDetector from "./Components/SlideSwiping/DownEventDetector.jsx";
+import SwipingInvisibleHover from "./Components/SlideSwiping/SwipingInvisibleHover.jsx";
+import { StageSourceHoldersByValueTransformer } from "./Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
+import { SourceHolderTransformer } from "./Core/Transforms/SourceHolderTransformer";
+import { SlideSwipingMoveActions } from "./Core/SlideSwiping/Actions/Move/SlideSwipingMoveActions";
+import { SlideSwipingUpActions } from "./Core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
+import { SwipingTransitioner } from "./Core/SlideSwiping/Actions/Up/SwipingTransitioner";
+import { SwipingSlideChanger } from "./Core/SlideSwiping/Actions/Up/SwipingSlideChanger";
+import { SourceComponentGetter } from "./Core/Sources/Creating/SourceComponentGetter";
+import { SourceCreator } from "./Core/Sources/SourceCreator";
+import { SourceTypeGetter } from "./Core/Sources/Creating/SourceTypeGetter";
+import { SourceSizeAdjusterIterator } from "./Core/Sizes/SourceSizeAdjusterIterator";
+import { RefactoredSourceComponentGetter } from "./Core/Sources/Creating/RefactoredSourceComponentGetter";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -70,7 +71,7 @@ class FsLightbox extends Component {
             isOpen: this.props.isOpen,
         };
 
-        // to objects are assigned in correct components two methods:
+        // to objects are assigned in correct Components two methods:
         // - get()
         // - set(value)
         // And (only if it is used, be default not) property:
@@ -80,6 +81,7 @@ class FsLightbox extends Component {
             slide: {},
             isSwipingSlides: {},
             isFullscreenOpen: {},
+            sourcesComponents: {},
         };
     }
 
@@ -102,6 +104,7 @@ class FsLightbox extends Component {
             sources: createRefsArrayForNumberOfSlides(this.data.totalSlides),
             sourceHolders: createRefsArrayForNumberOfSlides(this.data.totalSlides),
             sourcesJSXComponents: createNullArrayForNumberOfSlides(this.data.totalSlides),
+            createdButNotRenderedSourcesComponents: [],
         };
     }
 
@@ -125,8 +128,8 @@ class FsLightbox extends Component {
                 getSwipingSlideChangerForSwipingTransitioner: (swipingTransitioner) => new SwipingSlideChanger(this, swipingTransitioner),
             },
             source: {
-                getSourceFactory: () => new SourceComponentGetter(fsLightbox),
-                getSourceTypeChecker: () => new SourceTypeGetter(),
+                getSourceComponentGetter: () => new RefactoredSourceComponentGetter(this),
+                getSourceTypeGetter: () => new SourceTypeGetter(),
                 getSourceCreator: () => new SourceCreator()
             },
             transforms: {
@@ -182,7 +185,7 @@ class FsLightbox extends Component {
                         <SlideButtonRight fsLightbox={ this }/>
                     </> : null
                 }
-                <SourcesHoldersWrapper fsLightbox={ this }/>
+                <SourcesWrapper fsLightbox={ this }/>
             </div>
         );
     }

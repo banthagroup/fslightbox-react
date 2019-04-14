@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
-import { SlideSwipingDown } from "../../../../../src/core/SlideSwiping/Events/SlideSwipingDown";
+import { SlideSwipingDown } from "../../../../../src/Core/SlideSwiping/Events/SlideSwipingDown";
 import { switchCase } from "@babel/types";
 
 const fsLightboxMock = new FsLightboxMock();

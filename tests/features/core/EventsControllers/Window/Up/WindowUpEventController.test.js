@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
-import { WindowUpEventController } from "../../../../../../src/core/EventsControllers/Window/Up/WindowUpEventController";
+import { WindowUpEventController } from "../../../../../../src/Core/EventsControllers/Window/Up/WindowUpEventController";
 
 const fsLightboxMock = new FsLightboxMock();
 /** @var { FsLightbox } fsLightbox */

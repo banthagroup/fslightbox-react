@@ -1,6 +1,6 @@
 import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
 import { TransformStageSourcesMock } from "../../../../../__mocks__/core/TransformStageSourcesMock";
-import { WindowResizeEventController } from "../../../../../../src/core/EventsControllers/Window/Resize/WindowResizeEventController";
+import { WindowResizeEventController } from "../../../../../../src/Core/EventsControllers/Window/Resize/WindowResizeEventController";
 
 
 const fsLightboxMock = new FsLightboxMock();

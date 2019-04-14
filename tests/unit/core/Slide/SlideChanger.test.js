@@ -1,4 +1,4 @@
-import { SlideChanger } from "../../../../src/core/Slide/SlideChanger";
+import { SlideChanger } from "../../../../src/Core/Slide/SlideChanger";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 const fsLightboxMock = new FsLightboxMock();

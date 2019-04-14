@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
-import { WindowMoveEventController } from "../../../../../../src/core/EventsControllers/Window/Move/WindowMoveEventController";
+import { WindowMoveEventController } from "../../../../../../src/Core/EventsControllers/Window/Move/WindowMoveEventController";
 
 const fsLightboxMock = new FsLightboxMock();
 /** @var { FsLightbox } fsLightbox */

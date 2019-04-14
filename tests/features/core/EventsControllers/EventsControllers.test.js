@@ -1,6 +1,6 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { WindowResizeEventController } from "../../../../src/core/EventsControllers/Window/Resize/WindowResizeEventController";
-import { SwipingEventsControllersFacade } from "../../../../src/core/EventsControllers/Facades/SwipingEventsControllersFacade";
+import { WindowResizeEventController } from "../../../../src/Core/EventsControllers/Window/Resize/WindowResizeEventController";
+import { SwipingEventsControllersFacade } from "../../../../src/Core/EventsControllers/Facades/SwipingEventsControllersFacade";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();

@@ -1,4 +1,4 @@
-import Source from "../../../../src/components/Sources/Source";
+import Source from "../../../../src/Components/Sources/Source";
 
 /**
  * @class SourceMock

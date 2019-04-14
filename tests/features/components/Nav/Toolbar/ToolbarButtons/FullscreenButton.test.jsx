@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import FullscreenButton from "../../../../../../src/components/Nav/Toolbar/ToolbarButtons/FullscreenButton";
+import FullscreenButton from "../../../../../../src/Components/Nav/Toolbar/ToolbarButtons/FullscreenButton";
 
 const fsLightbox = {
     componentsStates: {
@@ -16,7 +16,7 @@ const fsLightbox = {
 let fullscreenButton;
 
 
-describe('isFullscreenOpen components state', () => {
+describe('isFullscreenOpen Components state', () => {
     beforeAll(() => {
         fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox }/>);
     });

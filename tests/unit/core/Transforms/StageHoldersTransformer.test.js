@@ -1,6 +1,6 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { StageSourceHoldersTransformer } from "../../../../src/core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
-import { StageSources } from "../../../../src/core/Stage/StageSources";
+import { StageSourceHoldersTransformer } from "../../../../src/Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { StageSources } from "../../../../src/Core/Stage/StageSources";
 
 describe('current source transforming', () => {
     const fsLightboxMock = new FsLightboxMock();

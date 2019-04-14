@@ -1,9 +1,9 @@
 import React from 'react';
-import { GlobalResizingController } from "../../../../src/core/Sizes/GlobalResizingController";
+import { GlobalResizingController } from "../../../../src/Core/Sizes/GlobalResizingController";
 import {
     SOURCE_DIMENSIONS_BREAK,
     SOURCE_DIMENSIONS_DECREASE_VALUE
-} from "../../../../src/constants/ResponsiveConstants";
+} from "../../../../src/Constants/ResponsiveConstants";
 
 const sourceSizeAdjusterIterator = {};
 const sourcesWrapper = document.createElement('div');

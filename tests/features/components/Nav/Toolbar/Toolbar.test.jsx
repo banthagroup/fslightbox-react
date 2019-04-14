@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import Toolbar from "../../../../../src/components/Nav/Toolbar/Toolbar";
+import Toolbar from "../../../../../src/Components/Nav/Toolbar/Toolbar";
 
 const fsLightbox = {};
 const toolbar = shallow(<Toolbar fsLightbox={ fsLightbox }/>);

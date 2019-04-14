@@ -1,4 +1,4 @@
-import { testImageURL, testUrls } from "../../../../schemas/testVariables";
+import { TEST_IMAGE_URL, testUrls } from "../../../../schemas/testVariables";
 import { mount } from "enzyme";
 import { createVideoSourceForFsLightbox } from "../../../../__mocks__/helpers/createSourceForFsLightbox";
 import React from "react";
@@ -6,7 +6,7 @@ import FsLightbox from "../../../../../src";
 
 it('should add poster to video', () => {
     const videosPostersArray = [];
-    videosPostersArray[1] = testImageURL;
+    videosPostersArray[1] = TEST_IMAGE_URL;
 
     const fsLightbox = mount(<FsLightbox
         isOpen={ true }

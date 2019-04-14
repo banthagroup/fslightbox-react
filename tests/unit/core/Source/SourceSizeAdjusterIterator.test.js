@@ -1,5 +1,5 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
-import { SourceSizeAdjusterIterator } from "../../../../src/core/Sizes/SourceSizeAdjusterIterator";
+import { SourceSizeAdjusterIterator } from "../../../../src/Core/Sizes/SourceSizeAdjusterIterator";
 
 describe('SourceSizeAdjusterIterator', () => {
     const fsLightboxMock = new FsLightboxMock();
