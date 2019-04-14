@@ -10,8 +10,7 @@ import { LONG_FADE_OUT_CLASS_NAME, FSLIGHTBOX_OPEN_CLASS_NAME } from "../constan
  * @param { FsLightbox.initialize | Function } initialize
  * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders | function(): StageSourceHoldersTransformer } transformStageSourceHolders
  * @param { FsLightbox.core.fullscreenToggler.turnOffFullscreen | Function  } turnOffFullscreen
- * @param { FsLightbox.core.sizeController.controlAllSizes | Function  } controlAllSizes
- * @param { FsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes | Function  } adjustAllSourcesSizes
+ * @param { FsLightbox.core.globalResizingController.controlAllSizes | Function  } controlAllSizes
  * @param { FsLightbox.core.eventsControllers.window.resize.removeListener | Function  } removeResizeListener
  * @param { FsLightbox.core.eventsControllers.window.resize.attachListener | Function  } attachResizeListener
  * @param { FsLightbox.core.eventsControllers.window.swiping.removeListeners | Function  } removeSwipingListeners
@@ -27,10 +26,8 @@ export function CloseOpenLightbox(
         },
         elements: { container },
         core: {
-            sourceHoldersTransformer: { transformStageSourceHolders },
             fullscreenToggler: { turnOffFullscreen },
-            sizeController: { controlAllSizes },
-            sourceSizeAdjusterIterator: { adjustAllSourcesSizes },
+            globalResizingController: { runAllResizingActions },
             eventsControllers: {
                 window: {
                     resize: {
@@ -82,9 +79,7 @@ export function CloseOpenLightbox(
         }
         attachResizeListener();
         attachSwipingListeners();
-        controlAllSizes();
-        adjustAllSourcesSizes();
-        transformStageSourceHolders().withoutTimeout();
+        runAllResizingActions();
     };
 
     const afterFadeOut = () => {

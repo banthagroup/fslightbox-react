@@ -1,4 +1,4 @@
-import { SourceSizeAdjuster } from "./SourceSizeAdjuster";
+import { SourceSizeAdjuster } from "../Sizes/SourceSizeAdjuster";
 import { getClassListOfElementInArrayByIndex } from "../../utils/Source/getClassListOfElementInArrayByIndex";
 import { OPACITY_0_CLASS_NAME } from "../../constants/CssConstants";
 

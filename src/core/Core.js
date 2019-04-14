@@ -1,4 +1,4 @@
-import { SourceSizeAdjusterIterator } from "./Source/SourceSizeAdjusterIterator";
+import { SourceSizeAdjusterIterator } from "./Sizes/SourceSizeAdjusterIterator";
 import { SourceAnimator } from "./Animations/SourceAnimator";
 import { StageSources } from "./Stage/StageSources";
 import { FullscreenToggler } from "./Fullscreen/FullscreenToggler";
@@ -6,10 +6,10 @@ import { SourceHoldersTransformer } from "./Transforms/SourceHoldersTransformer"
 import { CloseOpenLightbox } from "./CloseOpenLightbox";
 import { SlideChanger } from "./Slide/SlideChanger";
 import { EventsControllers } from "./EventsControllers/EventsControllers";
-import { SizeController } from "./Size/SizeController";
+import { GlobalResizingController } from "./Sizes/GlobalResizingController";
 import { SlideSwiping } from "./SlideSwiping/SlideSwiping";
-import { ProperSourceController } from "./Source/ProperSourceController";
-import { SourceFactory } from "./Source/SourceFactory";
+import { ProperSourceController } from "./Sources/ProperSourceController";
+import { SourceComponentGetter } from "./Sources/Creating/SourceComponentGetter";
 
 /**
  * @class
@@ -21,8 +21,7 @@ export function Core(fsLightbox) {
     fsLightbox.core = this;
 
     this.stageSources = new StageSources(fsLightbox);
-    this.sourceFactory = new SourceFactory(fsLightbox);
-    this.sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightbox);
+    this.sourceFactory = new SourceComponentGetter(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
     // TODO: TEST
     this.properSourceController = new ProperSourceController(fsLightbox);
@@ -30,7 +29,7 @@ export function Core(fsLightbox) {
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
     this.slideSwiping = new SlideSwiping(fsLightbox);
-    this.sizeController = new SizeController(fsLightbox);
+    this.globalResizingController = new GlobalResizingController(fsLightbox);
     this.eventsControllers = new EventsControllers(fsLightbox);
     this.closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
 }

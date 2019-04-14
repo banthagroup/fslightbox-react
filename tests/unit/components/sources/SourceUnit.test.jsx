@@ -1,7 +1,7 @@
 import React from 'react';
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { SourceMock } from "../../../__mocks__/components/Sources/sourceMock";
-import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
+import { SourceSizeAdjuster } from "../../../../src/core/Sizes/SourceSizeAdjuster";
 import { FADE_IN_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../../../src/constants/CssConstants";
 import { IMAGE_TYPE } from "../../../../src/constants/CoreConstants";
 

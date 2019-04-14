@@ -22,7 +22,7 @@ let fsLightbox = {
 };
 let sourcesHoldersWrapper;
 
-describe('attaching element to mediaHolder ref from fsLightbox elements object', () => {
+describe('attaching element to sourcesWrapper ref from fsLightbox elements object', () => {
     let completeFsLightboxObject;
 
     beforeAll(() => {
@@ -35,7 +35,7 @@ describe('attaching element to mediaHolder ref from fsLightbox elements object',
     });
 
     it('should attach element to ref', () => {
-        expect(completeFsLightboxObject.elements.mediaHolder.current).toEqual(sourcesHoldersWrapper.getDOMNode());
+        expect(completeFsLightboxObject.elements.sourcesWrapper.current).toEqual(sourcesHoldersWrapper.getDOMNode());
     });
 });
 

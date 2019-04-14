@@ -48,7 +48,7 @@ describe('closing lightbox', () => {
             // and in opening lightbox we are transforming them
             fsLightboxMock.setAllSourceHoldersToDivs();
             // mocking media holder for the same reason as source holders
-            fsLightbox.elements.mediaHolder.current = document.createElement('div');
+            fsLightbox.elements.sourcesWrapper.current = document.createElement('div');
 
             fsLightbox.core.eventsControllers.window.resize.removeListener = jest.fn();
             closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
@@ -127,7 +127,7 @@ describe('componentMountedAfterOpen and component is initialized', () => {
     fsLightbox.data.isInitialized = true;
     fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
     fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
-    fsLightbox.core.sizeController.controlAllSizes = jest.fn();
+    fsLightbox.core.globalResizingController.controlAllSizes = jest.fn();
     fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
     const transformSourceHoldersMock = new TransformStageSourcesMock(fsLightbox);
 
@@ -144,8 +144,8 @@ describe('componentMountedAfterOpen and component is initialized', () => {
         expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
     });
 
-    it('should call adjustMediaHolderSize', () => {
-        expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
+    it('should call adjustSourcesWrapperSize', () => {
+        expect(fsLightbox.core.globalResizingController.controlAllSizes).toBeCalled();
     });
 
     it('should call adjustAllSourcesSizes', () => {

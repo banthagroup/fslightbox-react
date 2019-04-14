@@ -1,15 +1,15 @@
 import React from 'react';
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../constants/CoreConstants";
-import Video from "../../components/Sources/ProperSources/Video.jsx";
-import Youtube from "../../components/Sources/ProperSources/Youtube.jsx";
-import Invalid from "../../components/Sources/ProperSources/Invalid.jsx";
-import Image from "../../components/Sources/ProperSources/Image.jsx";
+import { IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/CoreConstants";
+import Video from "../../../components/Sources/ProperSources/Video.jsx";
+import Youtube from "../../../components/Sources/ProperSources/Youtube.jsx";
+import Invalid from "../../../components/Sources/ProperSources/Invalid.jsx";
+import Image from "../../../components/Sources/ProperSources/Image.jsx";
 
 /**
  * @class
  * @param { FsLightbox } fsLightbox
  */
-export function SourceFactory(fsLightbox) {
+export function SourceComponentGetter(fsLightbox) {
     const {
         sourcesData,
     } = fsLightbox;

@@ -39,7 +39,7 @@ describe('constructor', () => {
     });
 });
 
-describe('not calling runActions', () => {
+describe('not calling runAllResizingActions', () => {
     describe(`due to user is not swiping, even if animation is not running and swiped difference not equal 0`,
         () => {
             beforeEach(() => {

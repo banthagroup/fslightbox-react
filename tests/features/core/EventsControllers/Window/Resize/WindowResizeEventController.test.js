@@ -22,7 +22,7 @@ describe('adding and removing resize listener from window', () => {
         fsLightboxMock.setAllSourceHoldersToDivs();
         // setting media holder to div due to resize listener resizes media Holder and we don't use enzyme
         fsLightboxMock.setMediaHolderToDiv();
-        fsLightbox.core.sizeController.controlAllSizes = jest.fn();
+        fsLightbox.core.globalResizingController.controlAllSizes = jest.fn();
         windowResizeEventController = new WindowResizeEventController(fsLightbox);
 
     });
@@ -30,13 +30,13 @@ describe('adding and removing resize listener from window', () => {
     describe('adding resize listener to window', () => {
         it('should not call control all size', () => {
             dispatchEvent(new Event('resize'));
-            expect(fsLightbox.core.sizeController.controlAllSizes).not.toBeCalled();
+            expect(fsLightbox.core.globalResizingController.controlAllSizes).not.toBeCalled();
         });
 
         it('should add resize event listener', () => {
             windowResizeEventController.attachListener();
             dispatchEvent(new Event('resize'));
-            expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
+            expect(fsLightbox.core.globalResizingController.controlAllSizes).toBeCalled();
         });
     });
 
@@ -47,13 +47,13 @@ describe('adding and removing resize listener from window', () => {
 
         it('should call control all sizes due to listener is not removed', () => {
             dispatchEvent(new Event('resize'));
-            expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
+            expect(fsLightbox.core.globalResizingController.controlAllSizes).toBeCalled();
         });
 
         it('should not call control all sizes because listener is removed', () => {
             windowResizeEventController.removeListener();
             dispatchEvent(new Event('resize'));
-            expect(fsLightbox.core.sizeController.controlAllSizes).not.toBeCalled();
+            expect(fsLightbox.core.globalResizingController.controlAllSizes).not.toBeCalled();
         });
     });
 });
@@ -66,7 +66,7 @@ describe('checking if methods that supposed to be called when resize event occur
 
     beforeEach(() => {
         transformStageSourcesMock = new TransformStageSourcesMock(fsLightbox);
-        fsLightbox.core.sizeController.controlAllSizes = jest.fn();
+        fsLightbox.core.globalResizingController.controlAllSizes = jest.fn();
         fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes = jest.fn();
         windowResizeEventController = new WindowResizeEventController(fsLightbox);
         windowResizeEventController.attachListener();
@@ -75,7 +75,7 @@ describe('checking if methods that supposed to be called when resize event occur
 
 
     it('should call controll all sizes', () => {
-        expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
+        expect(fsLightbox.core.globalResizingController.controlAllSizes).toBeCalled();
     });
 
     it('should adjust all Sources sizes', () => {

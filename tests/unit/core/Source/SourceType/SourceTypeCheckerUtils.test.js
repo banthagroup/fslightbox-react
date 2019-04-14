@@ -1,4 +1,4 @@
-import { SourceTypeCheckerUtils } from "../../../../../src/core/Source/SourceType/SourceTypeCheckerUtils";
+import { SourceTypeCheckerUtils } from "../../../../../src/core/Sources/Creating/SourceTypeGetterHelpers";
 import { testYoutubeURL } from "../../../../schemas/testVariables";
 
 const sourceTypeCheckerUtils = new SourceTypeCheckerUtils();

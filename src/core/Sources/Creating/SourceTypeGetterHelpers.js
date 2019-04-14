@@ -1,4 +1,4 @@
-export const sourceTypeCheckerUtils = {
+export const sourceTypeGetterHelpers = {
     isUrlYoutubeOne: (url) => {
         const parser = document.createElement('a');
         parser.href = url;

@@ -4,12 +4,12 @@ import {
     VIDEO_TYPE,
     YOUTUBE_TYPE,
 } from "../../../constants/CoreConstants";
-import { sourceTypeCheckerUtils } from "./SourceTypeCheckerUtils";
+import { sourceTypeGetterHelpers } from "./SourceTypeGetterHelpers";
 
 /**
- * @class SourceTypeChecker
+ * @class SourceTypeGetter
  */
-export function SourceTypeChecker() {
+export function SourceTypeGetter() {
     let url = '';
     let sourceType = null;
     /** @type XMLHttpRequest */
@@ -26,7 +26,7 @@ export function SourceTypeChecker() {
     this.getSourceType = () => {
         return new Promise(((resolve) => {
             resolveAndReturnSourceType = resolve;
-            if (sourceTypeCheckerUtils.isUrlYoutubeOne(url)) {
+            if (sourceTypeGetterHelpers.isUrlYoutubeOne(url)) {
                 youtubeType();
                 return resolve(sourceType);
             }
@@ -52,7 +52,7 @@ export function SourceTypeChecker() {
             return;
         }
         callCorrectActionsDependingOnSourceType(
-            sourceTypeCheckerUtils.getTypeFromResponseContentType(
+            sourceTypeGetterHelpers.getTypeFromResponseContentType(
                 xhr.getResponseHeader('content-type')
             )
         );

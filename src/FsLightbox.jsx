@@ -16,9 +16,10 @@ import { SlideSwipingMoveActions } from "./core/SlideSwiping/Actions/Move/SlideS
 import { SlideSwipingUpActions } from "./core/SlideSwiping/Actions/Up/SlideSwipingUpActions";
 import { SwipingTransitioner } from "./core/SlideSwiping/Actions/Up/SwipingTransitioner";
 import { SwipingSlideChanger } from "./core/SlideSwiping/Actions/Up/SwipingSlideChanger";
-import { SourceFactory } from "./core/Source/SourceFactory";
-import { SourceCreator } from "./core/Source/SourceCreator";
-import { SourceTypeChecker } from "./core/Source/SourceType/SourceTypeChecker";
+import { SourceComponentGetter } from "./core/Sources/Creating/SourceComponentGetter";
+import { SourceCreator } from "./core/Sources/SourceCreator";
+import { SourceTypeGetter } from "./core/Sources/Creating/SourceTypeGetter";
+import { SourceSizeAdjusterIterator } from "./core/Sizes/SourceSizeAdjusterIterator";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -97,7 +98,7 @@ class FsLightbox extends Component {
     setUpElements() {
         this.elements = {
             container: React.createRef(),
-            mediaHolder: React.createRef(),
+            sourcesWrapper: React.createRef(),
             sources: createRefsArrayForNumberOfSlides(this.data.totalSlides),
             sourceHolders: createRefsArrayForNumberOfSlides(this.data.totalSlides),
             sourcesJSXComponents: createNullArrayForNumberOfSlides(this.data.totalSlides),
@@ -114,21 +115,24 @@ class FsLightbox extends Component {
 
     setUpInjector() {
         this.injector = {
-            source: {
-                getSourceFactory: () => new SourceFactory(fsLightbox),
-                getSourceTypeChecker: () => new SourceTypeChecker(),
-                getSourceCreator: () => new SourceCreator()
-            },
-            transforms: {
-                getSourceHolderTransformer: () => new SourceHolderTransformer(this),
-                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
-                getInitialStageSourceHoldersByValueTransformer: () => ({ stageSourcesIndexes: {} })
+            sizes: {
+                getSourceSizeAdjusterIterator: () => new SourceSizeAdjusterIterator(this)
             },
             slideSwiping: {
                 getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
                 getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps),
                 getSwipingTransitioner: () => new SwipingTransitioner(this),
                 getSwipingSlideChangerForSwipingTransitioner: (swipingTransitioner) => new SwipingSlideChanger(this, swipingTransitioner),
+            },
+            source: {
+                getSourceFactory: () => new SourceComponentGetter(fsLightbox),
+                getSourceTypeChecker: () => new SourceTypeGetter(),
+                getSourceCreator: () => new SourceCreator()
+            },
+            transforms: {
+                getSourceHolderTransformer: () => new SourceHolderTransformer(this),
+                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
+                getInitialStageSourceHoldersByValueTransformer: () => ({ stageSourcesIndexes: {} })
             }
         };
     }
@@ -150,7 +154,7 @@ class FsLightbox extends Component {
 
     initialize() {
         this.data.isInitialized = true;
-        this.core.sizeController.controlAllSizes();
+        this.core.globalResizingController.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         this.core.eventsControllers.window.resize.attachListener();
         this.core.eventsControllers.window.swiping.attachListeners();
         this.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
