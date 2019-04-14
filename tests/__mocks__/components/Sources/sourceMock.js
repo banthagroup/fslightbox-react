@@ -6,7 +6,7 @@ import Source from "../../../../src/components/Sources/Source";
  */
 export function SourceMock(fsLightbox) {
     /**
-     * @var {Source} source
+     * @var {Sources} source
      */
     let source;
     let index;

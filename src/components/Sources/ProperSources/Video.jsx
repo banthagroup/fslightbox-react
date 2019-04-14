@@ -36,7 +36,7 @@ const Video = (
     return (
         <video
             onLoadedMetadata={ onLoadedMetaData }
-            className="fslightbox-single-source fslightbox-video fslightbox-opacity-0"
+            className="fslightbox-source fslightbox-video fslightbox-opacity-0"
             controls
             ref={ sources[index] }
             poster={ videosPosters[index] }>

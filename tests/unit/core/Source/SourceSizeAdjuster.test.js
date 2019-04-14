@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceSizeAdjuster } from "../../../../src/core/Source/SourceSizeAdjuster";
+import { SourceSizeAdjuster } from "../../../../src/core/Sizes/SourceSizeAdjuster";
 import { testSourceDimensions } from "../../../schemas/testVariables";
 import { getMountedImageForFsLightboxInstance } from "../../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 import { getDecreasedDimensionValue } from "../../../__mocks__/helpers/getDecreasedDimensionValue";

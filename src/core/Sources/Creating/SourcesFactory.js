@@ -1,0 +1,6 @@
+/**
+ * @class
+ */
+export function SourcesFactory() {
+
+}

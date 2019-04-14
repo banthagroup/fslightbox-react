@@ -36,7 +36,7 @@ const Youtube = (
 
     return (
         <iframe
-            className="fslightbox-single-source fslightbox-youtube-iframe fslightbox-opacity-0"
+            className="fslightbox-source fslightbox-youtube-iframe fslightbox-opacity-0"
             ref={ sources[index] }
             src={
                 "https://www.youtube.com/embed/"

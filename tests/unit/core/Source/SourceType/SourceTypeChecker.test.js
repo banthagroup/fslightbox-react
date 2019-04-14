@@ -1,13 +1,13 @@
 import { testImageURL, testVideoURL, testYoutubeURL } from "../../../../schemas/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../../src/constants/CoreConstants";
-import { SourceTypeChecker } from "../../../../../src/core/Source/SourceType/SourceTypeChecker";
+import { SourceTypeGetter } from "../../../../../src/core/Sources/Creating/SourceTypeGetter";
 
 
-/** @type SourceTypeChecker */
+/** @type SourceTypeGetter */
 let sourceTypeChecker;
 
 beforeEach(() => {
-    sourceTypeChecker = new SourceTypeChecker();
+    sourceTypeChecker = new SourceTypeGetter();
 });
 
 it('should resolve image type', () => {

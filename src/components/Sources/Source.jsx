@@ -6,7 +6,7 @@ import SourceLoader from "../Loaders/SourceLoader.jsx";
  * @param { FsLightbox.sourcesData.sourcesToCreateOnConstruct } sourcesToCreateOnConstruct
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
  * @param { FsLightbox.elements.sourcesJSXComponents } sourcesJSXComponents
- * @param { FsLightbox.core.sourceFactory | SourceFactory } sourceFactory
+ * @param { FsLightbox.core.sourceFactory | SourceComponentGetter } sourceFactory
  * @param { number } index
  * @param {{ createSource: function() }} sourceCreator
  */

@@ -77,7 +77,7 @@ export function FsLightboxMock() {
         if (!isInstantiated()) {
             throwNotInstantiatedError();
         }
-        fsLightbox.elements.mediaHolder.current = document.createElement('div');
+        fsLightbox.elements.sourcesWrapper.current = document.createElement('div');
     };
 
 

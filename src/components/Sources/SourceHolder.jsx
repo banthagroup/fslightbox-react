@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Source from "./Source.jsx";
-import { SourceTypeChecker } from "../../core/Source/SourceType/SourceTypeChecker";
+import { SourceTypeGetter } from "../../core/Sources/Creating/SourceTypeGetter";
 
 /**
  * @param { FsLightbox }fsLightbox

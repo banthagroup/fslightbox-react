@@ -9,7 +9,7 @@ import { SourceHolderTransformer } from "../../src/core/Transforms/SourceHolderT
 
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
-    fsLightbox.core.sizeController.controlAllSizes = jest.fn();
+    fsLightbox.core.globalResizingController.controlAllSizes = jest.fn();
     fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
     fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
     const testStageHolderTransformer = {
@@ -21,7 +21,7 @@ describe('initialize', () => {
     fsLightbox.initialize();
 
     it('should init core that need to be initialized', () => {
-        expect(fsLightbox.core.sizeController.controlAllSizes).toBeCalled();
+        expect(fsLightbox.core.globalResizingController.controlAllSizes).toBeCalled();
         expect(fsLightbox.core.eventsControllers.window.resize.attachListener).toBeCalled();
         expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
         expect(testStageHolderTransformer.withoutTimeout).toBeCalled();

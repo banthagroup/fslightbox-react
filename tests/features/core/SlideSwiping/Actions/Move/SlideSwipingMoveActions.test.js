@@ -28,7 +28,7 @@ describe('event is mousedown', () => {
         };
         mockSwipingProps.downClientX = 256;
         slideSwipingMoveActions.setMoveEvent(mockEvent);
-        slideSwipingMoveActions.runActions();
+        slideSwipingMoveActions.runAllResizingActions();
     });
 
     it('should set swiped difference to clientX and downClientX difference', () => {
@@ -50,7 +50,7 @@ describe('event is touchstart', () => {
         };
         mockSwipingProps.downClientX =  768;
         slideSwipingMoveActions.setMoveEvent(mockEvent);
-        slideSwipingMoveActions.runActions();
+        slideSwipingMoveActions.runAllResizingActions();
     });
 
     it('should set swiped difference to clientX and downClientX difference', () => {

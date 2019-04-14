@@ -36,7 +36,7 @@ const Image = (
     return (
         <img
             onLoad={ onImageLoad }
-            className={ "fslightbox-single-source fslightbox-opacity-0" }
+            className={ "fslightbox-source fslightbox-opacity-0" }
             ref={ sources[index] }
             src={ urls[index] }
             alt={ urls[index] }

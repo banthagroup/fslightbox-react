@@ -56,7 +56,7 @@ describe('not calling actions', () => {
             expect(mockMoveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
+        it('should not call runAllResizingActions', () => {
             expect(mockMoveActions.runActions).not.toBeCalled();
         });
     });
@@ -74,7 +74,7 @@ describe('not calling actions', () => {
             expect(mockMoveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
+        it('should not call runAllResizingActions', () => {
             expect(mockMoveActions.runActions).not.toBeCalled();
         });
     });
@@ -92,7 +92,7 @@ describe('not calling actions', () => {
             expect(mockMoveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
+        it('should not call runAllResizingActions', () => {
             expect(mockMoveActions.runActions).not.toBeCalled();
         });
     });
@@ -110,7 +110,7 @@ describe('not calling actions', () => {
             expect(mockMoveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
+        it('should not call runAllResizingActions', () => {
             expect(mockMoveActions.runActions).not.toBeCalled();
         });
     });
@@ -129,7 +129,7 @@ describe('calling actions (animation is not running and down event has occurred)
         expect(mockMoveActions.setMoveEvent).toBeCalledWith(mockMoveEvent);
     });
 
-    it('should not call runActions', () => {
+    it('should not call runAllResizingActions', () => {
         expect(mockMoveActions.runActions).toBeCalled();
     });
 });
