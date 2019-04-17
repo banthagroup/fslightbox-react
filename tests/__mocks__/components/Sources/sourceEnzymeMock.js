@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from "enzyme";
-import Source from "../../../../src/Components/Sources/Source";
+import Source from "../../../../src/components/sources/sources";
 
 /**
  * @class SourceEnzymeMock
@@ -37,6 +37,6 @@ export function SourceEnzymeMock(fsLightbox) {
     };
 
     const throwInstantiateError = () => {
-        throw new Error('You have forgotten to instantiate source');
+        throw new Error('You have forgotten to instantiate sources');
     }
 }

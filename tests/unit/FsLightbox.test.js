@@ -3,9 +3,9 @@ import { testProps, testUrls } from "../schemas/testVariables";
 import React from 'react';
 import { mount } from "enzyme";
 import { FsLightboxMock } from "../__mocks__/components/fsLightboxMock";
-import { StageSourceHoldersByValueTransformer } from "../../src/Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersByValueTransformer";
-import { StageSourceHoldersTransformer } from "../../src/Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
-import { SourceHolderTransformer } from "../../src/Core/Transforms/SourceHolderTransformer";
+import { StageSourceHoldersByValueTransformer } from "../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
+import { StageSourceHoldersTransformer } from "../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersTransformer";
+import { SourceHolderTransformer } from "../../src/core/transforms/SourceHolderTransformer";
 
 describe('initialize', () => {
     const fsLightbox = new FsLightbox(testProps);
@@ -20,7 +20,7 @@ describe('initialize', () => {
     };
     fsLightbox.initialize();
 
-    it('should init Core that need to be initialized', () => {
+    it('should init core that need to be initialized', () => {
         expect(fsLightbox.core.globalResizingController.controlAllSizes).toBeCalled();
         expect(fsLightbox.core.eventsControllers.window.resize.attachListener).toBeCalled();
         expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
@@ -29,7 +29,7 @@ describe('initialize', () => {
 });
 
 
-describe('FsLightbox props', () => {
+describe('main-component props', () => {
     const fsLightbox = mount(<FsLightbox slide={ 1 } isOpen={ true } urls={ testUrls }/>);
     /**
      * @type {FsLightbox}

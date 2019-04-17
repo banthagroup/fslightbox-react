@@ -1,4 +1,4 @@
-import { StageSources } from "../../../../src/Core/Stage/StageSources";
+import { StageSources } from "../../../../src/core/stage/StageSources";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('StageSources', () => {
@@ -7,7 +7,7 @@ describe('StageSources', () => {
     const stageSources = new StageSources(fsLightbox);
     fsLightbox.data.totalSlides = 10;
 
-    it('should detect that Sources in stage when its middle slide', () => {
+    it('should detect that sources in stage when its middle slide', () => {
         fsLightbox.componentsStates.slide.set(5);
         expect(stageSources.isSourceInStage(0)).toBeFalsy();
         expect(stageSources.isSourceInStage(1)).toBeFalsy();
@@ -21,12 +21,12 @@ describe('StageSources', () => {
         expect(stageSources.isSourceInStage(9)).toBeFalsy();
     });
 
-    it('should detect that previous source is in stage when slide = 1', () => {
+    it('should detect that previous sources is in stage when slide = 1', () => {
         fsLightbox.componentsStates.slide.set(1);
         expect(stageSources.isSourceInStage(9)).toBeTruthy();
     });
 
-    it('should detect that next source is in stage when slide = totalSlides', () => {
+    it('should detect that next sources is in stage when slide = totalSlides', () => {
         fsLightbox.componentsStates.slide.set(10);
         expect(stageSources.isSourceInStage(0)).toBeTruthy();
     });
@@ -70,7 +70,7 @@ describe('StageSources', () => {
         });
 
         describe('there are only 2 sources', () => {
-            it('should return only current and next source index (current slide is 1)', () => {
+            it('should return only current and next sources index (current slide is 1)', () => {
                 fsLightbox.data.totalSlides = 2;
                 fsLightbox.componentsStates.slide.set(1);
                 expect(stageSources.getAllStageIndexes()).toEqual({
@@ -79,7 +79,7 @@ describe('StageSources', () => {
                 });
             });
 
-            it('should return only current and previous source index (current slide is 2)', () => {
+            it('should return only current and previous sources index (current slide is 2)', () => {
                 fsLightbox.data.totalSlides = 2;
                 fsLightbox.componentsStates.slide.set(2);
                 expect(stageSources.getAllStageIndexes()).toEqual({

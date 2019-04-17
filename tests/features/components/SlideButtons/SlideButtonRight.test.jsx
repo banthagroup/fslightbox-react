@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import SlideButtonRight from "../../../../src/Components/SlideButtons/SlideButtonRight";
+import SlideButtonRight from "../../../../src/components/slide-buttons/SlideButtonRight";
 
 const nextSlideNumber = 4;
 const fsLightbox = {

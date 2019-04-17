@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceSizeAdjuster } from "../../../../src/Core/Sizes/SourceSizeAdjuster";
+import { SourceSizeAdjuster } from "../../../../src/core/sizes/SourceSizeAdjuster";
 import { testSourceDimensions } from "../../../schemas/testVariables";
 import { getMountedImageForFsLightboxInstance } from "../../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 import { getDecreasedDimensionValue } from "../../../__mocks__/helpers/getDecreasedDimensionValue";
@@ -9,7 +9,7 @@ describe('SourceSizeChange', () => {
     const fsLightboxMock = new FsLightboxEnzymeMock();
     const fsLightboxInstance = fsLightboxMock.getInstance();
 
-    describe('it should adjust source size when ...', () => {
+    describe('it should adjust sources size when ...', () => {
         getMountedImageForFsLightboxInstance(fsLightboxInstance);
         const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightboxInstance);
 
@@ -17,7 +17,7 @@ describe('SourceSizeChange', () => {
         sourceSizeAdjuster.setIndex(0);
         const image = fsLightboxInstance.elements.sources[0].current;
 
-        test('source width > window width & source height > window height', () => {
+        test('sources width > window width & sources height > window height', () => {
             window.innerWidth = 1500;
             window.innerHeight = 1400;
             dispatchEvent(new Event('resize'));
@@ -27,7 +27,7 @@ describe('SourceSizeChange', () => {
         });
 
 
-        test('source width > window width & source height < window height', () => {
+        test('sources width > window width & sources height < window height', () => {
             window.innerWidth = 1500;
             window.innerHeight = 2500;
             dispatchEvent(new Event('resize'));
@@ -37,7 +37,7 @@ describe('SourceSizeChange', () => {
         });
 
 
-        test('source width < window width & source height > window height', () => {
+        test('sources width < window width & sources height > window height', () => {
             window.innerWidth = 2500;
             window.innerHeight = 1500;
             dispatchEvent(new Event('resize'));
@@ -47,7 +47,7 @@ describe('SourceSizeChange', () => {
         });
 
 
-        test('source width < window width & source height < window height', () => {
+        test('sources width < window width & sources height < window height', () => {
             window.innerWidth = 2500;
             window.innerHeight = 2400;
             dispatchEvent(new Event('resize'));

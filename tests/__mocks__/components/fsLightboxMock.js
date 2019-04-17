@@ -77,7 +77,7 @@ export function FsLightboxMock() {
         if (!isInstantiated()) {
             throwNotInstantiatedError();
         }
-        fsLightbox.elements.sourcesWrapper.current = document.createElement('div');
+        fsLightbox.elements.sourcesHoldersWrapper.current = document.createElement('div');
     };
 
 
@@ -97,6 +97,6 @@ export function FsLightboxMock() {
     };
 
     const throwNotInstantiatedError = () => {
-        throw new TypeError('You have forgotten to instantiate FsLightbox');
+        throw new TypeError('You have forgotten to instantiate main-component');
     };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from "enzyme";
-import Image from "../../../src/Components/Sources/ProperSources/Image";
+import Image from "../../../src/components/sources/proper-sources/Image";
 
 /**
  * @param { FsLightbox } fsLightboxInstance

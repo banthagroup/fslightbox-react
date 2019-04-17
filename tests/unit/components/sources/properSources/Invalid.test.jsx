@@ -1,5 +1,5 @@
 import React from 'react';
-import Invalid from "../../../../../src/Components/Sources/ProperSources/Invalid";
+import Invalid from "../../../../../src/components/sources/proper-sources/Invalid";
 import { mount } from "enzyme";
 
 const fsLightbox =  {
@@ -22,7 +22,7 @@ it('should set isSourcesAlreadyLoadedArray index to true on construct', () => {
     expect(fsLightbox.sourcesData.isSourceAlreadyLoadedArray[0]).toBeTruthy();
 });
 
-it('should set Sources ref', () => {
+it('should set sources ref', () => {
     expect(fsLightbox.elements.sources[0].current).toEqual(
         invalid.find('.fslightbox-invalid-file-wrapper').getDOMNode()
     );

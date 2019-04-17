@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Nav from "../../../../src/Components/Nav/Nav";
+import Nav from "../../../../src/components/nav/Nav";
 
 const fsLightbox = {};
 const nav = shallow(<Nav fsLightbox={ fsLightbox }/>);
 
-describe('Nav DOM', () => {
+describe('nav DOM', () => {
     it('should match snapshot', () => {
         expect(nav).toMatchSnapshot();
     });

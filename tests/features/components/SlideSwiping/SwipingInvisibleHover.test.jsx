@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import SwipingInvisibleHover from "../../../../src/Components/SlideSwiping/SwipingInvisibleHover";
+import SwipingInvisibleHover from "../../../../src/components/slide-swiping/SwipingInvisibleHover";
 
 
 const fsLightbox = {
@@ -13,7 +13,7 @@ const fsLightbox = {
 };
 let swipingInvisibleHover = shallow(<SwipingInvisibleHover fsLightbox={ fsLightbox }/>);
 
-describe('isSwipingSlide Components state', () => {
+describe('isSwipingSlide components state', () => {
     it('should by default return false', () => {
         expect(fsLightbox.componentsStates.isSwipingSlides.get()).toBeFalsy();
     });

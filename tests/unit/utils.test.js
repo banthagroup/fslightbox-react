@@ -1,16 +1,16 @@
 import React from 'react';
-import { EventsThrower } from "../../src/Helpers/EventsThrower";
+import { EventsThrower } from "../../src/helpers/EventsThrower";
 import { mount } from 'enzyme';
 import FsLightbox from "../../src/FsLightbox";
 import { testUrls, TEST_YOUTUBE_URL } from "../schemas/testVariables";
-import { EVENTS_CONSTANTS_NAMES } from "../../src/Constants/EventsConstants";
-import { createRefsArrayForNumberOfSlides } from "../../src/Helpers/Arrays/createRefsArrayForNumberOfSlides";
-import { createNullArrayForNumberOfSlides } from "../../src/Helpers/Arrays/createNullArrayForNumberOfSlides";
-import { getYoutubeVideoIDFromURL } from "../../src/Helpers/SourceType/getYoutubeVideoIDFromURL";
+import { EVENTS_CONSTANTS_NAMES } from "../../src/constants/eventsConstants";
+import { createRefsArrayForNumberOfSlides } from "../../src/helpers/arrays/createRefsArrayForNumberOfSlides";
+import { createNullArrayForNumberOfSlides } from "../../src/helpers/arrays/createNullArrayForNumberOfSlides";
+import { getYoutubeVideoIDFromURL } from "../../src/helpers/source-type/getYoutubeVideoIDFromURL";
 
 
-describe('Helpers Utils', () => {
-    it('should call Events from props', () => {
+describe('helpers Utils', () => {
+    it('should call events from props', () => {
         const exampleMethods = {};
 
         for (let i in EVENTS_CONSTANTS_NAMES) {
@@ -40,7 +40,7 @@ describe('Helpers Utils', () => {
 });
 
 
-describe('Array creators Helpers', () => {
+describe('Array creators helpers', () => {
     it('should create array with React refs for urls', () => {
         const refsArray = createRefsArrayForNumberOfSlides(testUrls);
         refsArray.forEach((element) => {

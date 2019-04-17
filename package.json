@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --config webpack-prod.config.js --display-modules",
-    "start": "webpack-dev-server --mode development --open --host 127.0.0.1"
+    "start": "webpack-dev-server --mode development --open"
   },
   "repository": {
     "type": "git",

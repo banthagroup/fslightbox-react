@@ -1,4 +1,4 @@
-import { SlideChanger } from "../../../../src/Core/Slide/SlideChanger";
+import { SlideChanger } from "../../../../src/core/slide/SlideChanger";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 const fsLightboxMock = new FsLightboxMock();
@@ -25,7 +25,7 @@ describe('changeSlideTo', () => {
         });
     });
 
-    describe('transforming stage source holders with timeout', () => {
+    describe('transforming stage sources holders with timeout', () => {
         let withTimeoutMock;
 
         beforeEach(() => {
@@ -46,7 +46,7 @@ describe('changeSlideTo', () => {
         });
     });
 
-    describe('animating source holders', () => {
+    describe('animating sources holders', () => {
         let animateSourceFromSlideMockProperty;
 
         beforeEach(() => {

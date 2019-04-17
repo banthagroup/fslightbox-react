@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import FullscreenButton from "../../../../../../src/Components/Nav/Toolbar/ToolbarButtons/FullscreenButton";
+import FullscreenButton from "../../../../../../src/components/nav/toolbar/toolbar-buttons/FullscreenButton";
 
 const fsLightbox = {
     componentsStates: {
@@ -16,7 +16,7 @@ const fsLightbox = {
 let fullscreenButton;
 
 
-describe('isFullscreenOpen Components state', () => {
+describe('isFullscreenOpen components state', () => {
     beforeAll(() => {
         fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox }/>);
     });
@@ -89,7 +89,7 @@ describe('fullscreen is opened', () => {
         // as we are using destructuring in props if we want to change some prop
         // we need to recreate FullscreenButton
         fsLightbox.core.fullscreenToggler.turnOnFullscreen = jest.fn(() => {
-            // in turn Fullscreen we set isFullscreenOpen state to true so here we mock it
+            // in turn fullscreen we set isFullscreenOpen state to true so here we mock it
             fsLightbox.componentsStates.isFullscreenOpen.set(true);
         });
         fsLightbox.core.fullscreenToggler.turnOffFullscreen = jest.fn();

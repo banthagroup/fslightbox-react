@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import SourceLoader from "../../../../src/Components/Loaders/SourceLoader";
+import SourceLoader from "../../../../src/components/loaders/SourceLoader";
 
 const sourceLoader = shallow(<SourceLoader/>);
 
