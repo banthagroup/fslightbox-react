@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme/build';
-import ToolbarButton from "../../../../../src/Components/Nav/Toolbar/ToolbarButton";
+import ToolbarButton from "../../../../../src/components/nav/toolbar/ToolbarButton";
 
 const mockOnClick = jest.fn();
 const toolbarButton = shallow(<ToolbarButton

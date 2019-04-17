@@ -1,4 +1,4 @@
-import Source from "../../../../src/Components/Sources/Source";
+import Source from "../../../../src/components/sources/sources";
 
 /**
  * @class SourceMock
@@ -6,7 +6,7 @@ import Source from "../../../../src/Components/Sources/Source";
  */
 export function SourceMock(fsLightbox) {
     /**
-     * @var {Sources} source
+     * @var {sources} sources
      */
     let source;
     let index;

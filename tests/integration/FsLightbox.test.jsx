@@ -6,7 +6,7 @@ import { FsLightboxEnzymeMock } from "../__mocks__/components/fsLightboxEnzymeMo
 
 const demoComponent = mount(<DemoComponentHiddenLightbox/>);
 
-describe('Test FsLightbox component props', () => {
+describe('Test main-component component props', () => {
     const buttonTogglingOpen = demoComponent.find('button').at(0);
     const fsLightbox = demoComponent.find('FsLightbox');
 

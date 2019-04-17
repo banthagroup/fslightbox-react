@@ -1,13 +1,13 @@
-import { SourceHoldersTransformer } from "../../../../src/Core/Transforms/SourceHoldersTransformer";
+import { SourceHoldersTransformer } from "../../../../src/core/transforms/SourceHoldersTransformer";
 import { FsLightboxEnzymeMock } from "../../../__mocks__/components/fsLightboxEnzymeMock";
-import { StageSourceHoldersTransformer } from "../../../../src/Core/Transforms/StageSourceHoldersTransformers/StageSourceHoldersTransformer";
+import { StageSourceHoldersTransformer } from "../../../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersTransformer";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 describe('SourceHoldersTransformer', () => {
         const mock = new FsLightboxEnzymeMock();
         const fsLightboxInstance = mock.getInstance();
 
-    // const sourceHoldersTransformer = fsLightboxInstance.Core.sourceHoldersTransformer;
+    // const sourceHoldersTransformer = fsLightboxInstance.core.sourceHoldersTransformer;
     // window.innerWidth = 1000;
     // window.innerHeight = 1000;
 
@@ -15,17 +15,17 @@ describe('SourceHoldersTransformer', () => {
         // expect(sourceHoldersTransformer.transformStageSourceHolders()).toBeInstanceOf(StageSourceHoldersTransformer);
     });
 
-    // it('should transform source to negative value', () => {
+    // it('should transform sources to negative value', () => {
     //     sourceHoldersTransformer.transformStageSourceHolderAtIndex(0).negative();
     //     expect(fsLightboxInstance.elements.sourceHolders[0].current.style.transform).toEqual('translate(-1300px,0)');
     // });
     //
-    // it('should transform source to 0 value', () => {
+    // it('should transform sources to 0 value', () => {
     //     sourceHoldersTransformer.transformStageSourceHolderAtIndex(0).zero();
     //     expect(fsLightboxInstance.elements.sourceHolders[0].current.style.transform).toEqual('translate(0px,0)');
     // });
     //
-    // it('should transform source to positive value', () => {
+    // it('should transform sources to positive value', () => {
     //     sourceHoldersTransformer.transformStageSourceHolderAtIndex(0).positive();
     //     expect(fsLightboxInstance.elements.sourceHolders[0].current.style.transform).toEqual('translate(1300px,0)');
     // });
@@ -48,7 +48,7 @@ describe('transformStageSourceHolders', () => {
     const fsLightbox = fsLightboxMock.getFsLightbox();
     // fsLightboxMock.setAllSourceHoldersToDivs();
     // const sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
-    // fsLightbox.Core.sourceHoldersTransformer = sourceHoldersTransformer;
+    // fsLightbox.core.sourceHoldersTransformer = sourceHoldersTransformer;
     // let transformStageSourceHolderMock;
 
     beforeEach(() => {
@@ -152,7 +152,7 @@ describe('transformStageSourceHolders', () => {
 
 
 const fsLightboxMock = new FsLightboxMock();
-/** @var { FsLightbox } fsLightbox */
+/** @var { main-component } fsLightbox */
 let fsLightbox;
 
 beforeEach(() => {
@@ -251,7 +251,7 @@ describe('transformStageSourceHoldersByValue', () => {
 });
 
 
-describe('transform single stage source holder at index', () => {
+describe('transform single stage sources holder at index', () => {
     let mockSourceHolderTransformer;
 
     beforeEach(() => {
@@ -263,23 +263,23 @@ describe('transform single stage source holder at index', () => {
         sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     });
 
-    it('should call set source holder at correct index', () => {
+    it('should call set sources holder at correct index', () => {
         sourceHoldersTransformer.transformStageSourceHolderAtIndex(0);
         expect(mockSourceHolderTransformer.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[0]);
     });
 
-    it('should return source holder transformer', () => {
+    it('should return sources holder transformer', () => {
         expect(sourceHoldersTransformer.transformStageSourceHolderAtIndex(0)).toEqual(mockSourceHolderTransformer);
     });
 });
 
 
-describe('checking if stage source holder is valid for transform', () => {
+describe('checking if stage sources holder is valid for transform', () => {
     beforeEach(() => {
         sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     });
 
-    describe('stage source holder is not valid for transform', () => {
+    describe('stage sources holder is not valid for transform', () => {
         it('should return false due to index is undefined', () => {
             expect(sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform(undefined)).toBeFalsy();
         });
@@ -291,8 +291,8 @@ describe('checking if stage source holder is valid for transform', () => {
         });
     });
 
-    describe('stage source holder is valid for transform', () => {
-        it('should return true due to source holder is defined and its not current', () => {
+    describe('stage sources holder is valid for transform', () => {
+        it('should return true due to sources holder is defined and its not current', () => {
             fsLightbox.componentsStates.slide.set(2);
             expect(sourceHoldersTransformer.isStageSourceHolderAtIndexValidForTransform(0)).toBeTruthy();
         });

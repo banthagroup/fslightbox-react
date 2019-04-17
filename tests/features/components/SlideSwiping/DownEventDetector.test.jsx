@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import DownEventDetector from "../../../../src/Components/SlideSwiping/DownEventDetector";
+import DownEventDetector from "../../../../src/components/slide-swiping/DownEventDetector";
 
 const fsLightbox = {
     core: {

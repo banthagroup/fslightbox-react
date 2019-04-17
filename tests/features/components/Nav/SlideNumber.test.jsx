@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount, shallow } from "enzyme";
 import { act } from 'react-dom/test-utils';
-import SlideNumber from "../../../../src/Components/Nav/SlideNumber";
+import SlideNumber from "../../../../src/components/nav/SlideNumber";
 
 const totalSlides = 4;
 const slideState = {};
@@ -16,7 +16,7 @@ const fsLightbox = {
 
 let slideNumber;
 
-describe('slide - Components state', () => {
+describe('slide - components state', () => {
     beforeAll(() => {
         slideNumber = mount(<SlideNumber fsLightbox={ fsLightbox }/>);
     });

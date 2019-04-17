@@ -1,9 +1,9 @@
-import { SourceAnimator } from "../../../../src/Core/Animations/SourceAnimator";
+import { SourceAnimator } from "../../../../src/core/animations/SourceAnimator";
 import {
     FADE_IN_CLASS_NAME,
     LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
-} from "../../../../src/Constants/CssConstants";
+} from "../../../../src/constants/cssConstants";
 
 const fsLightbox = {
     elements: {
@@ -38,14 +38,14 @@ describe('animateSourceFromSlide', () => {
 
 
     describe('Removing fadeIn animation', () => {
-        it('should fslightbox-fade-in, due to source has this this class', () => {
+        it('should fslightbox-fade-in, due to sources has this this class', () => {
             sourceAnimator.animateSourceFromSlide(1).fadeIn();
             sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
             expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
                 .toBeFalsy();
         });
 
-        it('should fslightbox-fade-in-complete, due to source has this this class', () => {
+        it('should fslightbox-fade-in-complete, due to sources has this this class', () => {
             fsLightbox.elements.sources[0].current.classList.add(LONG_FADE_IN_CLASS_NAME);
             sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
             expect(fsLightbox.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME))

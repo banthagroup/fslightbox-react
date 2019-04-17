@@ -1,4 +1,4 @@
-import { FullscreenToggler } from "../../../../src/Core/Fullscreen/FullscreenToggler";
+import { FullscreenToggler } from "../../../../src/core/fullscreen/FullscreenToggler";
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 
 const fsLightboxMock = new FsLightboxMock();

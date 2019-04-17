@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
 import FsLightbox from "../src";
-import { testVideoURL, testYoutubeURL } from "../tests/schemas/testVariables";
+import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "../tests/schemas/testVariables";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -32,9 +32,9 @@ class DemoComponent extends Component {
                     isOpen={ this.state.isOpen }
                     urls={ [
                         // "invalid",
-                        // testYoutubeURL,
+                        TEST_YOUTUBE_URL,
                         // testVideoURL,
-                        "../demo/images/1.jpeg",
+                        "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                         "../demo/images/2.jpg",
                         // "../demo/images/3.jpeg",
                         // "../demo/images/4.jpeg",

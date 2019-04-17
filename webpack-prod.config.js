@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-    entry: "./src/FsLightbox.jsx",
+    entry: "./src/main-component.jsx",
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "umd",

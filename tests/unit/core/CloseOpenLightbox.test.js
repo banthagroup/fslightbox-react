@@ -1,12 +1,12 @@
 import React from 'react';
-import { CloseOpenLightbox } from "../../../src/Core/CloseOpenLightbox";
+import { CloseOpenLightbox } from "../../../src/core/main-component/CloseOpenLightbox";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import { TransformStageSourcesMock } from "../../__mocks__/core/TransformStageSourcesMock";
-import { LONG_FADE_OUT_CLASS_NAME } from "../../../src/Constants/CssConstants";
+import { LONG_FADE_OUT_CLASS_NAME } from "../../../src/constants/cssConstants";
 
 describe('closing lightbox', () => {
     const fsLightboxMock = new FsLightboxMock();
-    /** @var { FsLightbox } fsLightbox */
+    /** @var { main-component } fsLightbox */
     let fsLightbox;
     /** @var { Element } fsLightboxContainer */
     let fsLightboxContainer;
@@ -44,11 +44,11 @@ describe('closing lightbox', () => {
 
     describe('after fadeout', () => {
         beforeEach(() => {
-            // mocking transforming stage sources because we don't have source holders loaded
+            // mocking transforming stage sources because we don't have sources holders loaded
             // and in opening lightbox we are transforming them
             fsLightboxMock.setAllSourceHoldersToDivs();
-            // mocking media holder for the same reason as source holders
-            fsLightbox.elements.sourcesWrapper.current = document.createElement('div');
+            // mocking media holder for the same reason as sources holders
+            fsLightbox.elements.sourcesHoldersWrapper.current = document.createElement('div');
 
             fsLightbox.core.eventsControllers.window.resize.removeListener = jest.fn();
             closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
@@ -73,9 +73,9 @@ describe('closing lightbox', () => {
     });
 });
 
-describe('Fullscreen', () => {
+describe('fullscreen', () => {
     let fsLightboxMock;
-    /** @var { FsLightbox } fsLightbox */
+    /** @var { main-component } fsLightbox */
     let fsLightbox;
     /** @var { CloseOpenLightbox } closeOpenLightbox */
     let closeOpenLightbox;
@@ -152,7 +152,7 @@ describe('componentMountedAfterOpen and component is initialized', () => {
         expect(fsLightbox.core.sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
     });
 
-    it('should call transform stage Sources without timeout', () => {
+    it('should call transform stage sources without timeout', () => {
         expect(transformSourceHoldersMock.withoutTimeout).toBeCalled();
     });
 });
