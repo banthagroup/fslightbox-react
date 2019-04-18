@@ -1,105 +1,125 @@
-import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
 import { SlideSwipingUp } from "../../../../../src/core/slide-swiping/events/SlideSwipingUp";
 
-const fsLightboxMock = new FsLightboxMock();
-const fsLightbox = fsLightboxMock.getFsLightbox();
-let mockEvent;
-let mockSwipingProps = {};
-let mockUpActions;
+let isSwipingSlidesStateValue;
+const fsLightbox = {
+    componentsStates: {
+        isSwipingSlides: {
+            get: () => isSwipingSlidesStateValue,
+            set: () => {},
+        }
+    },
+    injector: {
+        slideSwiping: {
+            getUpActionsForSwipingProps: () => {},
+        }
+    },
+    core: {
+        lightboxCloser: {
+            closeLightbox: () => {}
+        }
+    }
+};
+let event;
+let swipingProps = {};
+/** @var { SlideSwipingUpActions } upActions */
+let slideSwipingUpActions;
 /** @var { SlideSwipingUp } slideSwipingUp */
 let slideSwipingUp;
 
 beforeEach(() => {
-    mockEvent = {};
-    mockUpActions = {
+    event = {};
+    slideSwipingUpActions = {
         setUpMethodsAccordingToNumberOfSlides: jest.fn(),
         setUpTransformSourceHolders: jest.fn(),
         setUpEvent: jest.fn(),
         runActions: jest.fn(),
     };
-    fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps = jest.fn(() => mockUpActions);
+    fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps = jest.fn(() => slideSwipingUpActions);
 });
 
 const createSlideSwipingUpAndRunListener = () => {
-    slideSwipingUp = new SlideSwipingUp(fsLightbox, mockSwipingProps);
-    slideSwipingUp.listener(mockEvent);
+    slideSwipingUp = new SlideSwipingUp(fsLightbox, swipingProps);
+    slideSwipingUp.listener(event);
 };
 
 describe('constructor', () => {
     beforeEach(() => {
-        slideSwipingUp = new SlideSwipingUp(fsLightbox, mockSwipingProps);
+        slideSwipingUp = new SlideSwipingUp(fsLightbox, swipingProps);
     });
 
     it('should call getUpActionsForSwipingProps with swiping props', () => {
-        expect(fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps).toBeCalledWith(mockSwipingProps);
+        expect(fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps).toBeCalledWith(swipingProps);
     });
 
     it('should call setUpTransformSourceHolders on actions instance', () => {
-        expect(mockUpActions.setUpTransformSourceHolders).toBeCalled();
+        expect(slideSwipingUpActions.setUpTransformSourceHolders).toBeCalled();
     });
 });
 
-describe('not calling runAllResizingActions', () => {
+describe('not calling runActions', () => {
     describe(`due to user is not swiping, even if animation is not running and swiped difference not equal 0`,
         () => {
             beforeEach(() => {
-                mockSwipingProps = {
+                swipingProps = {
                     swipedDifference: 100,
                     isAfterSwipeAnimationRunning: false
                 };
-                fsLightbox.state.isSwipingSlides = false;
+                fsLightbox.componentsStates.isSwipingSlides.get = () => false;
                 createSlideSwipingUpAndRunListener();
             });
 
             it('should not call run actions', () => {
-                expect(mockUpActions.runActions).not.toBeCalled();
+                expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
 
     describe(`due to swiping animation is running, even if swiped difference is not equal 0 and user is swiping`,
         () => {
             beforeEach(() => {
-                mockSwipingProps = {
+                swipingProps = {
                     swipedDifference: 100,
                     isAfterSwipeAnimationRunning: true
                 };
-                fsLightbox.state.isSwipingSlides = true;
+                fsLightbox.componentsStates.isSwipingSlides.get = () => true;
                 createSlideSwipingUpAndRunListener();
             });
 
             it('should not call run actions', () => {
-                expect(mockUpActions.runActions).not.toBeCalled();
+                expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
 
     describe(`due to swiped difference equals 0, even if user is swiping and swiping animation is not running`,
         () => {
             beforeEach(() => {
-                mockSwipingProps = {
+                swipingProps = {
                     isSourceDownEventTarget: true,
                     swipedDifference: 0,
                     isAfterSwipeAnimationRunning: false
                 };
-                fsLightbox.state.isSwipingSlides = true;
+                fsLightbox.componentsStates.isSwipingSlides.get = () => true;
                 createSlideSwipingUpAndRunListener();
             });
 
             it('should not call run actions', () => {
-                expect(mockUpActions.runActions).not.toBeCalled();
+                expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
 });
 
 
-describe('setting isSwipingSlides to false and closing lightbox if sources is not down event target', () => {
+describe(`setting isSwipingSlides to false and closing lightbox if sources is not down event target`, () => {
     beforeEach(() => {
-        fsLightbox.core.closeOpenLightbox.closeLightbox = jest.fn();
-        mockSwipingProps = {
+        fsLightbox.core.lightboxCloser.closeLightbox = jest.fn();
+        swipingProps = {
             isSourceDownEventTarget: false,
+            // swiped difference = 0 (user didn't swipe)
             swipedDifference: 0,
             isAfterSwipeAnimationRunning: false
         };
-        fsLightbox.state.isSwipingSlides = true;
+        // user is swiping slides
+        isSwipingSlidesStateValue = true;
+        fsLightbox.componentsStates.isSwipingSlides.set = jest.fn((state) => isSwipingSlidesStateValue = state);
     });
 
     describe('setting isSwipingSlides to false', () => {
@@ -108,44 +128,46 @@ describe('setting isSwipingSlides to false and closing lightbox if sources is no
         });
 
         it('should set isSwipingSlides to false', () => {
-            expect(fsLightbox.state.isSwipingSlides).toBeFalsy();
+            expect(isSwipingSlidesStateValue).toBeFalsy();
         });
     });
 
     describe('not closing lightbox due to sources is down event target', () => {
         beforeEach(() => {
-            mockSwipingProps.isSourceDownEventTarget = true;
+            swipingProps.isSourceDownEventTarget = true;
             createSlideSwipingUpAndRunListener();
         });
 
         it('should not call closeLightbox', () => {
-            expect(fsLightbox.core.closeOpenLightbox.closeLightbox).not.toBeCalled();
+            expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
         });
     });
 
-    describe('closing lightbox - sources is not event target', () => {
+    describe('closing lightbox - source is not event target', () => {
         beforeEach(() => {
-            mockSwipingProps.isSourceDownEventTarget = false;
+            fsLightbox.componentsStates.isSwipingSlides.get = () => true;
+            swipingProps.isSourceDownEventTarget = false;
             createSlideSwipingUpAndRunListener();
         });
 
         it('should call closeLightbox', () => {
-            expect(fsLightbox.core.closeOpenLightbox.closeLightbox).toBeCalled();
+            expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
         });
     });
 });
 
-describe('calling actions', () => {
+describe(`calling actions (swiped difference !== 0, after swipe animation is not running
+        and isSwipingSlides state set to true)`, () => {
     beforeEach(() => {
-        mockSwipingProps = {
+        swipingProps = {
             swipedDifference: 100,
             isAfterSwipeAnimationRunning: false
         };
-        fsLightbox.state.isSwipingSlides = true;
+        fsLightbox.componentsStates.isSwipingSlides.get = () => true;
         createSlideSwipingUpAndRunListener();
     });
 
     it('should call run actions', () => {
-        expect(mockUpActions.runActions).toBeCalled();
+        expect(slideSwipingUpActions.runActions).toBeCalled();
     });
 });

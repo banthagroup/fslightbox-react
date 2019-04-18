@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ToolbarButton from "../ToolbarButton.jsx";
 
-const CloseButton = ({ fsLightbox: { core: { closeOpenLightbox: { closeLightbox } } } }) => {
+const CloseButton = ({ fsLightbox: { core: { lightboxCloser: { closeLightbox } } } }) => {
     return (
         <ToolbarButton
             onClick={ closeLightbox }

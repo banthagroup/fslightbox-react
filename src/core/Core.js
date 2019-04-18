@@ -2,7 +2,6 @@ import { SourceAnimator } from "./animations/SourceAnimator";
 import { StageSources } from "./stage/StageSources";
 import { FullscreenToggler } from "./fullscreen/FullscreenToggler";
 import { SourceHoldersTransformer } from "./transforms/SourceHoldersTransformer";
-import { CloseOpenLightbox } from "./main-component/CloseOpenLightbox";
 import { SlideChanger } from "./slide/SlideChanger";
 import { EventsControllers } from "./events-controllers/EventsControllers";
 import { GlobalResizingController } from "./sizes/GlobalResizingController";
@@ -11,6 +10,9 @@ import { ProperSourceController } from "./sources/ProperSourceController";
 import { SourceComponentGetter } from "./sources/creating/SourceComponentGetter";
 import { RefactoredSourceComponentGetter } from "./sources/creating/RefactoredSourceComponentGetter";
 import { LightboxUnmounter } from "./main-component/LightboxUnmounter";
+import { LightboxCloser } from "./main-component/closing/LightboxCloser";
+import { LightboxOpener } from "./main-component/opening/LightboxOpener";
+import { LightboxInitializer } from "./main-component/LightboxInitializer";
 
 /**
  * @class
@@ -25,7 +27,6 @@ export function Core(fsLightbox) {
     this.sourceFactory = new SourceComponentGetter(fsLightbox);
     this.sourceComponentGetter = new RefactoredSourceComponentGetter(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
-    // TODO: TEST
     this.properSourceController = new ProperSourceController(fsLightbox);
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
@@ -34,5 +35,7 @@ export function Core(fsLightbox) {
     this.globalResizingController = new GlobalResizingController(fsLightbox);
     this.eventsControllers = new EventsControllers(fsLightbox);
     this.lightboxUnmounter = new LightboxUnmounter(fsLightbox);
-    this.closeOpenLightbox = new CloseOpenLightbox(fsLightbox);
+    this.lightboxCloser = new LightboxCloser(fsLightbox);
+    this.lightboxOpener = new LightboxOpener(fsLightbox);
+    this.lightboxInitializer = new LightboxInitializer(fsLightbox);
 }

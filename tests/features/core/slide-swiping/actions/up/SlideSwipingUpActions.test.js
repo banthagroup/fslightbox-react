@@ -1,9 +1,45 @@
-import { FsLightboxMock } from "../../../../../__mocks__/components/fsLightboxMock";
 import { SlideSwipingUpActions } from "../../../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
 
-const fsLightboxMock = new FsLightboxMock();
-let fsLightbox = fsLightboxMock.getFsLightbox();
-fsLightboxMock.setAllSourceHoldersToDivs();
+let slide;
+let isSwipingSlides;
+let swipingTransitioner = {
+    setStageSourcesIndexes: () => {},
+    removeAllTransitionsFromStageSources: () => {}
+};
+let swipingSlideChanger = {
+    setStageSourcesIndexes: () => {},
+    changeSlideToPrevious: () => {},
+    changeSlideToNext: () => {}
+};
+const fsLightbox = {
+    data: {
+        totalSlides: 0
+    },
+    componentsStates: {
+        isSwipingSlides: {
+            get: () => isSwipingSlides,
+            set: (boolean) => isSwipingSlides = boolean
+        },
+        slide: {
+            get: () => slide,
+            set: (number) => slide = number
+        },
+    },
+    core: {
+        stageSources: {
+            getAllStageIndexes: () => {}
+        },
+        sourceHoldersTransformer: {
+            transformStageSourceHolderAtIndex: () => {},
+        },
+    },
+    injector: {
+        slideSwiping: {
+            getSwipingTransitioner: () => swipingTransitioner,
+            getSwipingSlideChangerForSwipingTransitioner: () => swipingSlideChanger,
+        }
+    }
+};
 /** @var { SlideSwipingUpActions } slideSwipingUpActions */
 let slideSwipingUpActions;
 let swipingProps = {};
@@ -15,51 +51,32 @@ const createNewSlideSwipingUpActionsAndCallMethods = () => {
 };
 
 describe('setting stage sources indexes', () => {
-    let setStageSourcesIndexes;
+    let stageSourcesIndexes;
 
     beforeEach(() => {
-        setStageSourcesIndexes = jest.fn();
-        fsLightbox.data.totalSlides = 3;
-        fsLightbox.state.slide = 1;
+        stageSourcesIndexes = {};
+        fsLightbox.core.stageSources.getAllStageIndexes = jest.fn(() => stageSourcesIndexes);
     });
 
     describe('setting stage sources indexes for SwipingTransitioner', () => {
         beforeEach(() => {
-            fsLightbox.injector.slideSwiping.getSwipingTransitioner = () => ({
-                setStageSourcesIndexes: setStageSourcesIndexes,
-                addTransitionToCurrentAndPrevious: () => {
-                }
-            });
+            swipingTransitioner.setStageSourcesIndexes = jest.fn();
             createNewSlideSwipingUpActionsAndCallMethods();
         });
 
         it('should call setStageSourcesIndexes with stageSourcesIndexes', () => {
-            // as there are 3 slides totally and slide is - indexes will be like previous - 2, current - 0, next -1
-            expect(setStageSourcesIndexes).toBeCalledWith({
-                previous: 2,
-                current: 0,
-                next: 1
-            });
+            expect(swipingTransitioner.setStageSourcesIndexes).toBeCalledWith(stageSourcesIndexes);
         });
     });
 
-    describe('setting stage sources indexes for SwipingTransitioner', () => {
+    describe('setting stage sources indexes for SwipingSlideChanger', () => {
         beforeEach(() => {
-            fsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner = () => ({
-                setStageSourcesIndexes: setStageSourcesIndexes,
-                changeSlideToPrevious: () => {
-                }
-            });
+            swipingSlideChanger.setStageSourcesIndexes = jest.fn();
             createNewSlideSwipingUpActionsAndCallMethods();
         });
 
         it('should call setStageSourcesIndexes with stageSourcesIndexes', () => {
-            // as there are 3 slides totally and slide is - indexes will be like previous - 2, current - 0, next -1
-            expect(setStageSourcesIndexes).toBeCalledWith({
-                previous: 2,
-                current: 0,
-                next: 1
-            });
+            expect(swipingSlideChanger.setStageSourcesIndexes).toBeCalledWith(stageSourcesIndexes);
         });
     });
 });
@@ -77,17 +94,11 @@ describe('transforming sources holders', () => {
         for (let i in actions) {
             actions[i] = jest.fn();
         }
-        fsLightbox.injector.slideSwiping.getSwipingTransitioner = () => ({
-            setStageSourcesIndexes: () => {
-            },
-            addTransitionToCurrent: actions.addTransitionToCurrent,
-        });
-        fsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner = () => ({
-            setStageSourcesIndexes: () => {
-            },
-            changeSlideToPrevious: actions.changeSlideToPrevious,
-            changeSlideToNext: actions.changeSlideToNext
-        });
+        swipingTransitioner.setStageSourcesIndexes = () => {};
+        swipingTransitioner.addTransitionToCurrent = actions.addTransitionToCurrent;
+        swipingTransitioner.setStageSourcesIndexes = () => {};
+        swipingSlideChanger.changeSlideToPrevious = actions.changeSlideToPrevious;
+        swipingSlideChanger.changeSlideToNext = actions.changeSlideToNext;
         fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = actions.transformStageSourceHoldersAtIndex;
         fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = actions.transformStageSourceHolders;
     });
@@ -174,7 +185,7 @@ describe('transforming sources holders', () => {
 
             describe('slide === 1', () => {
                 beforeEach(() => {
-                    fsLightbox.state.slide = 1;
+                    slide = 1;
                     createNewSlideSwipingUpActionsAndCallMethods();
                 });
 
@@ -195,7 +206,7 @@ describe('transforming sources holders', () => {
 
             describe('slide === 2', () => {
                 beforeEach(() => {
-                    fsLightbox.state.slide = 2;
+                    slide = 2;
                     createNewSlideSwipingUpActionsAndCallMethods();
                 });
 
@@ -238,7 +249,7 @@ describe('transforming sources holders', () => {
 
             describe('slide === 1', () => {
                 beforeEach(() => {
-                    fsLightbox.state.slide = 1;
+                    slide = 1;
                     createNewSlideSwipingUpActionsAndCallMethods();
                 });
 
@@ -253,7 +264,7 @@ describe('transforming sources holders', () => {
 
             describe('slide === 2', () => {
                 beforeEach(() => {
-                    fsLightbox.state.slide = 2;
+                    slide = 2;
                     createNewSlideSwipingUpActionsAndCallMethods();
                 });
 
@@ -290,14 +301,15 @@ describe('setting isAfterSwipeAnimationRunning from swiping props to true', () =
 
 describe('setting isSwipingSlides state to false', () => {
     beforeEach(() => {
-        fsLightbox.state.isSwipingSlides = true;
+        isSwipingSlides = true;
         createNewSlideSwipingUpActionsAndCallMethods();
     });
 
     it('should set isAfterSwipeAnimationRunning to true', () => {
-        expect(fsLightbox.state.isSwipingSlides).toBeFalsy();
+        expect(isSwipingSlides).toBeFalsy();
     });
 });
+
 
 describe('setting swiped difference from swiping props to 0', () => {
     beforeEach(() => {
@@ -322,13 +334,11 @@ describe('setTimeout', () => {
 
         beforeEach(() => {
             removeAllTransitionsFromStageSources = jest.fn();
-            fsLightbox.injector.slideSwiping.getSwipingTransitioner = () => ({
+            swipingTransitioner = {
                 removeAllTransitionsFromStageSources: removeAllTransitionsFromStageSources,
-                setStageSourcesIndexes: () => {
-                },
-                addTransitionToCurrentAndPrevious: () => {
-                }
-            });
+                setStageSourcesIndexes: () => {},
+                addTransitionToCurrentAndPrevious: () => {}
+            };
             createNewSlideSwipingUpActionsAndCallMethods();
             jest.runAllTimers();
         });

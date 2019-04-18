@@ -25,7 +25,6 @@ export function GlobalResizingController(
     const {
         adjustAllSourcesSizes
     } = getSourceSizeAdjusterIterator();
-    let sourcesHoldersWrapperStyle;
 
     this.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize = () => {
         saveMaxSourcesDimensions();
@@ -48,9 +47,12 @@ export function GlobalResizingController(
     const getDecreasedByResponsiveValueDimension = (value) => value - (value * SOURCE_DIMENSIONS_DECREASE_VALUE);
 
     const adjustSourcesWrapperSize = () => {
-        if (!sourcesHoldersWrapperStyle)
-            sourcesHoldersWrapperStyle = sourcesHoldersWrapper.current.style;
-        sourcesHoldersWrapperStyle.width = sourcesData.maxSourceWidth + 'px';
-        sourcesHoldersWrapperStyle.height = sourcesData.maxSourceHeight + 'px';
+        getSourceHoldersWrapperStyle().width = sourcesData.maxSourceWidth + 'px';
+        getSourceHoldersWrapperStyle().height = sourcesData.maxSourceHeight + 'px';
+    };
+
+    /** @return { CSSStyleDeclaration } */
+    const getSourceHoldersWrapperStyle = () => {
+        return sourcesHoldersWrapper.current.style;
     };
 }
