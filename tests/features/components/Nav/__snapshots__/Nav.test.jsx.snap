@@ -13,6 +13,19 @@ exports[`Nav DOM should match snapshot 1`] = `
 </div>
 `;
 
+exports[`nav DOM should match snapshot 1`] = `
+<div
+  className="fslightbox-nav"
+>
+  <Toolbar
+    fsLightbox={Object {}}
+  />
+  <SlideNumber
+    fsLightbox={Object {}}
+  />
+</div>
+`;
+
 exports[`testing DOM should match snapshot 1`] = `
 <div
   className="fslightbox-nav"

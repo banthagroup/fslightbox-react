@@ -21,6 +21,8 @@ import { SourceTypeGetter } from "./core/sources/creating/SourceTypeGetter";
 import { SourceSizeAdjusterIterator } from "./core/sizes/SourceSizeAdjusterIterator";
 import { RefactoredSourceComponentGetter } from "./core/sources/creating/RefactoredSourceComponentGetter";
 import { SourcesFactory } from "./core/sources/creating/SourcesFactory";
+import { LightboxClosingActions } from "./core/main-component/closing/LightboxClosingActions";
+import { LightboxOpeningActions } from "./core/main-component/opening/LightboxOpeningActions";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -45,7 +47,6 @@ class FsLightbox extends Component {
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
             isToolbarCoreInitialized: false,
-            isInitialized: false,
             isSwipingSlides: false,
         };
     }
@@ -123,6 +124,10 @@ class FsLightbox extends Component {
 
     setUpInjector() {
         this.injector = {
+            mainComponent: {
+                getClosingActions: () => new LightboxClosingActions(this),
+                getOpeningActions: () => new LightboxOpeningActions(this)
+            },
             sizes: {
                 getSourceSizeAdjusterIterator: () => new SourceSizeAdjusterIterator(this)
             },
@@ -152,28 +157,17 @@ class FsLightbox extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.isOpen !== this.props.isOpen) {
             (this.state.isOpen) ?
-                this.core.closeOpenLightbox.closeLightbox() :
-                this.core.closeOpenLightbox.openLightbox();
+                this.core.lightboxCloser.closeLightbox() :
+                this.core.lightboxOpener.openLightbox();
         }
         if (prevProps.slide !== this.props.slide) {
             this.core.slideChanger.changeSlideTo(this.props.slide);
         }
     }
 
-    initialize() {
-        this.data.isInitialized = true;
-        this.core.globalResizingController.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
-        this.core.eventsControllers.window.resize.attachListener();
-        this.core.eventsControllers.window.swiping.attachListeners();
-        this.core.sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
-    }
-
     componentDidMount() {
         this.data.isMounted = true;
-        if (this.props.isOpen) {
-            this.initialize();
-            this.core.closeOpenLightbox.addOpeningClassToDocument();
-        }
+        this.core.lightboxInitializer.initialize();
     }
 
     componentWillUnmount() {

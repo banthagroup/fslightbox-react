@@ -4,7 +4,7 @@ import CloseButton from "../../../../../../src/components/nav/toolbar/toolbar-bu
 
 const fsLightbox = {
     core: {
-        closeOpenLightbox: {
+        lightboxCloser: {
             closeLightbox: jest.fn()
         }
     }
@@ -23,6 +23,6 @@ describe('closing lightbox on clicking close button', () => {
     });
 
     it('should call closeLightbox', () => {
-        expect(fsLightbox.core.closeOpenLightbox.closeLightbox).toBeCalled();
+        expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
     });
 });

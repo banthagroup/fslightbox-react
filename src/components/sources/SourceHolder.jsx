@@ -32,7 +32,7 @@ const SourceHolder = (
     };
 
     return (
-        <div ref={ sourceHolders[index] } className="fslightbox-source-holder">
+        <div ref={ sourceHolders[index] } className="fslightbox-source-holder fslightbox-full-dimension">
             { sourcesComponents[index] ?
                 sourcesComponents[index] :
                 <SourceLoader/>

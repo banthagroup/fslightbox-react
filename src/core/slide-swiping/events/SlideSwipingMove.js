@@ -1,6 +1,6 @@
 /**
  * @class SlideSwipingMove
- * @param { FsLightbox.getters.getIsSwipingSlides | function(): boolean } getIsSwipingSlides
+ * @param { FsLightbox.componentsStates.isSwipingSlides | { get: function(): boolean } }  isSwipingSlidesState
  * @param { FsLightbox.injector.slideSwiping.getMoveActionsForSwipingProps | Function } getMoveActionsForSwipingProps
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
  */

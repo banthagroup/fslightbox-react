@@ -1,7 +1,7 @@
 /**
  * @class
  * @param { FsLightbox.data.deviceType } deviceType
- * @param { FsLightbox.setters.setState | Function } setState
+ * @param { FsLightbox.componentsStates.isSwipingSlides | { set: function(boolean) } } isSwipingSlidesState
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingDown({ componentsStates: { isSwipingSlides: isSwipingSlidesState } }, swipingProps) {

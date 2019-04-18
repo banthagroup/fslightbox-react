@@ -1,7 +1,5 @@
 /**
  * @class
- * @param { FsLightbox.setters.setState | Function } setState
- * @param { FsLightbox.getters.getIsSwipingSlides | function: boolean } getIsSwipingSlides
  * @param { FsLightbox.injector.slideSwiping.getUpActionsForSwipingProps
  * | function: SlideSwipingUpActions } getUpActionsForSwipingProps
  * @param { FsLightbox.core | Core } core
@@ -9,9 +7,6 @@
  */
 export function SlideSwipingUp(
     {
-        setters: {
-            setState
-        },
         componentsStates: {
             isSwipingSlides: isSwipingSlidesState
         },
@@ -47,6 +42,6 @@ export function SlideSwipingUp(
 
     const ifSourceIsNotEventTargetCloseLightbox = () => {
         if (!swipingProps.isSourceDownEventTarget)
-            core.closeOpenLightbox.closeLightbox();
+            core.lightboxCloser.closeLightbox();
     };
 }
