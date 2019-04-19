@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
-import { getYoutubeVideoIDFromURL } from "../../../helpers/source-type/getYoutubeVideoIDFromURL";
+import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVideoIdFromUrl";
 
 
 /**
@@ -40,7 +40,7 @@ const Youtube = (
             ref={ sources[index] }
             src={
                 "https://www.youtube.com/embed/"
-                + getYoutubeVideoIDFromURL(urls[index])
+                + getYoutubeVideoIdFromUrl(urls[index])
                 + '?enablejsapi=1'
             }
             allowFullScreen={ true }

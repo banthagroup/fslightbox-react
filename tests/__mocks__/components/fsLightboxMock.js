@@ -1,5 +1,5 @@
 import FsLightbox from "../../../src";
-import { testUrls } from "../../schemas/testVariables";
+import { testUrls } from "../../__tests-helpers__/testVariables";
 
 /**
  * @class FsLightboxMock

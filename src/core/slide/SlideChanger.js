@@ -36,10 +36,10 @@ export function SlideChanger(
         animateSourceFromSlide(previousSlideNumber).fadeOut();
         animateSourceFromSlide(newSlideNumber).removeFadeOut();
         animateSourceFromSlide(newSlideNumber).fadeIn();
-        removeFadeOutAfterFromPreviousSlideAfterTimeout();
+        removeFadeOutFromAllSourcesAfterTimeout();
     };
 
-    const removeFadeOutAfterFromPreviousSlideAfterTimeout = () => {
+    const removeFadeOutFromAllSourcesAfterTimeout = () => {
         wasSlideChangedDuringAnimationArray.push(true);
         setTimeout(() => {
             wasSlideChangedDuringAnimationArray.pop();

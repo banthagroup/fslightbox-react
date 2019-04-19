@@ -12,7 +12,7 @@ import { SourceTypeGetterHelpers } from "./SourceTypeGetterHelpers";
 export function SourceTypeGetter({ collections: { xhrs } }) {
     let url = '';
     let sourceType = null;
-    let resolveAndReturnSourceType = null;
+    let callbackSourceType = null;
     let xhr;
 
     this.setUrlToCheck = (urlToCheck) => {
@@ -20,17 +20,13 @@ export function SourceTypeGetter({ collections: { xhrs } }) {
     };
 
     /** @return {Promise<any | void>} */
-    this.getSourceType = () => {
-        return new Promise(((resolve) => {
-            resolveAndReturnSourceType = resolve;
-            if (SourceTypeGetterHelpers.isUrlYoutubeOne(url)) {
-                sourceType = YOUTUBE_TYPE;
-                return resolve(sourceType);
-            }
-            checkSourceTypeUsingXhr();
-        })).catch(() => {
-            sourceType = INVALID_TYPE;
-        });
+    this.getSourceType = (callback) => {
+        callbackSourceType = callback;
+        if (SourceTypeGetterHelpers.isUrlYoutubeOne(url)) {
+            sourceType = YOUTUBE_TYPE;
+            return callback(sourceType);
+        }
+        checkSourceTypeUsingXhr();
     };
 
 
@@ -62,7 +58,7 @@ export function SourceTypeGetter({ collections: { xhrs } }) {
     const abortRequestAndResolvePromise = () => {
         setTimeout(() => {
             xhr.abort();
-            resolveAndReturnSourceType(sourceType);
+            callbackSourceType(sourceType);
         }, 1000);
     };
 

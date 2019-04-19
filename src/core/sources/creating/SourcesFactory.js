@@ -1,11 +1,15 @@
 /**
  * @class
+ * @param { FsLightbox.data.urls | Array } urls
+ * @param { FsLightbox.getters.getIsOpen | function(): boolean } getIsLightboxOpen
+ * @param { FsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection | Array<{set: function(boolean)}> } shouldSourceHolderBeUpdatedStateCollection
+ * @param { FsLightbox.elements.sourcesComponents | Array } sourcesComponents
  * @param { FsLightbox.injector.source.getSourceTypeGetter | function(): SourceTypeGetter } getSourceTypeGetter
- * @param { FsLightbox.injector.source.getSourceComponentGetter | function(): RefactoredSourceComponentGetter } getSourceComponentGetter
+ * @param { FsLightbox.injector.source.getSourceComponentGetter | function(): SourceComponentGetter } getSourceComponentGetter
  */
 export function SourcesFactory(
     {
-        data,
+        data: { urls },
         getters: {
             getIsOpen: getIsLightboxOpen
         },
@@ -26,11 +30,12 @@ export function SourcesFactory(
     const sourceComponentGetter = getSourceComponentGetter();
     let currentlyCreatedSourceIndex;
 
+
     this.createSourcesAndAddThemToProperArrays = () => {
-        for (let i = 0; i < data.urls.length; i++) {
+        for (let i = 0; i < urls.length; i++) {
             const sourceTypeGetter = getSourceTypeGetter();
-            sourceTypeGetter.setUrlToCheck(data.urls[i]);
-            sourceTypeGetter.getSourceType().then((sourceType) => {
+            sourceTypeGetter.setUrlToCheck(urls[i]);
+            sourceTypeGetter.getSourceType((sourceType) => {
                 addSourceComponentToProperArrayByTypeAndIndex(sourceType, i);
             });
         }
@@ -41,14 +46,12 @@ export function SourcesFactory(
         sourceComponentGetter.setSourceIndex(index);
         sourceComponentGetter.setSourceType(sourceType);
         sourcesComponents[index] = sourceComponentGetter.getSourceComponent();
-        // console.log('source type get: ' + index + ' ' + source-type);
-        updateSourceHolderIfIsMounted();
+        updateSourceHolderIfLightboxIsOpen();
     };
 
-    const updateSourceHolderIfIsMounted = () => {
-        // if lightbox is open we can update state
-        if (data.isMounted && getIsLightboxOpen()) {
-            shouldSourceHolderBeUpdatedStateCollection[currentlyCreatedSourceIndex].set(true);
+    const updateSourceHolderIfLightboxIsOpen = () => {
+        if (getIsLightboxOpen()) {
+                shouldSourceHolderBeUpdatedStateCollection[currentlyCreatedSourceIndex].set(true);
         }
     };
 }

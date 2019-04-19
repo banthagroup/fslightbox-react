@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from "enzyme";
 import Video from "../../../../../src/components/sources/proper-sources/Video";
-import { testSourceDimensions } from "../../../../schemas/testVariables";
+import { testSourceDimensions } from "../../../../__tests-helpers__/testVariables";
 
 /**
  * @class VideoMock

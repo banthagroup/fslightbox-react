@@ -23,11 +23,13 @@ export function LightboxInitializer(
                 },
             },
             sourceHoldersTransformer: { transformStageSourceHolders },
-            lightboxOpener: { addOpenClassToDocumentElement }
+            lightboxOpener: { addOpenClassToDocumentElement },
+            sourcesFactory: { createSourcesAndAddThemToProperArrays }
         }
     }
 ) {
     this.initialize = () => {
+        createSourcesAndAddThemToProperArrays();
         saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         attachWindowResizeListener();
         attachSwipingListeners();

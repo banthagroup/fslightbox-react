@@ -20,7 +20,6 @@ export function SourceSizeAdjuster({ sourcesData, elements: { sources } }) {
         ratio = maxSourceWidth / maxSourceHeight;
     };
 
-
     this.adjustSourceSize = () => {
         newHeight = sourcesData.maxSourceWidth / ratio;
 

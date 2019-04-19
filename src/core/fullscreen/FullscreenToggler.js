@@ -1,10 +1,9 @@
 /**
  * @class
- * @param { FsLightbox.data } data
+ * @param { FsLightbox.componentsStates.isSwipingSlides | { set: function(boolean), get: function(): boolean } } isFullscreenOpenState
  */
 export function FullscreenToggler(
     {
-        data,
         componentsStates: {
             isFullscreenOpen: isFullscreenOpenState
         }

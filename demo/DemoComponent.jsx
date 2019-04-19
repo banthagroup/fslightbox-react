@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
 import FsLightbox from "../src";
-import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "../tests/schemas/testVariables";
+import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "./data";
 
 class DemoComponent extends Component {
     constructor(props) {
