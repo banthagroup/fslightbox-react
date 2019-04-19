@@ -1,5 +1,5 @@
 import { mount } from "enzyme";
-import { testUrls } from "../../schemas/testVariables";
+import { testUrls } from "../../__tests-helpers__/testVariables";
 import React from "react";
 import FsLightbox from "../../../src/FsLightbox.jsx";
 

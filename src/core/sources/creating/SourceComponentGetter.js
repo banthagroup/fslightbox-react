@@ -10,64 +10,62 @@ import Image from "../../../components/sources/proper-sources/Image.jsx";
  * @param { FsLightbox } fsLightbox
  */
 export function SourceComponentGetter(fsLightbox) {
-    const {
-        sourcesData,
-    } = fsLightbox;
-
-    let ProperSourceComponentName;
-    let SourceComponent;
     let sourceIndex;
+    let sourceType;
+    let SourceComponentName;
+    let sourceComponent;
 
-    this.setSourceIndex = (i) => {
-        sourceIndex = i;
+    this.setSourceIndex = (number) => {
+        sourceIndex = number;
+    };
+
+    this.setSourceType = (type) => {
+        sourceType = type;
     };
 
     this.getSourceComponent = () => {
-        createCorrectSourceByItsType();
-        return SourceComponent;
+        setUpSourceComponent();
+        createSourceComponent();
+        return sourceComponent;
     };
 
-    const createCorrectSourceByItsType = () => {
-        setUpProperSourceComponent();
-        createProperSourceComponent();
-    };
-
-    const setUpProperSourceComponent = () => {
-        switch (sourcesData.sourcesTypes[sourceIndex]) {
+    const setUpSourceComponent = () => {
+        switch (sourceType) {
             case IMAGE_TYPE:
-                setUpSourceComponentToImage();
+                setSourceComponentToImage();
                 break;
             case VIDEO_TYPE:
-                setUpSourceComponentToVideo();
+                setSourceComponentToVideo();
                 break;
             case YOUTUBE_TYPE:
-                setUpSourceComponentToYoutube();
+                setSourceComponentToYoutube();
                 break;
             default:
-                setUpSourceComponentToInvalid();
+                setSourceComponentToInvalid();
         }
     };
 
-    const setUpSourceComponentToImage = () => {
-        ProperSourceComponentName = Image;
+    const setSourceComponentToImage = () => {
+        SourceComponentName = Image;
     };
 
-    const setUpSourceComponentToVideo = () => {
-        ProperSourceComponentName = Video;
+    const setSourceComponentToVideo = () => {
+        SourceComponentName = Video;
     };
 
-    const setUpSourceComponentToYoutube = () => {
-        ProperSourceComponentName = Youtube;
+    const setSourceComponentToYoutube = () => {
+        SourceComponentName = Youtube;
     };
 
-    const setUpSourceComponentToInvalid = () => {
-        ProperSourceComponentName = Invalid;
+    const setSourceComponentToInvalid = () => {
+        SourceComponentName = Invalid;
     };
 
-    const createProperSourceComponent = () => {
-        SourceComponent = <ProperSourceComponentName
+    const createSourceComponent = () => {
+        sourceComponent = <SourceComponentName
             fsLightbox={ fsLightbox }
             index={ sourceIndex }
+            key={ sourceIndex }
         />;
     };
 }

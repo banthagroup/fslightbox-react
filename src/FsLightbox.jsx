@@ -5,8 +5,7 @@ import Nav from "./components/nav/Nav.jsx";
 import SlideButtonLeft from "./components/slide-buttons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slide-buttons/SlideButtonRight.jsx";
 import SourcesHoldersWrapper from "./components/sources/SourcesHoldersWrapper.jsx";
-import { createRefsArrayForNumberOfSlides } from "./helpers/arrays/createRefsArrayForNumberOfSlides";
-import { createNullArrayForNumberOfSlides } from "./helpers/arrays/createNullArrayForNumberOfSlides";
+import { createRefsArrayForGivenNumber } from "./helpers/arrays/createRefsArrayForGivenNumber";
 import { Core } from "./core/Core";
 import DownEventDetector from "./components/slide-swiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
@@ -19,10 +18,11 @@ import { SwipingSlideChanger } from "./core/slide-swiping/actions/up/SwipingSlid
 import { SourceCreator } from "./core/sources/SourceCreator";
 import { SourceTypeGetter } from "./core/sources/creating/SourceTypeGetter";
 import { SourceSizeAdjusterIterator } from "./core/sizes/SourceSizeAdjusterIterator";
-import { RefactoredSourceComponentGetter } from "./core/sources/creating/RefactoredSourceComponentGetter";
-import { SourcesFactory } from "./core/sources/creating/SourcesFactory";
 import { LightboxClosingActions } from "./core/main-component/closing/LightboxClosingActions";
 import { LightboxOpeningActions } from "./core/main-component/opening/LightboxOpeningActions";
+import { WindowMoveEventController } from "./core/events-controllers/window/move/WindowMoveEventController";
+import { WindowUpEventController } from "./core/events-controllers/window/up/WindowUpEventController";
+import { SourceComponentGetter } from "./core/sources/creating/SourceComponentGetter";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -36,7 +36,6 @@ class FsLightbox extends Component {
         this.setUpCollections();
         this.setUpInjector();
         this.setUpCore();
-        new SourcesFactory(this).createSourcesAndAddThemToProperArrays();
     }
 
     setUpData() {
@@ -105,11 +104,9 @@ class FsLightbox extends Component {
         this.elements = {
             container: React.createRef(),
             sourcesHoldersWrapper: React.createRef(),
-            sources: createRefsArrayForNumberOfSlides(this.data.totalSlides),
-            sourceHolders: createRefsArrayForNumberOfSlides(this.data.totalSlides),
-            sourcesJSXComponents: createNullArrayForNumberOfSlides(this.data.totalSlides),
+            sources: createRefsArrayForGivenNumber(this.data.totalSlides),
+            sourceHolders: createRefsArrayForGivenNumber(this.data.totalSlides),
             sourcesComponents: [],
-            createdButNotRenderedSourcesComponents: [],
         };
     }
 
@@ -124,6 +121,10 @@ class FsLightbox extends Component {
 
     setUpInjector() {
         this.injector = {
+            eventsControllers: {
+                getWindowMoveEventController: () => new WindowMoveEventController(this),
+                getWindowUpEventController: () => new WindowUpEventController(this)
+            },
             mainComponent: {
                 getClosingActions: () => new LightboxClosingActions(this),
                 getOpeningActions: () => new LightboxOpeningActions(this)
@@ -138,7 +139,7 @@ class FsLightbox extends Component {
                 getSwipingSlideChangerForSwipingTransitioner: (swipingTransitioner) => new SwipingSlideChanger(this, swipingTransitioner),
             },
             source: {
-                getSourceComponentGetter: () => new RefactoredSourceComponentGetter(this),
+                getSourceComponentGetter: () => new SourceComponentGetter(this),
                 getSourceTypeGetter: () => new SourceTypeGetter(this),
                 getSourceCreator: () => new SourceCreator()
             },

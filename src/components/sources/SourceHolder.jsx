@@ -31,6 +31,7 @@ const SourceHolder = (
         set: setShouldBeUpdated
     };
 
+
     return (
         <div ref={ sourceHolders[index] } className="fslightbox-source-holder fslightbox-full-dimension">
             { sourcesComponents[index] ?

@@ -1,14 +1,11 @@
 /**
  * @class
- * @param { FsLightbox.core.globalResizingController.controlAllSizes | Function } controlAll
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
- * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
+ * @param { FsLightbox.core.globalResizingController.runAllResizingActions | Function } runAllResizingActions
  */
 export function WindowResizeEventController(
     {
         core: {
             globalResizingController: { runAllResizingActions },
-            sourceHoldersTransformer: { transformStageSourceHolders }
         }
     }
 ) {

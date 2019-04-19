@@ -8,11 +8,11 @@ import { GlobalResizingController } from "./sizes/GlobalResizingController";
 import { SlideSwiping } from "./slide-swiping/SlideSwiping";
 import { ProperSourceController } from "./sources/ProperSourceController";
 import { SourceComponentGetter } from "./sources/creating/SourceComponentGetter";
-import { RefactoredSourceComponentGetter } from "./sources/creating/RefactoredSourceComponentGetter";
 import { LightboxUnmounter } from "./main-component/LightboxUnmounter";
 import { LightboxCloser } from "./main-component/closing/LightboxCloser";
 import { LightboxOpener } from "./main-component/opening/LightboxOpener";
 import { LightboxInitializer } from "./main-component/LightboxInitializer";
+import { SourcesFactory } from "./sources/creating/SourcesFactory";
 
 /**
  * @class
@@ -24,8 +24,7 @@ export function Core(fsLightbox) {
     fsLightbox.core = this;
 
     this.stageSources = new StageSources(fsLightbox);
-    this.sourceFactory = new SourceComponentGetter(fsLightbox);
-    this.sourceComponentGetter = new RefactoredSourceComponentGetter(fsLightbox);
+    this.sourcesFactory = new SourcesFactory(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
     this.properSourceController = new ProperSourceController(fsLightbox);
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
