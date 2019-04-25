@@ -7,7 +7,7 @@ import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVide
  * @param { FsLightbox.data.urls } urls
  * @param { FsLightbox.elements.sources } sources
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
- * @param { FsLightbox.core.properSourceController | ProperSourceController } properSourceController
+ * @param { FsLightbox.core.sourceController | SourceController } sourceController
  * @param { number } index
  */
 const Youtube = (
@@ -16,22 +16,22 @@ const Youtube = (
             data: { urls },
             sourcesData: { isSourceAlreadyInitializedArray },
             elements: { sources },
-            core: { properSourceController }
+            core: { sourceController }
         },
         index,
     }
 ) => {
     useEffect(() => {
-        properSourceController.setIndex(index);
+        sourceController.setIndex(index);
         (isSourceAlreadyInitializedArray[index]) ?
-            properSourceController.normalLoad() :
+            sourceController.normalLoad() :
             initialLoad();
     });
 
     const initialLoad = () => {
-        properSourceController.setSourceWidth(1920);
-        properSourceController.setSourceHeight(1080);
-        properSourceController.initialLoad();
+        sourceController.setSourceWidth(1920);
+        sourceController.setSourceHeight(1080);
+        sourceController.initialLoad();
     };
 
     return (

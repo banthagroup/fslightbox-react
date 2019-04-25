@@ -27,7 +27,7 @@ const lightboxUnmounter = new LightboxUnmounter(fsLightbox);
 
 describe('calling abort for all xhrs', () => {
     beforeAll(() => {
-        lightboxUnmounter.callUnmountActions();
+        lightboxUnmounter.runActions();
     });
 
     it('should call abort 5 times', () => {

@@ -2,7 +2,7 @@
 
 exports[`MediaHolder DOM should match snapshot 1`] = `
 <div
-  className="fslightbox-media-holder"
+  className="fslightbox-sources-holders-wrapper"
 >
   <SourceHolder
     fsLightbox={

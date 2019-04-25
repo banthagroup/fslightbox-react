@@ -1,51 +1,75 @@
-import { FsLightboxMock } from "../../../../__mocks__/components/fsLightboxMock";
 import { SwipingSlideChanger } from "../../../../../src/core/slide-swiping/actions/up/SwipingSlideChanger";
-import { SlideSwipingUpActions } from "../../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
-import { SwipingTransitioner } from "../../../../../src/core/slide-swiping/actions/up/SwipingTransitioner";
 
-const fsLightboxMock = new FsLightboxMock();
-const fsLightbox = fsLightboxMock.getFsLightbox();
-fsLightboxMock.setAllSourceHoldersToDivs();
-/** @var { SlideSwipingUpActions } slideSwipingUpActions */
-let slideSwipingUpActions;
+const fsLightbox = {
+    componentsStates: {
+        slide: {
+            set: () => {},
+            onUpdate: () => {},
+        }
+    },
+    core: {
+        sourceHoldersTransformer: {
+            transformStageSourceHolders: () => {},
+        }
+    }
+};
+const swipingTransitioner = {
+    addTransitionToCurrentAndPrevious: () => {},
+    addTransitionToCurrentAndNext: () => {}
+};
+const stageSourcesIndexes = {
+    previous: null,
+    current: null,
+    next: null
+};
+
 /** @var { SwipingSlideChanger } swipingSlideChanger */
 let swipingSlideChanger;
-/** @var { SwipingTransitioner } swipingTransitioner */
-let swipingTransitioner;
 
-const stageSourcesIndexes = {
-    previous: 0,
-    current: 1,
-    next: 2,
+
+const recreateSwipingSlideChangerAndCallChangeSlideToPrevious = () => {
+    recreateSwipingSlideChanger();
+    swipingSlideChanger.changeSlideToPrevious();
 };
-let withoutTimeout;
 
-beforeEach(() => {
-    fsLightbox.state.slide = 2;
-    withoutTimeout = jest.fn();
-    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
-        withoutTimeout: withoutTimeout
-    }));
-    slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, {});
-    swipingTransitioner = new SwipingTransitioner(fsLightbox);
-    swipingTransitioner.addTransitionToCurrentAndPrevious = jest.fn();
-    swipingTransitioner.addTransitionToCurrentAndNext = jest.fn();
+const recreateSwipingSlideChangerAndCallChangeSlideToNext = () => {
+    recreateSwipingSlideChanger();
+    swipingSlideChanger.changeSlideToNext();
+};
+
+const recreateSwipingSlideChanger = () => {
     swipingSlideChanger = new SwipingSlideChanger(fsLightbox, swipingTransitioner);
     swipingSlideChanger.setStageSourcesIndexes(stageSourcesIndexes);
-});
+};
 
-describe('changing slide to previous', () => {
-    beforeEach(() => {
-        swipingSlideChanger.changeSlideToPrevious();
+describe('changeSlideToPrevious', () => {
+    describe('changing slide to previous', () => {
+        beforeAll(() => {
+            stageSourcesIndexes.previous = 1;
+            fsLightbox.componentsStates.slide.set = jest.fn();
+            recreateSwipingSlideChangerAndCallChangeSlideToPrevious();
+        });
+
+        it('should call setSlide with previous slide number (index is 1 so slide number - 2)', () => {
+            expect(fsLightbox.componentsStates.slide.set).toBeCalled();
+        });
     });
 
-    it('should change slide to previous', () => {
-        expect(fsLightbox.state.slide).toEqual(1);
-    });
+    describe('on components update transforming stage source holders without timeout', () => {
+        let withoutTimeout;
 
-    describe('calling transformStageSourceHolders without timeout', () => {
+        beforeAll(() => {
+            withoutTimeout = jest.fn();
+            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+                withoutTimeout: withoutTimeout
+            }));
+            recreateSwipingSlideChangerAndCallChangeSlideToPrevious();
+            // simulating onUpdate (in runtime it will be called by React)
+            fsLightbox.componentsStates.slide.onUpdate();
+        });
+
         it('should call transformStageSourceHolders', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders.mock.calls.length).toEqual(1);
+            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
         });
 
         it('should call withoutTimeout', () => {
@@ -53,23 +77,47 @@ describe('changing slide to previous', () => {
         });
     });
 
-    it('should call addTransitionToCurrentAndPrevious from transitioner', () => {
-        expect(swipingTransitioner.addTransitionToCurrentAndPrevious).toBeCalled();
+    describe('adding transition to current and previous source holder', () => {
+        beforeAll(() => {
+            swipingTransitioner.addTransitionToCurrentAndPrevious = jest.fn();
+            recreateSwipingSlideChangerAndCallChangeSlideToPrevious();
+        });
+
+        it('should call addTransitionToCurrentAndPrevious from SwipingTransitioner', () => {
+            expect(swipingTransitioner.addTransitionToCurrentAndPrevious).toBeCalled();
+        });
     });
 });
 
-describe('changing slide to next', () => {
-    beforeEach(() => {
-        swipingSlideChanger.changeSlideToNext();
+
+describe('changeSlideToNext', () => {
+    describe('changing slide to next', () => {
+        beforeAll(() => {
+            stageSourcesIndexes.next = 1;
+            fsLightbox.componentsStates.slide.set = jest.fn();
+            recreateSwipingSlideChangerAndCallChangeSlideToNext();
+        });
+
+        it('should call setSlide with next slide number (index is 1 so slide number - 2)', () => {
+            expect(fsLightbox.componentsStates.slide.set).toBeCalled();
+        });
     });
 
-    it('should change slide to next', () => {
-        expect(fsLightbox.state.slide).toEqual(3);
-    });
+    describe('on components update transforming stage source holders without timeout', () => {
+        let withoutTimeout;
 
-    describe('calling transformStageSourceHolders without timeout', () => {
+        beforeAll(() => {
+            withoutTimeout = jest.fn();
+            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+                withoutTimeout: withoutTimeout
+            }));
+            recreateSwipingSlideChangerAndCallChangeSlideToNext();
+            // simulating onUpdate (in runtime it will be called by React)
+            fsLightbox.componentsStates.slide.onUpdate();
+        });
+
         it('should call transformStageSourceHolders', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders.mock.calls.length).toEqual(1);
+            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
         });
 
         it('should call withoutTimeout', () => {
@@ -77,7 +125,14 @@ describe('changing slide to next', () => {
         });
     });
 
-    it('should call addTransitionToCurrentAndNext from transitioner', () => {
-        expect(swipingTransitioner.addTransitionToCurrentAndNext).toBeCalled();
+    describe('adding transition to current and next source holder', () => {
+        beforeAll(() => {
+            swipingTransitioner.addTransitionToCurrentAndNext = jest.fn();
+            recreateSwipingSlideChangerAndCallChangeSlideToNext();
+        });
+
+        it('should call addTransitionToCurrentAndNext from SwipingTransitioner', () => {
+            expect(swipingTransitioner.addTransitionToCurrentAndNext).toBeCalled();
+        });
     });
 });

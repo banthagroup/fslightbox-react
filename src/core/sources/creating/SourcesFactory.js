@@ -29,9 +29,8 @@ export function SourcesFactory(
 ) {
     const sourceComponentGetter = getSourceComponentGetter();
     let currentlyCreatedSourceIndex;
-
-
-    this.createSourcesAndAddThemToProperArrays = () => {
+    
+    this.createSourcesAndAddThemToSourcesComponentsArray = () => {
         for (let i = 0; i < urls.length; i++) {
             const sourceTypeGetter = getSourceTypeGetter();
             sourceTypeGetter.setUrlToCheck(urls[i]);
@@ -51,7 +50,7 @@ export function SourcesFactory(
 
     const updateSourceHolderIfLightboxIsOpen = () => {
         if (getIsLightboxOpen()) {
-                shouldSourceHolderBeUpdatedStateCollection[currentlyCreatedSourceIndex].set(true);
+            shouldSourceHolderBeUpdatedStateCollection[currentlyCreatedSourceIndex].set(true);
         }
     };
 }

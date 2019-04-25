@@ -23,6 +23,9 @@ const fsLightbox = {
         },
         lightboxOpener: {
             addOpenClassToDocumentElement: jest.fn()
+        },
+        sourcesFactory: {
+            createSourcesAndAddThemToSourcesComponentsArray: jest.fn()
         }
     }
 };
@@ -48,5 +51,9 @@ describe('calling right methods', () => {
 
     it('should call addOpenClassToDocumentElement', () => {
         expect(fsLightbox.core.lightboxOpener.addOpenClassToDocumentElement).toBeCalled();
+    });
+
+    it('should call createSourcesAndAddThemToSourcesComponentsArray', () => {
+        expect(fsLightbox.core.sourcesFactory.createSourcesAndAddThemToSourcesComponentsArray).toBeCalled();
     });
 });

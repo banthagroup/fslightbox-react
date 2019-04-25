@@ -2,39 +2,94 @@ import { TEST_IMAGE_URL, TEST_VIDEO_URL, TEST_YOUTUBE_URL } from "../../../__tes
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/coreConstants";
 import { SourceTypeGetter } from "../../../../src/core/sources/creating/SourceTypeGetter";
 
+const fsLightbox = {
+    collections: {
+        xhrs: [],
+    },
+    injector: {
+        dom: {
+            getXMLHttpRequest: () => new XMLHttpRequest()
+        }
+    }
+};
 
-/** @type SourceTypeGetter */
-let sourceTypeChecker;
+/** @var { SourceTypeGetter } sourceTypeGetter */
+let sourceTypeGetter;
 
-beforeEach(() => {
-    sourceTypeChecker = new SourceTypeGetter();
-});
 
-it('should resolve image type', () => {
-     sourceTypeChecker.setUrlToCheck(TEST_IMAGE_URL);
-     return sourceTypeChecker.getSourceType().then(sourceType => {
-         expect(sourceType).toEqual(IMAGE_TYPE);
-     });
-});
+describe('adding xhr to xhrs array', () => {
+    let uniqueXhr;
 
-it('should resolve video type', () => {
-    sourceTypeChecker.setUrlToCheck(TEST_VIDEO_URL);
-    return sourceTypeChecker.getSourceType().then(sourceType => {
-        expect(sourceType).toEqual(VIDEO_TYPE);
+    beforeEach(() => {
+        uniqueXhr = new XMLHttpRequest();
+        uniqueXhr.key = 'unique';
+        fsLightbox.injector.dom.getXMLHttpRequest = () => uniqueXhr;
+        sourceTypeGetter = new SourceTypeGetter(fsLightbox);
+        sourceTypeGetter.setUrlToCheck('does not matter');
+        sourceTypeGetter.getSourceType(() => {});
+    });
+
+    it('should add xhr to xhrs array', () => {
+        expect(fsLightbox.collections.xhrs).toEqual([uniqueXhr]);
     });
 });
 
-it('should resolve youtube type', () => {
-    sourceTypeChecker.setUrlToCheck(TEST_YOUTUBE_URL);
-    return sourceTypeChecker.getSourceType().then(sourceType => {
-        expect(sourceType).toEqual(YOUTUBE_TYPE);
+describe('calling callback with right sources types', () => {
+    beforeEach(() => {
+        sourceTypeGetter = new SourceTypeGetter(fsLightbox);
+    });
+
+    describe('image type', () => {
+        beforeEach(() => {
+            sourceTypeGetter.setUrlToCheck(TEST_IMAGE_URL);
+        });
+
+        it('should call callback with image type', testDone => {
+            return sourceTypeGetter.getSourceType((sourceType) => {
+                expect(sourceType).toEqual(IMAGE_TYPE);
+                testDone();
+            });
+        });
+    });
+
+    describe('video type', () => {
+        beforeEach(() => {
+            sourceTypeGetter.setUrlToCheck(TEST_VIDEO_URL);
+        });
+
+        it('should call callback with image type', testDone => {
+            return sourceTypeGetter.getSourceType((sourceType) => {
+                expect(sourceType).toEqual(VIDEO_TYPE);
+                testDone();
+            });
+        });
+    });
+
+    describe('youtube type', () => {
+        beforeEach(() => {
+            sourceTypeGetter.setUrlToCheck(TEST_YOUTUBE_URL);
+        });
+
+        it('should call callback with image type', testDone => {
+            return sourceTypeGetter.getSourceType((sourceType) => {
+                expect(sourceType).toEqual(YOUTUBE_TYPE);
+                testDone();
+            });
+        });
+    });
+
+    describe('invalid type', () => {
+        beforeEach(() => {
+            sourceTypeGetter.setUrlToCheck('ima invalid');
+        });
+
+        it('should call callback with image type', testDone => {
+            return sourceTypeGetter.getSourceType((sourceType) => {
+                expect(sourceType).toEqual(INVALID_TYPE);
+                testDone();
+            });
+        });
     });
 });
 
-it('should resolve invalid type', () => {
-    sourceTypeChecker.setUrlToCheck('lol');
-    return sourceTypeChecker.getSourceType().then(sourceType => {
-        expect(sourceType).toEqual(INVALID_TYPE);
-    });
-});
 

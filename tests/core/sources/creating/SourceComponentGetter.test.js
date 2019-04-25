@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefactoredSourceComponentGetter } from "../../../../src/core/sources/creating/RefactoredSourceComponentGetter";
+import { SourceComponentGetter } from "../../../../src/core/sources/creating/SourceComponentGetter";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/coreConstants";
 import Image from "../../../../src/components/sources/proper-sources/Image";
 import Video from "../../../../src/components/sources/proper-sources/Video";
@@ -7,7 +7,7 @@ import Youtube from "../../../../src/components/sources/proper-sources/Youtube";
 import Invalid from "../../../../src/components/sources/proper-sources/Invalid";
 
 const fsLightbox = {};
-const sourceComponentGetter = new RefactoredSourceComponentGetter(fsLightbox);
+const sourceComponentGetter = new SourceComponentGetter(fsLightbox);
 
 describe('Image', () => {
     beforeAll(() => {
@@ -41,7 +41,6 @@ describe('Video', () => {
     });
 });
 
-
 describe('Youtube', () => {
     beforeAll(() => {
         sourceComponentGetter.setSourceIndex(5);
@@ -57,7 +56,6 @@ describe('Youtube', () => {
         );
     });
 });
-
 
 describe('Invalid', () => {
     beforeAll(() => {

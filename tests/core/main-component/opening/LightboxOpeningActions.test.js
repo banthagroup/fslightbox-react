@@ -7,6 +7,7 @@ const setState = jest.fn((state, callback) => {
     callback();
     fsLightboxState = state;
 });
+const withoutTimeout = jest.fn();
 const fsLightbox = {
     setters: {
         setState: setState,
@@ -24,6 +25,11 @@ const fsLightbox = {
                     attachListeners: jest.fn()
                 }
             }
+        },
+        sourceHoldersTransformer: {
+            transformStageSourceHolders: jest.fn(() => ({
+                withoutTimeout: withoutTimeout
+            }))
         }
     }
 };
@@ -54,6 +60,16 @@ describe('calling methods', () => {
     describe('attaching swiping listeners', () => {
         it('should call attachListeners', () => {
             expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
+        });
+    });
+
+    describe('transforming stage source holders without timeout', () => {
+        it('should call transformStageSourceHolders', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
+        });
+
+        it('should call withoutTimeout', () => {
+            expect(withoutTimeout).toBeCalled();
         });
     });
 });

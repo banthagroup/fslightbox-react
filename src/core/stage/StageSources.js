@@ -2,7 +2,7 @@ import { CURRENT_POSITION, NEXT_POSITION, PREVIOUS_POSITION } from "../../consta
 
 /**
  * @class
- * @param { FsLightbox.data } data
+ * @param { FsLightbox.data | { totalSlides: number } } data
  * @param { FsLightbox.componentsStates.slide | { get: function(): number, set: function(number)} } slideState
  */
 export function StageSources({ componentsStates: { slide: slideState }, data }) {
