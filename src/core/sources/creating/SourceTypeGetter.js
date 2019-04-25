@@ -9,7 +9,16 @@ import { SourceTypeGetterHelpers } from "./SourceTypeGetterHelpers";
 /**
  * @class SourceTypeGetter
  */
-export function SourceTypeGetter({ collections: { xhrs } }) {
+export function SourceTypeGetter(
+    {
+        collections: { xhrs },
+        injector: {
+            dom: {
+                getXMLHttpRequest
+            }
+        }
+    }
+) {
     let url = '';
     let sourceType = null;
     let callbackSourceType = null;
@@ -19,19 +28,21 @@ export function SourceTypeGetter({ collections: { xhrs } }) {
         url = urlToCheck;
     };
 
-    /** @return {Promise<any | void>} */
+    /**
+     * Asynchronous method takes callback which will be called after source type is received with source type as param.
+     * @param { Function } callback
+     */
     this.getSourceType = (callback) => {
-        callbackSourceType = callback;
         if (SourceTypeGetterHelpers.isUrlYoutubeOne(url)) {
             sourceType = YOUTUBE_TYPE;
             return callback(sourceType);
         }
+        callbackSourceType = callback;
         checkSourceTypeUsingXhr();
     };
 
-
     const checkSourceTypeUsingXhr = () => {
-        xhr = new XMLHttpRequest();
+        xhr = getXMLHttpRequest();
         xhrs.push(xhr);
         xhr.open('GET', url, true);
         xhr.onreadystatechange = onRequestStateChange;
@@ -56,10 +67,8 @@ export function SourceTypeGetter({ collections: { xhrs } }) {
     };
 
     const abortRequestAndResolvePromise = () => {
-        setTimeout(() => {
-            xhr.abort();
-            callbackSourceType(sourceType);
-        }, 1000);
+        xhr.abort();
+        callbackSourceType(sourceType);
     };
 
     const setSourceTypeDependingOnResponseContentType = (type) => {

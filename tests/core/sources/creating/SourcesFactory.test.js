@@ -22,7 +22,14 @@ let fsLightbox = {
         getIsOpen: () => true
     },
     componentsStates: {
-        shouldSourceHolderBeUpdatedCollection: [],
+        shouldSourceHolderBeUpdatedCollection: [
+            {
+                set: () => {},
+            },
+            {
+                set: () => {},
+            }
+        ],
     },
     elements: {
         sourcesComponents: []
@@ -36,24 +43,24 @@ let fsLightbox = {
 };
 /** @var { SourcesFactory } sourcesFactory */
 let sourcesFactory;
-let index;
+let index = 0;
 
 const recreateSourcesFactoryAndCallCreateSourcesAndAddThemToProperArrays = () => {
     sourcesFactory = new SourcesFactory(fsLightbox);
-    sourcesFactory.createSourcesAndAddThemToProperArrays();
+    sourcesFactory.createSourcesAndAddThemToSourcesComponentsArray();
 };
 
 const mockSourceFactoryComponentsCreateNewSourceFactoryAndCallAddToProperArrays = () => {
     index = 0;
     sourceTypeGetter.setUrlToCheck = jest.fn();
-    // we will be testing
-    // ng image components
-    sourceTypeGetter.getSourceType = jest.fn(() => new Promise((resolve => {
+    // we are not testing getting source type so we will set it to be immediately calling callback
+    // with e.g. image type as param
+    sourceTypeGetter.getSourceType = jest.fn((callback) => {
         (index === 0) ?
-            resolve(IMAGE_TYPE) :
-            resolve(VIDEO_TYPE);
+            callback(IMAGE_TYPE) :
+            callback(VIDEO_TYPE);
         index++;
-    })));
+    });
     sourceComponentGetter.setSourceIndex = jest.fn();
     sourceComponentGetter.setSourceType = jest.fn();
     sourceComponentGetter.getSourceComponent = jest.fn(() => {
@@ -62,7 +69,7 @@ const mockSourceFactoryComponentsCreateNewSourceFactoryAndCallAddToProperArrays 
         return SourceComponent;
     });
     sourcesFactory = new SourcesFactory(fsLightbox);
-    sourcesFactory.createSourcesAndAddThemToProperArrays();
+    sourcesFactory.createSourcesAndAddThemToSourcesComponentsArray();
 };
 
 describe('calling methods (we have set totalSlides to 2, so we will be testing methods to be called twice)', () => {
@@ -82,8 +89,8 @@ describe('calling methods (we have set totalSlides to 2, so we will be testing m
             });
 
             it(`should have called setUrlToCheck last time with TEST_VIDEO_URL
-            (in SourceComponentGetter tests it will confirm 
-            that SourceComponentGetter methods was called for proper source type)`, () => {
+                (in SourceComponentGetter tests it will confirm 
+                that SourceComponentGetter methods was called for proper source type)`, () => {
                 expect(sourceTypeGetter.setUrlToCheck).toHaveBeenLastCalledWith(TEST_VIDEO_URL);
             });
         });
@@ -142,12 +149,12 @@ describe('adding sources components to sourcesComponents array in fsLightbox obj
 
     beforeAll(() => {
         // we set getSourceType to be instantly resolved (we are not testing it)
-        sourceTypeGetter.getSourceType = () => new Promise(resolve => resolve('random sources type'));
+        sourceTypeGetter.getSourceType = (callback) => callback();
         // we set getSourceComponent to receive constant component
         // (we are not testing if it creates proper component - we are just testing adding it to proper arrays)
         sourceComponentGetter.getSourceComponent = () => imageComponent;
         sourcesFactory = new SourcesFactory(fsLightbox);
-        sourcesFactory.createSourcesAndAddThemToProperArrays();
+        sourcesFactory.createSourcesAndAddThemToSourcesComponentsArray();
     });
 
     test('sourcesComponents should contain to Image components', () => {
@@ -173,7 +180,7 @@ describe('updating source holder if lightbox is open', () => {
             secondShouldSourceHolderBeUpdatedState
         ];
         // we set getSourceType to be instantly resolved (we are not testing it)
-        sourceTypeGetter.getSourceType = () => new Promise(resolve => resolve('random sources type'));
+        sourceTypeGetter.getSourceType = (callback) => callback();
     });
 
     describe(`lightbox is closed - set methods on shouldSourceHolderBeUpdatedStateCollection 

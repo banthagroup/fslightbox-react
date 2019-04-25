@@ -24,12 +24,12 @@ export function LightboxInitializer(
             },
             sourceHoldersTransformer: { transformStageSourceHolders },
             lightboxOpener: { addOpenClassToDocumentElement },
-            sourcesFactory: { createSourcesAndAddThemToProperArrays }
+            sourcesFactory: { createSourcesAndAddThemToSourcesComponentsArray }
         }
     }
 ) {
     this.initialize = () => {
-        createSourcesAndAddThemToProperArrays();
+        createSourcesAndAddThemToSourcesComponentsArray();
         saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         attachWindowResizeListener();
         attachSwipingListeners();

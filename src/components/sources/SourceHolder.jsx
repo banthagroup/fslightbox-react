@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SourceLoader from "../loaders/SourceLoader.jsx";
 
 /**
- * @param urls
- * @param sourceComponentGetter
- * @param { FsLightbox.injector.source.getSourceTypeGetter | function(): SourceTypeGetter } getSourceTypeGetter
- * @param { FsLightbox.core.sourceComponentGetter | RefactoredSourceComponentGetter } sourceComponentGetter
- * @param index
- * @return {any}
- * @constructor
+ * @param { FsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection | Array } shouldSourceHolderBeUpdatedStateCollection
+ * @param { FsLightbox.elements.sourcesComponents | Array } sourcesComponents
+ * @param { FsLightbox.elements.sourceHolders | Array } sourceHolders
+ * @param { number } index
  */
 const SourceHolder = (
     {
@@ -30,7 +27,6 @@ const SourceHolder = (
         get: () => shouldBeUpdated,
         set: setShouldBeUpdated
     };
-
 
     return (
         <div ref={ sourceHolders[index] } className="fslightbox-source-holder fslightbox-full-dimension">

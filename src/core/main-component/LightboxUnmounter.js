@@ -3,7 +3,7 @@
  * @param { FsLightbox.collections.xhrs | Array } xhrs
  */
 export function LightboxUnmounter({ collections: { xhrs } }) {
-    this.callUnmountActions = () => {
+    this.runActions = () => {
         abortXhrs();
     };
 

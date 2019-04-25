@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  * @param { FsLightbox.data.urls } urls
  * @param { FsLightbox.elements.sources } sources
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
- * @param { FsLightbox.core.properSourceController | ProperSourceController } properSourceController
+ * @param { FsLightbox.core.sourceController | SourceController } sourceController
  * @param { number } index
  */
 const Image = (
@@ -14,23 +14,23 @@ const Image = (
             data: { urls },
             sourcesData: { isSourceAlreadyInitializedArray },
             elements: { sources },
-            core: { properSourceController }
+            core: { sourceController }
         },
         index
     }
 ) => {
 
     const onImageLoad = ({ target }) => {
-        properSourceController.setIndex(index);
+        sourceController.setIndex(index);
         (isSourceAlreadyInitializedArray[index]) ?
-            properSourceController.normalLoad() :
+            sourceController.normalLoad() :
             initialLoad(target);
     };
 
     const initialLoad = (target) => {
-        properSourceController.setSourceWidth(target.width);
-        properSourceController.setSourceHeight(target.height);
-        properSourceController.initialLoad();
+        sourceController.setSourceWidth(target.width);
+        sourceController.setSourceHeight(target.height);
+        sourceController.initialLoad();
     };
 
     return (

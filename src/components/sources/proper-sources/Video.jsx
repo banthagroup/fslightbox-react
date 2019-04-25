@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
  * @param { FsLightbox.elements.sources } sources
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
  * @param { FsLightbox.sourcesData.videosPosters } videosPosters
- * @param { FsLightbox.core.properSourceController | ProperSourceController } properSourceController
+ * @param { FsLightbox.core.sourceController | SourceController } sourceController
  * @param { number }index
  */
 const Video = (
@@ -15,22 +15,22 @@ const Video = (
             data: { urls },
             elements: { sources },
             sourcesData: { videosPosters, isSourceAlreadyInitializedArray },
-            core: { properSourceController }
+            core: { sourceController }
         },
         index
     }
 ) => {
     const onLoadedMetaData = ({ target }) => {
-        properSourceController.setIndex(index);
+        sourceController.setIndex(index);
         (isSourceAlreadyInitializedArray[index]) ?
-            properSourceController.normalLoad() :
+            sourceController.normalLoad() :
             initialLoad(target);
     };
 
     const initialLoad = (target) => {
-        properSourceController.setSourceWidth(target.videoWidth);
-        properSourceController.setSourceHeight(target.videoHeight);
-        properSourceController.initialLoad();
+        sourceController.setSourceWidth(target.videoWidth);
+        sourceController.setSourceHeight(target.videoHeight);
+        sourceController.initialLoad();
     };
 
     return (

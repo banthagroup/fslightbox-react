@@ -5,8 +5,8 @@ import {
 
 /**
  * @class
- * @param { FsLightbox.sourcesData } sourcesData
- * @param { FsLightbox.elements.sourcesHoldersWrapper } sourcesHoldersWrapper
+ * @param { FsLightbox.sourcesData | { maxSourceWidth: number, maxSourceHeight: number} } sourcesData
+ * @param { FsLightbox.elements.sourcesHoldersWrapper | { current }} sourcesHoldersWrapper
  */
 export function GlobalResizingController(
     {

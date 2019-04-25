@@ -65,7 +65,6 @@ export function SourceComponentGetter(fsLightbox) {
         sourceComponent = <SourceComponentName
             fsLightbox={ fsLightbox }
             index={ sourceIndex }
-            key={ sourceIndex }
         />;
     };
 }
