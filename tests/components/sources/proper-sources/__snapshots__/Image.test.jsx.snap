@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image DOM should match snapshot 1`] = `
+<img
+  className="fslightbox-source fslightbox-opacity-0"
+  onLoad={[Function]}
+/>
+`;

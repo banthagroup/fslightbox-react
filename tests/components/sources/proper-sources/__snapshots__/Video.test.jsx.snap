@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Video DOM should match snapshot 1`] = `
+<video
+  className="fslightbox-source fslightbox-video fslightbox-opacity-0"
+  controls={true}
+  onLoadedMetadata={[Function]}
+  poster="asdf"
+>
+  <source />
+</video>
+`;

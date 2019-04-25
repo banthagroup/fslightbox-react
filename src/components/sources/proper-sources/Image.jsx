@@ -19,7 +19,6 @@ const Image = (
         index
     }
 ) => {
-
     const onImageLoad = ({ target }) => {
         sourceController.setIndex(index);
         (isSourceAlreadyInitializedArray[index]) ?

@@ -3,6 +3,12 @@ import { OPACITY_0_CLASS_NAME } from "../../constants/cssConstants";
 
 /**
  * @constructor
+ * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray | Array } isSourceAlreadyInitializedArray
+ * @param { FsLightbox.elements.sources } sources
+ * @param { FsLightbox.collections.sourceSizeAdjusters | Array<SourceSizeAdjuster> } sourceSizeAdjusters
+ * @param { FsLightbox.core.sourceAnimator.animateSourceFromIndex | function(): SourceAnimator } animateSourceFromIndex
+ * @param { FsLightbox.core.stageSources.isSourceInStage | function(): boolean } isSourceInStage
+ * @param { FsLightbox.injector.source.getSourceSizeAdjuster | function(): SourceSizeAdjuster } getSourceSizeAdjuster
  */
 export function SourceController(
     {
