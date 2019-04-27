@@ -18,6 +18,7 @@ import { SourceHolderTransformer } from "../../src/core/transforms/SourceHolderT
 import { StageSourceHoldersByValueTransformer } from "../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
 import { Core } from "../../src/core/Core";
 import { SourceSizeAdjuster } from "../../src/core/sizes/SourceSizeAdjuster";
+import { getScrollbarWidth } from "../../src/core/scrollbar/getScrollbarWidth";
 
 let fsLightboxWrapper = shallow(<FsLightbox isOpen={ false } urls={ testUrls }/>, {
     disableLifecycleMethods: true
@@ -34,6 +35,18 @@ describe('data', () => {
     describe('totalSlides', () => {
         it('should be equal to urls array length', () => {
             expect(fsLightbox.data.totalSlides).toEqual(testUrls.length);
+        });
+    });
+
+    describe('isInitialized', () => {
+        it('should be equal to false', () => {
+            expect(fsLightbox.data.isInitialized).toBe(false);
+        });
+    });
+
+    describe('scrollbarWidth', () => {
+        it('should be equal to value returned from getScrollbarWidth', () => {
+            expect(fsLightbox.data.scrollbarWidth).toBe(getScrollbarWidth());
         });
     });
 });
@@ -540,13 +553,30 @@ describe('componentDidUpdate', () => {
 });
 
 describe('componentDidMount', () => {
-    beforeAll(() => {
-        fsLightbox.core.lightboxInitializer.initialize = jest.fn();
-        fsLightbox.componentDidMount();
-    });
+    describe('running or not opening actions', () => {
+        describe('lightbox is closed', () => {
+            beforeAll(() => {
+                fsLightbox.core.lightboxOpeningActions.runActions = jest.fn();
+                fsLightbox.state.isOpen = false;
+                fsLightbox.componentDidMount();
+            });
 
-    it('should call initialize', () => {
-        expect(fsLightbox.core.lightboxInitializer.initialize).toBeCalled();
+            it('should not call runActions', () => {
+                expect(fsLightbox.core.lightboxOpeningActions.runActions).not.toBeCalled();
+            });
+        });
+
+        describe('lightbox is open', () => {
+            beforeAll(() => {
+                fsLightbox.core.lightboxOpeningActions.runActions = jest.fn();
+                fsLightbox.state.isOpen = true;
+                fsLightbox.componentDidMount();
+            });
+
+            it('should call runActions', () => {
+                expect(fsLightbox.core.lightboxOpeningActions.runActions).toBeCalled();
+            });
+        });
     });
 });
 

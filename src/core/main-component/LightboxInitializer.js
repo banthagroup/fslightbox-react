@@ -1,39 +1,18 @@
 /**
- * @class
- * @param { FsLightbox.core.globalResizingController.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize | Function } saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize
- * @param { FsLightbox.core.eventsControllers.window.resize.attachListener | Function } attachWindowResizeListener
- * @param { FsLightbox.core.eventsControllers.window.swiping.attachListeners | Function } attachSwipingListeners
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders | Function } transformStageSourceHolders
- * @param { FsLightbox.core.lightboxOpener.addOpenClassToDocumentElement | Function } addOpenClassToDocumentElement
+ * @constructor
+ * @param { FsLightbox.data | { isInitialized: boolean } } data
+ * @param { FsLightbox.core.sourcesFactory.createSourcesAndAddThemToSourcesComponentsArray | Function } createSourcesAndAddThemToSourcesComponentsArray
  */
 export function LightboxInitializer(
     {
+        data,
         core: {
-            globalResizingController: {
-                saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize
-            },
-            eventsControllers: {
-                window: {
-                    resize: {
-                        attachListener: attachWindowResizeListener
-                    },
-                    swiping: {
-                        attachListeners: attachSwipingListeners
-                    }
-                },
-            },
-            sourceHoldersTransformer: { transformStageSourceHolders },
-            lightboxOpener: { addOpenClassToDocumentElement },
             sourcesFactory: { createSourcesAndAddThemToSourcesComponentsArray }
         }
     }
 ) {
     this.initialize = () => {
+        data.isInitialized = true;
         createSourcesAndAddThemToSourcesComponentsArray();
-        saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
-        attachWindowResizeListener();
-        attachSwipingListeners();
-        transformStageSourceHolders().withoutTimeout();
-        addOpenClassToDocumentElement();
     }
 }

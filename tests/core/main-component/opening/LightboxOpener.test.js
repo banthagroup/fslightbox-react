@@ -1,42 +1,48 @@
-import { documentElementClassList } from "../../../../src/helpers/dom/documentElementClassList";
-import { FSLIGHTBOX_OPEN_CLASS_NAME } from "../../../../src/constants/cssConstants";
 import { LightboxOpener } from "../../../../src/core/main-component/opening/LightboxOpener";
 
 const openingActions = {
-    runActions: jest.fn(),
+    runActions: () => {},
 };
 const fsLightbox = {
+    setters: {
+        setState: () => {}
+    },
     injector: {
         mainComponent: {
             getOpeningActions: () => openingActions
         }
     }
 };
-const lightboxOpener = new LightboxOpener(fsLightbox);
 
-describe('addOpenClassToDocumentElement', () => {
-    beforeAll(() => {
-        if (documentElementClassList.contains(FSLIGHTBOX_OPEN_CLASS_NAME))
-            documentElementClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME)
-        lightboxOpener.addOpenClassToDocumentElement();
-    });
+/** @var { LightboxOpener } lightboxOpener */
+let lightboxOpener;
 
-    it('should add open class name do document', () => {
-        expect(documentElementClassList.contains(FSLIGHTBOX_OPEN_CLASS_NAME)).toBeTruthy();
-    });
-});
+const recreateLightboxOpenerAndCallOpenLightbox = () => {
+    lightboxOpener = new LightboxOpener(fsLightbox);
+    lightboxOpener.openLightbox();
+};
 
 describe('openLightbox', () => {
+    let state;
+
     beforeAll(() => {
-        lightboxOpener.addOpenClassToDocumentElement = jest.fn();
-        lightboxOpener.openLightbox();
+        openingActions.runActions = jest.fn();
+        fsLightbox.setters.setState = jest.fn((stateObject, callback) => {
+            state = stateObject;
+            callback();
+        });
+        recreateLightboxOpenerAndCallOpenLightbox();
+    });
+
+    it('should call setState', () => {
+        expect(fsLightbox.setters.setState).toBeCalled();
+    });
+
+    it('should set state to object with isOpen set to true', () => {
+        expect(state).toEqual({ isOpen: true });
     });
 
     it('should call runActions', () => {
         expect(openingActions.runActions).toBeCalled();
-    });
-
-    it('should call addOpenClassToDocument', () => {
-        expect(lightboxOpener.addOpenClassToDocumentElement).toBeCalled();
     });
 });
