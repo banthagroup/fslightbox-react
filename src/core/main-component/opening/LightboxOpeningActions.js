@@ -1,11 +1,25 @@
+import { addOpenClassToDocumentElement } from "../../../helpers/dom/document/addOpenClassToDocumentElement";
+
 /**
- * @class
+ * @constructor
+ * @param { FsLightbox.data | { isInitialized: boolean } } data
+ * @param { FsLightbox.core.lightboxInitializer.initialize| Function } initializeLightbox
+ * @param { FsLightbox.core.scrollbarRecompensor.addRecompense | Function } addScrollbarRecompense
+ * @param { FsLightbox.core.eventsControllers.window.resize.attachListener | Function } attachResizeListener
+ * @param { FsLightbox.core.eventsControllers.window.swiping.attachListeners | Function } attachSwipingListeners
+ * @param { FsLightbox.core.globalResizingController.runAllResizingActions | Function } runAllResizingActions
+ * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders | Function } transformStageSourceHolders
  */
 export function LightboxOpeningActions(
     {
-        setters: { setState },
+        data,
         core: {
-            globalResizingController: { runAllResizingActions },
+            lightboxInitializer: {
+                initialize: initializeLightbox
+            },
+            scrollbarRecompensor: {
+                addRecompense: addScrollbarRecompense
+            },
             eventsControllers: {
                 window: {
                     resize: {
@@ -16,21 +30,18 @@ export function LightboxOpeningActions(
                     }
                 }
             },
+            globalResizingController: { runAllResizingActions },
             sourceHoldersTransformer: {
                 transformStageSourceHolders
-            }
+            },
         },
     }
 ) {
-    this.runActions = ()  => {
-        setState({
-            isOpen: true,
-        }, () => {
-            componentMountedAfterOpen();
-        });
-    };
-
-    const componentMountedAfterOpen = () => {
+    this.runActions = () => {
+        if (!data.isInitialized)
+            initializeLightbox();
+        addScrollbarRecompense();
+        addOpenClassToDocumentElement();
         attachResizeListener();
         attachSwipingListeners();
         runAllResizingActions();

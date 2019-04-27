@@ -1,53 +1,98 @@
 import { LightboxOpeningActions } from "../../../../src/core/main-component/opening/LightboxOpeningActions";
+import * as addOpenClassToDocumentElementObject
+    from "../../../../src/helpers/dom/document/addOpenClassToDocumentElement";
 
-let fsLightboxState = {
-    isOpen: false
-};
-const setState = jest.fn((state, callback) => {
-    callback();
-    fsLightboxState = state;
-});
-const withoutTimeout = jest.fn();
 const fsLightbox = {
-    setters: {
-        setState: setState,
+    data: {
+        isInitialized: false
     },
     core: {
+        scrollbarRecompensor: {
+            addRecompense: () => {}
+        },
         globalResizingController: {
-            runAllResizingActions: jest.fn()
+            runAllResizingActions: () => {}
         },
         eventsControllers: {
             window: {
                 resize: {
-                    attachListener: jest.fn()
+                    attachListener: () => {}
                 },
                 swiping: {
-                    attachListeners: jest.fn()
+                    attachListeners: () => {}
                 }
             }
         },
         sourceHoldersTransformer: {
-            transformStageSourceHolders: jest.fn(() => ({
-                withoutTimeout: withoutTimeout
-            }))
+            transformStageSourceHolders: () => ({
+                withoutTimeout: () => {}
+            })
+        },
+        lightboxInitializer: {
+            initialize: () => {}
         }
     }
 };
 
-const lightboxOpeningActions = new LightboxOpeningActions(fsLightbox);
+/** @var { LightboxOpeningActions } lightboxOpeningActions */
+let lightboxOpeningActions;
 
-describe('calling methods', () => {
-    beforeAll(() => {
-        lightboxOpeningActions.runActions();
-    });
+const recreateLightboxOpeningActionsAndCallRunActions = () => {
+    lightboxOpeningActions = new LightboxOpeningActions(fsLightbox);
+    lightboxOpeningActions.runActions();
+};
 
-    describe('setting isOpen state to true', () => {
-        it('should call setState', () => {
-            expect(fsLightbox.setters.setState).toBeCalled();
+describe('initializing or not lightbox', () => {
+    describe('lightbox is already initialized', () => {
+        beforeAll(() => {
+            fsLightbox.core.lightboxInitializer.initialize = jest.fn();
+            fsLightbox.data.isInitialized = true;
+            recreateLightboxOpeningActionsAndCallRunActions();
         });
 
-        it('should set fsLightboxState true (mocked here state)', () => {
-            expect(fsLightboxState).toEqual({isOpen: true});
+        it('should not call initialize', () => {
+            expect(fsLightbox.core.lightboxInitializer.initialize).not.toBeCalled();
+        });
+    });
+
+    describe('lightbox is not initialized', () => {
+        beforeAll(() => {
+            fsLightbox.core.lightboxInitializer.initialize = jest.fn();
+            fsLightbox.data.isInitialized = false;
+            recreateLightboxOpeningActionsAndCallRunActions();
+        });
+
+        it('should call initialize', () => {
+            expect(fsLightbox.core.lightboxInitializer.initialize).toBeCalled();
+        });
+    });
+});
+
+describe('calling methods', () => {
+    let withoutTimeout;
+
+    beforeAll(() => {
+        withoutTimeout = jest.fn();
+        fsLightbox.core.scrollbarRecompensor.addRecompense = jest.fn();
+        addOpenClassToDocumentElementObject.addOpenClassToDocumentElement = jest.fn();
+        fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
+        fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
+        fsLightbox.core.globalResizingController.runAllResizingActions = jest.fn();
+        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+            withoutTimeout: withoutTimeout
+        }));
+        recreateLightboxOpeningActionsAndCallRunActions();
+    });
+
+    describe('adding scrollbar recompense', () => {
+        it('should call addRecompense', () => {
+            expect(fsLightbox.core.scrollbarRecompensor.addRecompense).toBeCalled();
+        });
+    });
+
+    describe('adding open class to document', () => {
+        it('should call addOpenClassToDocument', () => {
+            expect(addOpenClassToDocumentElementObject.addOpenClassToDocumentElement).toBeCalled();
         });
     });
 
@@ -60,6 +105,12 @@ describe('calling methods', () => {
     describe('attaching swiping listeners', () => {
         it('should call attachListeners', () => {
             expect(fsLightbox.core.eventsControllers.window.swiping.attachListeners).toBeCalled();
+        });
+    });
+
+    describe('running all resizing actions', () => {
+        it('should call runAllResizingActions', () => {
+            expect(fsLightbox.core.globalResizingController.runAllResizingActions).toBeCalled();
         });
     });
 

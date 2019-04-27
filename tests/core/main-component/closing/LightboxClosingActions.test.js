@@ -1,7 +1,7 @@
 import { LightboxClosingActions } from "../../../../src/core/main-component/closing/LightboxClosingActions";
 import { FSLIGHTBOX_OPEN_CLASS_NAME, LONG_FADE_OUT_CLASS_NAME } from "../../../../src/constants/cssConstants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../../src/constants/coreConstants";
-import { documentElementClassList } from "../../../../src/helpers/dom/documentElementClassList";
+import { documentElementClassList } from "../../../../src/helpers/dom/document/documentElementClassList";
 
 const lightboxContainerClassList = document.createElement('div').classList;
 const fsLightbox = {
@@ -21,6 +21,9 @@ const fsLightbox = {
         }
     },
     core: {
+        scrollbarRecompensor: {
+            removeRecompense: () => {}
+        },
         fullscreenToggler: {
             turnOffFullscreen: () => {}
         },
@@ -113,6 +116,7 @@ describe('after fade out', () => {
         jest.useFakeTimers();
         lightboxContainerClassList.add(LONG_FADE_OUT_CLASS_NAME);
         documentElementClassList.add(FSLIGHTBOX_OPEN_CLASS_NAME);
+        fsLightbox.core.scrollbarRecompensor.removeRecompense = jest.fn();
         fsLightbox.setters.setState = jest.fn();
         fsLightbox.core.eventsControllers.window.resize.removeListener = jest.fn();
         recreateLightboxClosingActionsAndCallRunActions();
@@ -129,6 +133,12 @@ describe('after fade out', () => {
     describe('removing lightbox open class from document', () => {
         it('should remove class', () => {
             expect(documentElementClassList.contains(FSLIGHTBOX_OPEN_CLASS_NAME)).toBeFalsy();
+        });
+    });
+
+    describe('removing scrollbar recompense', () => {
+        it('should call removeScrollbarRecompense', () => {
+            expect(fsLightbox.core.scrollbarRecompensor.removeRecompense).toBeCalled();
         });
     });
 

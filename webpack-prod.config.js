@@ -5,7 +5,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "umd",
-        filename: "./main.js",
+        filename: "./index.js",
     },
     module: {
         rules: [
@@ -35,7 +35,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [ 'style-loader','css-loader' ],
+                use: ['style-loader', 'css-loader'],
             }
         ]
     }

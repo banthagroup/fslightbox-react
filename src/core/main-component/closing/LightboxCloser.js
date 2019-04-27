@@ -1,5 +1,5 @@
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.injector.mainComponent.getClosingActions | function(): LightboxClosingActions} getClosingActions
  */
 export function LightboxCloser(

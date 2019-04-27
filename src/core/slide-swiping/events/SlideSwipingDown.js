@@ -18,8 +18,8 @@ export function SlideSwipingDown({ componentsStates: { isSwipingSlides: isSwipin
     };
 
     const setIsSourceDownEventTargetIfTargetIsSource = () => {
-        (event.target.classList.contains('fslightbox-single-source')) ?
-            swipingProps.isSourceDownEventTarget = true:
+        (event.target.classList.contains('fslightbox-source')) ?
+            swipingProps.isSourceDownEventTarget = true :
             swipingProps.isSourceDownEventTarget = false;
     };
 

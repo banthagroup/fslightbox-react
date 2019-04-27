@@ -1,12 +1,10 @@
-import { documentElementClassList } from "../../../helpers/dom/documentElementClassList";
-import { FSLIGHTBOX_OPEN_CLASS_NAME } from "../../../constants/cssConstants";
-
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.injector.mainComponent.getOpeningActions| function(): LightboxOpeningActions } getOpeningActions
  */
 export function LightboxOpener(
     {
+        setters: { setState },
         injector: {
             mainComponent: {
                 getOpeningActions
@@ -16,12 +14,11 @@ export function LightboxOpener(
 ) {
     const lightboxOpeningActions = getOpeningActions();
 
-    this.addOpenClassToDocumentElement = () => {
-        documentElementClassList.add(FSLIGHTBOX_OPEN_CLASS_NAME);
-    };
-
     this.openLightbox = () => {
-        this.addOpenClassToDocumentElement();
-        lightboxOpeningActions.runActions();
+        setState({
+            isOpen: true,
+        }, () => {
+            lightboxOpeningActions.runActions();
+        });
     }
 }

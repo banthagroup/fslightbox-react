@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import PropTypes from 'prop-types';
 import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/cssConstants";
 

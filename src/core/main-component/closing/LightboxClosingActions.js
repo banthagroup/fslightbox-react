@@ -3,10 +3,10 @@ import {
     LONG_FADE_OUT_CLASS_NAME
 } from "../../../constants/cssConstants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../constants/coreConstants";
-import { documentElementClassList } from "../../../helpers/dom/documentElementClassList";
+import { documentElementClassList } from "../../../helpers/dom/document/documentElementClassList";
 
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.componentsStates.isFullscreenOpen | { get: Function } } isFullscreenOpenState
  * @param { FsLightbox.elements.container | { current: { classList: DOMTokenList} } } lightboxContainer
@@ -24,6 +24,9 @@ export function LightboxClosingActions(
             container: lightboxContainer
         },
         core: {
+            scrollbarRecompensor: {
+                removeRecompense: removeScrollbarRecompense
+            },
             fullscreenToggler: { turnOffFullscreen },
             eventsControllers: {
                 window: {
@@ -59,6 +62,7 @@ export function LightboxClosingActions(
     const afterFadeOut = () => {
         getLightboxContainerClassList().remove(LONG_FADE_OUT_CLASS_NAME);
         documentElementClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME);
+        removeScrollbarRecompense();
         setState({
             isOpen: false
         });

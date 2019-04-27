@@ -12,9 +12,11 @@ import { LightboxCloser } from "./main-component/closing/LightboxCloser";
 import { LightboxOpener } from "./main-component/opening/LightboxOpener";
 import { LightboxInitializer } from "./main-component/LightboxInitializer";
 import { SourcesFactory } from "./sources/creating/SourcesFactory";
+import { ScrollbarRecompensor } from "./scrollbar/ScrollbarRecompensor";
+import { LightboxOpeningActions } from "./main-component/opening/LightboxOpeningActions";
 
 /**
- * @class
+ * @constructor
  * @param { FsLightbox } fsLightbox
  */
 export function Core(fsLightbox) {
@@ -26,6 +28,7 @@ export function Core(fsLightbox) {
     this.sourcesFactory = new SourcesFactory(fsLightbox);
     this.sourceAnimator = new SourceAnimator(fsLightbox);
     this.sourceController = new SourceController(fsLightbox);
+    this.scrollbarRecompensor = new ScrollbarRecompensor(fsLightbox);
     this.fullscreenToggler = new FullscreenToggler(fsLightbox);
     this.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
     this.slideChanger = new SlideChanger(fsLightbox);
@@ -34,6 +37,7 @@ export function Core(fsLightbox) {
     this.eventsControllers = new EventsControllers(fsLightbox);
     this.lightboxUnmounter = new LightboxUnmounter(fsLightbox);
     this.lightboxCloser = new LightboxCloser(fsLightbox);
-    this.lightboxOpener = new LightboxOpener(fsLightbox);
     this.lightboxInitializer = new LightboxInitializer(fsLightbox);
+    this.lightboxOpeningActions = new LightboxOpeningActions(fsLightbox);
+    this.lightboxOpener = new LightboxOpener(fsLightbox);
 }

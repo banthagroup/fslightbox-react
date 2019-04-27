@@ -23,6 +23,7 @@ import { WindowMoveEventController } from "./core/events-controllers/window/move
 import { WindowUpEventController } from "./core/events-controllers/window/up/WindowUpEventController";
 import { SourceComponentGetter } from "./core/sources/creating/SourceComponentGetter";
 import { SourceSizeAdjuster } from "./core/sizes/SourceSizeAdjuster";
+import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -42,6 +43,8 @@ class FsLightbox extends Component {
         this.data = {
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
+            isInitialized: false,
+            scrollbarWidth: getScrollbarWidth()
         };
     }
 
@@ -157,7 +160,9 @@ class FsLightbox extends Component {
     }
 
     componentDidMount() {
-        this.core.lightboxInitializer.initialize();
+        if (this.state.isOpen) {
+            this.core.lightboxOpeningActions.runActions();
+        }
     }
 
     componentWillUnmount() {
