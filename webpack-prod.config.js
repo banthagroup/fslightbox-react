@@ -5,7 +5,29 @@ module.exports = {
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "umd",
+        library: "fslightbox-react-basic",
+        umdNamedDefine: true,
         filename: "./index.js",
+    },
+    resolve: {
+        alias: {
+            'react': path.resolve(__dirname, './node_modules/react'),
+            'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+        }
+    },
+    externals: {
+        react: {
+            commonjs: "react",
+            commonjs2: "react",
+            amd: "React",
+            root: "React"
+        },
+        "react-dom": {
+            commonjs: "react-dom",
+            commonjs2: "react-dom",
+            amd: "ReactDOM",
+            root: "ReactDOM"
+        }
     },
     module: {
         rules: [

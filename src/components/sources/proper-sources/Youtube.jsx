@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVideoIdFromUrl";
 
-
 /**
  * @param { FsLightbox.data.urls } urls
  * @param { FsLightbox.elements.sources } sources

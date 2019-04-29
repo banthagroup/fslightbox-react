@@ -1,15 +1,15 @@
 /**
- * @class
- * @param { FsLightbox.core.slideSwiping.up | SlideSwipingUp } up
+ * @constructor
+ * @param { FsLightbox.core.slideSwiping.up | SlideSwipingUp } slideSwipingUp
  */
-export function WindowUpEventController({ core: { slideSwiping: { up } } }) {
+export function WindowUpEventController({ core: { slideSwiping: { up: slideSwipingUp } } }) {
     this.attachListener = () => {
-        window.addEventListener('mouseup', up.listener);
-        window.addEventListener('touchend', up.listener, { passive: true });
+        window.addEventListener('mouseup', slideSwipingUp.listener);
+        window.addEventListener('touchend', slideSwipingUp.listener, { passive: true });
     };
 
     this.removeListener = () => {
-        window.removeEventListener('mouseup', up.listener);
-        window.removeEventListener('touchend', up.listener);
+        window.removeEventListener('mouseup', slideSwipingUp.listener);
+        window.removeEventListener('touchend', slideSwipingUp.listener);
     };
 }

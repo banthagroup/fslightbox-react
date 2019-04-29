@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Svg from "../helpers/Svg.jsx";
 
 
 /**
- * @param { FsLightbox.core.stageSources.getPreviousSlideNumber | Function } getPreviousSlideNumber
+ * @param { FsLightbox.core.stage.getPreviousSlideNumber | Function } getPreviousSlideNumber
  * @param { FsLightbox.core.slideChanger.changeSlideTo | function(number) } changeSlideTo
  * @param changeSlideTo
  */
@@ -12,7 +12,7 @@ const SlideButtonLeft = (
     {
         fsLightbox: {
             core: {
-                stageSources: { getPreviousSlideNumber },
+                stage: { getPreviousSlideNumber },
                 slideChanger: { changeSlideTo }
             }
         }

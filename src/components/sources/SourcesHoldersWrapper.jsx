@@ -11,7 +11,7 @@ const SourcesHoldersWrapper = ({ fsLightbox }) => {
         core: {
             slideSwiping: {
                 down: {
-                    listener
+                    listener: slideSwipingDownListener
                 }
             }
         },
@@ -30,8 +30,8 @@ const SourcesHoldersWrapper = ({ fsLightbox }) => {
 
     return (
         <div className={ 'fslightbox-sources-holders-wrapper' }
-             onMouseDown={ listener }
-             onTouchStart={ listener }
+             onMouseDown={ slideSwipingDownListener }
+             onTouchStart={ slideSwipingDownListener }
              ref={ sourcesHoldersWrapper }>
             { sourceHolders }
         </div>

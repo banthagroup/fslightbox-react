@@ -1,16 +1,16 @@
 {
   "name": "fslightbox-react",
-  "version": "0.8.0",
+  "version": "0.8.7",
   "description": "React version of Fullscreen Lightbox",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --config webpack-prod.config.js --display-modules",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --mode development --open --host 192.168.0.12"
   },
   "repository": {
     "type": "git",
-    "_url": "git+https://github.com/PiotrZdziarski/React-FsLightbox-Basic.git"
+    "_url": "https://github.com/piotrzdziarski/fslightbox-react"
   },
   "jest": {
     "setupFiles": [
@@ -40,6 +40,10 @@
     "_url": "https://github.com/PiotrZdziarski/React-FsLightbox-Basic/issues"
   },
   "homepage": "https://fslightbox.com/",
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
@@ -63,11 +67,9 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^3.3.1",
     "prop-types": "^15.6.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   }
 }

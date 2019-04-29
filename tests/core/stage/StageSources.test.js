@@ -1,10 +1,10 @@
-import { StageSources } from "../../../src/core/stage/StageSources";
+import { Stage } from "../../../src/core/stage/Stage";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 
-describe('StageSources', () => {
+describe('Stage', () => {
     const mock = new FsLightboxMock();
     const fsLightbox = mock.getFsLightbox();
-    const stageSources = new StageSources(fsLightbox);
+    const stageSources = new Stage(fsLightbox);
     fsLightbox.data.totalSlides = 10;
 
     it('should detect that sources in stage when its middle slide', () => {

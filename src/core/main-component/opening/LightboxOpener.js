@@ -1,24 +1,19 @@
 /**
  * @constructor
- * @param { FsLightbox.injector.mainComponent.getOpeningActions| function(): LightboxOpeningActions } getOpeningActions
+ * @param { FsLightbox.setters.setState | function(Object, function)} setState
+ * @param { FsLightbox.core.lightboxOpeningActions | LightboxOpeningActions } lightboxOpeningActions
  */
 export function LightboxOpener(
     {
         setters: { setState },
-        injector: {
-            mainComponent: {
-                getOpeningActions
-            }
-        }
+        core: { lightboxOpeningActions }
     }
 ) {
-    const lightboxOpeningActions = getOpeningActions();
-
     this.openLightbox = () => {
         setState({
             isOpen: true,
         }, () => {
             lightboxOpeningActions.runActions();
         });
-    }
+    };
 }

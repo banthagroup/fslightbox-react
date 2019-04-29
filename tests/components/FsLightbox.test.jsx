@@ -1,12 +1,11 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import FsLightbox from "../../src";
+import FsLightbox from "../../src/FsLightbox";
 import { testProps, testUrls } from "../__tests-helpers__/testVariables";
 import { createRefsArrayForGivenNumber } from "../../src/helpers/arrays/createRefsArrayForGivenNumber";
 import { WindowMoveEventController } from "../../src/core/events-controllers/window/move/WindowMoveEventController";
 import { WindowUpEventController } from "../../src/core/events-controllers/window/up/WindowUpEventController";
 import { LightboxClosingActions } from "../../src/core/main-component/closing/LightboxClosingActions";
-import { LightboxOpeningActions } from "../../src/core/main-component/opening/LightboxOpeningActions";
 import { SourceSizeAdjusterIterator } from "../../src/core/sizes/SourceSizeAdjusterIterator";
 import { SlideSwipingMoveActions } from "../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
 import { SlideSwipingUpActions } from "../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
@@ -16,9 +15,10 @@ import { SourceComponentGetter } from "../../src/core/sources/creating/SourceCom
 import { SourceTypeGetter } from "../../src/core/sources/creating/SourceTypeGetter";
 import { SourceHolderTransformer } from "../../src/core/transforms/SourceHolderTransformer";
 import { StageSourceHoldersByValueTransformer } from "../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
-import { Core } from "../../src/core/Core";
+import * as setUpCoreObject from "../../src/core/setUpCore";
 import { SourceSizeAdjuster } from "../../src/core/sizes/SourceSizeAdjuster";
 import { getScrollbarWidth } from "../../src/core/scrollbar/getScrollbarWidth";
+import * as runLightboxUnmountActionsObject from "../../src/core/main-component/runLightboxUnmountActions";
 
 let fsLightboxWrapper = shallow(<FsLightbox isOpen={ false } urls={ testUrls }/>, {
     disableLifecycleMethods: true
@@ -47,6 +47,12 @@ describe('data', () => {
     describe('scrollbarWidth', () => {
         it('should be equal to value returned from getScrollbarWidth', () => {
             expect(fsLightbox.data.scrollbarWidth).toBe(getScrollbarWidth());
+        });
+    });
+
+    describe('isSwipingSlides', () => {
+        it('should be false', () => {
+            expect(fsLightbox.data.isSwipingSlides).toBe(false);
         });
     });
 });
@@ -140,9 +146,9 @@ describe('componentsStates', () => {
         });
     });
 
-    describe('isSwipingSlides', () => {
+    describe('hasMovedWhileSwiping', () => {
         it('should be equal empty object', () => {
-            expect(fsLightbox.componentsStates.isSwipingSlides).toEqual({});
+            expect(fsLightbox.componentsStates.hasMovedWhileSwiping).toEqual({});
         });
     });
 
@@ -279,18 +285,6 @@ describe('injector', () => {
             it('should be equal after stringify', () => {
                 expect(JSON.stringify(fsLightbox.injector.mainComponent.getClosingActions()))
                     .toEqual(JSON.stringify(new LightboxClosingActions(fsLightbox)));
-            });
-        });
-
-        describe('getOpeningActions', () => {
-            it('should be instance of LightboxOpeningActions', () => {
-                expect(fsLightbox.injector.mainComponent.getOpeningActions())
-                    .toBeInstanceOf(LightboxOpeningActions);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.mainComponent.getOpeningActions()))
-                    .toEqual(JSON.stringify(new LightboxOpeningActions(fsLightbox)));
             });
         });
     });
@@ -443,14 +437,14 @@ describe('injector', () => {
 });
 
 describe('core', () => {
-    it('should be instance of Core', () => {
-        expect(fsLightbox.core).toBeInstanceOf(Core);
+    beforeAll(() => {
+        setUpCoreObject.setUpCore = jest.fn();
+        fsLightbox.setUpCore();
     });
 
-    it('should be equal to Core stringify', () => {
-        expect(JSON.stringify(fsLightbox.core)).toEqual(JSON.stringify(new Core(fsLightbox)));
+    it('should call setUpCore', () => {
+        expect(setUpCoreObject.setUpCore).toBeCalledWith(fsLightbox);
     });
-
 });
 
 describe('componentDidUpdate', () => {
@@ -582,12 +576,12 @@ describe('componentDidMount', () => {
 
 describe('componentWillUnmount', () => {
     beforeAll(() => {
-        fsLightbox.core.lightboxUnmounter.runActions = jest.fn();
+        runLightboxUnmountActionsObject.runLightboxUnmountActions = jest.fn();
         fsLightbox.componentWillUnmount();
     });
 
     it('should call runActions', () => {
-        expect(fsLightbox.core.lightboxUnmounter.runActions).toBeCalled();
+        expect(runLightboxUnmountActionsObject.runLightboxUnmountActions).toBeCalled();
     });
 });
 

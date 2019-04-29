@@ -6,7 +6,7 @@ import {
 import { getClassListOfElementInArrayByIndex } from "../../helpers/source/getClassListOfElementInArrayByIndex";
 
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.elements.sources | Array } sources
  */
 export function SourceAnimator({ elements: { sources } }) {

@@ -4,9 +4,10 @@ import {
 } from "../../constants/responsiveConstants";
 
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.sourcesData | { maxSourceWidth: number, maxSourceHeight: number} } sourcesData
  * @param { FsLightbox.elements.sourcesHoldersWrapper | { current }} sourcesHoldersWrapper
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  */
 export function GlobalResizingController(
     {
@@ -15,7 +16,7 @@ export function GlobalResizingController(
             sourcesHoldersWrapper
         },
         core: {
-            sourceHoldersTransformer: { transformStageSourceHolders }
+            sourceHoldersTransformer,
         },
         injector: {
             sizes: { getSourceSizeAdjusterIterator },
@@ -34,7 +35,7 @@ export function GlobalResizingController(
     this.runAllResizingActions = () => {
         this.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         adjustAllSourcesSizes();
-        transformStageSourceHolders().withoutTimeout();
+        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
     };
 
     const saveMaxSourcesDimensions = () => {

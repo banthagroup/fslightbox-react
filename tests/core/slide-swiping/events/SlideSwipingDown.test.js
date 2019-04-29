@@ -3,7 +3,7 @@ import { SlideSwipingDown } from "../../../../src/core/slide-swiping/events/Slid
 let isSwipingSlides;
 const fsLightbox = {
     componentsStates: {
-        isSwipingSlides: {
+        hasMovedWhileSwiping: {
             get: () => isSwipingSlides,
             set: (boolean) => isSwipingSlides = boolean
         }
@@ -131,12 +131,12 @@ describe('setting isSourceDownEventTarget if sources is target', () => {
 
 
 
-describe('setting isSwipingSlides state to true', () => {
+describe('setting hasMovedWhileSwiping state to true', () => {
     beforeAll(() => {
         recreateSlideSwipingDownAndCallListener();
     });
 
-    it('should set isSwipingSlides state to true', () => {
+    it('should set hasMovedWhileSwiping state to true', () => {
         expect(isSwipingSlides).toBeTruthy();
     });
 });

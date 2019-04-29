@@ -16,7 +16,7 @@ const fsLightbox = {
         totalSlides: 0
     },
     componentsStates: {
-        isSwipingSlides: {
+        hasMovedWhileSwiping: {
             get: () => isSwipingSlides,
             set: (boolean) => isSwipingSlides = boolean
         },
@@ -299,7 +299,7 @@ describe('setting isAfterSwipeAnimationRunning from swiping props to true', () =
     });
 });
 
-describe('setting isSwipingSlides state to false', () => {
+describe('setting hasMovedWhileSwiping state to false', () => {
     beforeEach(() => {
         isSwipingSlides = true;
         createNewSlideSwipingUpActionsAndCallMethods();

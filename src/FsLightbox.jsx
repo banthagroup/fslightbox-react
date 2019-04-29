@@ -6,7 +6,7 @@ import SlideButtonLeft from "./components/slide-buttons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slide-buttons/SlideButtonRight.jsx";
 import SourcesHoldersWrapper from "./components/sources/SourcesHoldersWrapper.jsx";
 import { createRefsArrayForGivenNumber } from "./helpers/arrays/createRefsArrayForGivenNumber";
-import { Core } from "./core/Core";
+import { setUpCore } from "./core/setUpCore";
 import DownEventDetector from "./components/slide-swiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
 import { StageSourceHoldersByValueTransformer } from "./core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
@@ -18,12 +18,32 @@ import { SwipingSlideChanger } from "./core/slide-swiping/actions/up/SwipingSlid
 import { SourceTypeGetter } from "./core/sources/creating/SourceTypeGetter";
 import { SourceSizeAdjusterIterator } from "./core/sizes/SourceSizeAdjusterIterator";
 import { LightboxClosingActions } from "./core/main-component/closing/LightboxClosingActions";
-import { LightboxOpeningActions } from "./core/main-component/opening/LightboxOpeningActions";
 import { WindowMoveEventController } from "./core/events-controllers/window/move/WindowMoveEventController";
 import { WindowUpEventController } from "./core/events-controllers/window/up/WindowUpEventController";
 import { SourceComponentGetter } from "./core/sources/creating/SourceComponentGetter";
 import { SourceSizeAdjuster } from "./core/sizes/SourceSizeAdjuster";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
+import { runLightboxUnmountActions } from "./core/main-component/runLightboxUnmountActions";
+import { DocumentKeyDownEventController } from "./core/events-controllers/document/DocumentKeyDownEventController";
+import { WindowResizeEventController } from "./core/events-controllers/window/resize/WindowResizeEventController";
+import { SwipingEventsControllersFacade } from "./core/events-controllers/facades/SwipingEventsControllersFacade";
+import { FullscreenToggler } from "./core/fullscreen/FullscreenToggler";
+import { GlobalResizingController } from "./core/sizes/GlobalResizingController";
+import { KeyboardController } from "./core/keyboard/KeyboardController";
+import { LightboxCloser } from "./core/main-component/closing/LightboxCloser";
+import { LightboxInitializer } from "./core/main-component/LightboxInitializer";
+import { LightboxOpener } from "./core/main-component/opening/LightboxOpener";
+import { LightboxOpeningActions } from "./core/main-component/opening/LightboxOpeningActions";
+import { ScrollbarRecompensor } from "./core/scrollbar/ScrollbarRecompensor";
+import { SlideChanger } from "./core/slide/SlideChanger";
+import { SlideSwipingDown } from "./core/slide-swiping/events/SlideSwipingDown";
+import { SlideSwipingUp } from "./core/slide-swiping/events/SlideSwipingUp";
+import { SlideSwipingMove } from "./core/slide-swiping/events/SlideSwipingMove";
+import { SourceAnimator } from "./core/animations/SourceAnimator";
+import { SourceController } from "./core/sources/SourceController";
+import { SourcesFactory } from "./core/sources/creating/SourcesFactory";
+import { Stage } from "./core/stage/Stage";
+import { SourceHoldersTransformer } from "./core/transforms/SourceHoldersTransformer";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -44,7 +64,8 @@ class FsLightbox extends Component {
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
             isInitialized: false,
-            scrollbarWidth: getScrollbarWidth()
+            scrollbarWidth: getScrollbarWidth(),
+            isSwipingSlides: false,
         };
     }
 
@@ -71,7 +92,7 @@ class FsLightbox extends Component {
         // (its called only one time - after first call its deleted)
         this.componentsStates = {
             slide: {},
-            isSwipingSlides: {},
+            hasMovedWhileSwiping: {},
             isFullscreenOpen: {},
             shouldSourceHolderBeUpdatedCollection: [],
         };
@@ -110,6 +131,36 @@ class FsLightbox extends Component {
 
     setUpInjector() {
         this.injector = {
+            core: {
+                eventsControllers: {
+                    document: {
+                        getKeyDown: () => new DocumentKeyDownEventController(this),
+                    },
+                    window: {
+                        getResize: () => new WindowResizeEventController(this),
+                        getSwiping: () => new SwipingEventsControllersFacade(this),
+                    }
+                },
+                getFullscreenToggler: () => new FullscreenToggler(this),
+                getGlobalResizingController: () => new GlobalResizingController(this),
+                getKeyboardController: () => new KeyboardController(this),
+                getLightboxCloser: () => new LightboxCloser(this),
+                getLightboxInitializer: () => new LightboxInitializer(this),
+                getLightboxOpener: () => new LightboxOpener(this),
+                getLightboxOpeningActions: () => new LightboxOpeningActions(this),
+                getScrollbarRecompensor: () => new ScrollbarRecompensor(this),
+                getSlideChanger: () => new SlideChanger(this),
+                slideSwiping: {
+                    getDownForSwipingProps: (swipingProps) => new SlideSwipingDown(this, swipingProps),
+                    getMoveForSwipingProps: (swipingProps) => new SlideSwipingMove(this, swipingProps),
+                    getUpForSwipingProps: (swipingProps) => new SlideSwipingUp(this, swipingProps)
+                },
+                getSourceAnimator: () => new SourceAnimator(this),
+                getSourceController: () => new SourceController(this),
+                getSourceHoldersTransformer: () => new SourceHoldersTransformer(this),
+                getSourcesFactory: () => new SourcesFactory(this),
+                getStage: () => new Stage(this)
+            },
             dom: {
                 getXMLHttpRequest: () => new XMLHttpRequest()
             },
@@ -119,7 +170,6 @@ class FsLightbox extends Component {
             },
             mainComponent: {
                 getClosingActions: () => new LightboxClosingActions(this),
-                getOpeningActions: () => new LightboxOpeningActions(this)
             },
             sizes: {
                 getSourceSizeAdjusterIterator: () => new SourceSizeAdjusterIterator(this)
@@ -145,7 +195,37 @@ class FsLightbox extends Component {
     }
 
     setUpCore() {
-        this.core = new Core(this);
+        this.core = {
+            eventsControllers: {
+                document: {
+                    keyDown: {},
+                },
+                window: {
+                    resize: {},
+                    swiping: {},
+                }
+            },
+            fullscreenToggler: {},
+            globalResizingController: {},
+            keyboardController: {},
+            lightboxCloser: {},
+            lightboxInitializer: {},
+            lightboxOpener: {},
+            lightboxOpeningActions: {},
+            scrollbarRecompensor: {},
+            slideChanger: {},
+            slideSwiping: {
+                down: {},
+                move: {},
+                up: {}
+            },
+            sourceAnimator: {},
+            sourceController: {},
+            sourceHoldersTransformer: {},
+            sourcesFactory: {},
+            stage: {}
+        };
+        setUpCore(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -161,12 +241,12 @@ class FsLightbox extends Component {
 
     componentDidMount() {
         if (this.state.isOpen) {
-            this.core.lightboxOpeningActions.runActions();
+            this.core.lightboxOpeningActions.runActions(this);
         }
     }
 
     componentWillUnmount() {
-        this.core.lightboxUnmounter.runActions();
+        runLightboxUnmountActions(this);
     }
 
     render() {

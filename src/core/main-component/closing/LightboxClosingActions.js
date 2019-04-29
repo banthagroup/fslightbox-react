@@ -10,9 +10,10 @@ import { documentElementClassList } from "../../../helpers/dom/document/document
  * @param { FsLightbox.setters.setState | Function } setState
  * @param { FsLightbox.componentsStates.isFullscreenOpen | { get: Function } } isFullscreenOpenState
  * @param { FsLightbox.elements.container | { current: { classList: DOMTokenList} } } lightboxContainer
- * @param { FsLightbox.core.fullscreenToggler.turnOffFullscreen | Function } turnOffFullscreen
- * @param { FsLightbox.core.eventsControllers.window.resize.removeListener | Function } removeResizeListener
- * @param { FsLightbox.core.eventsControllers.window.swiping.removeListeners | Function } removeSwipingListeners
+ * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController } windowResizeEventController
+ * @param { FsLightbox.core.eventsControllers.window.swiping | SwipingEventsControllersFacade } swipingEventsControllersFacade
+ * @param { FsLightbox.core.fullscreenToggler | FullscreenToggler } fullscreenToggler
+ * @param { FsLightbox.core.scrollbarRecompensor | ScrollbarRecompensor } scrollbarRecompensor
  */
 export function LightboxClosingActions(
     {
@@ -24,20 +25,14 @@ export function LightboxClosingActions(
             container: lightboxContainer
         },
         core: {
-            scrollbarRecompensor: {
-                removeRecompense: removeScrollbarRecompense
-            },
-            fullscreenToggler: { turnOffFullscreen },
             eventsControllers: {
                 window: {
-                    resize: {
-                        removeListener: removeResizeListener,
-                    },
-                    swiping: {
-                        removeListeners: removeSwipingListeners,
-                    }
+                    resize: windowResizeEventController,
+                    swiping: swipingEventsControllersFacade
                 }
-            }
+            },
+            fullscreenToggler,
+            scrollbarRecompensor
         },
     }
 ) {
@@ -46,7 +41,7 @@ export function LightboxClosingActions(
     this.runActions = () => {
         this.isLightboxFadingOut = true;
         getLightboxContainerClassList().add(LONG_FADE_OUT_CLASS_NAME);
-        removeSwipingListeners();
+        swipingEventsControllersFacade.removeListeners();
         ifFullscreenIsOpenCloseIt();
         setTimeout(() => {
             afterFadeOut();
@@ -55,18 +50,18 @@ export function LightboxClosingActions(
 
     const ifFullscreenIsOpenCloseIt = () => {
         if (isFullscreenOpenState.get()) {
-            turnOffFullscreen();
+            fullscreenToggler.turnOffFullscreen();
         }
     };
 
     const afterFadeOut = () => {
         getLightboxContainerClassList().remove(LONG_FADE_OUT_CLASS_NAME);
         documentElementClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME);
-        removeScrollbarRecompense();
+        scrollbarRecompensor.removeRecompense();
         setState({
             isOpen: false
         });
-        removeResizeListener();
+        windowResizeEventController.removeListener();
         this.isLightboxFadingOut = false;
     };
 

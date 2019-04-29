@@ -1,20 +1,19 @@
 import { FADE_IN_ANIMATION_TIME } from "../../constants/cssConstants";
 
 /**
- * @class
- * @param { FsLightbox.core.sourceAnimator.animateSourceFromSlide | function(): SourceAnimator } animateSourceFromSlide
+ * @constructor
+ * @param { FsLightbox.componentsStates.slide | { set: function(boolean), get: function(): boolean, onUpdate: function } } slideState
+ * @param { FsLightbox.core.sourceAnimator | SourceAnimator } sourceAnimator
  * @param { FsLightbox.core.sourceAnimator.removeFadeOutFromAllSources | Function } removeFadeOutFromAllSources
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
- * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
- * @param { StageSources } stageSources
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer} sourceHoldersTransformer
  */
 export function SlideChanger(
     {
-        core: {
-            sourceAnimator: { animateSourceFromSlide, removeFadeOutFromAllSources },
-            sourceHoldersTransformer: { transformStageSourceHolders }
-        },
         componentsStates: { slide: slideState },
+        core: {
+            sourceAnimator,
+            sourceHoldersTransformer,
+        }
     }
 ) {
     let previousSlideNumber;
@@ -27,15 +26,15 @@ export function SlideChanger(
         animateSourceHolders();
         slideState.set(newSlideNumber);
         slideState.onUpdate = () => {
-            transformStageSourceHolders().withTimeout();
+            sourceHoldersTransformer.transformStageSourceHolders().withTimeout();
         };
     };
 
     const animateSourceHolders = () => {
-        animateSourceFromSlide(previousSlideNumber).removeFadeIn();
-        animateSourceFromSlide(previousSlideNumber).fadeOut();
-        animateSourceFromSlide(newSlideNumber).removeFadeOut();
-        animateSourceFromSlide(newSlideNumber).fadeIn();
+        sourceAnimator.animateSourceFromSlide(previousSlideNumber).removeFadeIn();
+        sourceAnimator.animateSourceFromSlide(previousSlideNumber).fadeOut();
+        sourceAnimator.animateSourceFromSlide(newSlideNumber).removeFadeOut();
+        sourceAnimator.animateSourceFromSlide(newSlideNumber).fadeIn();
         removeFadeOutFromAllSourcesAfterTimeout();
     };
 
@@ -46,7 +45,7 @@ export function SlideChanger(
             if (wasSlideChangedDuringAnimationArray.length !== 0) {
                 return;
             }
-            removeFadeOutFromAllSources();
+            sourceAnimator.removeFadeOutFromAllSources();
         }, FADE_IN_ANIMATION_TIME);
     };
 }

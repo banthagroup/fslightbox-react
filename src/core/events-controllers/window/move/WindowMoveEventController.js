@@ -1,15 +1,15 @@
 /**
  * @class
- * @param { FsLightbox.core.slideSwiping.move.listener | Function } listener
+ * @param { FsLightbox.core.slideSwiping.move | SlideSwipingMove } slideSwipingMove
  */
-export function WindowMoveEventController({ core: { slideSwiping: { move: { listener } } } }) {
+export function WindowMoveEventController({ core: { slideSwiping: { move: slideSwipingMove  } } }) {
     this.attachListener = () => {
-        window.addEventListener('mousemove', listener);
-        window.addEventListener('touchmove', listener, { passive: true });
+        window.addEventListener('mousemove', slideSwipingMove.listener);
+        window.addEventListener('touchmove', slideSwipingMove.listener, { passive: true });
     };
 
     this.removeListener = () => {
-        window.removeEventListener('mousemove', listener);
-        window.removeEventListener('touchmove', listener,);
+        window.removeEventListener('mousemove', slideSwipingMove.listener);
+        window.removeEventListener('touchmove', slideSwipingMove.listener,);
     };
 }
