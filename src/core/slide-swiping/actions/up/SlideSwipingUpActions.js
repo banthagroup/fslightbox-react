@@ -1,12 +1,13 @@
-import { FADE_IN_ANIMATION_TIME } from "../../../../constants/cssConstants";
+import { CURSOR_GRABBING_CLASS_NAME, FADE_IN_ANIMATION_TIME } from "../../../../constants/cssConstants";
 
 /**
- * @class SlideSwipingUpActions
- * @param { FsLightbox.data } data
- * @param { FsLightbox.componentsStates.isSwipingSlides | { get: function(): boolean, set: function(boolean)} } isSwipingSlidesState
+ * @constructor
+ * @param { FsLightbox.data | { totalSlides: number } } data
+ * @param { FsLightbox.componentsStates.hasMovedWhileSwiping | { get: function(): boolean, set: function(boolean)} } isSwipingSlidesState
  * @param { FsLightbox.componentsStates.slide | { get: function(): number, set: function(number)} } slideState
  * @param { FsLightbox.setters.setState | Function } setState
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex | function(): SourceHolderTransformer} transformStageSourceHolderAtIndex
+ * @param { FsLightbox.core.stage | Stage } stage
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  * @param { FsLightbox.injector.slideSwiping.getSwipingTransitioner | function(): SwipingTransitioner } getSwipingTransitioner
  * @param { FsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner | function(): SwipingSlideChanger } getSwipingSlideChangerForSwipingTransitioner
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
@@ -15,23 +16,21 @@ export function SlideSwipingUpActions(
     {
         data,
         componentsStates: {
-            isSwipingSlides: isSwipingSlidesState,
+            hasMovedWhileSwiping: hasMovedWhileSwipingState,
             slide: slideState,
         },
         core: {
-            stageSources: {
-                getAllStageIndexes
-            },
-            sourceHoldersTransformer: {
-                transformStageSourceHolders,
-                transformStageSourceHolderAtIndex,
-            },
+            stage,
+            sourceHoldersTransformer,
         },
         injector: {
             slideSwiping: {
                 getSwipingTransitioner,
                 getSwipingSlideChangerForSwipingTransitioner
             }
+        },
+        elements: {
+            container
         }
     }, swipingProps
 ) {
@@ -45,7 +44,7 @@ export function SlideSwipingUpActions(
         if (data.totalSlides === 1) {
             transformSourceHolders = () => {
                 transitioner.addTransitionToCurrent();
-                transformStageSourceHolderAtIndex(0).zero();
+                sourceHoldersTransformer.transformStageSourceHolderAtIndex(0).zero();
             };
             return;
         }
@@ -56,6 +55,12 @@ export function SlideSwipingUpActions(
                 transformSourceHoldersForward() :
                 transformSourceHoldersBackward();
         }
+    };
+
+    this.resetSwiping = () => {
+        hasMovedWhileSwipingState.set(false);
+        data.isSwipingSlides = false;
+        container.current.classList.remove(CURSOR_GRABBING_CLASS_NAME);
     };
 
     const setUpTransformSourceHoldersBackward = () => {
@@ -93,18 +98,17 @@ export function SlideSwipingUpActions(
 
     const addTransitionToCurrentAndTransformStageSourceHolders = () => {
         transitioner.addTransitionToCurrent();
-        transformStageSourceHolders();
+        sourceHoldersTransformer.transformStageSourceHolders();
     };
 
     this.runActions = () => {
-        const stageSourcesIndexes = getAllStageIndexes();
+        const stageSourcesIndexes = stage.getAllStageIndexes();
         transitioner.setStageSourcesIndexes(stageSourcesIndexes);
         slideChanger.setStageSourcesIndexes(stageSourcesIndexes);
 
         transformSourceHolders();
 
         swipingProps.isAfterSwipeAnimationRunning = true;
-        isSwipingSlidesState.set(false);
         swipingProps.swipedDifference = 0;
 
         setTimeout(() => {

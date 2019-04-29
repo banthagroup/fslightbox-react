@@ -1,14 +1,16 @@
 /**
- * @class
- * @param { transformStageSourceHoldersByValue | Function } transformStageSourceHoldersByValue
+ * @constructor
+ * @param { FsLightbox.componentsStates.hasMovedWhileSwiping | { get: function(): boolean, set: function(boolean)} } hasMovedWhileSwipingState
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
  */
 export function SlideSwipingMoveActions(
     {
+        componentsStates: {
+            hasMovedWhileSwiping: hasMovedWhileSwipingState,
+        },
         core: {
-            sourceHoldersTransformer: {
-                transformStageSourceHoldersByValue
-            }
+            sourceHoldersTransformer,
         }
     }, swipingProps
 ) {
@@ -21,9 +23,16 @@ export function SlideSwipingMoveActions(
     };
 
     this.runActions = () => {
+        ifHasMovedWhileSwipingIsFalseSetItToTrue();
         setUpMoveClientX();
         calculateDifference();
         callTransforms();
+    };
+
+    const ifHasMovedWhileSwipingIsFalseSetItToTrue = () => {
+        if (!hasMovedWhileSwipingState.get()) {
+            hasMovedWhileSwipingState.set(true);
+        }
     };
 
     const setUpMoveClientX = () => {
@@ -37,6 +46,6 @@ export function SlideSwipingMoveActions(
     };
 
     const callTransforms = () => {
-        transformStageSourceHoldersByValue(swipingProps.swipedDifference);
+        sourceHoldersTransformer.transformStageSourceHoldersByValue(swipingProps.swipedDifference);
     };
 }

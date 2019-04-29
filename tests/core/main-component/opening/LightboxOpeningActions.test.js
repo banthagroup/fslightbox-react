@@ -1,4 +1,4 @@
-import { LightboxOpeningActions } from "../../../../src/core/main-component/opening/LightboxOpeningActions";
+import { runLightboxOpeningActions } from "../../../../src/core/main-component/opening/LightboxOpeningActions";
 import * as addOpenClassToDocumentElementObject
     from "../../../../src/helpers/dom/document/addOpenClassToDocumentElement";
 
@@ -38,7 +38,7 @@ const fsLightbox = {
 let lightboxOpeningActions;
 
 const recreateLightboxOpeningActionsAndCallRunActions = () => {
-    lightboxOpeningActions = new LightboxOpeningActions(fsLightbox);
+    lightboxOpeningActions = new runLightboxOpeningActions(fsLightbox);
     lightboxOpeningActions.runActions();
 };
 

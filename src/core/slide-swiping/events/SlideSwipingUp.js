@@ -1,32 +1,31 @@
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.injector.slideSwiping.getUpActionsForSwipingProps
  * | function: SlideSwipingUpActions } getUpActionsForSwipingProps
- * @param { FsLightbox.core | Core } core
+ * @param { FsLightbox.core.lightboxCloser | LightboxCloser } lightboxCloser
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
 export function SlideSwipingUp(
     {
-        componentsStates: {
-            isSwipingSlides: isSwipingSlidesState
-        },
+        data,
         injector: {
             slideSwiping: {
                 getUpActionsForSwipingProps,
             }
         },
-        core,
+        core: { lightboxCloser },
     }, swipingProps
 ) {
     const actions = getUpActionsForSwipingProps(swipingProps);
     actions.setUpTransformSourceHolders();
 
     this.listener = () => {
-        if (!isSwipingSlidesState.get() || swipingProps.isAfterSwipeAnimationRunning) {
+        if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
+        actions.resetSwiping();
         if (!hasUserSwiped()) {
-            return resetSwipingAndCloseLightboxIfSourceIsNotDownEventTarget();
+            return ifSourceIsNotEventTargetCloseLightbox();
         }
         actions.runActions();
     };
@@ -35,13 +34,8 @@ export function SlideSwipingUp(
         return swipingProps.swipedDifference !== 0;
     };
 
-    const resetSwipingAndCloseLightboxIfSourceIsNotDownEventTarget = () => {
-        isSwipingSlidesState.set(false);
-        ifSourceIsNotEventTargetCloseLightbox();
-    };
-
     const ifSourceIsNotEventTargetCloseLightbox = () => {
         if (!swipingProps.isSourceDownEventTarget)
-            core.lightboxCloser.closeLightbox();
+            lightboxCloser.closeLightbox();
     };
 }

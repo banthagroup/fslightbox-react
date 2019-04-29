@@ -15,13 +15,11 @@ export function SourceHoldersTransformer(fsLightbox) {
                 getStageSourceHoldersByValueTransformer,
                 /** @type { function(): SourceHolderTransformer } */
                 getSourceHolderTransformer,
-                /** @type { function():  { stageSourcesIndexes } }  */
-                getInitialStageSourceHoldersByValueTransformer,
             }
         }
     } = fsLightbox;
     const sourceHolderTransformer = getSourceHolderTransformer();
-    let sourceHoldersByValueTransformer = getInitialStageSourceHoldersByValueTransformer();
+    let sourceHoldersByValueTransformer = { stageSourcesIndexes: {} };
 
     /** @return { StageSourceHoldersTransformer } */
     this.transformStageSourceHolders = () => {

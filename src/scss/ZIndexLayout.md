@@ -9,9 +9,9 @@ Value : Elements
 - DownEventDetector
 
 ## 2: 
-- MediaHolder
-- SourceHolders (inherited from MediaHolder) 
-- Sources (inherited from MediaHolder)
+- SourcesHoldersWrapper
+- SourcesHolders (inherited from SourcesHoldersWrapper)
+- Sources (inherited from SourcesHoldersWrapper)
 - Toolbar
 - SlideButtons
 

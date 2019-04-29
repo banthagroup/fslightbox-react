@@ -1,6 +1,6 @@
 /**
  * @class
- * @param { FsLightbox.componentsStates.isSwipingSlides | { set: function(boolean), get: function(): boolean } } isFullscreenOpenState
+ * @param { FsLightbox.componentsStates.hasMovedWhileSwiping | { set: function(boolean), get: function(): boolean } } isFullscreenOpenState
  */
 export function FullscreenToggler(
     {

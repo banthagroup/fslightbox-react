@@ -1,5 +1,5 @@
 /**
- * @class
+ * @constructor
  * @param { FsLightbox.injector.eventsControllers.getWindowMoveEventController | function(): WindowMoveEventController} getWindowMoveEventController
  * @param { FsLightbox.injector.eventsControllers.getWindowUpEventController | function(): WindowUpEventController} getWindowUpEventController
  */

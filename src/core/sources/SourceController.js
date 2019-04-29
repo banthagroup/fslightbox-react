@@ -6,9 +6,10 @@ import { OPACITY_0_CLASS_NAME } from "../../constants/cssConstants";
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray | Array } isSourceAlreadyInitializedArray
  * @param { FsLightbox.elements.sources } sources
  * @param { FsLightbox.collections.sourceSizeAdjusters | Array<SourceSizeAdjuster> } sourceSizeAdjusters
- * @param { FsLightbox.core.sourceAnimator.animateSourceFromIndex | function(): SourceAnimator } animateSourceFromIndex
- * @param { FsLightbox.core.stageSources.isSourceInStage | function(): boolean } isSourceInStage
  * @param { FsLightbox.injector.source.getSourceSizeAdjuster | function(): SourceSizeAdjuster } getSourceSizeAdjuster
+ * @param { FsLightbox.core.sourceAnimator | SourceAnimator } sourceAnimator
+ * @param { FsLightbox.core.stage | Stage } stage
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  */
 export function SourceController(
     {
@@ -17,16 +18,15 @@ export function SourceController(
         collections: {
             sourceSizeAdjusters
         },
-        core: {
-            sourceAnimator: {
-                animateSourceFromIndex
-            },
-            stageSources: { isSourceInStage },
-        },
         injector: {
             source: {
                 getSourceSizeAdjuster
             }
+        },
+        core: {
+            sourceAnimator,
+            stage,
+            sourceHoldersTransformer,
         }
     }
 ) {
@@ -63,6 +63,9 @@ export function SourceController(
         if (classList.contains(OPACITY_0_CLASS_NAME)) {
             classList.remove(OPACITY_0_CLASS_NAME);
         }
+        if (!stage.isSourceInStage(index)) {
+            sourceHoldersTransformer.transformStageSourceHolderAtIndex(index).negative()
+        }
     };
 
     const setUpSourceSizeAdjuster = () => {
@@ -77,9 +80,9 @@ export function SourceController(
     };
 
     const longFadeInSourceIfItsInStage = () => {
-        if (!isSourceInStage(index))
+        if (!stage.isSourceInStage(index))
             return;
-        animateSourceFromIndex(index).longFadeIn();
+        sourceAnimator.animateSourceFromIndex(index).longFadeIn();
     };
 
     const setIsSourceAlreadyInitializedToTrue = () => {

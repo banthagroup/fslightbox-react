@@ -3,4 +3,6 @@
   display: block;
   backface-visibility: hidden;
   transform: translateZ(0);
+  position: relative;
+  z-index: 2;
 }

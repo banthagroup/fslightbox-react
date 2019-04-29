@@ -1,10 +1,21 @@
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../constants/cssConstants";
+
 /**
- * @class
- * @param { FsLightbox.data.deviceType } deviceType
- * @param { FsLightbox.componentsStates.isSwipingSlides | { set: function(boolean) } } isSwipingSlidesState
+ * @constructor
+ * @param { FsLightbox.data | { isSwipingSlides: boolean } } isSwipingSlidesState
+ * @param { FsLightbox.componentsStates.hasMovedWhileSwiping | { set: function(boolean) } } isSwipingSlidesState
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
  */
-export function SlideSwipingDown({ componentsStates: { isSwipingSlides: isSwipingSlidesState } }, swipingProps) {
+export function SlideSwipingDown(
+    {
+        data,
+        componentsStates: {
+            isSwipingSlides: isSwipingSlidesState
+        },
+        elements: {
+            container
+        }
+    }, swipingProps) {
     /** @var { MouseEvent | TouchEvent } event */
     let event;
 
@@ -12,15 +23,9 @@ export function SlideSwipingDown({ componentsStates: { isSwipingSlides: isSwipin
         event = e;
         preventDefaultIfNeeded();
         setIsSourceDownEventTargetIfTargetIsSource();
-        setIsSwipingSlideStateToTrue();
+        setIsSwipingSlidesToTrue();
         setDownClientX();
         resetSwipedDifference();
-    };
-
-    const setIsSourceDownEventTargetIfTargetIsSource = () => {
-        (event.target.classList.contains('fslightbox-source')) ?
-            swipingProps.isSourceDownEventTarget = true :
-            swipingProps.isSourceDownEventTarget = false;
     };
 
     const preventDefaultIfNeeded = () => {
@@ -31,8 +36,15 @@ export function SlideSwipingDown({ componentsStates: { isSwipingSlides: isSwipin
         event.preventDefault();
     };
 
-    const setIsSwipingSlideStateToTrue = () => {
-        isSwipingSlidesState.set(true);
+    const setIsSourceDownEventTargetIfTargetIsSource = () => {
+        (event.target.classList.contains('fslightbox-source')) ?
+            swipingProps.isSourceDownEventTarget = true :
+            swipingProps.isSourceDownEventTarget = false;
+    };
+
+    const setIsSwipingSlidesToTrue = () => {
+        data.isSwipingSlides = true;
+        container.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
     };
 
     const setDownClientX = () => {

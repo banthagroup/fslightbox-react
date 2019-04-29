@@ -1,32 +1,23 @@
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { CURSOR_GRABBING_CLASS_NAME } from "../../constants/cssConstants";
 
 // this component enables up event over the youtube video because it hovers it up with bigger z-index
 const SwipingInvisibleHover = (
     {
         fsLightbox: {
-            data: { totalSlides },
             componentsStates: {
-                isSwipingSlides: isSwipingSlidesState
+                hasMovedWhileSwiping: hasMovedWhileSwipingState,
             }
         }
     }
 ) => {
-    const [isSwipingSlides, setIsSwipingSlide] = useState(false);
-    isSwipingSlidesState.get = () => isSwipingSlides;
-    isSwipingSlidesState.set = setIsSwipingSlide;
-
-    if (!isSwipingSlides)
-        return null;
-
-    const cursorGrabbing = (totalSlides > 1) ?
-        CURSOR_GRABBING_CLASS_NAME :
-        "";
-
-    return (
-        <div className={ `fslightbox-swiping-invisible-hover fslightbox-full-dimension ${ cursorGrabbing }` }></div>
-    );
+    const [hasMovedWhileSwiping, setHasMovedWhileSwiping] = useState(false);
+    hasMovedWhileSwipingState.get = () => hasMovedWhileSwiping;
+    hasMovedWhileSwipingState.set = setHasMovedWhileSwiping;
+    
+    return (hasMovedWhileSwiping) ? (
+        <div className={ `fslightbox-swiping-invisible-hover fslightbox-full-dimension` }></div>
+    ) : null;
 };
 
 SwipingInvisibleHover.propTypes = {

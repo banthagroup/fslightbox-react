@@ -1,16 +1,13 @@
 /**
  * @class
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders
- * | function(): StageSourceHoldersTransformer } transformStageSourceHolders
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  * @param { SwipingTransitioner.addTransitionToCurrentAndPrevious | Function } addTransitionToCurrentAndPrevious
  * @param { SwipingTransitioner.addTransitionToCurrentAndNext | Function } addTransitionToCurrentAndNext
  */
 export function SwipingSlideChanger(
     {
         componentsStates: { slide: slideState },
-        core: {
-            sourceHoldersTransformer: { transformStageSourceHolders },
-        },
+        core: { sourceHoldersTransformer }
     }, {
         addTransitionToCurrentAndPrevious,
         addTransitionToCurrentAndNext,
@@ -36,7 +33,7 @@ export function SwipingSlideChanger(
     const callTransformsAndSetSlideTo = (slide) => {
         slideState.set(slide);
         slideState.onUpdate = () => {
-            transformStageSourceHolders().withoutTimeout();
+            sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
         };
     };
 }

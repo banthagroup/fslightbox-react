@@ -3,48 +3,46 @@ import { addOpenClassToDocumentElement } from "../../../helpers/dom/document/add
 /**
  * @constructor
  * @param { FsLightbox.data | { isInitialized: boolean } } data
- * @param { FsLightbox.core.lightboxInitializer.initialize| Function } initializeLightbox
- * @param { FsLightbox.core.scrollbarRecompensor.addRecompense | Function } addScrollbarRecompense
- * @param { FsLightbox.core.eventsControllers.window.resize.attachListener | Function } attachResizeListener
- * @param { FsLightbox.core.eventsControllers.window.swiping.attachListeners | Function } attachSwipingListeners
- * @param { FsLightbox.core.globalResizingController.runAllResizingActions | Function } runAllResizingActions
- * @param { FsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders | Function } transformStageSourceHolders
+ * @param { FsLightbox.core.lightboxInitializer | LightboxInitializer } lightboxInitializer
+ * @param { FsLightbox.core.scrollbarRecompensor | ScrollbarRecompensor } scrollbarRecompensor
+ * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController } windowResizeEventController
+ * @param { FsLightbox.core.eventsControllers.window.swiping | SwipingEventsControllersFacade } swipingEventsController
+ * @param { FsLightbox.core.globalResizingController | GlobalResizingController } globalResizingController
+ * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
  */
 export function LightboxOpeningActions(
     {
         data,
         core: {
-            lightboxInitializer: {
-                initialize: initializeLightbox
-            },
-            scrollbarRecompensor: {
-                addRecompense: addScrollbarRecompense
-            },
+            lightboxInitializer,
+            scrollbarRecompensor,
             eventsControllers: {
                 window: {
-                    resize: {
-                        attachListener: attachResizeListener
-                    },
-                    swiping: {
-                        attachListeners: attachSwipingListeners,
-                    }
+                    resize: windowResizeEventController,
+                    swiping: swipingEventsController
+                },
+                document: {
+                    keyDown: documentKeyDownEventController
                 }
             },
-            globalResizingController: { runAllResizingActions },
-            sourceHoldersTransformer: {
-                transformStageSourceHolders
-            },
+            globalResizingController,
+            sourceHoldersTransformer,
         },
     }
 ) {
     this.runActions = () => {
-        if (!data.isInitialized)
-            initializeLightbox();
-        addScrollbarRecompense();
+        ifNotYetInitializedInitialize();
         addOpenClassToDocumentElement();
-        attachResizeListener();
-        attachSwipingListeners();
-        runAllResizingActions();
-        transformStageSourceHolders().withoutTimeout();
+        scrollbarRecompensor.addRecompense();
+        windowResizeEventController.attachListener();
+        swipingEventsController.attachListeners();
+        documentKeyDownEventController.attachListener();
+        globalResizingController.runAllResizingActions();
+        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
+    };
+
+    const ifNotYetInitializedInitialize = () => {
+        if (!data.isInitialized)
+            lightboxInitializer.initialize();
     };
 }

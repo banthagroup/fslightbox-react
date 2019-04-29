@@ -1,4 +1,4 @@
-import FsLightbox from "../../../src";
+import FsLightbox from "../../../src/FsLightbox.jsx";
 import { testUrls } from "../../__tests-helpers__/testVariables";
 
 /**
@@ -23,7 +23,7 @@ export function FsLightboxMock() {
     this.instantiateNewFsLightbox = () => {
         fsLightbox = new FsLightbox(testProps);
         mockStateWithNameAndDefaultValue('slide', 1);
-        mockStateWithNameAndDefaultValue('isSwipingSlides', false);
+        mockStateWithNameAndDefaultValue('hasMovedWhileSwiping', false);
         mockStateWithNameAndDefaultValue('isFullscreenOpen', false);
         fsLightbox.setState = (newState, callback) => {
             for (let statePropertyName in newState) {

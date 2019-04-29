@@ -3,7 +3,7 @@ import { SlideSwipingUp } from "../../../../src/core/slide-swiping/events/SlideS
 let isSwipingSlidesStateValue;
 const fsLightbox = {
     componentsStates: {
-        isSwipingSlides: {
+        hasMovedWhileSwiping: {
             get: () => isSwipingSlidesStateValue,
             set: () => {},
         }
@@ -122,12 +122,12 @@ describe(`setting isSwipingSlides to false and closing lightbox if sources is no
         fsLightbox.componentsStates.isSwipingSlides.set = jest.fn((state) => isSwipingSlidesStateValue = state);
     });
 
-    describe('setting isSwipingSlides to false', () => {
+    describe('setting hasMovedWhileSwiping to false', () => {
         beforeEach(() => {
             createSlideSwipingUpAndRunListener();
         });
 
-        it('should set isSwipingSlides to false', () => {
+        it('should set hasMovedWhileSwiping to false', () => {
             expect(isSwipingSlidesStateValue).toBeFalsy();
         });
     });

@@ -1,19 +1,13 @@
 /**
  * @class
- * @param { FsLightbox.core.globalResizingController.runAllResizingActions | Function } runAllResizingActions
+ * @param { FsLightbox.core.globalResizingController | GlobalResizingController } globalResizingController
  */
-export function WindowResizeEventController(
-    {
-        core: {
-            globalResizingController: { runAllResizingActions },
-        }
-    }
-) {
+export function WindowResizeEventController({ core: { globalResizingController } }) {
     this.attachListener = () => {
-        window.addEventListener('resize', runAllResizingActions);
+        window.addEventListener('resize', globalResizingController.runAllResizingActions);
     };
 
     this.removeListener = () => {
-        window.removeEventListener('resize', runAllResizingActions);
+        window.removeEventListener('resize', globalResizingController.runAllResizingActions);
     };
 }

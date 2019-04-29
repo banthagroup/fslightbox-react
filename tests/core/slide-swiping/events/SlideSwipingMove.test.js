@@ -10,7 +10,7 @@ const fsLightbox = {
         totalSlides: 0
     },
     componentsStates: {
-        isSwipingSlides: {
+        hasMovedWhileSwiping: {
             get: () => isSwipingSlides,
             set: (boolean) => isSwipingSlides = boolean
         }

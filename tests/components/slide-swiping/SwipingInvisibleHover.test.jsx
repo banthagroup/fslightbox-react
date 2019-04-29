@@ -8,7 +8,7 @@ const fsLightbox = {
         totalSlides: 4
     },
     componentsStates: {
-        isSwipingSlides: {}
+        hasMovedWhileSwiping: {}
     }
 };
 let swipingInvisibleHover = shallow(<SwipingInvisibleHover fsLightbox={ fsLightbox }/>);
@@ -18,13 +18,13 @@ describe('isSwipingSlide components state', () => {
         expect(fsLightbox.componentsStates.isSwipingSlides.get()).toBeFalsy();
     });
 
-    it('should return true, because we set isSwipingSlides to true', () => {
+    it('should return true, because we set hasMovedWhileSwiping to true', () => {
         fsLightbox.componentsStates.isSwipingSlides.set(true);
         expect(fsLightbox.componentsStates.isSwipingSlides.get()).toBeTruthy();
     });
 });
 
-describe('isSwipingSlides DOM', () => {
+describe('hasMovedWhileSwiping DOM', () => {
     describe('user is not swipingSlides', () => {
         beforeAll(() => {
             fsLightbox.componentsStates.isSwipingSlides.set(false);
