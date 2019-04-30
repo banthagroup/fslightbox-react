@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
  * @param { FsLightbox.elements.sources } sources
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
  * @param { FsLightbox.sourcesData.videosPosters } videosPosters
- * @param { FsLightbox.core.sourceController | SourceController } sourceController
+ * @param { FsLightbox.core.sourceController | SetUpSourceController } sourceController
  * @param { number }index
  */
 const Video = (

@@ -24,26 +24,7 @@ import { SourceComponentGetter } from "./core/sources/creating/SourceComponentGe
 import { SourceSizeAdjuster } from "./core/sizes/SourceSizeAdjuster";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 import { runLightboxUnmountActions } from "./core/main-component/runLightboxUnmountActions";
-import { DocumentKeyDownEventController } from "./core/events-controllers/document/DocumentKeyDownEventController";
-import { WindowResizeEventController } from "./core/events-controllers/window/resize/WindowResizeEventController";
-import { SwipingEventsControllersFacade } from "./core/events-controllers/facades/SwipingEventsControllersFacade";
-import { FullscreenToggler } from "./core/fullscreen/FullscreenToggler";
-import { GlobalResizingController } from "./core/sizes/GlobalResizingController";
-import { KeyboardController } from "./core/keyboard/KeyboardController";
-import { LightboxCloser } from "./core/main-component/closing/LightboxCloser";
-import { LightboxInitializer } from "./core/main-component/LightboxInitializer";
-import { LightboxOpener } from "./core/main-component/opening/LightboxOpener";
-import { LightboxOpeningActions } from "./core/main-component/opening/LightboxOpeningActions";
-import { ScrollbarRecompensor } from "./core/scrollbar/ScrollbarRecompensor";
-import { SlideChanger } from "./core/slide/SlideChanger";
-import { SlideSwipingDown } from "./core/slide-swiping/events/SlideSwipingDown";
-import { SlideSwipingUp } from "./core/slide-swiping/events/SlideSwipingUp";
-import { SlideSwipingMove } from "./core/slide-swiping/events/SlideSwipingMove";
-import { SourceAnimator } from "./core/animations/SourceAnimator";
-import { SourceController } from "./core/sources/SourceController";
-import { SourcesFactory } from "./core/sources/creating/SourcesFactory";
-import { Stage } from "./core/stage/Stage";
-import { SourceHoldersTransformer } from "./core/transforms/SourceHoldersTransformer";
+import { Injector } from "./injection/Injector";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -131,36 +112,6 @@ class FsLightbox extends Component {
 
     setUpInjector() {
         this.injector = {
-            core: {
-                eventsControllers: {
-                    document: {
-                        getKeyDown: () => new DocumentKeyDownEventController(this),
-                    },
-                    window: {
-                        getResize: () => new WindowResizeEventController(this),
-                        getSwiping: () => new SwipingEventsControllersFacade(this),
-                    }
-                },
-                getFullscreenToggler: () => new FullscreenToggler(this),
-                getGlobalResizingController: () => new GlobalResizingController(this),
-                getKeyboardController: () => new KeyboardController(this),
-                getLightboxCloser: () => new LightboxCloser(this),
-                getLightboxInitializer: () => new LightboxInitializer(this),
-                getLightboxOpener: () => new LightboxOpener(this),
-                getLightboxOpeningActions: () => new LightboxOpeningActions(this),
-                getScrollbarRecompensor: () => new ScrollbarRecompensor(this),
-                getSlideChanger: () => new SlideChanger(this),
-                slideSwiping: {
-                    getDownForSwipingProps: (swipingProps) => new SlideSwipingDown(this, swipingProps),
-                    getMoveForSwipingProps: (swipingProps) => new SlideSwipingMove(this, swipingProps),
-                    getUpForSwipingProps: (swipingProps) => new SlideSwipingUp(this, swipingProps)
-                },
-                getSourceAnimator: () => new SourceAnimator(this),
-                getSourceController: () => new SourceController(this),
-                getSourceHoldersTransformer: () => new SourceHoldersTransformer(this),
-                getSourcesFactory: () => new SourcesFactory(this),
-                getStage: () => new Stage(this)
-            },
             dom: {
                 getXMLHttpRequest: () => new XMLHttpRequest()
             },
@@ -189,9 +140,9 @@ class FsLightbox extends Component {
             transforms: {
                 getSourceHolderTransformer: () => new SourceHolderTransformer(this),
                 getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
-                getInitialStageSourceHoldersByValueTransformer: () => ({ stageSourcesIndexes: {} })
             }
         };
+        this.testInjector = new Injector(this);
     }
 
     setUpCore() {

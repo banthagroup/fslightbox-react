@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  * @param { FsLightbox.data.urls } urls
  * @param { FsLightbox.elements.sources } sources
  * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
- * @param { FsLightbox.core.sourceController | SourceController } sourceController
+ * @param { FsLightbox.core.sourceController | SetUpSourceController } sourceController
  * @param { number } index
  */
 const Image = (

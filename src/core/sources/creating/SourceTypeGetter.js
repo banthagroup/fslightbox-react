@@ -7,7 +7,7 @@ import {
 import { SourceTypeGetterHelpers } from "./SourceTypeGetterHelpers";
 
 /**
- * @class SourceTypeGetter
+ * @constructor
  */
 export function SourceTypeGetter(
     {

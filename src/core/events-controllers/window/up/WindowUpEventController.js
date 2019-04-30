@@ -1,6 +1,6 @@
 /**
  * @constructor
- * @param { FsLightbox.core.slideSwiping.up | SlideSwipingUp } slideSwipingUp
+ * @param { FsLightbox.core.slideSwiping.up | SetUpSlideSwipingUp } slideSwipingUp
  */
 export function WindowUpEventController({ core: { slideSwiping: { up: slideSwipingUp } } }) {
     this.attachListener = () => {
