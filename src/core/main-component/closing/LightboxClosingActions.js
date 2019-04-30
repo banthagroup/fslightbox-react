@@ -11,9 +11,9 @@ import { documentElementClassList } from "../../../helpers/dom/document/document
  * @param { FsLightbox.componentsStates.isFullscreenOpen | { get: Function } } isFullscreenOpenState
  * @param { FsLightbox.elements.container | { current: { classList: DOMTokenList} } } lightboxContainer
  * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController } windowResizeEventController
- * @param { FsLightbox.core.eventsControllers.window.swiping | SwipingEventsControllersFacade } swipingEventsControllersFacade
+ * @param { FsLightbox.core.eventsControllers.window.swiping | SetUpSwipingEventsControllersFacade } swipingEventsControllersFacade
  * @param { FsLightbox.core.fullscreenToggler | FullscreenToggler } fullscreenToggler
- * @param { FsLightbox.core.scrollbarRecompensor | ScrollbarRecompensor } scrollbarRecompensor
+ * @param { FsLightbox.core.scrollbarRecompensor | SetUpScrollbarRecompensor } scrollbarRecompensor
  */
 export function LightboxClosingActions(
     {

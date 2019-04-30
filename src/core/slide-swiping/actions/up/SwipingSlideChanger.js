@@ -1,6 +1,6 @@
 /**
  * @class
- * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
+ * @param { FsLightbox.core.sourceHoldersTransformer | SetUpSourceHoldersTransformer } sourceHoldersTransformer
  * @param { SwipingTransitioner.addTransitionToCurrentAndPrevious | Function } addTransitionToCurrentAndPrevious
  * @param { SwipingTransitioner.addTransitionToCurrentAndNext | Function } addTransitionToCurrentAndNext
  */

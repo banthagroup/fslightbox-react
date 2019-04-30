@@ -5,7 +5,7 @@ import SlideButtonLeft from "../../../src/components/slide-buttons/SlideButtonLe
 const previousSlideNumber = 4;
 const fsLightbox = {
     core: {
-        stageSources: {
+        stage: {
             getPreviousSlideNumber: jest.fn(() => previousSlideNumber)
         },
         slideChanger: {
@@ -28,7 +28,7 @@ describe('after clicking SlideButtonLeft calling changeSlideTo with slide number
     });
 
     it('should call getPreviousSlideNumber', () => {
-        expect(fsLightbox.core.stageSources.getPreviousSlideNumber).toBeCalled();
+        expect(fsLightbox.core.stage.getPreviousSlideNumber).toBeCalled();
     });
 
     it('should call changeSlideTo with previous slide number', () => {

@@ -1,98 +1,77 @@
-import { getSwipingProps } from "./slide-swiping/getSwipingProp";
+import { getSwipingProps } from "./slide-swiping/getSwipingProps";
+import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
+import { setUpSlideChanger } from "./slide/setUpSlideChanger";
+import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
+import { setUpSourceController } from "./sources/setUpSourceController";
+import { setUpSourceHoldersTransformer } from "./transforms/setUpSourceHoldersTransformer";
+import { setUpSourcesFactory } from "./sources/creating/setUpSourcesFactory";
+import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
+import { setUpGlobalResizingController } from "./sizes/setUpGlobalResizingController";
+import { setUpDocumentKeyDownEventController } from "./events-controllers/document/setUpDocumentKeyDownEventController";
+import { setUpWindowResizeEventController } from "./events-controllers/window/resize/setUpWindowResizeEventController";
+import { setUpSwipingEventsControllersFacade } from "./events-controllers/facades/setUpSwipingEventsControllersFacade";
+import { setUpKeyboardController } from "./keyboard/setUpKeyboardController";
+import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
+import { setUpLightboxInitializer } from "./main-component/setUpLightboxInitializer";
+import { setUpLightboxOpeningActions } from "./main-component/opening/setUpLightboxOpeningActions";
+import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
+import { setUpSlideSwipingDown } from "./slide-swiping/events/setUpSlideSwipingDown";
+import { setUpSlideSwipingUp } from "./slide-swiping/events/setUpSlideSwipingUp";
+import { setUpSourceAnimator } from "./animations/setUpSourceAnimator";
+import { setUpStage } from "./stage/setUpStage";
 
-/**
- * @param { FsLightbox } fsLightbox
- */
 export function setUpCore(fsLightbox) {
-    const {
-        core,
-        injector: {
-            core: {
-                eventsControllers: {
-                    document: { getKeyDown },
-                    window: { getResize, getSwiping }
-                },
-                getFullscreenToggler,
-                getGlobalResizingController,
-                getKeyboardController,
-                getLightboxCloser,
-                getLightboxInitializer,
-                getLightboxOpener,
-                getLightboxOpeningActions,
-                getScrollbarRecompensor,
-                getSlideChanger,
-                slideSwiping: {
-                    getDownForSwipingProps,
-                    getMoveForSwipingProps,
-                    getUpForSwipingProps
-                },
-                getSourceAnimator,
-                getSourceController,
-                getSourceHoldersTransformer,
-                getSourcesFactory,
-                getStage
-            }
-        }
-    } = fsLightbox;
-    const {
-        eventsControllers: {
-            document: documentEventsControllers,
-            window: windowEventsControllers
-        },
-        slideSwiping,
-    } = core;
-
     // eventsControllers
-    Object.assign(documentEventsControllers.keyDown, getKeyDown());
-    Object.assign(windowEventsControllers.resize, getResize());
-    Object.assign(windowEventsControllers.swiping, getSwiping());
+    setUpDocumentKeyDownEventController(fsLightbox);
+    setUpWindowResizeEventController(fsLightbox);
+    setUpSwipingEventsControllersFacade(fsLightbox);
 
     // fullscreenToggler
-    Object.assign(core.fullscreenToggler, getFullscreenToggler());
+    setUpFullscreenToggler(fsLightbox);
 
     // globalResizingController
-    Object.assign(core.globalResizingController, getGlobalResizingController());
+    setUpGlobalResizingController(fsLightbox);
 
     // keyboardController
-    Object.assign(core.keyboardController, getKeyboardController());
+    setUpKeyboardController(fsLightbox);
 
     // lightboxCloser
-    Object.assign(core.lightboxCloser, getLightboxCloser());
+    setUpLightboxCloser(fsLightbox);
 
     // lightboxInitializer
-    Object.assign(core.lightboxInitializer, getLightboxInitializer());
+    setUpLightboxInitializer(fsLightbox);
 
     // lightboxOpener
-    Object.assign(core.lightboxOpener, getLightboxOpener());
+    setUpLightboxOpener(fsLightbox);
 
     // lightboxOpeningActions
-    Object.assign(core.lightboxOpeningActions, getLightboxOpeningActions());
+    setUpLightboxOpeningActions(fsLightbox);
 
     // scrollbarRecompensor
-    Object.assign(core.scrollbarRecompensor, getScrollbarRecompensor());
+    setUpScrollbarRecompensor(fsLightbox);
 
     // slideChanger
-    Object.assign(core.slideChanger, getSlideChanger());
+    setUpSlideChanger(fsLightbox);
 
     // slideSwiping
     const swipingProps = getSwipingProps();
-    Object.assign(slideSwiping.down, getDownForSwipingProps(swipingProps));
-    Object.assign(slideSwiping.move, getMoveForSwipingProps(swipingProps));
-    Object.assign(slideSwiping.up, getUpForSwipingProps(swipingProps));
+    setUpSlideSwipingDown(fsLightbox, swipingProps);
+    setUpSlideSwipingMove(fsLightbox, swipingProps);
+    setUpSlideSwipingUp(fsLightbox, swipingProps);
 
     // sourceAnimator
-    Object.assign(core.sourceAnimator, getSourceAnimator());
+    setUpSourceAnimator(fsLightbox);
 
     // sourceController
-    Object.assign(core.sourceController, getSourceController());
+    setUpSourceController(fsLightbox);
 
     // sourceHoldersTransformer
-    Object.assign(core.sourceHoldersTransformer, getSourceHoldersTransformer());
+    setUpSourceHoldersTransformer(fsLightbox);
 
     // sourcesFactory
-    Object.assign(core.sourcesFactory, getSourcesFactory());
+    setUpSourcesFactory(fsLightbox);
 
     // stage
-    Object.assign(core.stage, getStage());
+    setUpStage(fsLightbox);
 }
 

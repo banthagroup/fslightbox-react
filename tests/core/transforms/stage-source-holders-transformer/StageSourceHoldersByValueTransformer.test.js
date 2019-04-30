@@ -1,6 +1,6 @@
 import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { StageSourceHoldersByValueTransformer } from "../../../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
-import { SourceHoldersTransformer } from "../../../../src/core/transforms/SourceHoldersTransformer";
+import { SetUpSourceHoldersTransformer } from "../../../../src/core/transforms/setUpSourceHoldersTransformer";
 
 const fsLightboxMock = new FsLightboxMock();
 const fsLightbox = fsLightboxMock.getFsLightbox();
@@ -23,7 +23,7 @@ beforeEach(() => {
     fsLightbox.injector.transforms.getSourceHolderTransformer = () => sourceHolderTransformerMock;
     // recreating SourceHoldersTransformer because we are using transformStageSourceHolderAtIndex method from there
     // in which we call getSourceHolderTransformer which is destructured so it cannot be overwritten
-    fsLightbox.core.sourceHoldersTransformer = new SourceHoldersTransformer(fsLightbox);
+    fsLightbox.core.sourceHoldersTransformer = new SetUpSourceHoldersTransformer(fsLightbox);
 });
 
 describe('transforming all three stage sources holders, because there are three slides', () => {

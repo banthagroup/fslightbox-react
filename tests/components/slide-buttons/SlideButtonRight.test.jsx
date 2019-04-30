@@ -5,7 +5,7 @@ import SlideButtonRight from "../../../src/components/slide-buttons/SlideButtonR
 const nextSlideNumber = 4;
 const fsLightbox = {
     core: {
-        stageSources: {
+        stage: {
             getNextSlideNumber: jest.fn(() => nextSlideNumber)
         },
         slideChanger: {
@@ -28,7 +28,7 @@ describe('after clicking SlideButtonRight calling changeSlideTo with slide numbe
     });
 
     it('should call getNextSlideNumber', () => {
-        expect(fsLightbox.core.stageSources.getNextSlideNumber).toBeCalled();
+        expect(fsLightbox.core.stage.getNextSlideNumber).toBeCalled();
     });
 
     it('should call changeSlideTo with next slide number', () => {

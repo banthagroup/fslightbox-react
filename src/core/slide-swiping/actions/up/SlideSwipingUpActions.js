@@ -6,8 +6,8 @@ import { CURSOR_GRABBING_CLASS_NAME, FADE_IN_ANIMATION_TIME } from "../../../../
  * @param { FsLightbox.componentsStates.hasMovedWhileSwiping | { get: function(): boolean, set: function(boolean)} } isSwipingSlidesState
  * @param { FsLightbox.componentsStates.slide | { get: function(): number, set: function(number)} } slideState
  * @param { FsLightbox.setters.setState | Function } setState
- * @param { FsLightbox.core.stage | Stage } stage
- * @param { FsLightbox.core.sourceHoldersTransformer | SourceHoldersTransformer } sourceHoldersTransformer
+ * @param { FsLightbox.core.stage | SetUpStage } stage
+ * @param { FsLightbox.core.sourceHoldersTransformer | SetUpSourceHoldersTransformer } sourceHoldersTransformer
  * @param { FsLightbox.injector.slideSwiping.getSwipingTransitioner | function(): SwipingTransitioner } getSwipingTransitioner
  * @param { FsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner | function(): SwipingSlideChanger } getSwipingSlideChangerForSwipingTransitioner
  * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference, isSourceDownEventTarget} } swipingProps
