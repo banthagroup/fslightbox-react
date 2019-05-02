@@ -1,4 +1,4 @@
-import { setUpSlideChanger } from "../../../src/core/slide/setUpSlideChanger";
+import { setUpSlideChanger } from "../../../src/core/slide/slide-changing/setUpSlideChanger";
 
 const slideChanger = {};
 let slide;

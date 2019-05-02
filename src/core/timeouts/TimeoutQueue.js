@@ -1,0 +1,6 @@
+/**
+ * @constructor
+ */
+export function QueueTimeouter() {
+    
+}
