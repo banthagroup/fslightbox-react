@@ -1,24 +1,20 @@
-import { FADE_IN_ANIMATION_TIME } from "../../constants/cssConstants";
-import { TimeoutQueue } from "../timeouts/TimeoutQueue";
+import { getRemoveFadeOutTimeoutQueue } from "./getRemoveFadeOutTimeoutQueue";
+import { getPreviousSourceNegativeTransformTimeoutQueue } from "./getPreviousSourceNegativeTransformTimeoutQueue";
 
-export function setUpSlideChanger(
-    {
+export function setUpSlideChanger(fsLightbox) {
+    const {
         componentsStates: { slide: slideState },
-        injector: {
-            injectDependency
-        },
         core: {
             stage,
             sourceAnimator,
             sourceHoldersTransformer,
             slideChanger: self
         }
-    }
-) {
+    } = fsLightbox;
+    const removeFadeOutQueue = getRemoveFadeOutTimeoutQueue(fsLightbox);
+    const previousSourceNegativeTransformQueue = getPreviousSourceNegativeTransformTimeoutQueue(fsLightbox);
     let previousSlideNumber;
     let newSlideNumber;
-    const previousSourceNegativeTransformQueue = injectDependency(TimeoutQueue);
-    const removeFadeOutQueue = injectDependency(TimeoutQueue);
 
     self.changeSlideTo = (newSlide) => {
         previousSlideNumber = slideState.get();
@@ -40,23 +36,15 @@ export function setUpSlideChanger(
     };
 
     const removeFadeOutFromAllSourcesAfterTimeout = () => {
-        wasSlideChangedDuringAnimationArray.push(true);
-        setTimeout(() => {
-            wasSlideChangedDuringAnimationArray.pop();
-            if (wasSlideChangedDuringAnimationArray.length === 0) {
-                sourceAnimator.removeFadeOutFromAllSources();
-            }
-        }, FADE_IN_ANIMATION_TIME);
+        removeFadeOutQueue.startTimeout();
     };
 
     const ifPreviousSlideIsNotInStageTransformItNegativeAfterTimeout = () => {
         const previousSlideIndex = previousSlideNumber - 1;
-        const timeoutQueue = injectDependency(TimeoutQueue);
-        timeoutQueue.time = FADE_IN_ANIMATION_TIME - 30;
-        timeoutQueue.condition = !stage.isSourceInStage(previousSlideIndex);
-        timeoutQueue.action = () => {
+        previousSourceNegativeTransformQueue.actionCallConditionFunc = () => !stage.isSourceInStage(previousSlideIndex);
+        previousSourceNegativeTransformQueue.action = () => {
             sourceHoldersTransformer.transformSourceHolderAtIndex(previousSlideIndex).negative();
         };
-        timeoutQueue.startTimeout();
+        previousSourceNegativeTransformQueue.startTimeout();
     };
 }

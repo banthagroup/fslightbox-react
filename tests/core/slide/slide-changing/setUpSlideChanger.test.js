@@ -1,4 +1,8 @@
-import { setUpSlideChanger } from "../../../src/core/slide/slide-changing/setUpSlideChanger";
+import { setUpSlideChanger } from "../../../../src/core/slide/slide-changing/setUpSlideChanger";
+import * as getRemoveFadeOutTimeoutQueueObject
+    from "../../../../src/core/slide/slide-changing/getRemoveFadeOutTimeoutQueue";
+import * as getPreviousSourceNegativeTransformTimeoutQueueObject
+    from "../../../../src/core/slide/slide-changing/getPreviousSourceNegativeTransformTimeoutQueue";
 
 const slideChanger = {};
 let slide;
@@ -11,29 +15,60 @@ const sourceAnimator = {
     }),
     removeFadeOutFromAllSources: () => {},
 };
+const removeFadeOutQueue = {
+    startTimeout: () => {}
+};
+const previousSourceNegativeTransformQueue = {
+    actionCallConditionFunc: () => {},
+    action: () => {},
+    startTimeout: () => {}
+};
 const fsLightbox = {
-    core: {
-        sourceAnimator: sourceAnimator,
-        sourceHoldersTransformer: {
-            transformStageSourceHolders: () => {}
-        },
-        slideChanger: slideChanger
-    },
     componentsStates: {
         slide: {
             get: () => slide,
             set: (number) => slide = number,
             onUpdate: () => {},
         }
+    },
+    core: {
+        stage: {
+            isSourceInStage: () => {}
+        },
+        sourceAnimator: sourceAnimator,
+        sourceHoldersTransformer: {
+            transformStageSourceHolders: () => {}
+        },
+        slideChanger: slideChanger
     }
 };
 
+getRemoveFadeOutTimeoutQueueObject.getRemoveFadeOutTimeoutQueue = jest.fn(() => removeFadeOutQueue);
+getPreviousSourceNegativeTransformTimeoutQueueObject.getPreviousSourceNegativeTransformTimeoutQueue
+    = jest.fn(() => previousSourceNegativeTransformQueue);
 setUpSlideChanger(fsLightbox);
 
 const setSlideTo1AndCallChangeSlideTo = (newSlide) => {
     slide = 1;
     slideChanger.changeSlideTo(newSlide);
 };
+
+describe('constructor', () => {
+    describe('queues', () => {
+        describe('getRemoveFadeOutTimeoutQueue', () => {
+            it('should call getRemoveFadeOutQueue with fsLightbox', () => {
+                expect(getRemoveFadeOutTimeoutQueueObject.getRemoveFadeOutTimeoutQueue).toBeCalledWith(fsLightbox);
+            });
+        });
+
+        describe('getPreviousSourceNegativeTransformTimeoutQueue', () => {
+            it('should call getPreviousSourceNegativeTransformTimeoutQueue', () => {
+                expect(getPreviousSourceNegativeTransformTimeoutQueueObject.getPreviousSourceNegativeTransformTimeoutQueue)
+                    .toBeCalledWith(fsLightbox);
+            });
+        });
+    });
+});
 
 describe('changeSlideTo', () => {
     describe('slide state', () => {
@@ -157,34 +192,68 @@ describe('changeSlideTo', () => {
         });
     });
 
-
-    describe('removing fade out from all sources after timeout', () => {
-        beforeEach(() => {
-            sourceAnimator.removeFadeOutFromAllSources = jest.fn();
-            setUpSlideChanger(fsLightbox);
-            jest.useFakeTimers();
+    describe('removeFadeOutFromAllSourcesAfterTimeout', () => {
+        beforeAll(() => {
+            removeFadeOutQueue.startTimeout = jest.fn();
+            slideChanger.changeSlideTo(1);
         });
 
-        describe("not calling removeFadeOutFromAllSources due to previous timeout hasn't finish", () => {
-            beforeEach(() => {
-                slideChanger.changeSlideTo(2);
-                slideChanger.changeSlideTo(3);
-                jest.runAllTimers();
+        it('should call startTimeout', () => {
+            expect(removeFadeOutQueue.startTimeout).toBeCalled();
+        });
+    });
+
+    describe('ifPreviousSlideIsNotInStageTransformItNegativeAfterTimeout', () => {
+        let negative;
+
+        beforeAll(() => {
+            negative = jest.fn();
+            // previous slide number is 2 so previous slide index will be 1
+            slide = 2;
+            previousSourceNegativeTransformQueue.actionCallConditionFunc = null;
+            fsLightbox.core.stage.isSourceInStage = jest.fn(() => true);
+            previousSourceNegativeTransformQueue.action = null;
+            fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
+                negative: negative
+            }));
+            previousSourceNegativeTransformQueue.startTimeout = jest.fn();
+            slideChanger.changeSlideTo(3);
+        });
+
+        describe(`setting actionCallConditionFunc to function that 
+                returns negation of isSourceInStage call return value with previous slide index`, () => {
+            let condition;
+
+            beforeAll(() => {
+                condition = previousSourceNegativeTransformQueue.actionCallConditionFunc();
             });
 
-            it('should call removeFadeOutFromAllSources only 1 time even if slide was changed two times', () => {
-                expect(sourceAnimator.removeFadeOutFromAllSources).toBeCalledTimes(1);
+            it('should call isSourceInStage with previous slide index', () => {
+                expect(fsLightbox.core.stage.isSourceInStage).toBeCalledWith(1);
+            });
+
+            it('should return false (negation os isSourceInStage)', () => {
+                expect(condition).toBe(false);
             });
         });
 
-        describe('calling remove fadeOutFromAllSources', () => {
-            beforeEach(() => {
-                slideChanger.changeSlideTo(2);
-                jest.runAllTimers();
+        describe('setting action to method that calls transformSourceHolderAtIndex negatively', () => {
+            beforeAll(() => {
+                previousSourceNegativeTransformQueue.action();
             });
 
-            it('should call removeFadeOutFromAllSources', () => {
-                expect(sourceAnimator.removeFadeOutFromAllSources).toBeCalled();
+            it('should call transformSourceHolderAtIndex with previous slide index', () => {
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(1);
+            });
+
+            it('should call negative', () => {
+                expect(negative).toBeCalled();
+            });
+        });
+
+        describe('calling startTimeout', () => {
+            it('should call startTimeout', () => {
+                expect(previousSourceNegativeTransformQueue.startTimeout).toBeCalled();
             });
         });
     });

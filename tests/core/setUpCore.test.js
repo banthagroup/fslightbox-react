@@ -1,6 +1,6 @@
 import * as getSwipingPropsObject from "../../src/core/slide-swiping/getSwipingProps";
 import * as setUpLightboxOpenerObject from "../../src/core/main-component/opening/setUpLightboxOpener";
-import * as setUpSlideChangerObject from "../../src/core/slide/setUpSlideChanger";
+import * as setUpSlideChangerObject from "../../src/core/slide/slide-changing/setUpSlideChanger";
 import * as setUpSlideSwipingMoveObject from "../../src/core/slide-swiping/events/setUpSlideSwipingMove";
 import * as setUpSourceControllerObject from "../../src/core/sources/setUpSourceController";
 import * as setUpSourceHoldersTransformerObject from "../../src/core/transforms/setUpSourceHoldersTransformer";

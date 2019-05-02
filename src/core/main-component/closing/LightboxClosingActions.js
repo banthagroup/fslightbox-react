@@ -4,16 +4,10 @@ import {
 } from "../../../constants/cssConstants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../constants/coreConstants";
 import { documentElementClassList } from "../../../helpers/dom/document/documentElementClassList";
+import { ON_CLOSE } from "../../../constants/eventsConstants";
 
 /**
  * @constructor
- * @param { FsLightbox.setters.setState | Function } setState
- * @param { FsLightbox.componentsStates.isFullscreenOpen | { get: Function } } isFullscreenOpenState
- * @param { FsLightbox.elements.container | { current: { classList: DOMTokenList} } } lightboxContainer
- * @param { FsLightbox.core.eventsControllers.window.resize | WindowResizeEventController } windowResizeEventController
- * @param { FsLightbox.core.eventsControllers.window.swiping | SetUpSwipingEventsControllersFacade } swipingEventsControllersFacade
- * @param { FsLightbox.core.fullscreenToggler | FullscreenToggler } fullscreenToggler
- * @param { FsLightbox.core.scrollbarRecompensor | SetUpScrollbarRecompensor } scrollbarRecompensor
  */
 export function LightboxClosingActions(
     {
@@ -24,11 +18,17 @@ export function LightboxClosingActions(
         elements: {
             container: lightboxContainer
         },
+        eventsDispatcher: {
+            dispatch
+        },
         core: {
             eventsControllers: {
                 window: {
                     resize: windowResizeEventController,
                     swiping: swipingEventsControllersFacade
+                },
+                document: {
+                    keyDown: keyDownEventController
                 }
             },
             fullscreenToggler,
@@ -42,6 +42,7 @@ export function LightboxClosingActions(
         this.isLightboxFadingOut = true;
         getLightboxContainerClassList().add(LONG_FADE_OUT_CLASS_NAME);
         swipingEventsControllersFacade.removeListeners();
+        keyDownEventController.removeListener();
         ifFullscreenIsOpenCloseIt();
         setTimeout(() => {
             afterFadeOut();
@@ -55,14 +56,16 @@ export function LightboxClosingActions(
     };
 
     const afterFadeOut = () => {
+        this.isLightboxFadingOut = false;
         getLightboxContainerClassList().remove(LONG_FADE_OUT_CLASS_NAME);
         documentElementClassList.remove(FSLIGHTBOX_OPEN_CLASS_NAME);
         scrollbarRecompensor.removeRecompense();
+        windowResizeEventController.removeListener();
         setState({
             isOpen: false
+        }, () => {
+            dispatch(ON_CLOSE);
         });
-        windowResizeEventController.removeListener();
-        this.isLightboxFadingOut = false;
     };
 
     /** @return { DOMTokenList } */

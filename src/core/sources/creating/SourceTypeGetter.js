@@ -13,9 +13,7 @@ export function SourceTypeGetter(
     {
         collections: { xhrs },
         injector: {
-            dom: {
-                getXMLHttpRequest
-            }
+            injectDependency
         }
     }
 ) {
@@ -42,7 +40,7 @@ export function SourceTypeGetter(
     };
 
     const checkSourceTypeUsingXhr = () => {
-        xhr = getXMLHttpRequest();
+        xhr = injectDependency(XMLHttpRequest);
         xhrs.push(xhr);
         xhr.open('GET', url, true);
         xhr.onreadystatechange = onRequestStateChange;

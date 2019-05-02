@@ -1,9 +1,4 @@
-/**
- * @constructor
- * @param { FsLightbox.componentsStates.hasMovedWhileSwiping | { get: function(): boolean, set: function(boolean)} } hasMovedWhileSwipingState
- * @param { FsLightbox.core.sourceHoldersTransformer | SetUpSourceHoldersTransformer } sourceHoldersTransformer
- * @param { {downClientX, isAfterSwipeAnimationRunning, swipedDifference} } swipingProps
- */
+/** @constructor */
 export function SlideSwipingMoveActions(
     {
         componentsStates: {

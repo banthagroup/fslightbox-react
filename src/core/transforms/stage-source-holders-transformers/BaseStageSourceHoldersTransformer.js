@@ -1,9 +1,4 @@
-/**
- * @class BaseStageSourceHoldersTransformer
- * @param { FsLightbox.core.stage.getAllStageIndexes | function(): { previous: number, current: number, next: number} } getAllStageIndexes
- * @param { isStageSourceHolderAtIndexValidForTransform
- * | function(): boolean } isStageSourceHolderAtIndexValidForTransform
- */
+/** @constructor */
 export function BaseStageSourceHoldersTransformer(
     {
         core: {

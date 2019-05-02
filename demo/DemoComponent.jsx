@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
-import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "./data";
+import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "./demoData";
 
 class DemoComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isOpen: true,
-            isRendered: true
+            slide: 1
         };
-        this.slide = 1;
         this.toggleLightbox = this.toggleLightbox.bind(this);
-        setTimeout(() => {
-            this.setState({
-                isRendered: false
-            });
-        }, 1000);
     }
 
     toggleLightbox() {
@@ -28,7 +22,9 @@ class DemoComponent extends Component {
     render() {
         return (
             <>
-                <button onClick={ this.toggleLightbox }>Toggle Lightbox</button>
+                <button onClick={ this.toggleLightbox }>
+                    Toggle Lightbox
+                </button>
                 <div className="images">
                     <img className="image" src="../demo/images/1.jpeg" alt=""/>
                     <img className="image" src="../demo/images/2.jpg" alt=""/>
@@ -52,10 +48,14 @@ class DemoComponent extends Component {
                         // "../demo/images/7.jpg",
                         // "../demo/images/6.jpg"
                     ] }
-                    slide={ this.slide }
+                    slide={ this.state.slide }
                     videosPosters={ [
                         // "../demo/images/1.jpeg"
                     ] }
+                    onClose={ () => console.log('onClose') }
+                    onInit={ () => console.log('onInit') }
+                    onOpen={ () => console.log('onOpen') }
+                    onShow={ () => console.log('onShow') }
                 />
             </>
         );

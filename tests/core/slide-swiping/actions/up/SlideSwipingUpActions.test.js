@@ -1,4 +1,9 @@
 import { SlideSwipingUpActions } from "../../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
+import { SwipingTransitioner } from "../../../../../src/core/slide-swiping/actions/up/SwipingTransitioner";
+import { SwipingSlideChanger } from "../../../../../src/core/slide-swiping/actions/up/SwipingSlideChanger";
+import * as ifElementContainsClassRemoveItObject
+    from "../../../../../src/helpers/dom/classes/IfElementContainsClassRemoveIt";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/cssConstants";
 
 let slide;
 let isSwipingSlides;
@@ -26,17 +31,22 @@ const fsLightbox = {
         },
     },
     core: {
-        stageSources: {
+        stage: {
             getAllStageIndexes: () => {}
         },
         sourceHoldersTransformer: {
-            transformStageSourceHolderAtIndex: () => {},
+            transformSourceHolderAtIndex: () => {},
         },
     },
     injector: {
-        slideSwiping: {
-            getSwipingTransitioner: () => swipingTransitioner,
-            getSwipingSlideChangerForSwipingTransitioner: () => swipingSlideChanger,
+        injectDependency: (dependency) => {
+            if (dependency === SwipingTransitioner) return swipingTransitioner;
+            if (dependency === SwipingSlideChanger) return swipingSlideChanger;
+        }
+    },
+    elements: {
+        container: {
+            current: document.createElement('div')
         }
     }
 };
@@ -50,12 +60,77 @@ const createNewSlideSwipingUpActionsAndCallMethods = () => {
     slideSwipingUpActions.runActions();
 };
 
+describe('injecting dependencies', () => {
+    const transitioner = { key: 'transitioner' };
+
+    beforeEach(() => {
+        fsLightbox.injector.injectDependency = jest.fn(() => transitioner);
+        slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, swipingProps);
+    });
+
+    it('should call injectDependency with SwipingTransitioner', () => {
+        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SwipingTransitioner);
+    });
+
+    it('should call injectDependency with SwipingSlideChanger with transitioner', () => {
+        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SwipingSlideChanger, [transitioner]);
+    });
+
+    afterAll(() => {
+        fsLightbox.injector.injectDependency = (dependency) => {
+            if (dependency === SwipingTransitioner) return swipingTransitioner;
+            if (dependency === SwipingSlideChanger) return swipingSlideChanger;
+        };
+    });
+});
+
+describe('resetSwiping', () => {
+    beforeAll(() => {
+        slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, swipingProps);
+    });
+
+    describe('setting hasMovedWhileSwipingStats fo false', () => {
+        beforeAll(() => {
+            fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
+            slideSwipingUpActions.resetSwiping();
+        });
+
+        it('should call set with false', () => {
+            expect(fsLightbox.componentsStates.hasMovedWhileSwiping.set).toBeCalledWith(false);
+        });
+    });
+
+
+    describe('setting isSwipingSlides from data object to false', () => {
+        beforeAll(() => {
+            fsLightbox.data.isSwipingSlides = true;
+            slideSwipingUpActions.resetSwiping();
+        });
+
+        it('should set isSwipingSlides to false', () => {
+            expect(fsLightbox.data.isSwipingSlides).toBe(false);
+        });
+    });
+
+    describe('removing from element cursor grabbing clas', () => {
+        beforeAll(() => {
+            ifElementContainsClassRemoveItObject.ifElementContainsClassRemoveIt = jest.fn();
+            slideSwipingUpActions.resetSwiping();
+        });
+
+        it('should call ifElementContainsClassRemoveIt with container and cursor grabbing class', () => {
+            expect(ifElementContainsClassRemoveItObject.ifElementContainsClassRemoveIt)
+                .toBeCalledWith(fsLightbox.elements.container, CURSOR_GRABBING_CLASS_NAME);
+        });
+    });
+});
+
 describe('setting stage sources indexes', () => {
     let stageSourcesIndexes;
 
     beforeEach(() => {
         stageSourcesIndexes = {};
-        fsLightbox.core.stageSources.getAllStageIndexes = jest.fn(() => stageSourcesIndexes);
+        fsLightbox.core.stage.getAllStageIndexes = jest.fn(() => stageSourcesIndexes);
     });
 
     describe('setting stage sources indexes for SwipingTransitioner', () => {
@@ -99,7 +174,7 @@ describe('transforming sources holders', () => {
         swipingTransitioner.setStageSourcesIndexes = () => {};
         swipingSlideChanger.changeSlideToPrevious = actions.changeSlideToPrevious;
         swipingSlideChanger.changeSlideToNext = actions.changeSlideToNext;
-        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = actions.transformStageSourceHoldersAtIndex;
+        fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = actions.transformStageSourceHoldersAtIndex;
         fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = actions.transformStageSourceHolders;
     });
 
@@ -130,10 +205,10 @@ describe('transforming sources holders', () => {
             zeroTransform = jest.fn();
             swipingProps.swipedDifference = 0;
             fsLightbox.data.totalSlides = 1;
-            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = jest.fn(() => ({
+            fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
                 zero: zeroTransform
             }));
-            actions.transformStageSourceHoldersAtIndex = fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex;
+            actions.transformStageSourceHoldersAtIndex = fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex;
             createNewSlideSwipingUpActionsAndCallMethods();
         });
 
@@ -142,7 +217,7 @@ describe('transforming sources holders', () => {
         });
 
         it('should call transformStageSourceHoldersAtIndex with 0 as param (0 - array index of current sources holder)', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex.mock.calls[0][0])
+            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex.mock.calls[0][0])
                 .toEqual(0);
         });
 
@@ -150,7 +225,7 @@ describe('transforming sources holders', () => {
             expect(zeroTransform).toBeCalled();
         });
 
-        it('should not call everything expect addTransitionToCurrent and transformStageSourceHolderAtIndex', () => {
+        it('should not call everything expect addTransitionToCurrent and transformSourceHolderAtIndex', () => {
             itShouldNotCallEverythingExcept([
                 actions.addTransitionToCurrent,
                 actions.transformStageSourceHoldersAtIndex
@@ -298,18 +373,6 @@ describe('setting isAfterSwipeAnimationRunning from swiping props to true', () =
         expect(swipingProps.isAfterSwipeAnimationRunning).toBeTruthy();
     });
 });
-
-describe('setting hasMovedWhileSwiping state to false', () => {
-    beforeEach(() => {
-        isSwipingSlides = true;
-        createNewSlideSwipingUpActionsAndCallMethods();
-    });
-
-    it('should set isAfterSwipeAnimationRunning to true', () => {
-        expect(isSwipingSlides).toBeFalsy();
-    });
-});
-
 
 describe('setting swiped difference from swiping props to 0', () => {
     beforeEach(() => {

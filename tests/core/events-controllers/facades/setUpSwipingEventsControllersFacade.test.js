@@ -1,5 +1,8 @@
-import { SetUpSwipingEventsControllersFacade } from "../../../../src/core/events-controllers/facades/setUpSwipingEventsControllersFacade";
+import { setUpSwipingEventsControllersFacade } from "../../../../src/core/events-controllers/facades/setUpSwipingEventsControllersFacade";
+import { WindowMoveEventController } from "../../../../src/core/events-controllers/window/move/WindowMoveEventController";
+import { WindowUpEventController } from "../../../../src/core/events-controllers/window/up/WindowUpEventController";
 
+const swipingEventsControllersFacade = {};
 let windowMoveEventController = {
     attachListener: () => {},
     removeListener: () => {},
@@ -10,13 +13,22 @@ let windowUpEventController = {
 };
 const fsLightbox = {
     injector: {
+        injectDependency: (dependency) => {
+            if (dependency === WindowMoveEventController) return windowMoveEventController;
+            if (dependency === WindowUpEventController) return windowUpEventController;
+        }
+    },
+    core: {
         eventsControllers: {
-            getWindowMoveEventController: () => windowMoveEventController,
-            getWindowUpEventController: () => windowUpEventController
+            window: {
+                swiping: swipingEventsControllersFacade
+
+            }
         }
     }
 };
-const swipingEventsControllersFacade = new SetUpSwipingEventsControllersFacade(fsLightbox);
+
+setUpSwipingEventsControllersFacade(fsLightbox);
 
 beforeEach(() => {
     windowMoveEventController.attachListener = jest.fn();

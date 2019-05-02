@@ -12,7 +12,7 @@ const fsLightbox = {
         isSwipingSlides: false,
         isAfterSwipeAnimationRunning: false
     },
-    testInjector: {
+    injector: {
         injectDependency: jest.fn(() => slideSwipingUpActions)
     },
     core: {
@@ -34,7 +34,7 @@ setUpSlideSwipingUp(fsLightbox, swipingProps);
 
 describe('constructor', () => {
     it('should call injectDependency with SlideSwipingUpActions function and array with swipingProps', () => {
-        expect(fsLightbox.testInjector.injectDependency).toBeCalledWith(SlideSwipingUpActions, [swipingProps]);
+        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SlideSwipingUpActions, [swipingProps]);
     });
 
     it('should call setUpTransformSourceHolders on actions instance', () => {

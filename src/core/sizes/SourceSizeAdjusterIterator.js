@@ -1,6 +1,5 @@
 /**
- * @class SourceSizeAdjusterIterator
- * @param { FsLightbox.collections.sourceSizeAdjusters | Array.<SourceSizeAdjuster> } sourceSizeAdjusters
+ * @constructor
  */
 export function SourceSizeAdjusterIterator({ collections: { sourceSizeAdjusters } }) {
     let index;

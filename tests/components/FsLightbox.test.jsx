@@ -3,29 +3,18 @@ import { shallow } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
 import { testProps, testUrls } from "../__tests-helpers__/testVariables";
 import { createRefsArrayForGivenNumber } from "../../src/helpers/arrays/createRefsArrayForGivenNumber";
-import { WindowMoveEventController } from "../../src/core/events-controllers/window/move/WindowMoveEventController";
-import { WindowUpEventController } from "../../src/core/events-controllers/window/up/WindowUpEventController";
-import { LightboxClosingActions } from "../../src/core/main-component/closing/LightboxClosingActions";
-import { SourceSizeAdjusterIterator } from "../../src/core/sizes/SourceSizeAdjusterIterator";
-import { SlideSwipingMoveActions } from "../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
-import { SlideSwipingUpActions } from "../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
-import { SwipingTransitioner } from "../../src/core/slide-swiping/actions/up/SwipingTransitioner";
-import { SwipingSlideChanger } from "../../src/core/slide-swiping/actions/up/SwipingSlideChanger";
-import { SourceComponentGetter } from "../../src/core/sources/creating/SourceComponentGetter";
-import { SourceTypeGetter } from "../../src/core/sources/creating/SourceTypeGetter";
-import { SourceHolderTransformer } from "../../src/core/transforms/SourceHolderTransformer";
-import { StageSourceHoldersByValueTransformer } from "../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
 import * as setUpCoreObject from "../../src/core/setUpCore";
-import { SourceSizeAdjuster } from "../../src/core/sizes/SourceSizeAdjuster";
 import { getScrollbarWidth } from "../../src/core/scrollbar/getScrollbarWidth";
 import * as runLightboxUnmountActionsObject from "../../src/core/main-component/runLightboxUnmountActions";
+import { Injector } from "../../src/injection/Injector";
+import { EventsDispatcher } from "../../src/core/main-component/EventsDispatcher";
 
 let fsLightboxWrapper = shallow(<FsLightbox isOpen={ false } urls={ testUrls }/>, {
     disableLifecycleMethods: true
 });
 let fsLightbox = fsLightboxWrapper.instance();
 
-describe('data', () => {
+describe('demoData.js', () => {
     describe('urls', () => {
         it('should be equal to urls', () => {
             expect(fsLightbox.data.urls).toEqual(testUrls);
@@ -239,200 +228,26 @@ describe('collections', () => {
     })
 });
 
-
 describe('injector', () => {
-    describe('dom', () => {
-        describe('getXMLHttpRequest', () => {
-            it('should be equal to new XMLHttpRequest', () => {
-                expect(fsLightbox.injector.dom.getXMLHttpRequest()).toEqual(new XMLHttpRequest());
-            });
-        });
+    it('should be instanceof Injector', () => {
+        expect(fsLightbox.injector).toBeInstanceOf(Injector);
+    });
+});
+
+describe('eventsDispatcher', () => {
+    const eventsDispatcher = { key: 'eventsDispatcher' };
+
+    beforeAll(() => {
+        fsLightbox.injector.injectDependency = jest.fn(() => eventsDispatcher);
+        fsLightbox.setUpEventsDispatcher();
     });
 
-    describe('eventsControllers', () => {
-        describe('getWindowMoveEventController', () => {
-            it('should be instance of WindowMoveEventController', () => {
-                expect(fsLightbox.injector.eventsControllers.getWindowMoveEventController())
-                    .toBeInstanceOf(WindowMoveEventController);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.eventsControllers.getWindowMoveEventController()))
-                    .toEqual(JSON.stringify(new WindowMoveEventController(fsLightbox)));
-            });
-        });
-
-        describe('getWindowUpEventController', () => {
-            it('should be instance of WindowUpEventController', () => {
-                expect(fsLightbox.injector.eventsControllers.getWindowUpEventController())
-                    .toBeInstanceOf(WindowUpEventController);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.eventsControllers.getWindowUpEventController()))
-                    .toEqual(JSON.stringify(new WindowUpEventController(fsLightbox)));
-            });
-        })
+    it('should call injectDependency with EventsDispatcher', () => {
+        expect(fsLightbox.injector.injectDependency).toBeCalledWith(EventsDispatcher);
     });
 
-    describe('mainComponent', () => {
-        describe('getClosingActions', () => {
-            it('should be instance of LightboxClosingActions', () => {
-                expect(fsLightbox.injector.mainComponent.getClosingActions())
-                    .toBeInstanceOf(LightboxClosingActions);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.mainComponent.getClosingActions()))
-                    .toEqual(JSON.stringify(new LightboxClosingActions(fsLightbox)));
-            });
-        });
-    });
-
-    describe('sizes', () => {
-        describe('getSourceSizeAdjusterIterator', () => {
-            it('should be instance of SourceSizeAdjusterIterator', () => {
-                expect(fsLightbox.injector.sizes.getSourceSizeAdjusterIterator())
-                    .toBeInstanceOf(SourceSizeAdjusterIterator);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.sizes.getSourceSizeAdjusterIterator()))
-                    .toEqual(JSON.stringify(new SourceSizeAdjusterIterator(fsLightbox)));
-            });
-        });
-    });
-
-    describe('slideSwiping', () => {
-        describe('getMoveActionsForSwipingProps', () => {
-            it('should be instance of SlideSwipingMoveActions', () => {
-                expect(fsLightbox.injector.slideSwiping.getMoveActionsForSwipingProps())
-                    .toBeInstanceOf(SlideSwipingMoveActions);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.slideSwiping.getMoveActionsForSwipingProps()))
-                    .toEqual(JSON.stringify(new SlideSwipingMoveActions(fsLightbox)));
-            });
-        });
-
-        describe('getUpActionsForSwipingProps', () => {
-            it('should be instance of SlideSwipingUpActions', () => {
-                expect(fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps())
-                    .toBeInstanceOf(SlideSwipingUpActions);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.slideSwiping.getUpActionsForSwipingProps()))
-                    .toEqual(JSON.stringify(new SlideSwipingUpActions(fsLightbox)));
-            });
-        });
-
-        describe('getSwipingTransitioner', () => {
-            it('should be instance of SwipingTransitioner', () => {
-                expect(fsLightbox.injector.slideSwiping.getSwipingTransitioner())
-                    .toBeInstanceOf(SwipingTransitioner);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.slideSwiping.getSwipingTransitioner()))
-                    .toEqual(JSON.stringify(new SwipingTransitioner(fsLightbox)));
-            });
-        });
-
-        describe('getSwipingSlideChangerForSwipingTransitioner', () => {
-            let swipingTransitioner;
-            beforeAll(() => {
-                swipingTransitioner = new SwipingTransitioner(fsLightbox);
-            });
-
-            it('should be instance of SwipingSlideChanger', () => {
-                expect(fsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner(swipingTransitioner))
-                    .toBeInstanceOf(SwipingSlideChanger);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.slideSwiping.getSwipingSlideChangerForSwipingTransitioner(swipingTransitioner)))
-                    .toEqual(JSON.stringify(new SwipingSlideChanger(fsLightbox, swipingTransitioner)));
-            });
-        });
-    });
-
-    describe('source', () => {
-        describe('getSourceComponentGetter', () => {
-            it('should be instance of SourceComponentGetter', () => {
-                expect(fsLightbox.injector.source.getSourceComponentGetter())
-                    .toBeInstanceOf(SourceComponentGetter);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.source.getSourceComponentGetter()))
-                    .toEqual(JSON.stringify(new SourceComponentGetter(fsLightbox)));
-            });
-        });
-
-        describe('getSourceTypeGetter', () => {
-            it('should be instance of SourceTypeGetter', () => {
-                expect(fsLightbox.injector.source.getSourceTypeGetter())
-                    .toBeInstanceOf(SourceTypeGetter);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.source.getSourceTypeGetter()))
-                    .toEqual(JSON.stringify(new SourceTypeGetter(fsLightbox)));
-            });
-        });
-
-        describe('getSourceSizeAdjuster', () => {
-            it('should be instance of SourceSizeAdjuster', () => {
-                expect(fsLightbox.injector.source.getSourceSizeAdjuster())
-                    .toBeInstanceOf(SourceSizeAdjuster);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.source.getSourceSizeAdjuster()))
-                    .toEqual(JSON.stringify(new SourceSizeAdjuster(fsLightbox)));
-            });
-        });
-    });
-
-    describe('transforms', () => {
-        describe('getSourceHolderTransformer', () => {
-            it('should be instance of SourceHolderTransformer', () => {
-                expect(fsLightbox.injector.transforms.getSourceHolderTransformer())
-                    .toBeInstanceOf(SourceHolderTransformer);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.transforms.getSourceHolderTransformer()))
-                    .toEqual(JSON.stringify(new SourceHolderTransformer(fsLightbox)));
-            });
-        });
-
-        describe('getStageSourceHoldersByValueTransformer', () => {
-            beforeAll(() => {
-                // mocking get components slide state method because
-                // its used in StageSourceHoldersByValueTransformer constructor
-                fsLightbox.componentsStates.slide.get = () => {};
-            });
-
-            it('should be instance of StageSourceHoldersByValueTransformer', () => {
-                expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer())
-                    .toBeInstanceOf(StageSourceHoldersByValueTransformer);
-            });
-
-            it('should be equal after stringify', () => {
-                expect(JSON.stringify(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer()))
-                    .toEqual(JSON.stringify(new StageSourceHoldersByValueTransformer(fsLightbox)));
-            });
-        });
-
-        describe('getInitialStageSourceHoldersByValueTransformer', () => {
-            it('should be equal to object with stageSourceIndexes property', () => {
-                expect(fsLightbox.injector.transforms.getInitialStageSourceHoldersByValueTransformer())
-                    .toEqual({ stageSourcesIndexes: {} });
-            });
-        });
+    it('should return eventsDispatcher', () => {
+        expect(fsLightbox.eventsDispatcher).toEqual(eventsDispatcher);
     });
 });
 

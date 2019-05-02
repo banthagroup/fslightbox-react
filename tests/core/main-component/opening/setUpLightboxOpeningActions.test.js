@@ -1,14 +1,15 @@
-import {
-    setUpLightboxOpeningActions,
-    SetUpLightboxOpeningActions
-} from "../../../../src/core/main-component/opening/setUpLightboxOpeningActions";
+import { setUpLightboxOpeningActions } from "../../../../src/core/main-component/opening/setUpLightboxOpeningActions";
 import * as addOpenClassToDocumentElementObject
     from "../../../../src/helpers/dom/document/addOpenClassToDocumentElement";
+import { ON_INIT, ON_OPEN, ON_SHOW } from "../../../../src/constants/eventsConstants";
 
 const lightboxOpeningActions = {};
 const fsLightbox = {
     data: {
         isInitialized: false
+    },
+    eventsDispatcher: {
+        dispatch: () => {},
     },
     core: {
         lightboxOpeningActions: lightboxOpeningActions,
@@ -44,18 +45,26 @@ const fsLightbox = {
     }
 };
 
-setUpLightboxOpeningActions(fsLightbox);
+const resetUpLightboxOpeningActionsAndCallRunActions =() => {
+    setUpLightboxOpeningActions(fsLightbox);
+    lightboxOpeningActions.runActions();
+};
 
-describe('initializing or not lightbox', () => {
+describe('calling actions depending on isInitialized', () => {
     describe('lightbox is already initialized', () => {
         beforeAll(() => {
             fsLightbox.core.lightboxInitializer.initialize = jest.fn();
             fsLightbox.data.isInitialized = true;
-            lightboxOpeningActions.runActions();
+            fsLightbox.eventsDispatcher.dispatch = jest.fn();
+            resetUpLightboxOpeningActionsAndCallRunActions();
         });
 
         it('should not call initialize', () => {
             expect(fsLightbox.core.lightboxInitializer.initialize).not.toBeCalled();
+        });
+
+        it('should call onShow', () => {
+            expect(fsLightbox.eventsDispatcher.dispatch).toBeCalledWith(ON_SHOW);
         });
     });
 
@@ -63,11 +72,16 @@ describe('initializing or not lightbox', () => {
         beforeAll(() => {
             fsLightbox.core.lightboxInitializer.initialize = jest.fn();
             fsLightbox.data.isInitialized = false;
-            lightboxOpeningActions.runActions();
+            fsLightbox.eventsDispatcher.dispatch = jest.fn();
+            resetUpLightboxOpeningActionsAndCallRunActions();
         });
 
         it('should call initialize', () => {
             expect(fsLightbox.core.lightboxInitializer.initialize).toBeCalled();
+        });
+
+        it('should not call onShow', () => {
+            expect(fsLightbox.eventsDispatcher.dispatch).not.toBeCalledWith(ON_SHOW);
         });
     });
 });
@@ -86,7 +100,8 @@ describe('calling methods', () => {
         fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
             withoutTimeout: withoutTimeout
         }));
-        lightboxOpeningActions.runActions();
+        fsLightbox.eventsDispatcher.dispatch = jest.fn();
+        resetUpLightboxOpeningActionsAndCallRunActions();
     });
 
     describe('adding scrollbar recompense', () => {
@@ -132,6 +147,12 @@ describe('calling methods', () => {
 
         it('should call withoutTimeout', () => {
             expect(withoutTimeout).toBeCalled();
+        });
+    });
+
+    describe('dispatching onOpen event', () => {
+        it('should call dispatch with onOpen', () => {
+            expect(fsLightbox.eventsDispatcher.dispatch).toBeCalledWith(ON_OPEN);
         });
     });
 });

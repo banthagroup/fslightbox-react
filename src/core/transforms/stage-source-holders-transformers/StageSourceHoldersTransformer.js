@@ -1,16 +1,16 @@
 import { BaseStageSourceHoldersTransformer } from "./BaseStageSourceHoldersTransformer";
+import { FADE_IN_ANIMATION_TIME } from "../../../constants/cssConstants";
 
 /**
- * @class
+ * @constructor
  * @extends BaseStageSourceHoldersTransformer
- * @param { FsLightbox } fsLightbox
  */
 export function StageSourceHoldersTransformer(fsLightbox) {
     const {
         core: {
             sourceHoldersTransformer: {
                 /** @type { function(number): SourceHolderTransformer } */
-                transformStageSourceHolderAtIndex
+                transformSourceHolderAtIndex
             },
         },
     } = fsLightbox;
@@ -18,7 +18,7 @@ export function StageSourceHoldersTransformer(fsLightbox) {
     BaseStageSourceHoldersTransformer.call(this, fsLightbox);
 
     // current source must exist always
-    transformStageSourceHolderAtIndex(this.stageSourcesIndexes.current).zero();
+    transformSourceHolderAtIndex(this.stageSourcesIndexes.current).zero();
 
     this.withoutTimeout = () => {
         transformNegative();
@@ -29,18 +29,18 @@ export function StageSourceHoldersTransformer(fsLightbox) {
         setTimeout(() => {
             transformNegative();
             transformPositive();
-        }, 220);
+        }, FADE_IN_ANIMATION_TIME - 30);
     };
 
     const transformNegative = () => {
         if (this.isPreviousSourceHolderSet()) {
-            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.previous).negative();
+            transformSourceHolderAtIndex(this.stageSourcesIndexes.previous).negative();
         }
     };
 
     const transformPositive = () => {
         if (this.isNextSourceHolderSet()) {
-            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.next).positive();
+            transformSourceHolderAtIndex(this.stageSourcesIndexes.next).positive();
         }
     };
 }
