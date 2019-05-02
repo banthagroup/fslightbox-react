@@ -1,5 +1,6 @@
 import { OPACITY_0_CLASS_NAME } from "../../../src/constants/cssConstants";
 import { setUpSourceController } from "../../../src/core/sources/setUpSourceController";
+import { SourceSizeAdjuster } from "../../../src/core/sizes/SourceSizeAdjuster";
 
 const sourceController = {};
 const source = document.createElement('div');
@@ -20,6 +21,9 @@ const fsLightbox = {
     collections: {
         sourceSizeAdjusters: [],
     },
+    injector: {
+        injectDependency: () => sourceSizeAdjuster
+    },
     core: {
         sourceAnimator: {
             animateSourceFromIndex: () => {},
@@ -28,16 +32,11 @@ const fsLightbox = {
             isSourceInStage: () => {},
         },
         sourceHoldersTransformer: {
-            transformStageSourceHolderAtIndex: () => ({
+            transformSourceHolderAtIndex: () => ({
                 negative: () => {}
             })
         },
         sourceController: sourceController
-    },
-    injector: {
-        source: {
-            getSourceSizeAdjuster: () => sourceSizeAdjuster
-        }
     }
 };
 
@@ -53,7 +52,6 @@ const setIndexAndCallInitialLoad = () => {
     sourceController.setIndex(0);
     sourceController.initialLoad();
 };
-
 
 describe('normalLoad', () => {
     describe('opacity 0 class', () => {
@@ -96,13 +94,13 @@ describe('normalLoad', () => {
         describe('not calling transformStageSourceHolders (source is in stage)', () => {
             beforeAll(() => {
                 fsLightbox.core.stage.isSourceInStage = () => true;
-                fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = jest.fn();
+                fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn();
                 sourceController.setIndex(0);
                 sourceController.normalLoad();
             });
 
             it('should not call transformStageSourceHoldersAtIndex', () => {
-                expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex).not.toBeCalled();
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).not.toBeCalled();
             });
         });
 
@@ -112,7 +110,7 @@ describe('normalLoad', () => {
             beforeAll(() => {
                 negative = jest.fn();
                 fsLightbox.core.stage.isSourceInStage = () => false;
-                fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex = jest.fn(() => ({
+                fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
                     negative: negative
                 }));
                 sourceController.setIndex(0);
@@ -120,7 +118,7 @@ describe('normalLoad', () => {
             });
 
             it('should call transformStageSourceHoldersAtIndex', () => {
-                expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolderAtIndex).toBeCalled();
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalled();
             });
 
             it('should call negative', () => {
@@ -144,6 +142,7 @@ describe('initialLoad', () => {
 
     describe('setUpSourceSizeAdjuster', () => {
         beforeAll(() => {
+            fsLightbox.injector.injectDependency = jest.fn(() => sourceSizeAdjuster);
             sourceSizeAdjuster.setIndex = jest.fn();
             sourceSizeAdjuster.setMaxDimensions = jest.fn();
             setUpSourceController(fsLightbox);
@@ -151,6 +150,10 @@ describe('initialLoad', () => {
             sourceController.setSourceHeight(1000);
             sourceController.setIndex(0);
             sourceController.initialLoad();
+        });
+
+        it('should inject SourceSizeAdjuster', () => {
+            expect(fsLightbox.injector.injectDependency).toBeCalledWith(SourceSizeAdjuster);
         });
 
         it('should call setIndex with 0', () => {
@@ -163,6 +166,10 @@ describe('initialLoad', () => {
 
         it('should add sourceSizeAdjuster sourceSizeAdjusters array', () => {
             expect(fsLightbox.collections.sourceSizeAdjusters[0]).toEqual(sourceSizeAdjuster);
+        });
+
+        afterAll(() => {
+            fsLightbox.injector.injectDependency = () => sourceSizeAdjuster;
         });
     });
 

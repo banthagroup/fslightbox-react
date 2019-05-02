@@ -1,10 +1,10 @@
+import { WindowMoveEventController } from "../window/move/WindowMoveEventController";
+import { WindowUpEventController } from "../window/up/WindowUpEventController";
+
 export function setUpSwipingEventsControllersFacade(
     {
         injector: {
-            eventsControllers: {
-                getWindowMoveEventController,
-                getWindowUpEventController
-            }
+            injectDependency
         },
         core: {
             eventsControllers: {
@@ -16,8 +16,8 @@ export function setUpSwipingEventsControllersFacade(
     }
 ) {
     const swipingControllers = [
-        getWindowMoveEventController(),
-        getWindowUpEventController(),
+        injectDependency(WindowMoveEventController),
+        injectDependency(WindowUpEventController)
     ];
 
     self.attachListeners = () => {

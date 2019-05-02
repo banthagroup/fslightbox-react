@@ -1,13 +1,14 @@
 /**
- * @class
- * @param { FsLightbox.core.sourceHoldersTransformer | SetUpSourceHoldersTransformer } sourceHoldersTransformer
- * @param { SwipingTransitioner.addTransitionToCurrentAndPrevious | Function } addTransitionToCurrentAndPrevious
- * @param { SwipingTransitioner.addTransitionToCurrentAndNext | Function } addTransitionToCurrentAndNext
+ * @constructor
  */
 export function SwipingSlideChanger(
     {
-        componentsStates: { slide: slideState },
-        core: { sourceHoldersTransformer }
+        componentsStates: {
+            slide: slideState
+        },
+        core: {
+            sourceHoldersTransformer
+        }
     }, {
         addTransitionToCurrentAndPrevious,
         addTransitionToCurrentAndNext,

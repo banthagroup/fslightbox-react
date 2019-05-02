@@ -4,11 +4,15 @@ import {
     SOURCE_DIMENSIONS_DECREASE_VALUE
 } from "../../../src/constants/responsiveConstants";
 import { setUpGlobalResizingController } from "../../../src/core/sizes/setUpGlobalResizingController";
+import { SourceSizeAdjusterIterator } from "../../../src/core/sizes/SourceSizeAdjusterIterator";
 
 let globalResizingController = {};
 const sourceSizeAdjusterIterator = {};
 const sourcesWrapper = document.createElement('div');
 const fsLightbox = {
+    data: {
+        totalSlides: 0
+    },
     sourcesData: {
         maxSourceWidth: 0,
         maxSourceHeight: 0
@@ -18,25 +22,36 @@ const fsLightbox = {
             current: sourcesWrapper
         }
     },
+    injector: {
+        injectDependency: () => sourceSizeAdjusterIterator
+    },
     core: {
+        stage: {
+            isSourceInStage: () => {}
+        },
         sourceHoldersTransformer: {
             transformStageSourceHolders: () => {}
         },
         globalResizingController: globalResizingController
-    },
-    injector: {
-        sizes: {
-            getSourceSizeAdjusterIterator: () => sourceSizeAdjusterIterator
-        }
     }
 };
+
+describe('injecting SourceSizeAdjusterIterator', () => {
+    beforeAll(() => {
+        fsLightbox.injector.injectDependency = jest.fn(() => ({}));
+        setUpGlobalResizingController(fsLightbox);
+    });
+
+    it('should call injectDependency with SourceSizeAdjusterIterator', () => {
+        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SourceSizeAdjusterIterator);
+    });
+});
 
 
 describe('saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize', () => {
     beforeAll(() => {
         setUpGlobalResizingController(fsLightbox);
     });
-
     describe('saveMaxSourcesDimensions', () => {
         describe('maxSourceWidth', () => {
             describe('window.innerWidth < SOURCE_DIMENSIONS_BREAK', () => {
@@ -107,7 +122,7 @@ describe('runAllResizingActions', () => {
             adjustAllSourcesSizes: jest.fn()
         };
         withoutTimeout = jest.fn();
-        fsLightbox.injector.sizes.getSourceSizeAdjusterIterator = jest.fn(() => sourceSizeAdjusterIterator);
+        fsLightbox.injector.injectDependency = () => sourceSizeAdjusterIterator;
         fsLightbox.core.sourceHoldersTransformer = {
             transformStageSourceHolders: jest.fn(() => ({
                 withoutTimeout: withoutTimeout
@@ -133,5 +148,45 @@ describe('runAllResizingActions', () => {
 
     it('should call withoutTimeout from object received from transformStageSourceHolders', () => {
         expect(withoutTimeout).toBeCalled();
+    });
+
+    describe('transforming all source holders which are not in stage negative', () => {
+        let isSourceInStageCall = 0;
+        let transformCalls = [];
+
+        beforeAll(() => {
+            fsLightbox.data.totalSlides = 4;
+            fsLightbox.core.stage.isSourceInStage = jest.fn(() => {
+                isSourceInStageCall++;
+                return isSourceInStageCall === 0 || isSourceInStageCall === 2;
+            });
+            fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn((index) => {
+                transformCalls[index] = {
+                    negative: jest.fn()
+                };
+                return transformCalls[index];
+            });
+            globalResizingController.runAllResizingActions();
+        });
+
+        it('should call isSourceInStage 4 times (data.totalSlides)', () => {
+            expect(fsLightbox.core.stage.isSourceInStage).toHaveBeenCalledTimes(4);
+        });
+
+        it('should have called transformSourceHolderAtIndex with 2 (mocked isSourceInStage return value)', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(2);
+        });
+
+        it('should have called negative at transform object on 2 position in array', () => {
+            expect(transformCalls[2].negative).toBeCalled();
+        });
+
+        it('should have called transformSourceHolderAtIndex with 0 (mocked isSourceInStage return value)', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(0);
+        });
+
+        it('should have called negative at transform object on 0 position in array', () => {
+            expect(transformCalls[0].negative).toBeCalled();
+        });
     });
 });

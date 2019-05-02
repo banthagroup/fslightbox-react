@@ -16,7 +16,7 @@ const SlideNumber = (
 
     useEffect(() => {
         ifOnUpdateExistsHandleItForState(slideState);
-    });
+    }, [slide]);
 
     if (totalSlides === 1) {
         return null;

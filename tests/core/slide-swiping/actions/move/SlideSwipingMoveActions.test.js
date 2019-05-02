@@ -1,6 +1,12 @@
 import { SlideSwipingMoveActions } from "../../../../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
 
 const fsLightbox = {
+    componentsStates: {
+        hasMovedWhileSwiping: {
+            get: () => {},
+            set: () => {}
+        }
+    },
     core: {
         sourceHoldersTransformer: {
             transformStageSourceHoldersByValue: () => {}
@@ -20,6 +26,36 @@ beforeEach(() => {
     // instantiate it every test with new jest.fn()
     fsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue = jest.fn();
     slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, mockSwipingProps)
+});
+
+
+describe('setting hasMovedWhileSwipingState to true if not already set', () => {
+    beforeEach(() => {
+        fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
+        slideSwipingMoveActions.setMoveEvent({});
+    });
+
+    describe('not setting (already set)', () => {
+        beforeEach(() => {
+            fsLightbox.componentsStates.hasMovedWhileSwiping.get = () => true;
+            slideSwipingMoveActions.runActions();
+        });
+
+        it('should not call set', () => {
+            expect(fsLightbox.componentsStates.hasMovedWhileSwiping.set).not.toBeCalled();
+        });
+    });
+
+    describe('setting (not yet set)', () => {
+        beforeEach(() => {
+            fsLightbox.componentsStates.hasMovedWhileSwiping.get = () => false;
+            slideSwipingMoveActions.runActions();
+        });
+
+        it('should call set with true', () => {
+            expect(fsLightbox.componentsStates.hasMovedWhileSwiping.set).toBeCalledWith(true);
+        });
+    });
 });
 
 describe('event is mousedown', () => {

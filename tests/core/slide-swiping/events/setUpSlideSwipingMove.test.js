@@ -1,4 +1,5 @@
 import { setUpSlideSwipingMove } from "../../../../src/core/slide-swiping/events/setUpSlideSwipingMove";
+import { SlideSwipingMoveActions } from "../../../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
 
 const slideSwipingMove = {};
 let moveActions = {
@@ -11,9 +12,7 @@ const fsLightbox = {
         isSwipingSlides: false,
     },
     injector: {
-        slideSwiping: {
-            getMoveActionsForSwipingProps: () => moveActions
-        }
+        injectDependency: () => moveActions
     },
     core: {
         slideSwiping: {
@@ -37,6 +36,21 @@ beforeEach(() => {
         setMoveEvent: jest.fn(),
         runActions: jest.fn()
     };
+});
+
+describe('injecting actions', () => {
+    beforeAll(() => {
+        fsLightbox.injector.injectDependency = jest.fn(() => slideSwipingMove);
+        callListenerOnNewSlideSwipingMoveInstance();
+    });
+
+    it('should call injectDependency with SlideSwipingMoveActions', () => {
+        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SlideSwipingMoveActions, [swipingProps]);
+    });
+
+    afterAll(() => {
+        fsLightbox.injector.injectDependency = () => moveActions;
+    });
 });
 
 describe('simulating swipe (if there is only 1 slide)', () => {

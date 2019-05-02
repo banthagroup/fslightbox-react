@@ -1,5 +1,6 @@
 import { getClassListOfElementInArrayByIndex } from "../../helpers/source/getClassListOfElementInArrayByIndex";
 import { OPACITY_0_CLASS_NAME } from "../../constants/cssConstants";
+import { SourceSizeAdjuster } from "../sizes/SourceSizeAdjuster";
 
 export function setUpSourceController(
     {
@@ -9,9 +10,7 @@ export function setUpSourceController(
             sourceSizeAdjusters
         },
         injector: {
-            source: {
-                getSourceSizeAdjuster
-            }
+            injectDependency
         },
         core: {
             sourceAnimator,
@@ -59,12 +58,12 @@ export function setUpSourceController(
 
     const ifSourceIsNotInStageTransformItNegative = () => {
         if (!stage.isSourceInStage(index)) {
-            sourceHoldersTransformer.transformStageSourceHolderAtIndex(index).negative()
+            sourceHoldersTransformer.transformSourceHolderAtIndex(index).negative()
         }
     };
 
     const setUpSourceSizeAdjuster = () => {
-        const sourceSizeAdjuster = getSourceSizeAdjuster();
+        const sourceSizeAdjuster = injectDependency(SourceSizeAdjuster);
         sourceSizeAdjuster.setIndex(index);
         sourceSizeAdjuster.setMaxDimensions(sourceWidth, sourceHeight);
         sourceSizeAdjusters[index] = sourceSizeAdjuster;

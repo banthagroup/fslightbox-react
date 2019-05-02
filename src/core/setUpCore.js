@@ -1,6 +1,6 @@
 import { getSwipingProps } from "./slide-swiping/getSwipingProps";
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
-import { setUpSlideChanger } from "./slide/setUpSlideChanger";
+import { setUpSlideChanger } from "./slide/slide-changing/setUpSlideChanger";
 import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
 import { setUpSourceController } from "./sources/setUpSourceController";
 import { setUpSourceHoldersTransformer } from "./transforms/setUpSourceHoldersTransformer";

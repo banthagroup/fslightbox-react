@@ -14,13 +14,14 @@ export function setUpStage(
     self.isSourceInStage = (index) => {
         // getSlide is numbered from 1, so we need to increment array index
         index++;
-        if (slideState.get() === 1 && index === data.totalSlides)
+        const slideStateValue = slideState.get();
+        if (slideStateValue === 1 && index === data.totalSlides)
             return true;
 
-        if (slideState.get() === data.totalSlides && index === 1)
+        if (slideStateValue === data.totalSlides && index === 1)
             return true;
 
-        const difference = slideState.get() - index;
+        const difference = slideStateValue - index;
         return difference === PREVIOUS_POSITION ||
             difference === CURRENT_POSITION ||
             difference === NEXT_POSITION;

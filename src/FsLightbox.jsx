@@ -9,22 +9,10 @@ import { createRefsArrayForGivenNumber } from "./helpers/arrays/createRefsArrayF
 import { setUpCore } from "./core/setUpCore";
 import DownEventDetector from "./components/slide-swiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
-import { StageSourceHoldersByValueTransformer } from "./core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
-import { SourceHolderTransformer } from "./core/transforms/SourceHolderTransformer";
-import { SlideSwipingMoveActions } from "./core/slide-swiping/actions/move/SlideSwipingMoveActions";
-import { SlideSwipingUpActions } from "./core/slide-swiping/actions/up/SlideSwipingUpActions";
-import { SwipingTransitioner } from "./core/slide-swiping/actions/up/SwipingTransitioner";
-import { SwipingSlideChanger } from "./core/slide-swiping/actions/up/SwipingSlideChanger";
-import { SourceTypeGetter } from "./core/sources/creating/SourceTypeGetter";
-import { SourceSizeAdjusterIterator } from "./core/sizes/SourceSizeAdjusterIterator";
-import { LightboxClosingActions } from "./core/main-component/closing/LightboxClosingActions";
-import { WindowMoveEventController } from "./core/events-controllers/window/move/WindowMoveEventController";
-import { WindowUpEventController } from "./core/events-controllers/window/up/WindowUpEventController";
-import { SourceComponentGetter } from "./core/sources/creating/SourceComponentGetter";
-import { SourceSizeAdjuster } from "./core/sizes/SourceSizeAdjuster";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 import { runLightboxUnmountActions } from "./core/main-component/runLightboxUnmountActions";
 import { Injector } from "./injection/Injector";
+import { EventsDispatcher } from "./core/main-component/EventsDispatcher";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -37,6 +25,7 @@ class FsLightbox extends Component {
         this.setUpElements();
         this.setUpCollections();
         this.setUpInjector();
+        this.setUpEventsDispatcher();
         this.setUpCore();
     }
 
@@ -111,38 +100,11 @@ class FsLightbox extends Component {
     }
 
     setUpInjector() {
-        this.injector = {
-            dom: {
-                getXMLHttpRequest: () => new XMLHttpRequest()
-            },
-            eventsControllers: {
-                getWindowMoveEventController: () => new WindowMoveEventController(this),
-                getWindowUpEventController: () => new WindowUpEventController(this)
-            },
-            mainComponent: {
-                getClosingActions: () => new LightboxClosingActions(this),
-            },
-            sizes: {
-                getSourceSizeAdjusterIterator: () => new SourceSizeAdjusterIterator(this)
-            },
-            slideSwiping: {
-                getMoveActionsForSwipingProps: (swipingProps) => new SlideSwipingMoveActions(this, swipingProps),
-                getUpActionsForSwipingProps: (swipingProps) => new SlideSwipingUpActions(this, swipingProps),
-                getSwipingTransitioner: () => new SwipingTransitioner(this),
-                getSwipingSlideChangerForSwipingTransitioner: (swipingTransitioner) =>
-                    new SwipingSlideChanger(this, swipingTransitioner),
-            },
-            source: {
-                getSourceComponentGetter: () => new SourceComponentGetter(this),
-                getSourceTypeGetter: () => new SourceTypeGetter(this),
-                getSourceSizeAdjuster: () => new SourceSizeAdjuster(this),
-            },
-            transforms: {
-                getSourceHolderTransformer: () => new SourceHolderTransformer(this),
-                getStageSourceHoldersByValueTransformer: () => new StageSourceHoldersByValueTransformer(this),
-            }
-        };
-        this.testInjector = new Injector(this);
+        this.injector = new Injector(this);
+    }
+
+    setUpEventsDispatcher() {
+        this.eventsDispatcher = this.injector.injectDependency(EventsDispatcher);
     }
 
     setUpCore() {

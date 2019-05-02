@@ -1,155 +1,159 @@
-import { FsLightboxMock } from "../../../__mocks__/components/fsLightboxMock";
 import { StageSourceHoldersByValueTransformer } from "../../../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
-import { SetUpSourceHoldersTransformer } from "../../../../src/core/transforms/setUpSourceHoldersTransformer";
+import { BaseStageSourceHoldersTransformer } from "../../../../src/core/transforms/stage-source-holders-transformers/BaseStageSourceHoldersTransformer";
 
-const fsLightboxMock = new FsLightboxMock();
-const fsLightbox = fsLightboxMock.getFsLightbox();
-fsLightboxMock.setAllSourceHoldersToDivs();
+
+const fsLightbox = {
+    core: {
+        sourceHoldersTransformer: {
+            transformSourceHolderAtIndex: () => {},
+            isStageSourceHolderAtIndexValidForTransform: () => {}
+        },
+        stage: {
+            getAllStageIndexes: () => ({})
+        }
+    }
+};
+
+
 /** @var { StageSourceHoldersByValueTransformer }  */
 let stageSourceHoldersByValueTransformer;
-let sourceHolderTransformerMock;
-fsLightbox.state.slide = 1;
 
-beforeEach(() => {
-    sourceHolderTransformerMock = {
-        setSourceHolder: jest.fn(),
-        byValue: jest.fn().mockReturnThis(),
-        negative: jest.fn(),
-        zero: jest.fn(),
-        positive: jest.fn(),
-    };
-    // we are mocking DI of sourceHolder due to we will be testing if StageSourceHoldersByValueTransformer
-    // is calling correct methods from there
-    fsLightbox.injector.transforms.getSourceHolderTransformer = () => sourceHolderTransformerMock;
-    // recreating SourceHoldersTransformer because we are using transformStageSourceHolderAtIndex method from there
-    // in which we call getSourceHolderTransformer which is destructured so it cannot be overwritten
-    fsLightbox.core.sourceHoldersTransformer = new SetUpSourceHoldersTransformer(fsLightbox);
-});
+const recreateStageSourceHoldersByValueTransformerAndCAllTransformByValueWithValue = (value) => {
+    stageSourceHoldersByValueTransformer = new StageSourceHoldersByValueTransformer(fsLightbox);
+    stageSourceHoldersByValueTransformer.transformByValue(value);
+};
 
-describe('transforming all three stage sources holders, because there are three slides', () => {
-    beforeEach(() => {
-        fsLightbox.data.totalSlides = 3;
+describe('inheritance', () => {
+    const rememberedCall = BaseStageSourceHoldersTransformer.call;
+
+    beforeAll(() => {
+        BaseStageSourceHoldersTransformer.call = jest.fn();
+        // mocking two methods because they are used in StageSourceHoldersByValueTransformer
+        // so it would throw errors without them
+        BaseStageSourceHoldersTransformer.prototype.isPreviousSourceHolderSet = () => {};
+        BaseStageSourceHoldersTransformer.prototype.isNextSourceHolderSet = () => {};
         stageSourceHoldersByValueTransformer = new StageSourceHoldersByValueTransformer(fsLightbox);
-        stageSourceHoldersByValueTransformer.transformByValue(100);
     });
 
-    it('should call byValue 3 times with 100 as param', () => {
-        expect(sourceHolderTransformerMock.byValue).toHaveBeenNthCalledWith(3, 100);
+    it('should call BaseStageSourceHolders call with instance and fsLightbox', () => {
+        expect(BaseStageSourceHoldersTransformer.call)
+            .toBeCalledWith(stageSourceHoldersByValueTransformer, fsLightbox);
     });
 
-    describe('previous sources holder', () => {
-        it('should call setSourceHolder with 2 because this is index of previous sourceHolder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[2]);
-        });
-
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.negative).toBeCalled();
-        });
-    });
-
-    describe('current sources holder', () => {
-        it('should call setSourceHolder with current sourceHolder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[0]);
-        });
-
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.zero).toBeCalled();
-        });
-    });
-
-    describe('next sources holder', () => {
-        it('should call setSourceHolder with 1 because this is index of next sourceHolder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[1]);
-        });
-
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.positive).toBeCalled();
-        });
+    afterAll(() => {
+        BaseStageSourceHoldersTransformer.call = rememberedCall;
     });
 });
 
 
-describe('transforming only current and next stage sources holder, because there are only 2 slides', () => {
+describe('transformByValue', () => {
+    let byValueCalls;
+    let transformCalls;
+
     beforeEach(() => {
-        fsLightbox.data.totalSlides = 2;
-        stageSourceHoldersByValueTransformer = new StageSourceHoldersByValueTransformer(fsLightbox);
-        stageSourceHoldersByValueTransformer.transformByValue(100);
-    });
-
-    it('should call byValue 2 times with 100 as param', () => {
-        expect(sourceHolderTransformerMock.byValue).toHaveBeenNthCalledWith(2,  100);
-    });
-
-    describe('previous sources holder', () => {
-        it('should not call setSourceHolder with previous sources holder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).not.toBeCalledWith(fsLightbox.elements.sourceHolders[2]);
-        });
-
-        it('should not call transform negative', () => {
-            expect(sourceHolderTransformerMock.negative).not.toBeCalled();
-        });
-    });
-
-    describe('current sources holder', () => {
-        it('should call setSourceHolder with 0 because this is index of current sourceHolder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[0]);
-        });
-
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.zero).toBeCalled();
+        byValueCalls = [];
+        transformCalls = [];
+        BaseStageSourceHoldersTransformer.call = () => {};
+        BaseStageSourceHoldersTransformer.prototype.isPreviousSourceHolderSet = () => false;
+        BaseStageSourceHoldersTransformer.prototype.isNextSourceHolderSet = () => false;
+        BaseStageSourceHoldersTransformer.prototype.stageSourcesIndexes = {
+            previous: 0,
+            current: 1,
+            next: 2
+        };
+        fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn((index) => {
+            transformCalls[index] = {
+                negative: jest.fn(),
+                zero: jest.fn(),
+                positive: jest.fn()
+            };
+            byValueCalls[index] = jest.fn(() => transformCalls[index]);
+            return {
+                byValue: byValueCalls[index]
+            };
         });
     });
 
-    describe('next sources holder', () => {
-        it('should call setSourceHolder with 1 because this is index of next sourceHolder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[1]);
+    describe('transforming current stage source holders', () => {
+        beforeEach(() => {
+            recreateStageSourceHoldersByValueTransformerAndCAllTransformByValueWithValue(100);
         });
 
-        it('should call transform positive', () => {
-            expect(sourceHolderTransformerMock.positive).toBeCalled();
-        })
-    });
-});
-
-
-describe('transforming only current stage sources holder, because there is only 1 slide', () => {
-    beforeEach(() => {
-        fsLightbox.data.totalSlides = 1;
-        stageSourceHoldersByValueTransformer = new StageSourceHoldersByValueTransformer(fsLightbox);
-        stageSourceHoldersByValueTransformer.transformByValue(100);
-    });
-
-    it('should call byValue 1 time with 100 as param', () => {
-        expect(sourceHolderTransformerMock.byValue).toHaveBeenNthCalledWith(1, 100);
-    });
-
-    describe('previous sources holder', () => {
-        it('should not call setSourceHolder with previous sources holder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).not.toBeCalledWith(fsLightbox.elements.sourceHolders[2]);
+        it('should call transformStageSourceHoldersAtIndex with current index', () => {
+            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(1);
         });
 
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.negative).not.toBeCalled();
+        it('should call byValue with 100', () => {
+            expect(byValueCalls[1]).toBeCalledWith(100);
+        });
+
+        it('should call zero', () => {
+            expect(transformCalls[1].zero).toBeCalled();
         });
     });
 
-    describe('current sources holder', () => {
-        it('should call setSourceHolder with current sources holder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[0]);
+
+    describe('transforming previous source holder', () => {
+        describe('source holder is not set (transformSourceHolderAtIndex should not be called)', () => {
+            beforeEach(() => {
+                BaseStageSourceHoldersTransformer.prototype.isPreviousSourceHolderSet = () => false;
+                recreateStageSourceHoldersByValueTransformerAndCAllTransformByValueWithValue();
+            });
+
+            it('should not call transformSourceHolderAtIndex with previous index', () => {
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).not.toBeCalledWith(0);
+            });
         });
 
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.zero).toBeCalled();
+        describe('source holder is set', () => {
+            beforeEach(() => {
+                BaseStageSourceHoldersTransformer.prototype.isPreviousSourceHolderSet = () => true;
+                recreateStageSourceHoldersByValueTransformerAndCAllTransformByValueWithValue(200);
+            });
+
+            it('should call transformStageSourceHoldersAtIndex with previous index', () => {
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(0);
+            });
+
+            it('should call byValue with 200', () => {
+                expect(byValueCalls[0]).toBeCalledWith(200);
+            });
+
+            it('should call negative', () => {
+                expect(transformCalls[0].negative).toBeCalled();
+            });
         });
     });
 
-    describe('next sources holder', () => {
-        it('should not call setSourceHolder with next sources holder', () => {
-            expect(sourceHolderTransformerMock.setSourceHolder).not.toBeCalledWith(fsLightbox.elements.sourceHolders[1]);
+    describe('transforming next source holder', () => {
+        describe('source holder is not set (transformSourceHolderAtIndex should not be called)', () => {
+            beforeEach(() => {
+                BaseStageSourceHoldersTransformer.prototype.isNextSourceHolderSet = () => false;
+                recreateStageSourceHoldersByValueTransformerAndCAllTransformByValueWithValue();
+            });
+
+            it('should not call transformSourceHolderAtIndex with next index', () => {
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).not.toBeCalledWith(2);
+            });
         });
 
-        it('should call transform zero', () => {
-            expect(sourceHolderTransformerMock.positive).not.toBeCalled();
-        })
+        describe('source holder is set', () => {
+            beforeEach(() => {
+                BaseStageSourceHoldersTransformer.prototype.isNextSourceHolderSet = () => true;
+                recreateStageSourceHoldersByValueTransformerAndCAllTransformByValueWithValue(300);
+            });
+
+            it('should call transformStageSourceHoldersAtIndex with next index', () => {
+                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(2);
+            });
+
+            it('should call byValue with 200', () => {
+                expect(byValueCalls[2]).toBeCalledWith(300);
+            });
+
+            it('should call positive', () => {
+                expect(transformCalls[2].positive).toBeCalled();
+            });
+        });
     });
 });

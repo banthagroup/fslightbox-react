@@ -1,6 +1,4 @@
-export const EVENTS_CONSTANTS_NAMES = {
-    "open": "onOpen",
-    "close": "onClose",
-    "init": "onInit",
-    "show": "onShow"
-};
+export const ON_OPEN = 'onOpen';
+export const ON_CLOSE = 'onClose';
+export const ON_INIT = 'onInit';
+export const ON_SHOW = 'onShow';

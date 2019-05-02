@@ -36,9 +36,9 @@ let fsLightbox = {
         sourcesComponents: []
     },
     injector: {
-        source: {
-            getSourceTypeGetter: () => sourceTypeGetter,
-            getSourceComponentGetter: () => sourceComponentGetter
+        injectDependency: (dependency)  => {
+            if(dependency === SourceComponentGetter) return sourceComponentGetter;
+            if(dependency === SourceTypeGetter) return sourceTypeGetter;
         }
     },
     core: {

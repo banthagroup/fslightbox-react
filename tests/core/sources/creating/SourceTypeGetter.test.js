@@ -7,9 +7,7 @@ const fsLightbox = {
         xhrs: [],
     },
     injector: {
-        dom: {
-            getXMLHttpRequest: () => new XMLHttpRequest()
-        }
+        injectDependency: () => {},
     }
 };
 
@@ -23,7 +21,7 @@ describe('adding xhr to xhrs array', () => {
     beforeEach(() => {
         uniqueXhr = new XMLHttpRequest();
         uniqueXhr.key = 'unique';
-        fsLightbox.injector.dom.getXMLHttpRequest = () => uniqueXhr;
+        fsLightbox.injector.injectDependency = () => uniqueXhr;
         sourceTypeGetter = new SourceTypeGetter(fsLightbox);
         sourceTypeGetter.setUrlToCheck('does not matter');
         sourceTypeGetter.getSourceType(() => {});

@@ -2,30 +2,28 @@ import {
     SOURCE_DIMENSIONS_BREAK,
     SOURCE_DIMENSIONS_DECREASE_VALUE
 } from "../../constants/responsiveConstants";
+import { SourceSizeAdjusterIterator } from "./SourceSizeAdjusterIterator";
 
-/**
- * @param { FsLightbox.sourcesData | { maxSourceWidth: number, maxSourceHeight: number} } sourcesData
- * @param { FsLightbox.elements.sourcesHoldersWrapper | { current }} sourcesHoldersWrapper
- * @param { FsLightbox.core.sourceHoldersTransformer | SetUpSourceHoldersTransformer } sourceHoldersTransformer
- */
 export function setUpGlobalResizingController(
     {
+        data,
         sourcesData,
         elements: {
             sourcesHoldersWrapper
         },
+        injector: {
+            injectDependency
+        },
         core: {
+            stage,
             sourceHoldersTransformer,
             globalResizingController: self
-        },
-        injector: {
-            sizes: { getSourceSizeAdjusterIterator },
         }
     }
 ) {
     const {
         adjustAllSourcesSizes
-    } = getSourceSizeAdjusterIterator();
+    } = injectDependency(SourceSizeAdjusterIterator);
 
     self.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize = () => {
         saveMaxSourcesDimensions();
@@ -36,6 +34,7 @@ export function setUpGlobalResizingController(
         self.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         adjustAllSourcesSizes();
         sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
+        transformNegativeAllSourcesWhichAreNotInStage();
     };
 
     const saveMaxSourcesDimensions = () => {
@@ -55,5 +54,13 @@ export function setUpGlobalResizingController(
     /** @return { CSSStyleDeclaration } */
     const getSourceHoldersWrapperStyle = () => {
         return sourcesHoldersWrapper.current.style;
+    };
+
+    const transformNegativeAllSourcesWhichAreNotInStage = () => {
+        for (let i = 0; i < data.totalSlides; i++) {
+            if (!stage.isSourceInStage(i)) {
+                sourceHoldersTransformer.transformSourceHolderAtIndex(i).negative();
+            }
+        }
     };
 }

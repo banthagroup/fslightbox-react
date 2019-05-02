@@ -1,47 +1,43 @@
 import { BaseStageSourceHoldersTransformer } from "./BaseStageSourceHoldersTransformer";
 
 /**
- * @class
+ * @constructor
  * @extends BaseStageSourceHoldersTransformer
- * @param { FsLightbox } fsLightbox
  */
 export function StageSourceHoldersByValueTransformer(fsLightbox) {
     const {
         core: {
             sourceHoldersTransformer: {
-                /** @type { function(number): SourceHolderTransformer } */
-                transformStageSourceHolderAtIndex
+                transformSourceHolderAtIndex
             },
         },
     } = fsLightbox;
 
-    BaseStageSourceHoldersTransformer.call(this, fsLightbox);
     let transformValue;
     let transformPreviousSourceHolder;
     let transformNextSourceHolder;
 
+    BaseStageSourceHoldersTransformer.call(this, fsLightbox);
+
     this.transformByValue = (value) => {
         transformValue = value;
-        transformStageSourceHolderAtIndex(this.stageSourcesIndexes.current).byValue(value).zero();
+        transformSourceHolderAtIndex(this.stageSourcesIndexes.current).byValue(transformValue).zero();
         transformPreviousSourceHolder();
         transformNextSourceHolder();
     };
 
-    (this.isNextSourceHolderSet()) ?
-        transformNextSourceHolder = () => {
-            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.next).byValue(transformValue).positive();
-        } :
-        transformNextSourceHolder = () => {
-        };
-
     (this.isPreviousSourceHolderSet()) ?
         transformPreviousSourceHolder = () => {
-            transformStageSourceHolderAtIndex(this.stageSourcesIndexes.previous).byValue(transformValue).negative();
-        } :
-        transformPreviousSourceHolder = () => {
-        };
+            transformSourceHolderAtIndex(this.stageSourcesIndexes.previous).byValue(transformValue).negative();
+        } : transformPreviousSourceHolder = () => {};
+
+    (this.isNextSourceHolderSet()) ?
+        transformNextSourceHolder = () => {
+            transformSourceHolderAtIndex(this.stageSourcesIndexes.next).byValue(transformValue).positive();
+        } : transformNextSourceHolder = () => {};
 }
 
 StageSourceHoldersByValueTransformer.prototype = Object.create(BaseStageSourceHoldersTransformer.prototype);
 StageSourceHoldersByValueTransformer.prototype.constructor = StageSourceHoldersByValueTransformer;
+
 

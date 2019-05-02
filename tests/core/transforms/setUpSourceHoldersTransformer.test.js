@@ -1,6 +1,8 @@
 import { setUpSourceHoldersTransformer } from "../../../src/core/transforms/setUpSourceHoldersTransformer";
 import * as getInitialStageSourceHoldersByValueTransformerObject
     from "../../../src/core/transforms/getInitialStageSourceHoldersByValueTransformer";
+import { SourceHolderTransformer } from "../../../src/core/transforms/SourceHolderTransformer";
+import { StageSourceHoldersByValueTransformer } from "../../../src/core/transforms/stage-source-holders-transformers/StageSourceHoldersByValueTransformer";
 
 const sourceHoldersTransformer = {};
 let stageSourceHoldersByValueTransformer = {
@@ -21,9 +23,9 @@ const fsLightbox = {
         sourceHolders: [{ current: {} }, { current: {} }]
     },
     injector: {
-        transforms: {
-            getStageSourceHoldersByValueTransformer: () => stageSourceHoldersByValueTransformer,
-            getSourceHolderTransformer: () => sourceHolderTransformer,
+        injectDependency: (dependency) => {
+            if (dependency === SourceHolderTransformer) return sourceHolderTransformer;
+            if (dependency === StageSourceHoldersByValueTransformer) return stageSourceHoldersByValueTransformer;
         }
     },
     core: {
@@ -46,8 +48,7 @@ describe('transformStageSourceHoldersByValue', () => {
         initialStageSourceHoldersByValueTransformer = { stageSourcesIndexes: {} };
         getInitialStageSourceHoldersByValueTransformerObject.getInitialStageSourceHoldersByValueTransformer
             = () => initialStageSourceHoldersByValueTransformer;
-        fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer =
-            jest.fn(() => stageSourceHoldersByValueTransformer);
+        fsLightbox.injector.injectDependency = jest.fn(() => stageSourceHoldersByValueTransformer);
         stageSourceHoldersByValueTransformer.transformByValue = jest.fn();
     });
 
@@ -56,8 +57,12 @@ describe('transformStageSourceHoldersByValue', () => {
             createNewSourceHoldersInstanceAndCallTransform();
         });
 
-        it('should create new StageSourceHoldersByValueTransformer instance', () => {
-            expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer.mock.calls).toHaveLength(1);
+        it('should call injectDependency twice (first time in constructor, second time in transformStageSourceHoldersByValue)', () => {
+            expect(fsLightbox.injector.injectDependency.mock.calls).toHaveLength(2);
+        });
+
+        it('should call injectDependency last with StageSourceHoldersByValueTransformer', () => {
+            expect(fsLightbox.injector.injectDependency).toHaveBeenLastCalledWith(StageSourceHoldersByValueTransformer);
         });
 
         it('should call transform on instance with correct value', () => {
@@ -73,12 +78,12 @@ describe('transformStageSourceHoldersByValue', () => {
             initialStageSourceHoldersByValueTransformer.stageSourcesIndexes.current = 0;
             initialStageSourceHoldersByValueTransformer.transformByValue = jest.fn();
             slide = 1;
-            fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer = jest.fn();
+            fsLightbox.injector.injectDependency = jest.fn(() => ({ transformByValue: () => {} }));
             createNewSourceHoldersInstanceAndCallTransform();
         });
 
         it('should not create new StageSourceHoldersByValueTransformer instance', () => {
-            expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer).not.toBeCalled();
+            expect(fsLightbox.injector.injectDependency).not.toBeCalledWith(StageSourceHoldersByValueTransformer);
         });
 
         it('should call transform on instance with correct value', () => {
@@ -101,14 +106,22 @@ describe('transformStageSourceHoldersByValue', () => {
         });
 
         it('should create new StageSourceHoldersByValueTransformer instance twice', () => {
-            expect(fsLightbox.injector.transforms.getStageSourceHoldersByValueTransformer.mock.calls)
-                .toHaveLength(2);
+            expect(fsLightbox.injector.injectDependency)
+                .toHaveBeenNthCalledWith(2, StageSourceHoldersByValueTransformer);
         });
 
         it('should call transform on instance with correct value twice with correct values', () => {
             expect(stageSourceHoldersByValueTransformer.transformByValue).toBeCalledWith(100);
             expect(stageSourceHoldersByValueTransformer.transformByValue).toBeCalledWith(200);
         });
+    });
+
+
+    afterAll(() => {
+        fsLightbox.injector.injectDependency = (dependency) => {
+            if (dependency === SourceHolderTransformer) return sourceHolderTransformer;
+            if (dependency === StageSourceHoldersByValueTransformer) return stageSourceHoldersByValueTransformer;
+        }
     });
 });
 
@@ -120,12 +133,12 @@ describe('transform single stage sources holder at index', () => {
     });
 
     it('should call set sources holder at correct index', () => {
-        sourceHoldersTransformer.transformStageSourceHolderAtIndex(0);
+        sourceHoldersTransformer.transformSourceHolderAtIndex(0);
         expect(sourceHolderTransformer.setSourceHolder).toBeCalledWith(fsLightbox.elements.sourceHolders[0]);
     });
 
     it('should return sources holder transformer', () => {
-        expect(sourceHoldersTransformer.transformStageSourceHolderAtIndex(0)).toEqual(sourceHolderTransformer);
+        expect(sourceHoldersTransformer.transformSourceHolderAtIndex(0)).toEqual(sourceHolderTransformer);
     });
 });
 

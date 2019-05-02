@@ -3,7 +3,7 @@ import { SlideSwipingUpActions } from "../actions/up/SlideSwipingUpActions";
 export function setUpSlideSwipingUp(
     {
         data,
-        testInjector: {
+        injector: {
             injectDependency
         },
         core: {

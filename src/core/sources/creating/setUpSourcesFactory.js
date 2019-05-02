@@ -1,3 +1,6 @@
+import { SourceComponentGetter } from "./SourceComponentGetter";
+import { SourceTypeGetter } from "./SourceTypeGetter";
+
 export function setUpSourcesFactory(
     {
         data: { urls },
@@ -11,22 +14,19 @@ export function setUpSourcesFactory(
             sourcesComponents
         },
         injector: {
-            source: {
-                getSourceTypeGetter,
-                getSourceComponentGetter
-            }
+            injectDependency
         },
         core: {
             sourcesFactory: self
         }
     }
 ) {
-    const sourceComponentGetter = getSourceComponentGetter();
+    const sourceComponentGetter = injectDependency(SourceComponentGetter);
     let currentlyCreatedSourceIndex;
 
     self.createSourcesAndAddThemToSourcesComponentsArray = () => {
         for (let i = 0; i < urls.length; i++) {
-            const sourceTypeGetter = getSourceTypeGetter();
+            const sourceTypeGetter = injectDependency(SourceTypeGetter);
             sourceTypeGetter.setUrlToCheck(urls[i]);
             sourceTypeGetter.getSourceType((sourceType) => {
                 addSourceComponentToProperArrayByTypeAndIndex(sourceType, i);

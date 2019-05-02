@@ -2,6 +2,7 @@ import { LightboxClosingActions } from "../../../../src/core/main-component/clos
 import { FSLIGHTBOX_OPEN_CLASS_NAME, LONG_FADE_OUT_CLASS_NAME } from "../../../../src/constants/cssConstants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../../src/constants/coreConstants";
 import { documentElementClassList } from "../../../../src/helpers/dom/document/documentElementClassList";
+import { ON_CLOSE } from "../../../../src/constants/eventsConstants";
 
 const lightboxContainerClassList = document.createElement('div').classList;
 const fsLightbox = {
@@ -20,6 +21,9 @@ const fsLightbox = {
             }
         }
     },
+    eventsDispatcher: {
+        dispatch: () => {}
+    },
     core: {
         scrollbarRecompensor: {
             removeRecompense: () => {}
@@ -34,6 +38,11 @@ const fsLightbox = {
                 },
                 swiping: {
                     removeListeners: () => {},
+                }
+            },
+            document: {
+                keyDown: {
+                    removeListener: () => {}
                 }
             }
         }
@@ -60,6 +69,7 @@ describe('isLightboxFadingOut property (testing if by default is false)', () => 
 describe('before fadeOut (instant actions)', () => {
     beforeAll(() => {
         fsLightbox.core.eventsControllers.window.swiping.removeListeners = jest.fn();
+        fsLightbox.core.eventsControllers.document.keyDown.removeListener = jest.fn();
         recreateLightboxClosingActionsAndCallRunActions();
     });
 
@@ -76,8 +86,14 @@ describe('before fadeOut (instant actions)', () => {
     });
 
     describe('removing swiping listeners', () => {
-        it('should be called', () => {
+        it('should call removeListeners', () => {
             expect(fsLightbox.core.eventsControllers.window.swiping.removeListeners).toBeCalled();
+        });
+    });
+
+    describe('removing keyDown listener', () => {
+        it('should call removeListener', () => {
+            expect(fsLightbox.core.eventsControllers.document.keyDown.removeListener).toBeCalled();
         });
     });
 
@@ -110,18 +126,29 @@ describe('before fadeOut (instant actions)', () => {
     });
 });
 
-
 describe('after fade out', () => {
+    let state;
+
     beforeAll(() => {
         jest.useFakeTimers();
         lightboxContainerClassList.add(LONG_FADE_OUT_CLASS_NAME);
         documentElementClassList.add(FSLIGHTBOX_OPEN_CLASS_NAME);
         fsLightbox.core.scrollbarRecompensor.removeRecompense = jest.fn();
-        fsLightbox.setters.setState = jest.fn();
+        fsLightbox.setters.setState = jest.fn((stateObject, callback) => {
+            state = stateObject;
+            callback();
+        });
+        fsLightbox.eventsDispatcher.dispatch = jest.fn();
         fsLightbox.core.eventsControllers.window.resize.removeListener = jest.fn();
         recreateLightboxClosingActionsAndCallRunActions();
         lightboxClosingActions.isLightboxFadingOut = true;
         jest.runTimersToTime(CONTAINER_FADE_OUT_TIME);
+    });
+
+    describe('setting isLightboxFading out property to false', () => {
+        it('should set isLightboxFading to false', () => {
+            expect(lightboxClosingActions.isLightboxFadingOut).toBeFalsy();
+        });
     });
 
     describe('removing long fade out class from lightbox container', () => {
@@ -142,21 +169,19 @@ describe('after fade out', () => {
         });
     });
 
-    describe('calling setState with object that contains isOpen property set to false', () => {
-        it('should be called with right object', () => {
-            expect(fsLightbox.setters.setState).toBeCalledWith({ isOpen: false });
-        });
-    });
-
     describe('removing window resize listener', () => {
         it('should call removeResizeListener', () => {
             expect(fsLightbox.core.eventsControllers.window.resize.removeListener).toBeCalled();
         });
     });
 
-    describe('setting isLightboxFading out property to false', () => {
-        it('should set isLightboxFading to false', () => {
-            expect(lightboxClosingActions.isLightboxFadingOut).toBeFalsy();
+    describe('setState', () => {
+        it('should call set state with object that contains isOpen set to false', () => {
+            expect(state).toEqual({ isOpen: false });
+        });
+
+        it('should dispatch on close event', () => {
+            expect(fsLightbox.eventsDispatcher.dispatch).toBeCalledWith(ON_CLOSE);
         });
     });
 });

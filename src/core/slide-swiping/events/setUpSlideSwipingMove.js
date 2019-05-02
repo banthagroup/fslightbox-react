@@ -1,10 +1,10 @@
+import { SlideSwipingMoveActions } from "../actions/move/SlideSwipingMoveActions";
+
 export function setUpSlideSwipingMove(
     {
         data,
         injector: {
-            slideSwiping: {
-                getMoveActionsForSwipingProps
-            }
+            injectDependency
         },
         core: {
             slideSwiping: {
@@ -14,7 +14,7 @@ export function setUpSlideSwipingMove(
     }, swipingProps
 ) {
     /** @var { SlideSwipingMoveActions } actions */
-    const actions = getMoveActionsForSwipingProps(swipingProps);
+    const actions = injectDependency(SlideSwipingMoveActions, [swipingProps]);
 
     self.listener = (e) => {
         // if there is only 1 slide swiping actions are disabled
