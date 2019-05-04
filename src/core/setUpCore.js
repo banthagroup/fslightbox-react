@@ -12,13 +12,14 @@ import { setUpWindowResizeEventController } from "./events-controllers/window/re
 import { setUpSwipingEventsControllersFacade } from "./events-controllers/facades/setUpSwipingEventsControllersFacade";
 import { setUpKeyboardController } from "./keyboard/setUpKeyboardController";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
-import { setUpLightboxInitializer } from "./main-component/setUpLightboxInitializer";
+import { setUpLightboxInitializer } from "./main-component/initializing/setUpLightboxInitializer";
 import { setUpLightboxOpeningActions } from "./main-component/opening/setUpLightboxOpeningActions";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
 import { setUpSlideSwipingDown } from "./slide-swiping/events/setUpSlideSwipingDown";
 import { setUpSlideSwipingUp } from "./slide-swiping/events/setUpSlideSwipingUp";
 import { setUpSourceAnimator } from "./animations/setUpSourceAnimator";
 import { setUpStage } from "./stage/setUpStage";
+import { setUpLightboxUpdater } from "./main-component/updating/setUpLightboxUpdater";
 
 export function setUpCore(fsLightbox) {
     // eventsControllers
@@ -46,6 +47,9 @@ export function setUpCore(fsLightbox) {
 
     // lightboxOpeningActions
     setUpLightboxOpeningActions(fsLightbox);
+
+    // lightboxUpdater
+    setUpLightboxUpdater(fsLightbox);
 
     // scrollbarRecompensor
     setUpScrollbarRecompensor(fsLightbox);

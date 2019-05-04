@@ -1,5 +1,5 @@
 import { addOpenClassToDocumentElement } from "../../../helpers/dom/document/addOpenClassToDocumentElement";
-import { ON_INIT, ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
+import { ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
 
 export function setUpLightboxOpeningActions(
     {

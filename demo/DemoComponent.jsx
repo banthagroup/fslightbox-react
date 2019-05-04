@@ -7,15 +7,14 @@ class DemoComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen: true,
-            slide: 1
+            toggler: false,
         };
         this.toggleLightbox = this.toggleLightbox.bind(this);
     }
 
     toggleLightbox() {
         this.setState({
-            isOpen: !this.state.isOpen
+            toggler: !this.state.toggler
         });
     }
 
@@ -30,10 +29,8 @@ class DemoComponent extends Component {
                     <img className="image" src="../demo/images/2.jpg" alt=""/>
                     <img className="image" src="../demo/images/3.jpeg" alt=""/>
                 </div>
-                <div style={ { width: '100%', height: '100vh' } }>
-                </div>
                 <FsLightbox
-                    isOpen={ this.state.isOpen }
+                    toggler={ this.state.toggler }
                     urls={ [
                         'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
                         // "invalid",
@@ -48,14 +45,13 @@ class DemoComponent extends Component {
                         // "../demo/images/7.jpg",
                         // "../demo/images/6.jpg"
                     ] }
-                    slide={ this.state.slide }
                     videosPosters={ [
                         // "../demo/images/1.jpeg"
                     ] }
-                    onClose={ () => console.log('onClose') }
-                    onInit={ () => console.log('onInit') }
-                    onOpen={ () => console.log('onOpen') }
-                    onShow={ () => console.log('onShow') }
+                    // onClose={ () => console.log('onClose') }
+                    // onInit={ () => console.log('onInit') }
+                    // onOpen={ () => console.log('onOpen') }
+                    // onShow={ () => console.log('onShow') }
                 />
             </>
         );

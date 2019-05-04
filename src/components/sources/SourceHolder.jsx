@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SourceLoader from "../loaders/SourceLoader.jsx";
 
-/**
- * @param { FsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection | Array } shouldSourceHolderBeUpdatedStateCollection
- * @param { FsLightbox.elements.sourcesComponents | Array } sourcesComponents
- * @param { FsLightbox.elements.sourceHolders | Array } sourceHolders
- * @param { number } index
- */
 const SourceHolder = (
     {
         fsLightbox: {

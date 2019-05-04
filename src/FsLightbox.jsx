@@ -10,7 +10,7 @@ import { setUpCore } from "./core/setUpCore";
 import DownEventDetector from "./components/slide-swiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
 import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
-import { runLightboxUnmountActions } from "./core/main-component/runLightboxUnmountActions";
+import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
 import { Injector } from "./injection/Injector";
 import { EventsDispatcher } from "./core/main-component/EventsDispatcher";
 
@@ -33,6 +33,7 @@ class FsLightbox extends Component {
         this.data = {
             urls: this.props.urls,
             totalSlides: this.props.urls.length,
+            slideOnLightboxOpen: (this.props.slide) ? this.props.slide : 1,
             isInitialized: false,
             scrollbarWidth: getScrollbarWidth(),
             isSwipingSlides: false,
@@ -51,7 +52,7 @@ class FsLightbox extends Component {
 
     setUpStates() {
         this.state = {
-            isOpen: this.props.isOpen,
+            isOpen: this.props.toggler,
         };
 
         // to objects are assigned in correct components two methods:
@@ -71,6 +72,10 @@ class FsLightbox extends Component {
     setUpGetters() {
         this.getters = {
             getIsOpen: () => this.state.isOpen,
+            props: {
+                getToggler: () => this.props.toggler,
+                getSlide: () => this.props.slide
+            },
         };
     }
 
@@ -125,6 +130,7 @@ class FsLightbox extends Component {
             lightboxInitializer: {},
             lightboxOpener: {},
             lightboxOpeningActions: {},
+            lightboxUpdater: {},
             scrollbarRecompensor: {},
             slideChanger: {},
             slideSwiping: {
@@ -142,14 +148,7 @@ class FsLightbox extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.isOpen !== this.props.isOpen) {
-            (this.state.isOpen) ?
-                this.core.lightboxCloser.closeLightbox() :
-                this.core.lightboxOpener.openLightbox();
-        }
-        if (prevProps.slide !== this.props.slide && this.props.slide !== this.componentsStates.slide.get()) {
-            this.core.slideChanger.changeSlideTo(this.props.slide);
-        }
+        this.core.lightboxUpdater.handleUpdate(prevProps);
     }
 
     componentDidMount() {
@@ -184,14 +183,14 @@ class FsLightbox extends Component {
 }
 
 FsLightbox.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
+    toggler: PropTypes.bool.isRequired,
     urls: PropTypes.array.isRequired,
+    slide: PropTypes.number,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onInit: PropTypes.func,
     onShow: PropTypes.func,
     videosPosters: PropTypes.array,
-    slide: PropTypes.number,
     slideDistance: PropTypes.number,
 };
 

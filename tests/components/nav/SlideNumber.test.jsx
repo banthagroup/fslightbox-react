@@ -7,7 +7,8 @@ const totalSlides = 4;
 const slideState = {};
 const fsLightbox = {
     data: {
-        totalSlides: totalSlides
+        totalSlides: totalSlides,
+        slideOnLightboxOpen: 0
     },
     componentsStates: {
         slide: slideState
@@ -18,11 +19,12 @@ let slideNumber;
 
 describe('slide - components state', () => {
     beforeAll(() => {
+        fsLightbox.data.slideOnLightboxOpen = 4;
         slideNumber = mount(<SlideNumber fsLightbox={ fsLightbox }/>);
     });
 
-    it('should be initially 1', () => {
-        expect(slideState.get()).toBe(1);
+    it('should be initially slideOnLightboxOpen', () => {
+        expect(slideState.get()).toBe(4);
     });
 
     it('should set to 2', () => {
@@ -36,6 +38,7 @@ describe('slide - components state', () => {
         let actionToBeCalled = jest.fn();
 
         beforeAll(() => {
+           fsLightbox.data.slideOnLightboxOpen = 1;
             slideState.onUpdate = () => {
                 actionToBeCalled();
             };
@@ -43,6 +46,10 @@ describe('slide - components state', () => {
             act(() => {
                 slideState.set(3);
             });
+        });
+
+        it('should set slideOnLightboxOpen to new slide', () => {
+            expect(fsLightbox.data.slideOnLightboxOpen).toBe(3);
         });
 
         it('should call onUpdate', () => {
@@ -55,12 +62,13 @@ describe('SlideNumber DOM', () => {
     describe('totalSlides > 1', () => {
         beforeAll(() => {
             fsLightbox.data.totalSlides = 5;
+            fsLightbox.data.slideOnLightboxOpen = 6;
             slideNumber = shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
         });
 
         describe('slide (first child of wrapper)', () => {
-            it('should be initially 1', () => {
-                expect(slideNumber.childAt(0).text()).toBe("1");
+            it('should be 6 (slideOnLightboxOpen)', () => {
+                expect(slideNumber.childAt(0).text()).toBe("6");
             });
 
             it('should be 3, because we set slide state to 3', () => {

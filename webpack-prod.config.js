@@ -1,13 +1,13 @@
-var path = require('path');
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: "./src/FsLightbox.jsx",
     output: {
         path: path.join(__dirname, ''),
-        libraryTarget: "umd",
-        library: "fslightbox-react-basic",
-        umdNamedDefine: true,
-        filename: "./index.js",
+        libraryTarget: "amd",
+        library: "fslightbox-react",
+        filename: "./index.js"
     },
     resolve: {
         alias: {
@@ -19,14 +19,20 @@ module.exports = {
         react: {
             commonjs: "react",
             commonjs2: "react",
-            amd: "React",
-            root: "React"
+            amd: "react",
+            root: "react"
         },
         "react-dom": {
             commonjs: "react-dom",
             commonjs2: "react-dom",
-            amd: "ReactDOM",
-            root: "ReactDOM"
+            amd: "react-dom",
+            root: "react-dom"
+        },
+        "prop-types": {
+            commonjs: "prop-types",
+            commonjs2: "prop-types",
+            amd: "prop-types",
+            root: "prop-types"
         }
     },
     module: {
@@ -60,5 +66,12 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             }
         ]
-    }
+    },
+    plugins: [
+        new CopyPlugin([
+            { from: './index.js', to: './dist' },
+            { from: './package.json', to: './dist' },
+            { from: './Readme.md', to: './dist' }
+        ])
+    ]
 };

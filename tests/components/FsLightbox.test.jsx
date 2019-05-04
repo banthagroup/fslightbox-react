@@ -1,20 +1,20 @@
 import React from 'react';
 import { shallow } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
-import { testProps, testUrls } from "../__tests-helpers__/testVariables";
+import { testUrls } from "../__tests-helpers__/testVariables";
 import { createRefsArrayForGivenNumber } from "../../src/helpers/arrays/createRefsArrayForGivenNumber";
 import * as setUpCoreObject from "../../src/core/setUpCore";
 import { getScrollbarWidth } from "../../src/core/scrollbar/getScrollbarWidth";
-import * as runLightboxUnmountActionsObject from "../../src/core/main-component/runLightboxUnmountActions";
+import * as runLightboxUnmountActionsObject from "../../src/core/main-component/unmounting/runLightboxUnmountActions";
 import { Injector } from "../../src/injection/Injector";
 import { EventsDispatcher } from "../../src/core/main-component/EventsDispatcher";
 
-let fsLightboxWrapper = shallow(<FsLightbox isOpen={ false } urls={ testUrls }/>, {
+let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } urls={ testUrls }/>, {
     disableLifecycleMethods: true
 });
 let fsLightbox = fsLightboxWrapper.instance();
 
-describe('demoData.js', () => {
+describe('data', () => {
     describe('urls', () => {
         it('should be equal to urls', () => {
             expect(fsLightbox.data.urls).toEqual(testUrls);
@@ -30,6 +30,34 @@ describe('demoData.js', () => {
     describe('isInitialized', () => {
         it('should be equal to false', () => {
             expect(fsLightbox.data.isInitialized).toBe(false);
+        });
+    });
+
+    describe('slideOnLightboxOpen', () => {
+        describe('slide prop is not set', () => {
+            beforeAll(() => {
+                fsLightboxWrapper.setProps({
+                    slide: undefined
+                });
+                fsLightbox.setUpData();
+            });
+
+            it('should be equal to 1', () => {
+                expect(fsLightbox.data.slideOnLightboxOpen).toBe(1);
+            });
+        });
+
+        describe('slide props is set', () => {
+            beforeAll(() => {
+                fsLightboxWrapper.setProps({
+                    slide: 10
+                });
+                fsLightbox.setUpData();
+            });
+
+            it('should be equal to 10', () => {
+                expect(fsLightbox.data.slideOnLightboxOpen).toBe(10);
+            });
         });
     });
 
@@ -56,7 +84,7 @@ describe('sourcesData', () => {
     describe('videosPosters', () => {
         describe('videosPosters prop was not given', () => {
             beforeAll(() => {
-                fsLightbox = new FsLightbox({ urls: testUrls, isOpen: false })
+                fsLightbox = new FsLightbox({ urls: testUrls, toggler: false })
             });
 
             it('should be equal to empty array', () => {
@@ -69,7 +97,7 @@ describe('sourcesData', () => {
 
             beforeAll(() => {
                 videosPosters = ['test'];
-                fsLightbox = new FsLightbox({ videosPosters: videosPosters, urls: testUrls, isOpen: false })
+                fsLightbox = new FsLightbox({ videosPosters: videosPosters, urls: testUrls, toggler: false })
             });
 
             it('should be equal', () => {
@@ -93,7 +121,7 @@ describe('sourcesData', () => {
     describe('slideDistance', () => {
         describe('slideDistance prop was not given', () => {
             beforeAll(() => {
-                fsLightbox = new FsLightbox({ urls: testUrls, isOpen: false });
+                fsLightbox = new FsLightbox({ urls: testUrls, toggler: false });
             });
 
             it('should be equal 1.3', () => {
@@ -106,7 +134,7 @@ describe('sourcesData', () => {
 
             beforeAll(() => {
                 slideDistance = 2;
-                fsLightbox = new FsLightbox({ slideDistance: 2, urls: testUrls, isOpen: false });
+                fsLightbox = new FsLightbox({ slideDistance: 2, urls: testUrls, toggler: false });
             });
 
             it('should be equal 2', () => {
@@ -117,9 +145,9 @@ describe('sourcesData', () => {
 });
 
 describe('state', () => {
-    describe('isOpen (it should be same as prop with the same name)', () => {
+    describe('toggler (it should be same as prop with the same name)', () => {
         beforeAll(() => {
-            fsLightbox = new FsLightbox({ urls: testUrls, isOpen: true })
+            fsLightbox = new FsLightbox({ urls: testUrls, toggler: true })
         });
 
         it('should be truthy', () => {
@@ -156,9 +184,9 @@ describe('componentsStates', () => {
 
 describe('getters', () => {
     describe('getIsOpen', () => {
-        it('should return isOpen state', () => {
+        it('should return toggler state', () => {
             expect(fsLightbox.getters.getIsOpen()).toEqual(fsLightbox.state.isOpen);
-            fsLightbox.state.isOpen = !fsLightbox.state.isOpen;
+            fsLightbox.state.toggler = !fsLightbox.state.isOpen;
             expect(fsLightbox.getters.getIsOpen()).toEqual(fsLightbox.state.isOpen);
         });
     });
@@ -263,101 +291,15 @@ describe('core', () => {
 });
 
 describe('componentDidUpdate', () => {
-    let prevProps = {
-        isOpen: false,
-        slide: 0,
-    };
+    let prevProps = { key: 'prevProps' };
 
     beforeAll(() => {
-        fsLightbox = new FsLightbox(testProps);
-        fsLightbox.componentsStates.slide.get = () => {};
+        fsLightbox.core.lightboxUpdater.handleUpdate = jest.fn();
+        fsLightbox.componentDidUpdate(prevProps);
     });
 
-    beforeEach(() => {
-        fsLightbox.core.lightboxCloser.closeLightbox = jest.fn();
-        fsLightbox.core.lightboxOpener.openLightbox = jest.fn();
-        fsLightbox.core.slideChanger.changeSlideTo = jest.fn();
-    });
-
-    describe('isOpen has changed', () => {
-        describe('when lightbox was closed', () => {
-            beforeEach(() => {
-                fsLightbox.state.isOpen = false;
-                prevProps.isOpen = false;
-                fsLightbox.props.isOpen = true;
-                fsLightbox.componentDidUpdate(prevProps);
-            });
-
-            it('should not call closeLightbox', () => {
-                expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
-            });
-
-            it('should call openLightbox', () => {
-                expect(fsLightbox.core.lightboxOpener.openLightbox).toBeCalled();
-            });
-        });
-
-        describe('when lightbox was open', () => {
-            beforeEach(() => {
-                fsLightbox.state.isOpen = true;
-                prevProps.isOpen = true;
-                fsLightbox.props.isOpen = false;
-                fsLightbox.componentDidUpdate(prevProps);
-            });
-
-            it('should not call open Lightbox', () => {
-                expect(fsLightbox.core.lightboxOpener.openLightbox).not.toBeCalled();
-            });
-
-            it('should call close lightobx', () => {
-                expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
-            });
-        });
-    });
-
-    describe('slide has changed', () => {
-        describe('not calling changeSlideTo', () => {
-            describe('due to props slide not changed event if current props slide !== slide state', () => {
-                beforeEach(() => {
-                    fsLightbox.props.slide = 1;
-                    prevProps.slide = 1;
-                    fsLightbox.componentsStates.slide.get = () => 2;
-                    fsLightbox.componentDidUpdate(prevProps);
-                });
-
-                it('should not call changeSlideTo', () => {
-                    expect(fsLightbox.core.slideChanger.changeSlideTo).not.toBeCalled();
-                });
-            });
-
-            describe('due to current props slide === slide state, even if props slide has changed', () => {
-                beforeEach(() => {
-                    fsLightbox.props.slide = 1;
-                    prevProps.slide = 2;
-                    fsLightbox.componentsStates.slide.get = () => 1;
-                    fsLightbox.componentDidUpdate(prevProps);
-                });
-
-                it('should not call changeSlideTo', () => {
-                    expect(fsLightbox.core.slideChanger.changeSlideTo).not.toBeCalled();
-                });
-            });
-        });
-
-        describe('calling changeSlideTo', () => {
-            describe('props slide has changed, and props slide !== slide state', () => {
-                beforeEach(() => {
-                    fsLightbox.props.slide = 1;
-                    prevProps.slide = 2;
-                    fsLightbox.componentsStates.slide.get = () => 3;
-                    fsLightbox.componentDidUpdate(prevProps);
-                });
-
-                it('should call changeSlideTo with slide from current props', () => {
-                    expect(fsLightbox.core.slideChanger.changeSlideTo).toBeCalledWith(1);
-                });
-            });
-        });
+    it('should call handleUpdate with prevProps', () => {
+        expect(fsLightbox.core.lightboxUpdater.handleUpdate).toBeCalledWith(prevProps);
     });
 });
 
@@ -430,7 +372,7 @@ describe('DOM', () => {
     describe('rendering buttons or not (if there is only 1 slide buttons should not be rendered)', () => {
         describe('totalSlides === 1', () => {
             beforeAll(() => {
-                fsLightboxWrapper = shallow(<FsLightbox isOpen={ true } urls={ ['only one'] }/>, {
+                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } urls={ ['only one'] }/>, {
                     disableLifecycleMethods: true
                 });
             });
@@ -442,7 +384,7 @@ describe('DOM', () => {
 
         describe('totalSlide > 1', () => {
             beforeAll(() => {
-                fsLightboxWrapper = shallow(<FsLightbox isOpen={ true } urls={ ['first', 'second'] }/>, {
+                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } urls={ ['first', 'second'] }/>, {
                     disableLifecycleMethods: true
                 });
             });

@@ -9,7 +9,7 @@ export function FsLightboxMock() {
     let fsLightbox;
     // by default if setProps not called
     let testProps = {
-        isOpen: true,
+        toggler: true,
         urls: testUrls
     };
 

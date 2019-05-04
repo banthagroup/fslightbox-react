@@ -1,5 +1,5 @@
-import { setUpLightboxInitializer } from "../../../src/core/main-component/setUpLightboxInitializer";
-import { ON_INIT } from "../../../src/constants/eventsConstants";
+import { setUpLightboxInitializer } from "../../../../src/core/main-component/initializing/setUpLightboxInitializer";
+import { ON_INIT } from "../../../../src/constants/eventsConstants";
 
 const lightboxInitializer = {};
 const fsLightbox = {

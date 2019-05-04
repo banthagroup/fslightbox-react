@@ -176,7 +176,7 @@ describe('after fade out', () => {
     });
 
     describe('setState', () => {
-        it('should call set state with object that contains isOpen set to false', () => {
+        it('should call set state with object that contains toggler set to false', () => {
             expect(state).toEqual({ isOpen: false });
         });
 
