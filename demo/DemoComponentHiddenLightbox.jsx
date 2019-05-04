@@ -15,7 +15,7 @@ class DemoComponentHiddenLightbox extends Component {
 
     toggleLightbox() {
         this.setState({
-            isOpen: !this.state.isOpen
+            toggler: !this.state.toggler
         })
     }
 
@@ -35,7 +35,7 @@ class DemoComponentHiddenLightbox extends Component {
                     <img className="image" src="../demo/images/3.jpeg" alt=""/>
                 </div>
                 <FsLightbox
-                    isOpen={ this.state.isOpen }
+                    isOpen={ this.state.toggler }
                     urls={ [
                         "../demo/images/1.jpeg",
                         "../demo/images/2.jpg",

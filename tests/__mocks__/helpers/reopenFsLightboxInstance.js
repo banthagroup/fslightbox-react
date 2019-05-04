@@ -6,10 +6,10 @@
 export const reopenFsLightboxInstance = (fsLightboxInstance) => {
     return new Promise(resolve => {
         fsLightboxInstance.setState({
-            isOpen: false,
+            toggler: false,
         }, () => {
             fsLightboxInstance.setState({
-               isOpen: true,
+               toggler: true,
             }, () => {
                 resolve(fsLightboxInstance);
             });

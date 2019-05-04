@@ -5,20 +5,21 @@ import { ifOnUpdateExistsHandleItForState } from "../../helpers/state/ifOnUpdate
 const SlideNumber = (
     {
         fsLightbox: {
-            data: { totalSlides },
+            data,
             componentsStates: { slide: slideState },
         }
     }
 ) => {
-    const [slide, setSlide] = useState(1);
+    const [slide, setSlide] = useState(data.slideOnLightboxOpen);
     slideState.get = () => slide;
     slideState.set = setSlide;
 
     useEffect(() => {
+        if (data.slideOnLightboxOpen !== slide) data.slideOnLightboxOpen = slide;
         ifOnUpdateExistsHandleItForState(slideState);
     }, [slide]);
 
-    if (totalSlides === 1) {
+    if (data.totalSlides === 1) {
         return null;
     }
 
@@ -26,7 +27,7 @@ const SlideNumber = (
         <div className="fslightbox-slide-number-container fslightbox-flex-centered">
             <div>{ slide }</div>
             <div className="fslightbox-slash">/</div>
-            <div>{ totalSlides }</div>
+            <div>{ data.totalSlides }</div>
         </div>
     );
 };

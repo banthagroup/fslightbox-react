@@ -34,7 +34,7 @@ describe('openLightbox', () => {
         expect(fsLightbox.setters.setState).toBeCalled();
     });
 
-    it('should set state to object with isOpen set to true', () => {
+    it('should set state to object with toggler set to true', () => {
         expect(state).toEqual({ isOpen: true });
     });
 

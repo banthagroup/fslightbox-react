@@ -1,37 +1,65 @@
 # React Fullscreen Lightbox Basic
-## Version - 0.8.7 - In Development
+## Version - 0.9.1
 ## Description
-In developmet - React version of Fullscreen Lightbox.
 
-Fullscreen Lightbox is vanilla JS plugin for displaying images and videos in clean overlaying box.
+In development
+
+Fullscreen Lightbox is plugin for displaying images and videos in clean overlaying box.
 
 Website: https://fslightbox.com
 
-Open source project. Technologies:
-- React
-- Jest
-- Enzyme 
 
-## Installation
+| Dependency | Version |
+| --- | --- |
+| react | at least 16.8.0 |
+| react-dom | at least 16.8.0 |
+| prop-types | at least 15.6.2 |
 
-Clone repository cd to directory and run:
+## Basic usage
+
+### Installation
 
 ```
- npm install
-```
-
-For development:
-```
- npm run start
+ npm install --save-dev fslightbox-react
 ```
 
-To run tests:
+### Example
+
 ```
- npm run test
+import React, { useState } from 'react';
+import FsLightbox from 'fslightbox-react';
+
+function App() {
+    const [toggler, setToggler] = useState(false);
+
+    return (
+        <>
+            <button onClick={ () => setToggler(!toggler) }>
+                Toggle Lightbox
+            </button>
+            <FsLightbox
+                toggler={ toggler }
+                urls={ [
+                    'https://i.imgur.com/fsyrScY.jpg',
+                    'https://www.youtube.com/watch?v=xshEZzpS4CQ',
+                    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                ] }
+            />
+        </>
+    );
+}
+
+export default App;
+
 ```
 
-For production:
-```
- npm run build
-```
+## Browser Compatibility
+
+| Browser | Works? |
+| --- | --- |
+| Chrome | Yes |
+| Firefox | Yes |
+| Safari | Yes |
+| Edge | Yes |
+| IE 11 | Yes |
 

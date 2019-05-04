@@ -11,14 +11,32 @@ const fsLightbox = {
 };
 
 describe('addRecompense - adding margin right to document element', () => {
-    beforeAll(() => {
-        fsLightbox.data.scrollbarWidth = 50;
-        setUpScrollbarRecompensor(fsLightbox);
-        scrollbarRecompensor.addRecompense();
+    describe('body offsetHeight is lower than window height', () => {
+        beforeAll(() => {
+            window.innerHeight = 100;
+            fsLightbox.data.scrollbarWidth = 100;
+            document.documentElement.style.marginRight = '15px';
+            setUpScrollbarRecompensor(fsLightbox);
+            scrollbarRecompensor.addRecompense();
+        });
+
+        it('should not set margin right', () => {
+            expect(document.documentElement.style.marginRight).toBe('15px');
+        });
     });
 
-    it('should add margin right to document element', () => {
-        expect(document.documentElement.style.marginRight).toBe('50px');
+    describe('body offsetHeight is bigger than window height', () => {
+        beforeAll(() => {
+            window.innerHeight = -100;
+            fsLightbox.data.scrollbarWidth = 100;
+            document.documentElement.style.marginRight = '20px';
+            setUpScrollbarRecompensor(fsLightbox);
+            scrollbarRecompensor.addRecompense();
+        });
+
+        it('should set margin right to scrollbar width', () => {
+            expect(document.documentElement.style.marginRight).toBe('100px');
+        });
     });
 });
 

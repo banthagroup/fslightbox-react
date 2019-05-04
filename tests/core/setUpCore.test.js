@@ -15,8 +15,9 @@ import * as setUpSwipingEventsControllersFacadeObject
     from "../../src/core/events-controllers/facades/setUpSwipingEventsControllersFacade";
 import * as setUpKeyboardControllerObject from "../../src/core/keyboard/setUpKeyboardController";
 import * as setUpLightboxCloserObject from "../../src/core/main-component/closing/setUpLightboxCloser";
-import * as setUpLightboxInitializerObject from "../../src/core/main-component/setUpLightboxInitializer";
+import * as setUpLightboxInitializerObject from "../../src/core/main-component/initializing/setUpLightboxInitializer";
 import * as setUpLightboxOpeningActionsObject from "../../src/core/main-component/opening/setUpLightboxOpeningActions";
+import * as setUpLightboxUpdaterObject from "../../src/core/main-component/updating/setUpLightboxUpdater";
 import * as setUpScrollbarRecompensorObject from "../../src/core/scrollbar/setUpScrollbarRecompensor";
 import * as setUpSlideSwipingDownObject from "../../src/core/slide-swiping/events/setUpSlideSwipingDown";
 import * as setUpSlideSwipingUpObject from "../../src/core/slide-swiping/events/setUpSlideSwipingUp";
@@ -42,13 +43,12 @@ beforeAll(() => {
     setUpLightboxCloserObject.setUpLightboxCloser = jest.fn();
     setUpLightboxInitializerObject.setUpLightboxInitializer = jest.fn();
     setUpLightboxOpeningActionsObject.setUpLightboxOpeningActions = jest.fn();
+    setUpLightboxUpdaterObject.setUpLightboxUpdater = jest.fn();
     setUpScrollbarRecompensorObject.setUpScrollbarRecompensor = jest.fn();
-
     getSwipingPropsObject.getSwipingProps = () => swipingProps;
     setUpSlideSwipingMoveObject.setUpSlideSwipingMove = jest.fn();
     setUpSlideSwipingDownObject.setUpSlideSwipingDown = jest.fn();
     setUpSlideSwipingUpObject.setUpSlideSwipingUp = jest.fn();
-
     setUpSourceAnimatorObject.setUpSourceAnimator = jest.fn();
     setUpStageObject.setUpStage = jest.fn();
     setUpCore(fsLightbox);
@@ -88,40 +88,44 @@ describe('calling correct methods which set up core', () => {
     it('should call setUpSourceHoldersTransformer', () => {
         expect(setUpSourceHoldersTransformerObject.setUpSourceHoldersTransformer).toBeCalledWith(fsLightbox);
     });
-
-    it('should call setUpSourcesFactory', () => {
-        expect(setUpSourcesFactoryObject.setUpSourcesFactory).toBeCalledWith(fsLightbox);
-    });
-
-    it('should call setUpFullscreenToggler', () => {
-        expect(setUpFullscreenTogglerObject.setUpFullscreenToggler).toBeCalledWith(fsLightbox);
-    });
-
-    it('should call setUpGlobalResizingController', () => {
-        expect(setUpGlobalResizingControllerObject.setUpGlobalResizingController).toBeCalledWith(fsLightbox);
-    });
-
-    it('should call setUpKeyboardController', () => {
-        expect(setUpKeyboardControllerObject.setUpKeyboardController).toBeCalledWith(fsLightbox);
-    });
-
-    it('should call setUpLightboxCloser', () => {
-        expect(setUpLightboxCloserObject.setUpLightboxCloser).toBeCalledWith(fsLightbox);
-    });
-
-    it('should call setUpLightboxInitializer', () => {
-        expect(setUpLightboxInitializerObject.setUpLightboxInitializer).toBeCalledWith(fsLightbox);
-    });
-
-    it('should call setUpLightboxOpeningActions', () => {
-        expect(setUpLightboxOpeningActionsObject.setUpLightboxOpeningActions).toBeCalledWith(fsLightbox);
-    });
-
     it('should call setUpScrollbarRecompensor', () => {
         expect(setUpScrollbarRecompensorObject.setUpScrollbarRecompensor).toBeCalledWith(fsLightbox);
     });
 
     describe('slideSwiping', () => {
+
+        it('should call setUpSourcesFactory', () => {
+            expect(setUpSourcesFactoryObject.setUpSourcesFactory).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpFullscreenToggler', () => {
+            expect(setUpFullscreenTogglerObject.setUpFullscreenToggler).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpGlobalResizingController', () => {
+            expect(setUpGlobalResizingControllerObject.setUpGlobalResizingController).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpKeyboardController', () => {
+            expect(setUpKeyboardControllerObject.setUpKeyboardController).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpLightboxCloser', () => {
+            expect(setUpLightboxCloserObject.setUpLightboxCloser).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpLightboxInitializer', () => {
+            expect(setUpLightboxInitializerObject.setUpLightboxInitializer).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpLightboxOpeningActions', () => {
+            expect(setUpLightboxOpeningActionsObject.setUpLightboxOpeningActions).toBeCalledWith(fsLightbox);
+        });
+
+        it('should call setUpLightboxUpdater', () => {
+            expect(setUpLightboxUpdaterObject.setUpLightboxUpdater).toBeCalledWith(fsLightbox);
+        });
+
         it('should call setUpSlideSwipingDown', () => {
             expect(setUpSlideSwipingDownObject.setUpSlideSwipingDown).toBeCalledWith(fsLightbox, swipingProps);
         });

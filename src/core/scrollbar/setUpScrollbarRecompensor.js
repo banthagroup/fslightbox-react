@@ -9,7 +9,8 @@ export function setUpScrollbarRecompensor(
     }
 ) {
     self.addRecompense = () => {
-        setMarginRightOfDocumentElementTo(scrollbarWidth);
+        if (document.body.offsetHeight > window.innerHeight)
+            setMarginRightOfDocumentElementTo(scrollbarWidth);
     };
 
     self.removeRecompense = () => {

@@ -1,4 +1,4 @@
-import { ON_INIT } from "../../constants/eventsConstants";
+import { ON_INIT } from "../../../constants/eventsConstants";
 
 export function setUpLightboxInitializer(
     {

@@ -20,7 +20,7 @@ export function TestFsLightboxProps() {
             generateUrls();
 
             return {
-                isOpen: true,
+                toggler: true,
                 urls: urls
             }
         }

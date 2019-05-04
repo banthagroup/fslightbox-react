@@ -1,4 +1,4 @@
-import { runLightboxUnmountActions } from "../../../src/core/main-component/runLightboxUnmountActions";
+import { runLightboxUnmountActions } from "../../../../src/core/main-component/unmounting/runLightboxUnmountActions";
 
 const abort = jest.fn();
 

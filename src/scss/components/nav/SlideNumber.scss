@@ -1,16 +1,16 @@
 .fslightbox-slide-number-container {
   height: 100%;
-  font-size: .82rem;
-  color: #c1c2c2;
+  font-size: 14px;
+  color: #d7d7d7;
   z-index: 0;
-  max-width: 46px;
+  max-width: 55px;
 
   div {
-    padding: 0 2px;
+    padding: 0 1.5px;
   }
 }
 
 .fslightbox-slash {
-  padding-top: .15rem;
-  font-size: 12px;
+  margin-top: -1.5px;
+  font-size: 16px;
 }
