@@ -21,6 +21,7 @@ export function SourceTypeGetter(
     let sourceType = null;
     let callbackSourceType = null;
     let xhr;
+    let isResolved = false;
 
     this.setUrlToCheck = (urlToCheck) => {
         url = urlToCheck;
@@ -48,19 +49,32 @@ export function SourceTypeGetter(
     };
 
     const onRequestStateChange = () => {
+        // we need to use isResolved helper because logic after readyState 2 is complex enough that readyState 4 is called
+        // before request is aborted
+        if (xhr.readyState === 4 && xhr.status === 0 && !isResolved) {
+            resolveInvalidType();
+            return;
+        }
         if (xhr.readyState !== 2) {
             return;
         }
-        if (xhr.status !== 200) {
-            sourceType = INVALID_TYPE;
-            abortRequestAndResolvePromise();
+        if (xhr.status !== 200 && xhr.status !== 206) {
+            isResolved = true;
+            resolveInvalidType();
             return;
         }
+        // we are setting isResolved to true so readyState 4 won't be called before forwarding logic
+        isResolved = true;
         setSourceTypeDependingOnResponseContentType(
             SourceTypeGetterHelpers.getTypeFromResponseContentType(
                 xhr.getResponseHeader('content-type')
             )
         );
+        abortRequestAndResolvePromise();
+    };
+
+    const resolveInvalidType = () => {
+        sourceType = INVALID_TYPE;
         abortRequestAndResolvePromise();
     };
 

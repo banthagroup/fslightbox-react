@@ -1,4 +1,8 @@
-import { TEST_IMAGE_URL, TEST_VIDEO_URL, TEST_YOUTUBE_URL } from "../../../__tests-helpers__/testVariables";
+import {
+    TEST_IMAGE_URL,
+    TEST_YOUTUBE_URL,
+    TEST_VIDEO_URL
+} from "../../../__tests-helpers__/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/coreConstants";
 import { SourceTypeGetter } from "../../../../src/core/sources/creating/SourceTypeGetter";
 
@@ -7,7 +11,7 @@ const fsLightbox = {
         xhrs: [],
     },
     injector: {
-        injectDependency: () => {},
+        injectDependency: () => new XMLHttpRequest(),
     }
 };
 
@@ -55,7 +59,7 @@ describe('calling callback with right sources types', () => {
             sourceTypeGetter.setUrlToCheck(TEST_VIDEO_URL);
         });
 
-        it('should call callback with image type', testDone => {
+        it('should call callback with video type', testDone => {
             return sourceTypeGetter.getSourceType((sourceType) => {
                 expect(sourceType).toEqual(VIDEO_TYPE);
                 testDone();
@@ -68,7 +72,7 @@ describe('calling callback with right sources types', () => {
             sourceTypeGetter.setUrlToCheck(TEST_YOUTUBE_URL);
         });
 
-        it('should call callback with image type', testDone => {
+        it('should call callback with youtube type', testDone => {
             return sourceTypeGetter.getSourceType((sourceType) => {
                 expect(sourceType).toEqual(YOUTUBE_TYPE);
                 testDone();
@@ -81,7 +85,7 @@ describe('calling callback with right sources types', () => {
             sourceTypeGetter.setUrlToCheck('ima invalid');
         });
 
-        it('should call callback with image type', testDone => {
+        it('should call callback with invalid type', testDone => {
             return sourceTypeGetter.getSourceType((sourceType) => {
                 expect(sourceType).toEqual(INVALID_TYPE);
                 testDone();
