@@ -1,5 +1,5 @@
 # React Fullscreen Lightbox Basic
-## Version - 0.9.1
+## Version - 0.9.2
 ## Description
 
 In development
@@ -25,11 +25,14 @@ Website: https://fslightbox.com
 
 ### Example
 
-```
+```jsx
 import React, { useState } from 'react';
 import FsLightbox from 'fslightbox-react';
 
 function App() {
+    // initial toggler value determines if lightbox should be opened on init
+    // if toggler is updated when lightbox is closed it will open it
+    // if toggler is updated when lightbox is opened it will close it
     const [toggler, setToggler] = useState(false);
 
     return (
@@ -42,7 +45,7 @@ function App() {
                 urls={ [
                     'https://i.imgur.com/fsyrScY.jpg',
                     'https://www.youtube.com/watch?v=xshEZzpS4CQ',
-                    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
                 ] }
             />
         </>
