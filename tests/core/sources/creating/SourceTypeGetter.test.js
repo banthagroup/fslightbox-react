@@ -82,7 +82,7 @@ describe('calling callback with right sources types', () => {
 
     describe('invalid type', () => {
         beforeEach(() => {
-            sourceTypeGetter.setUrlToCheck('ima invalid');
+            sourceTypeGetter.setUrlToCheck('https://cors-anywhere.herokuapp.com/');
         });
 
         it('should call callback with invalid type', testDone => {

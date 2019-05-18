@@ -125,7 +125,7 @@ describe('sourcesData', () => {
             });
 
             it('should be equal 1.3', () => {
-                expect(fsLightbox.sourcesData.slideDistance).toBe(1.3);
+                expect(fsLightbox.sourcesData.slideDistance).toBe(0.3);
             });
         });
 

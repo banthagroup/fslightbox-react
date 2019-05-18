@@ -59,6 +59,7 @@ export function SourceTypeGetter(
             return;
         }
         if (xhr.status !== 200 && xhr.status !== 206) {
+            // we are setting isResolved to true so readyState 4 won't be called before forwarding logic
             isResolved = true;
             resolveInvalidType();
             return;
