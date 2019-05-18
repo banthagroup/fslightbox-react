@@ -46,7 +46,7 @@ class FsLightbox extends Component {
             videosPosters: (this.props.videosPosters) ? this.props.videosPosters : [],
             maxSourceWidth: 0,
             maxSourceHeight: 0,
-            slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 1.3,
+            slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3,
         };
     }
 
