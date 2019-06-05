@@ -17,11 +17,11 @@ export function SourceTypeGetter(
         }
     }
 ) {
-    let url = '';
-    let sourceType = null;
-    let callbackSourceType = null;
+    let url;
+    let sourceType;
+    let callbackSourceType;
     let xhr;
-    let isResolved = false;
+    let isResolved;
 
     this.setUrlToCheck = (urlToCheck) => {
         url = urlToCheck;
@@ -86,10 +86,10 @@ export function SourceTypeGetter(
 
     const setSourceTypeDependingOnResponseContentType = (type) => {
         switch (type) {
-            case IMAGE_TYPE:
+            case 'image':
                 sourceType = IMAGE_TYPE;
                 break;
-            case VIDEO_TYPE:
+            case 'video':
                 sourceType = VIDEO_TYPE;
                 break;
             default:

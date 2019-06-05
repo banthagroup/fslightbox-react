@@ -1,7 +1,8 @@
 import { setUpLightboxOpeningActions } from "../../../../src/core/main-component/opening/setUpLightboxOpeningActions";
-import * as addOpenClassToDocumentElementObject
-    from "../../../../src/helpers/dom/document/addOpenClassToDocumentElement";
-import { ON_INIT, ON_OPEN, ON_SHOW } from "../../../../src/constants/eventsConstants";
+import { ON_OPEN, ON_SHOW } from "../../../../src/constants/eventsConstants";
+import * as initializeLightboxObject from "../../../../src/core/main-component/initializing/initializeLightbox";
+import * as getDocumentElementClassListObject from "../../../../src/helpers/dom/document/getDocumentElementClassList";
+import { OPEN_CLASS_NAME } from "../../../../src/constants/cssConstants";
 
 const lightboxOpeningActions = {};
 const fsLightbox = {
@@ -38,14 +39,11 @@ const fsLightbox = {
             transformStageSourceHolders: () => ({
                 withoutTimeout: () => {}
             })
-        },
-        lightboxInitializer: {
-            initialize: () => {}
         }
     }
 };
 
-const resetUpLightboxOpeningActionsAndCallRunActions =() => {
+const resetUpLightboxOpeningActionsAndCallRunActions = () => {
     setUpLightboxOpeningActions(fsLightbox);
     lightboxOpeningActions.runActions();
 };
@@ -53,14 +51,14 @@ const resetUpLightboxOpeningActionsAndCallRunActions =() => {
 describe('calling actions depending on isInitialized', () => {
     describe('lightbox is already initialized', () => {
         beforeAll(() => {
-            fsLightbox.core.lightboxInitializer.initialize = jest.fn();
+            initializeLightboxObject.initializeLightbox = jest.fn();
             fsLightbox.data.isInitialized = true;
             fsLightbox.eventsDispatcher.dispatch = jest.fn();
             resetUpLightboxOpeningActionsAndCallRunActions();
         });
 
         it('should not call initialize', () => {
-            expect(fsLightbox.core.lightboxInitializer.initialize).not.toBeCalled();
+            expect(initializeLightboxObject.initializeLightbox).not.toBeCalled();
         });
 
         it('should call onShow', () => {
@@ -70,14 +68,14 @@ describe('calling actions depending on isInitialized', () => {
 
     describe('lightbox is not initialized', () => {
         beforeAll(() => {
-            fsLightbox.core.lightboxInitializer.initialize = jest.fn();
+            initializeLightboxObject.initializeLightbox = jest.fn();
             fsLightbox.data.isInitialized = false;
             fsLightbox.eventsDispatcher.dispatch = jest.fn();
             resetUpLightboxOpeningActionsAndCallRunActions();
         });
 
         it('should call initialize', () => {
-            expect(fsLightbox.core.lightboxInitializer.initialize).toBeCalled();
+            expect(initializeLightboxObject.initializeLightbox).toBeCalled();
         });
 
         it('should not call onShow', () => {
@@ -88,11 +86,15 @@ describe('calling actions depending on isInitialized', () => {
 
 describe('calling methods', () => {
     let withoutTimeout;
+    let documentElementClassList;
 
     beforeAll(() => {
         withoutTimeout = jest.fn();
         fsLightbox.core.scrollbarRecompensor.addRecompense = jest.fn();
-        addOpenClassToDocumentElementObject.addOpenClassToDocumentElement = jest.fn();
+        documentElementClassList = {
+            add: jest.fn()
+        };
+        getDocumentElementClassListObject.getDocumentElementClassList = jest.fn(() => documentElementClassList);
         fsLightbox.core.eventsControllers.window.resize.attachListener = jest.fn();
         fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
         fsLightbox.core.eventsControllers.document.keyDown.attachListener = jest.fn();
@@ -111,8 +113,12 @@ describe('calling methods', () => {
     });
 
     describe('adding open class to document', () => {
-        it('should call addOpenClassToDocument', () => {
-            expect(addOpenClassToDocumentElementObject.addOpenClassToDocumentElement).toBeCalled();
+        it('should call getDocumentElementClassList', () => {
+            expect(getDocumentElementClassListObject.getDocumentElementClassList).toBeCalled();
+        });
+
+        it('should call add with open class name on document element class list', () => {
+            expect(documentElementClassList.add).toBeCalledWith(OPEN_CLASS_NAME);
         });
     });
 

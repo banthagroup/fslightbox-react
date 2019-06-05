@@ -1,6 +1,10 @@
 import { SlideSwipingMoveActions } from "../../../../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/cssConstants";
 
 const fsLightbox = {
+    data: {
+        totalSlides: 0
+    },
     componentsStates: {
         hasMovedWhileSwiping: {
             get: () => {},
@@ -10,6 +14,11 @@ const fsLightbox = {
     core: {
         sourceHoldersTransformer: {
             transformStageSourceHoldersByValue: () => {}
+        }
+    },
+    elements: {
+        container: {
+            current: document.createElement('div')
         }
     }
 };
@@ -21,22 +30,20 @@ let mockSwipingProps = {
 };
 let slideSwipingMoveActions;
 
-beforeEach(() => {
-    // because we are using destructuring in SlideSwipingMoveActions we need to
-    // instantiate it every test with new jest.fn()
+const mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions = () => {
     fsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue = jest.fn();
     slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, mockSwipingProps)
-});
-
+};
 
 describe('setting hasMovedWhileSwipingState to true if not already set', () => {
-    beforeEach(() => {
+    beforeAll(() => {
+        mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions();
         fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
         slideSwipingMoveActions.setMoveEvent({});
     });
 
     describe('not setting (already set)', () => {
-        beforeEach(() => {
+        beforeAll(() => {
             fsLightbox.componentsStates.hasMovedWhileSwiping.get = () => true;
             slideSwipingMoveActions.runActions();
         });
@@ -47,7 +54,7 @@ describe('setting hasMovedWhileSwipingState to true if not already set', () => {
     });
 
     describe('setting (not yet set)', () => {
-        beforeEach(() => {
+        beforeAll(() => {
             fsLightbox.componentsStates.hasMovedWhileSwiping.get = () => false;
             slideSwipingMoveActions.runActions();
         });
@@ -60,6 +67,7 @@ describe('setting hasMovedWhileSwipingState to true if not already set', () => {
 
 describe('event is mousedown', () => {
     beforeEach(() => {
+        mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions();
         mockEvent = {
             clientX: 500,
         };
@@ -80,6 +88,7 @@ describe('event is mousedown', () => {
 
 describe('event is touchstart', () => {
     beforeEach(() => {
+        mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions();
         mockEvent = {
             touches: [{
                 clientX: 240
@@ -97,5 +106,61 @@ describe('event is touchstart', () => {
     it('should call transformStageSourceHoldersByValue with swiped difference at param', () => {
         expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue)
             .toBeCalledWith(mockEvent.touches[0].clientX - mockSwipingProps.downClientX);
+    });
+});
+
+slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, mockSwipingProps);
+slideSwipingMoveActions.setMoveEvent({
+    clientX: 0
+});
+
+describe(`adding cursor grabbing class to container if there are at least 2 slides 
+        and class is not yet added`, () => {
+    let containerClassList = fsLightbox.elements.container.current.classList;
+    beforeEach(() => {
+        slideSwipingMoveActions.setMoveEvent({
+            clientX: 0
+        });
+        containerClassList.add = jest.fn();
+    });
+
+    describe('not adding class', () => {
+        describe('due to there less than two slides even if class is not yed added', () => {
+            beforeEach(() => {
+                containerClassList.contains = () => false;
+                fsLightbox.data.totalSlides = 1;
+                slideSwipingMoveActions.runActions();
+            });
+
+            it('should not call add class', () => {
+                expect(containerClassList.add).not.toBeCalled();
+            });
+        });
+
+        describe('dut to class is already added even if there are at least two slides', () => {
+            beforeEach(() => {
+                containerClassList.contains = () => true;
+                fsLightbox.data.totalSlides = 2;
+                slideSwipingMoveActions.runActions();
+            });
+
+            it('should not call add class ', () => {
+                expect(containerClassList.add).not.toBeCalled();
+            });
+        });
+    });
+
+    describe('adding class', () => {
+        describe('there are at least two slides and class is not already added', () => {
+            beforeEach(() => {
+                containerClassList.contains = () => false;
+                fsLightbox.data.totalSlides = 2;
+                slideSwipingMoveActions.runActions();
+            });
+
+            it('should call add class with cursor grabbing class', () => {
+                expect(containerClassList.add).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
+            });
+        });
     });
 });

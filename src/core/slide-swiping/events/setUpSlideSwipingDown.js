@@ -1,5 +1,3 @@
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../constants/cssConstants";
-
 export function setUpSlideSwipingDown(
     {
         data,
@@ -20,7 +18,6 @@ export function setUpSlideSwipingDown(
         preventDefaultIfNeeded();
         setIsSourceDownEventTargetIfTargetIsSource();
         setIsSwipingSlidesToTrue();
-        ifThereIsMoreThanOneSlideAddCursorGrabbingClassToContainer();
         setDownClientX();
         resetSwipedDifference();
     };
@@ -41,12 +38,6 @@ export function setUpSlideSwipingDown(
 
     const setIsSwipingSlidesToTrue = () => {
         data.isSwipingSlides = true;
-    };
-
-    const ifThereIsMoreThanOneSlideAddCursorGrabbingClassToContainer = () => {
-        if (data.totalSlides > 1) {
-            container.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
-        }
     };
 
     const setDownClientX = () => {

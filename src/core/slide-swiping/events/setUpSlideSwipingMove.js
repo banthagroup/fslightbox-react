@@ -1,4 +1,5 @@
 import { SlideSwipingMoveActions } from "../actions/move/SlideSwipingMoveActions";
+import { getAnimationDebounce } from "../../animations/getAnimationDebounce";
 
 export function setUpSlideSwipingMove(
     {
@@ -7,34 +8,35 @@ export function setUpSlideSwipingMove(
             injectDependency
         },
         core: {
+            animationer,
             slideSwiping: {
                 move: self
             }
         }
     }, swipingProps
 ) {
-    /** @var { SlideSwipingMoveActions } actions */
     const actions = injectDependency(SlideSwipingMoveActions, [swipingProps]);
+    const isPreviousAnimationDebounced = getAnimationDebounce();
 
     self.listener = (e) => {
-        // if there is only 1 slide swiping actions are disabled
-        // so to prevent lightbox from closing if user swiped we simply set swipedDifference to 1
-        if (isThereOnlyOneSlide()) {
-            simulateSwipe();
+        if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
-        if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
+        if (!isPreviousAnimationDebounced()) {
             return;
         }
         actions.setMoveEvent(e);
         actions.runActions();
     };
 
-    const isThereOnlyOneSlide = () => {
-        return data.totalSlides === 1;
+    const ifThereIsOnlyOneSlideRewriteListener = () => {
+        if (data.totalSlides === 1)
+            self.listener = simulateSwipe;
     };
 
     const simulateSwipe = () => {
         swipingProps.swipedDifference = 1;
     };
+
+    ifThereIsOnlyOneSlideRewriteListener();
 }

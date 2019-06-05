@@ -20,13 +20,13 @@ beforeEach(() => {
     lightboxClosingActions.runActions = jest.fn();
 });
 
-describe('calling runActions - lightbox is not fading out', () => {
+describe('calling runActionsForSourceTypeAndIndex - lightbox is not fading out', () => {
     beforeEach(() => {
         lightboxClosingActions.isLightboxFadingOut = false;
         lightboxCloser.closeLightbox();
     });
 
-    it('should call runActions', () => {
+    it('should call runActionsForSourceTypeAndIndex', () => {
         expect(lightboxClosingActions.runActions).toBeCalled();
     });
 });
@@ -37,7 +37,7 @@ describe('not calling actions - lightbox is fading out', () => {
         lightboxCloser.closeLightbox();
     });
 
-    it('should call runActions only 1 time', () => {
+    it('should call runActionsForSourceTypeAndIndex only 1 time', () => {
         expect(lightboxClosingActions.runActions).not.toBeCalled();
     });
 });

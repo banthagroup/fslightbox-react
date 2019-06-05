@@ -1,23 +1,27 @@
 export function setUpScrollbarRecompensor(
     {
-        data: {
-            scrollbarWidth
-        },
+        data,
         core: {
             scrollbarRecompensor: self
         }
     }
 ) {
     self.addRecompense = () => {
-        if (document.body.offsetHeight > window.innerHeight)
-            setMarginRightOfDocumentElementTo(scrollbarWidth);
+        (document.readyState === "complete") ?
+            ifBodyIsHigherThanWindowAddRecompenseToScrollbar() :
+            window.addEventListener('load', () => {
+                ifBodyIsHigherThanWindowAddRecompenseToScrollbar();
+                self.addRecompense = ifBodyIsHigherThanWindowAddRecompenseToScrollbar;
+            });
+    };
+
+    const ifBodyIsHigherThanWindowAddRecompenseToScrollbar = () => {
+        if (document.body.offsetHeight > window.innerHeight) {
+            document.body.style.marginRight = data.scrollbarWidth + 'px';
+        }
     };
 
     self.removeRecompense = () => {
-        setMarginRightOfDocumentElementTo(0);
-    };
-
-    const setMarginRightOfDocumentElementTo = (marginRight) => {
-        document.documentElement.style.marginRight = marginRight + 'px';
+        document.body.style.removeProperty('margin-right');
     };
 }

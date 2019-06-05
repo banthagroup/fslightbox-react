@@ -1,8 +1,8 @@
 import { LightboxClosingActions } from "../../../../src/core/main-component/closing/LightboxClosingActions";
-import { FSLIGHTBOX_OPEN_CLASS_NAME, LONG_FADE_OUT_CLASS_NAME } from "../../../../src/constants/cssConstants";
+import { OPEN_CLASS_NAME, LONG_FADE_OUT_CLASS_NAME } from "../../../../src/constants/cssConstants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../../src/constants/coreConstants";
-import { documentElementClassList } from "../../../../src/helpers/dom/document/documentElementClassList";
 import { ON_CLOSE } from "../../../../src/constants/eventsConstants";
+import * as getDocumentElementClassListObject from "../../../../src/helpers/dom/document/getDocumentElementClassList";
 
 const lightboxContainerClassList = document.createElement('div').classList;
 const fsLightbox = {
@@ -128,11 +128,15 @@ describe('before fadeOut (instant actions)', () => {
 
 describe('after fade out', () => {
     let state;
+    let documentElementClassList;
 
     beforeAll(() => {
         jest.useFakeTimers();
         lightboxContainerClassList.add(LONG_FADE_OUT_CLASS_NAME);
-        documentElementClassList.add(FSLIGHTBOX_OPEN_CLASS_NAME);
+        documentElementClassList = {
+            remove: jest.fn()
+        };
+        getDocumentElementClassListObject.getDocumentElementClassList = jest.fn(() => documentElementClassList);
         fsLightbox.core.scrollbarRecompensor.removeRecompense = jest.fn();
         fsLightbox.setters.setState = jest.fn((stateObject, callback) => {
             state = stateObject;
@@ -158,8 +162,12 @@ describe('after fade out', () => {
     });
 
     describe('removing lightbox open class from document', () => {
-        it('should remove class', () => {
-            expect(documentElementClassList.contains(FSLIGHTBOX_OPEN_CLASS_NAME)).toBeFalsy();
+        it('should call getDocumentElementClassList', () => {
+            expect(getDocumentElementClassListObject.getDocumentElementClassList).toBeCalled();
+        });
+
+        it('should call remove with open class name at document element class list', () => {
+            expect(documentElementClassList.remove).toBeCalledWith(OPEN_CLASS_NAME);
         });
     });
 

@@ -53,19 +53,39 @@ describe('calling right functions', () => {
     });
 });
 
-describe('returning right scrollbar width', () => {
-    beforeAll(() => {
-        outer.offsetWidth = 100;
-        inner.offsetWidth = 40;
-        getOuterElementOfWidthGetterObject.getOuterElementOfWidthGetter = jest.fn(() => outer);
-        getInnerElementOfWidthGetterObject.getInnerElementOfWidthGetter = jest.fn(() => inner);
-        document.body.appendChild = jest.fn();
-        document.body.removeChild = jest.fn();
-        outer.appendChild = jest.fn();
-        scrollbarWidth = getScrollbarWidth();
+describe('returning right scrollbar width and managing localStorage', () => {
+    const outer = document.createElement('div');
+    const inner = document.createElement('div');
+
+    describe('retrieved from divs', () => {
+        let retrievedScrollbarWidth;
+
+        beforeAll(() => {
+            // clearing local storage to be sure that width comes from detecting service
+            localStorage.clear();
+            jest.spyOn(outer, 'offsetWidth', 'get').mockReturnValue(30);
+            jest.spyOn(inner, 'offsetWidth', 'get').mockReturnValue(10);
+            getOuterElementOfWidthGetterObject.getOuterElementOfWidthGetter = () => outer;
+            getInnerElementOfWidthGetterObject.getInnerElementOfWidthGetter = () => inner;
+            retrievedScrollbarWidth = getScrollbarWidth();
+        });
+
+        it('should return 20 scrollbarWidth', () => {
+            expect(retrievedScrollbarWidth).toBe(20);
+        });
+
+        it('should set scrollbar width to local storage af fslightbox-scrollbar-width index', () => {
+            expect(localStorage.getItem('fslightbox-scrollbar-width')).toBe('20');
+        });
     });
 
-    it('should return 60 (outer.offsetWidth - inner.offsetWidth)', () => {
-        expect(scrollbarWidth).toBe(60);
+    describe('retrieved from local storage', () => {
+        beforeAll(() => {
+            localStorage.setItem('fslightbox-scrollbar-width', '200px');
+        });
+
+        it('should be equal to value from local storage', () => {
+            expect(getScrollbarWidth()).toBe('200px');
+        });
     });
 });

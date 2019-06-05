@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme/build';
-import SourcesHoldersWrapper from "../../../src/components/sources/SourcesHoldersWrapper";
+import SourceHoldersWrapper from "../../../src/components/sources/SourceHoldersWrapper";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import { IMAGE_TYPE } from "../../../src/constants/coreConstants";
 import SourceHolder from "../../../src/components/sources/SourceHolder";
@@ -31,7 +31,7 @@ describe('attaching element to sourcesHoldersWrapper ref from fsLightbox element
         // as we are using mount
         // we mock sourcesTypes to not load sources via Xhr, because that would be waste of performance
         completeFsLightboxObject.sourcesData.sourcesTypes = [IMAGE_TYPE, IMAGE_TYPE, IMAGE_TYPE, IMAGE_TYPE];
-        sourcesHoldersWrapper = mount(<SourcesHoldersWrapper fsLightbox={ completeFsLightboxObject }/>);
+        sourcesHoldersWrapper = mount(<SourceHoldersWrapper fsLightbox={ completeFsLightboxObject }/>);
     });
 
     it('should attach element to ref', () => {
@@ -41,7 +41,7 @@ describe('attaching element to sourcesHoldersWrapper ref from fsLightbox element
 
 describe('MediaHolder DOM', () => {
     beforeAll(() => {
-        sourcesHoldersWrapper = shallow(<SourcesHoldersWrapper fsLightbox={ fsLightbox }/>)
+        sourcesHoldersWrapper = shallow(<SourceHoldersWrapper fsLightbox={ fsLightbox }/>)
     });
 
     it('should match snapshot', () => {
@@ -53,7 +53,7 @@ describe('MediaHolder DOM', () => {
 describe('calling on mouseDown and touchStart events', () => {
     beforeEach(() => {
         fsLightbox.core.slideSwiping.down.listener = jest.fn();
-        sourcesHoldersWrapper = shallow(<SourcesHoldersWrapper fsLightbox={ fsLightbox }/>);
+        sourcesHoldersWrapper = shallow(<SourceHoldersWrapper fsLightbox={ fsLightbox }/>);
     });
 
     describe('onMouseDown', () => {
@@ -80,7 +80,7 @@ describe('calling on mouseDown and touchStart events', () => {
 
 describe('rendering sources holders', () => {
     beforeAll(() => {
-        sourcesHoldersWrapper = shallow(<SourcesHoldersWrapper fsLightbox={ fsLightbox }/>)
+        sourcesHoldersWrapper = shallow(<SourceHoldersWrapper fsLightbox={ fsLightbox }/>)
     });
 
     describe('rendering equivalent to totalSlides number of sources holders', () => {

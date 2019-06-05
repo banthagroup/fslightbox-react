@@ -1,5 +1,6 @@
 import { setUpSlideSwipingMove } from "../../../../src/core/slide-swiping/events/setUpSlideSwipingMove";
 import { SlideSwipingMoveActions } from "../../../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
+import * as getAnimationDebounceObject from "../../../../src/core/animations/getAnimationDebounce";
 
 const slideSwipingMove = {};
 let moveActions = {
@@ -15,14 +16,19 @@ const fsLightbox = {
         injectDependency: () => moveActions
     },
     core: {
+        animationer: {
+            requestFrame: () => {}
+        },
         slideSwiping: {
             move: slideSwipingMove
         }
     }
 };
-
 let swipingProps;
 let moveEvent;
+getAnimationDebounceObject.getAnimationDebounce = () => canRunNextAnimationFunc;
+let isPrevoiusAnimationDebounced = false;
+let canRunNextAnimationFunc = () => isPrevoiusAnimationDebounced;
 
 const callListenerOnNewSlideSwipingMoveInstance = () => {
     setUpSlideSwipingMove(fsLightbox, swipingProps);
@@ -30,6 +36,7 @@ const callListenerOnNewSlideSwipingMoveInstance = () => {
 };
 
 beforeEach(() => {
+    fsLightbox.core.animationer.requestFrame = jest.fn();
     fsLightbox.data.totalSlides = 4;
     moveEvent = {};
     moveActions = {
@@ -68,8 +75,14 @@ describe('simulating swipe (if there is only 1 slide)', () => {
 });
 
 describe('not calling actions', () => {
-    describe('due to there is only 1 slide', () => {
+    describe(`due to there is only 1 slide even if previous animation is debounced and 
+            down event occurred and swiping animation is not running`, () => {
         beforeEach(() => {
+            isPrevoiusAnimationDebounced = true;
+            swipingProps = {
+                isAfterSwipeAnimationRunning: false,
+            };
+            fsLightbox.data.isSwipingSlides = true;
             fsLightbox.data.totalSlides = 1;
             swipingProps = {
                 swipedDifference: 0
@@ -81,31 +94,16 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runAllResizingActions', () => {
+        it('should not call runActions', () => {
             expect(moveActions.runActions).not.toBeCalled();
         });
     });
 
-    describe("due to down event hasn't occurred and animation is running", () => {
+    describe(`due to down event hasn't occurred even if animation is not running 
+            and previous animation is debounced and there is more than one slide`, () => {
         beforeEach(() => {
-            swipingProps = {
-                isAfterSwipeAnimationRunning: true,
-            };
-            fsLightbox.data.isSwipingSlides = false;
-            callListenerOnNewSlideSwipingMoveInstance();
-        });
-
-        it('should not call setMoveEvent', () => {
-            expect(moveActions.setMoveEvent).not.toBeCalled();
-        });
-
-        it('should not call runAllResizingActions', () => {
-            expect(moveActions.runActions).not.toBeCalled();
-        });
-    });
-
-    describe("due to down event hasn't occurred even if animation is not running", () => {
-        beforeEach(() => {
+            fsLightbox.data.totalSlides = 2;
+            isPrevoiusAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: false,
             };
@@ -117,13 +115,16 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runAllResizingActions', () => {
+        it('should not call runActions', () => {
             expect(moveActions.runActions).not.toBeCalled();
         });
     });
 
-    describe('due to swiping animation is running, even if down event has occured', () => {
+    describe(`due to swiping animation is running, even if down event has occurred
+            and previous animation is debounced and there is more than one slide`, () => {
         beforeEach(() => {
+            fsLightbox.data.totalSlides = 2;
+            isPrevoiusAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: true,
             };
@@ -135,14 +136,38 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runAllResizingActions', () => {
+        it('should not call runActions', () => {
+            expect(moveActions.runActions).not.toBeCalled();
+        });
+    });
+
+    describe(`due to previous animation is not debounced even if down event has occurred
+            and previous swiping animation is not running and there is more than one slide`, () => {
+        beforeEach(() => {
+            fsLightbox.data.totalSlides = 2;
+            isPrevoiusAnimationDebounced = false;
+            swipingProps = {
+                isAfterSwipeAnimationRunning: false
+            };
+            fsLightbox.data.isSwipingSlides = true;
+            callListenerOnNewSlideSwipingMoveInstance();
+        });
+
+        it('should not call setMoveEvent', () => {
+            expect(moveActions.setMoveEvent).not.toBeCalled();
+        });
+
+        it('should not call runActions', () => {
             expect(moveActions.runActions).not.toBeCalled();
         });
     });
 });
 
-describe('calling actions (animation is not running and down event has occurred)', () => {
+describe(`calling actions (animation is not running and down event has occurred
+        and previous animation is debounced and there is more than one slide)`, () => {
     beforeEach(() => {
+        fsLightbox.data.totalSlides = 2;
+        isPrevoiusAnimationDebounced = true;
         swipingProps = {
             isAfterSwipeAnimationRunning: false,
         };
@@ -154,7 +179,7 @@ describe('calling actions (animation is not running and down event has occurred)
         expect(moveActions.setMoveEvent).toBeCalledWith(moveEvent);
     });
 
-    it('should not call runAllResizingActions', () => {
+    it('should not call runActions', () => {
         expect(moveActions.runActions).toBeCalled();
     });
 });

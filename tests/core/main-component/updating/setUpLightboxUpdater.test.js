@@ -1,17 +1,8 @@
 import { setUpLightboxUpdater } from "../../../../src/core/main-component/updating/setUpLightboxUpdater";
 import { LightboxUpdatingActions } from "../../../../src/core/main-component/updating/LightboxUpdatingActions";
 
-const lightboxUpdatingActions = {
-    runIsOpenUpdateActions: () => {},
-    runSlideUpdateActions: () => {}
-};
 const fsLightbox = {
-    getters: {
-        props: {
-            getToggler: () => {},
-            getSlide: () => {},
-        }
-    },
+    getProps: () => currentProps,
     componentsStates: {
         slide: {
             get: () => {}
@@ -24,9 +15,19 @@ const fsLightbox = {
         lightboxUpdater: {}
     }
 };
+const lightboxUpdatingActions = {
+    runIsOpenUpdateActions: () => {},
+    runSlideUpdateActions: () => {},
+};
+const currentProps = {
+    toggler: false,
+    slide: 0,
+    urls: []
+};
 const prevProps = {
-    isOpen: false,
-    slide: false
+    toggler: false,
+    slide: 0,
+    urls: []
 };
 
 setUpLightboxUpdater(fsLightbox);
@@ -54,7 +55,7 @@ describe('handling toggler', () => {
     describe('toggler has not change', () => {
         beforeEach(() => {
             prevProps.toggler = true;
-            fsLightbox.getters.props.getToggler = () => true;
+            currentProps.toggler = true;
             setUpLightboxUpdater(fsLightbox);
             fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
         });
@@ -67,7 +68,7 @@ describe('handling toggler', () => {
     describe('toggler has changed', () => {
         beforeEach(() => {
             prevProps.toggler = false;
-            fsLightbox.getters.props.getToggler = () => true;
+            currentProps.toggler = true;
             setUpLightboxUpdater(fsLightbox);
             fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
         });
@@ -87,7 +88,7 @@ describe('handling slide', () => {
         describe('due to slide prop has not changed even if slide prop !== slide state', () => {
             beforeEach(() => {
                 prevProps.slide = 1;
-                fsLightbox.getters.props.getSlide = () => 1;
+                currentProps.slide = 1;
                 fsLightbox.componentsStates.slide.get = () => 2;
                 setUpLightboxUpdater(fsLightbox);
                 fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
@@ -101,7 +102,7 @@ describe('handling slide', () => {
         describe('due to slide prop === state slide, even if slide prop has changed', () => {
             beforeEach(() => {
                 prevProps.slide = 1;
-                fsLightbox.getters.props.getSlide = () => 2;
+                currentProps.slide = 2;
                 fsLightbox.componentsStates.slide.get = () => 2;
                 setUpLightboxUpdater(fsLightbox);
                 fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
@@ -117,7 +118,7 @@ describe('handling slide', () => {
         describe('current and previous slide prop is not equal', () => {
             beforeEach(() => {
                 prevProps.slide = 1;
-                fsLightbox.getters.props.getSlide = () => 2;
+                currentProps.slide = 2;
                 setUpLightboxUpdater(fsLightbox);
                 lightboxUpdatingActions.runSlideUpdateActions = jest.fn();
             });
@@ -136,7 +137,7 @@ describe('handling slide', () => {
             describe('slide state is set and it not equal to slide prop', () => {
                 beforeEach(() => {
                     fsLightbox.componentsStates.slide.get = () => 1;
-                    fsLightbox.core.lightboxUpdater.handleUpdate(fsLightbox);
+                    fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
                 });
 
                 it('should call runSlideUpdateActions', () => {

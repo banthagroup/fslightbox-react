@@ -1,7 +1,5 @@
 /**
- * @class
- * @param { FsLightbox.sourcesData } sourcesData
- * @param { FsLightbox.elements.sources } sources
+ * @constructor
  */
 export function SourceSizeAdjuster({ sourcesData, elements: { sources } }) {
     let i = null;

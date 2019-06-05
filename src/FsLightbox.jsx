@@ -1,18 +1,18 @@
+import "./core/styles/styles-injection";
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import "./scss/FsLightbox.scss";
 import Nav from "./components/nav/Nav.jsx";
 import SlideButtonLeft from "./components/slide-buttons/SlideButtonLeft.jsx";
 import SlideButtonRight from "./components/slide-buttons/SlideButtonRight.jsx";
-import SourcesHoldersWrapper from "./components/sources/SourcesHoldersWrapper.jsx";
+import SourceHoldersWrapper from "./components/sources/SourceHoldersWrapper.jsx";
 import { createRefsArrayForGivenNumber } from "./helpers/arrays/createRefsArrayForGivenNumber";
 import { setUpCore } from "./core/setUpCore";
 import DownEventDetector from "./components/slide-swiping/DownEventDetector.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
-import { getScrollbarWidth } from "./core/scrollbar/getScrollbarWidth";
 import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
 import { Injector } from "./injection/Injector";
 import { EventsDispatcher } from "./core/main-component/EventsDispatcher";
+import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -35,7 +35,7 @@ class FsLightbox extends Component {
             totalSlides: this.props.urls.length,
             slideOnLightboxOpen: (this.props.slide) ? this.props.slide : 1,
             isInitialized: false,
-            scrollbarWidth: getScrollbarWidth(),
+            scrollbarWidth: 0,
             isSwipingSlides: false,
         };
     }
@@ -70,10 +70,11 @@ class FsLightbox extends Component {
     }
 
     setUpGetters() {
+        this.getProps = () => this.props;
+        this.getState = () => this.state;
         this.getters = {
             getIsOpen: () => this.state.isOpen,
             props: {
-                getToggler: () => this.props.toggler,
                 getSlide: () => this.props.slide
             },
         };
@@ -91,7 +92,7 @@ class FsLightbox extends Component {
             sourcesHoldersWrapper: React.createRef(),
             sources: createRefsArrayForGivenNumber(this.data.totalSlides),
             sourceHolders: createRefsArrayForGivenNumber(this.data.totalSlides),
-            sourcesComponents: [],
+            sourcesComponents: {},
         };
     }
 
@@ -127,7 +128,6 @@ class FsLightbox extends Component {
             globalResizingController: {},
             keyboardController: {},
             lightboxCloser: {},
-            lightboxInitializer: {},
             lightboxOpener: {},
             lightboxOpeningActions: {},
             lightboxUpdater: {},
@@ -141,7 +141,6 @@ class FsLightbox extends Component {
             sourceAnimator: {},
             sourceController: {},
             sourceHoldersTransformer: {},
-            sourcesFactory: {},
             stage: {}
         };
         setUpCore(this);
@@ -152,9 +151,7 @@ class FsLightbox extends Component {
     }
 
     componentDidMount() {
-        if (this.state.isOpen) {
-            this.core.lightboxOpeningActions.runActions(this);
-        }
+        runLightboxMountedActions(this);
     }
 
     componentWillUnmount() {
@@ -176,7 +173,7 @@ class FsLightbox extends Component {
                         <SlideButtonRight fsLightbox={ this }/>
                     </> : null
                 }
-                <SourcesHoldersWrapper fsLightbox={ this }/>
+                <SourceHoldersWrapper fsLightbox={ this }/>
             </div>
         );
     }
@@ -190,6 +187,7 @@ FsLightbox.propTypes = {
     onClose: PropTypes.func,
     onInit: PropTypes.func,
     onShow: PropTypes.func,
+    disableLocalStorage: PropTypes.bool,
     videosPosters: PropTypes.array,
     slideDistance: PropTypes.number,
 };

@@ -1,15 +1,16 @@
-import { addOpenClassToDocumentElement } from "../../../helpers/dom/document/addOpenClassToDocumentElement";
 import { ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
+import { initializeLightbox } from "../initializing/initializeLightbox";
+import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
+import { OPEN_CLASS_NAME } from "../../../constants/cssConstants";
 
-export function setUpLightboxOpeningActions(
-    {
+export function setUpLightboxOpeningActions(fsLightbox) {
+    const {
         data,
         eventsDispatcher: {
             dispatch
         },
         core: {
             lightboxOpeningActions: self,
-            lightboxInitializer,
             scrollbarRecompensor,
             eventsControllers: {
                 window: {
@@ -23,11 +24,11 @@ export function setUpLightboxOpeningActions(
             globalResizingController,
             sourceHoldersTransformer,
         }
-    }
-) {
+    } = fsLightbox;
+
     self.runActions = () => {
         callActionsDependingOnIsInitialized();
-        addOpenClassToDocumentElement();
+        getDocumentElementClassList().add(OPEN_CLASS_NAME);
         scrollbarRecompensor.addRecompense();
         windowResizeEventController.attachListener();
         swipingEventsController.attachListeners();
@@ -48,6 +49,6 @@ export function setUpLightboxOpeningActions(
     };
 
     const callNotInitializedActions = () => {
-        lightboxInitializer.initialize();
+        initializeLightbox(fsLightbox);
     };
 }

@@ -38,7 +38,7 @@ describe('openLightbox', () => {
         expect(state).toEqual({ isOpen: true });
     });
 
-    it('should call runActions', () => {
+    it('should call runActionsForSourceTypeAndIndex', () => {
         expect(fsLightbox.core.lightboxOpeningActions.runActions).toBeCalled();
     });
 });

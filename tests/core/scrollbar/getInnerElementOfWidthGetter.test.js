@@ -2,7 +2,7 @@ import { getInnerElementOfWidthGetter } from "../../../src/core/scrollbar/getInn
 
 let inner;
 
-describe('returning div element with right styles', () => {
+describe('returning div element with right stylesElement', () => {
     beforeAll(() => {
         inner = getInnerElementOfWidthGetter();
     });

@@ -22,13 +22,15 @@
 }
 
 .fslightbox-slide-btn {
-  padding: 7px;
+  padding: 9px;
   font-size: 26px;
   background: rgba(35, 35, 35, 0.65);
-}
 
-@media (min-width: 476px) {
-  .fslightbox-slide-btn {
-    padding: 8px;
+  @media (min-width: 768px) {
+    padding: 10px;
+  }
+
+  @media (min-width: 1600px) {
+    padding: 11px;
   }
 }

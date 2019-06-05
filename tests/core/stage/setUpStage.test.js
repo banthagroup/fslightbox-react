@@ -1,5 +1,4 @@
 import { setUpStage } from "../../../src/core/stage/setUpStage";
-import { exportSpecifier } from "@babel/types";
 
 const stage = {};
 let slide;

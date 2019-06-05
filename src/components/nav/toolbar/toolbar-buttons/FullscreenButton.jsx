@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ToolbarButton from "../ToolbarButton.jsx";
 
-/**
- * @param { FsLightbox.componentsStates.isFullscreenOpen | { get:(): boolean, set: function(boolean)}} isFullscreenOpenState
- * @param { FsLightbox.core.fullscreenToggler.turnOffFullscreen | Function } turnOffFullscreen
- * @param { FsLightbox.core.fullscreenToggler.turnOnFullscreen | Function } turnOnFullscreen
- * @param turnOnFullscreen
- */
 function FullscreenButton(
     {
         fsLightbox: {
@@ -18,7 +12,7 @@ function FullscreenButton(
                 fullscreenToggler: {
                     turnOffFullscreen,
                     turnOnFullscreen
-                }
+                },
             }
         }
     }

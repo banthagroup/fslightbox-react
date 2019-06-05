@@ -1,4 +1,4 @@
-import { SourceTypeGetterHelpers } from "../../../../src/core/sources/creating/SourceTypeGetterHelpers";
+import { SourceTypeGetterHelpers } from "../../../../src/core/sources/types/SourceTypeGetterHelpers";
 import { TEST_YOUTUBE_URL } from "../../../__tests-helpers__/testVariables";
 
 describe('checking if url is valid youtube url', () => {

@@ -2,7 +2,7 @@ import { getOuterElementOfWidthGetter } from "../../../src/core/scrollbar/getOut
 
 let outer;
 
-describe('returning div with proper styles', () => {
+describe('returning div with proper stylesElement', () => {
     beforeAll(() => {
         outer = getOuterElementOfWidthGetter();
     });

@@ -5,9 +5,8 @@ module.exports = {
     entry: "./src/FsLightbox.jsx",
     output: {
         path: path.join(__dirname, ''),
-        libraryTarget: "amd",
-        library: "fslightbox-react",
-        filename: "./index.js"
+        libraryTarget: "commonjs2",
+        filename: "./index.js",
     },
     resolve: {
         alias: {
@@ -53,18 +52,21 @@ module.exports = {
                     }
                 ]
             },
-            {
-                test: /\.scss$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
-                ]
-            },
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-            }
+            // {
+            //     test: /\.scss$/,
+            //     use: [
+            //         'style-loader',
+            //         'css-loader',
+            //         'sass-loader'
+            //     ]
+            // },
+            // {
+            //     test: /\.css$/,
+            //     use: [
+            //         'style-loader',
+            //         'css-loader'
+            //     ],
+            // }
         ]
     },
     plugins: [
