@@ -11,43 +11,64 @@ const fsLightbox = {
 };
 
 describe('addRecompense - adding margin right to document element', () => {
+    beforeAll(() => {
+        window.innerHeight = 100;
+        // by default testing that window is loading
+        jest.spyOn(document, 'readyState', 'get').mockReturnValue('loading');
+        fsLightbox.data.scrollbarWidth = 50;
+    });
+
     describe('body offsetHeight is lower than window height', () => {
         beforeAll(() => {
-            window.innerHeight = 100;
-            fsLightbox.data.scrollbarWidth = 100;
-            document.documentElement.style.marginRight = '15px';
+            jest.spyOn(document.body, 'offsetHeight', 'get').mockReturnValue(50);
+            document.body.style.marginRight = '15px';
             setUpScrollbarRecompensor(fsLightbox);
             scrollbarRecompensor.addRecompense();
+
+            // dispatching loading at start margin right shouldn't be added anyway
+            dispatchEvent(new Event('load'));
         });
 
         it('should not set margin right', () => {
-            expect(document.documentElement.style.marginRight).toBe('15px');
+            expect(document.body.style.marginRight).toBe('15px');
         });
     });
 
     describe('body offsetHeight is bigger than window height', () => {
         beforeAll(() => {
-            window.innerHeight = -100;
-            fsLightbox.data.scrollbarWidth = 100;
-            document.documentElement.style.marginRight = '20px';
+            jest.spyOn(document.body, 'offsetHeight', 'get').mockReturnValue(150);
+            document.body.style.marginRight = '15px';
             setUpScrollbarRecompensor(fsLightbox);
             scrollbarRecompensor.addRecompense();
         });
 
-        it('should set margin right to scrollbar width', () => {
-            expect(document.documentElement.style.marginRight).toBe('100px');
+        describe('window has not loaded', () => {
+            it('should not set margin right', () => {
+                expect(document.body.style.marginRight).toBe('15px');
+            });
+        });
+
+        describe('window has loaded', () => {
+            beforeAll(() => {
+                dispatchEvent(new Event('load'))
+            });
+
+            it('should set margin right', () => {
+                expect(document.body.style.marginRight).toBe('50px');
+            });
         });
     });
 });
 
+
 describe('removeRecompense - removing margin right from document element', () => {
     beforeAll(() => {
-        document.documentElement.style.marginRight = '10px';
+        document.body.style.marginRight = '10px';
         setUpScrollbarRecompensor(fsLightbox);
         scrollbarRecompensor.removeRecompense();
     });
 
     it('should set margin right on document element ot 0px', () => {
-        expect(document.documentElement.style.marginRight).toBe('0px');
+        expect(document.body.style.marginRight).toBe("");
     });
 });

@@ -1,8 +1,16 @@
-/** @constructor */
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/cssConstants";
+
+/**
+ * @constructor
+ */
 export function SlideSwipingMoveActions(
     {
+        data,
         componentsStates: {
             hasMovedWhileSwiping: hasMovedWhileSwipingState,
+        },
+        elements: {
+            container: lightboxContainer
         },
         core: {
             sourceHoldersTransformer,
@@ -20,6 +28,7 @@ export function SlideSwipingMoveActions(
     this.runActions = () => {
         ifHasMovedWhileSwipingIsFalseSetItToTrue();
         setUpMoveClientX();
+        addCursorGrabbingClassToContainerIfNotAlreadyAddedAndIfThereAreAtLeastTwoSlides();
         calculateDifference();
         callTransforms();
     };
@@ -34,6 +43,12 @@ export function SlideSwipingMoveActions(
         (event.touches) ?
             moveClientX = event.touches[0].clientX :
             moveClientX = event.clientX
+    };
+
+    const addCursorGrabbingClassToContainerIfNotAlreadyAddedAndIfThereAreAtLeastTwoSlides = () => {
+        if (!lightboxContainer.current.classList.contains(CURSOR_GRABBING_CLASS_NAME) && data.totalSlides > 1) {
+            lightboxContainer.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
+        }
     };
 
     const calculateDifference = () => {

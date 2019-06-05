@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SourceHolder from "./SourceHolder.jsx";
 
-const SourcesHoldersWrapper = ({ fsLightbox }) => {
+const SourceHoldersWrapper = ({ fsLightbox }) => {
     const {
         data: { totalSlides },
         elements: {
@@ -38,8 +38,8 @@ const SourcesHoldersWrapper = ({ fsLightbox }) => {
     );
 };
 
-SourcesHoldersWrapper.propTypes = {
+SourceHoldersWrapper.propTypes = {
     fsLightbox: PropTypes.object.isRequired,
 };
 
-export default SourcesHoldersWrapper;
+export default SourceHoldersWrapper;

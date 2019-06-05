@@ -4,7 +4,7 @@ import {
     TEST_VIDEO_URL
 } from "../../../__tests-helpers__/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/coreConstants";
-import { SourceTypeGetter } from "../../../../src/core/sources/creating/SourceTypeGetter";
+import { SourceTypeGetter } from "../../../../src/core/sources/types/SourceTypeGetter";
 
 const fsLightbox = {
     collections: {

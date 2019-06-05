@@ -153,35 +153,6 @@ describe('setting isSwipingSlides in data object to true', () => {
     });
 });
 
-describe('adding cursor grabbing class to container', () => {
-    beforeEach(() => {
-        fsLightbox.elements.container.current = document.createElement('div');
-    });
-
-    describe('totalSlides === 1 - it should not add class', () => {
-        beforeEach(() => {
-            fsLightbox.data.totalSlides = 1;
-            recreateSlideSwipingDownAndCallListener();
-        });
-
-        it('should not add class to container', () => {
-            expect(fsLightbox.elements.container.current.classList.contains(CURSOR_GRABBING_CLASS_NAME)).toBe(false);
-        });
-    });
-
-    describe('totalSlides > 1 - it should add class', () => {
-        beforeEach(() => {
-            fsLightbox.data.totalSlides = 2;
-            recreateSlideSwipingDownAndCallListener();
-        });
-
-        it('should add class to container', () => {
-            expect(fsLightbox.elements.container.current.classList.contains(CURSOR_GRABBING_CLASS_NAME));
-        });
-    });
-});
-
-
 describe('setting down client x', () => {
     beforeEach(() => {
         swipingProps = {

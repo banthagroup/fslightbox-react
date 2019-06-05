@@ -1,21 +1,22 @@
-import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
 import { SourceSizeAdjusterIterator } from "../../../src/core/sizes/SourceSizeAdjusterIterator";
 
-describe('SourceSizeAdjusterIterator', () => {
-    const fsLightboxMock = new FsLightboxMock();
-    const fsLightboxInstance = fsLightboxMock.getFsLightbox();
+const fsLightbox = {
+    collections: {
+        sourceSizeAdjusters: []
+    }
+};
+let mockAdjustSourceSize;
+const sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightbox);
 
-    const sourceSizeAdjusterIterator = new SourceSizeAdjusterIterator(fsLightboxInstance);
-    let mockAdjustSourceSize;
+beforeEach(() => {
+    mockAdjustSourceSize = jest.fn();
+});
 
-    beforeEach(() => {
-        mockAdjustSourceSize = jest.fn();
-    });
-
+describe('calling adjustSourceSize right number of times', () => {
     it('should call adjustSourceSize for all items in array', () => {
         // for e.g. 3 items
-        for(let i = 0; i < 3; i++) {
-            fsLightboxInstance.collections.sourceSizeAdjusters.push({
+        for (let i = 0; i < 3; i++) {
+            fsLightbox.collections.sourceSizeAdjusters.push({
                 adjustSourceSize: mockAdjustSourceSize
             });
         }
@@ -24,9 +25,9 @@ describe('SourceSizeAdjusterIterator', () => {
     });
 
     it('should call adjust sources size only two times in three items array due too second item is null', () => {
-        fsLightboxInstance.collections.sourceSizeAdjusters[0] = {adjustSourceSize: mockAdjustSourceSize};
-        fsLightboxInstance.collections.sourceSizeAdjusters[1] = null;
-        fsLightboxInstance.collections.sourceSizeAdjusters[2] = {adjustSourceSize: mockAdjustSourceSize};
+        fsLightbox.collections.sourceSizeAdjusters[0] = { adjustSourceSize: mockAdjustSourceSize };
+        fsLightbox.collections.sourceSizeAdjusters[1] = null;
+        fsLightbox.collections.sourceSizeAdjusters[2] = { adjustSourceSize: mockAdjustSourceSize };
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
         expect(mockAdjustSourceSize).toBeCalledTimes(2);
     });

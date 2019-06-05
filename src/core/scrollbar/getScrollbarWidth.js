@@ -1,7 +1,11 @@
 import { getOuterElementOfWidthGetter } from "./getOuterElementOfWidthGetter";
 import { getInnerElementOfWidthGetter } from "./getInnerElementOfWidthGetter";
+import { SCROLLBAR_WIDTH_KEY } from "../../constants/localStorageConstants";
 
 export function getScrollbarWidth() {
+    const localStorageScrollbarWidth = localStorage.getItem(SCROLLBAR_WIDTH_KEY);
+    if (localStorageScrollbarWidth)
+        return localStorageScrollbarWidth;
     const outer = getOuterElementOfWidthGetter();
     const inner = getInnerElementOfWidthGetter();
     document.body.appendChild(outer);
@@ -9,5 +13,7 @@ export function getScrollbarWidth() {
     outer.appendChild(inner);
     const widthWithScroll = inner.offsetWidth;
     document.body.removeChild(outer);
-    return widthNoScroll - widthWithScroll;
+    const scrollbarWidth = widthNoScroll - widthWithScroll;
+    localStorage.setItem(SCROLLBAR_WIDTH_KEY, scrollbarWidth.toString());
+    return scrollbarWidth;
 }

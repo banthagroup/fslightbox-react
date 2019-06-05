@@ -7,18 +7,7 @@ exports[`DOM lightbox is open or not isOpen === true should match snapshot 1`] =
   <Nav fsLightbox={{...}} />
   <SlideButtonLeft fsLightbox={{...}} />
   <SlideButtonRight fsLightbox={{...}} />
-  <SourcesHoldersWrapper fsLightbox={{...}} />
-</div>"
-`;
-
-exports[`DOM lightbox is open or not toggler === true should match snapshot 1`] = `
-"<div className=\\"fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long\\">
-  <DownEventDetector fsLightbox={{...}} />
-  <SwipingInvisibleHover fsLightbox={{...}} />
-  <Nav fsLightbox={{...}} />
-  <SlideButtonLeft fsLightbox={{...}} />
-  <SlideButtonRight fsLightbox={{...}} />
-  <SourcesHoldersWrapper fsLightbox={{...}} />
+  <SourceHoldersWrapper fsLightbox={{...}} />
 </div>"
 `;
 
@@ -29,7 +18,7 @@ exports[`DOM rendering buttons or not (if there is only 1 slide buttons should n
   <Nav fsLightbox={{...}} />
   <SlideButtonLeft fsLightbox={{...}} />
   <SlideButtonRight fsLightbox={{...}} />
-  <SourcesHoldersWrapper fsLightbox={{...}} />
+  <SourceHoldersWrapper fsLightbox={{...}} />
 </div>"
 `;
 
@@ -38,6 +27,6 @@ exports[`DOM rendering buttons or not (if there is only 1 slide buttons should n
   <DownEventDetector fsLightbox={{...}} />
   <SwipingInvisibleHover fsLightbox={{...}} />
   <Nav fsLightbox={{...}} />
-  <SourcesHoldersWrapper fsLightbox={{...}} />
+  <SourceHoldersWrapper fsLightbox={{...}} />
 </div>"
 `;
