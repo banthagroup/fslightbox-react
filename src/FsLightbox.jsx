@@ -189,7 +189,7 @@ FsLightbox.propTypes = {
     onShow: PropTypes.func,
     disableLocalStorage: PropTypes.bool,
     videosPosters: PropTypes.array,
-    slideDistance: PropTypes.number,
+    slideDistance: PropTypes.number
 };
 
 export default FsLightbox;
