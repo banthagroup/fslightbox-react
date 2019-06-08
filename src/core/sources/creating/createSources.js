@@ -1,6 +1,6 @@
-import { CreatingSourcesActions } from "./CreatingSourcesActions";
 import { SourceTypeGetter } from "../types/SourceTypeGetter";
 import { CreatingSourcesLocalStorageManager } from "./CreatingSourcesLocalStorageManager";
+import { DetectedTypeActions } from "../types/DetectedTypeActions";
 
 export function createSources(
     {
@@ -8,7 +8,7 @@ export function createSources(
         injector: { injectDependency }
     }
 ) {
-    const creatingSourcesActions = injectDependency(CreatingSourcesActions);
+    const detectedTypeActions = injectDependency(DetectedTypeActions);
     const localStorageManager = injectDependency(CreatingSourcesLocalStorageManager);
     let sourceTypeFromLocalStorage;
     let sourceIndex;
@@ -22,7 +22,7 @@ export function createSources(
     }
 
     function callActionsForSourceTypeFromLocalStorage() {
-        creatingSourcesActions.runActionsForSourceTypeAndIndex(
+        detectedTypeActions.runActionsForSourceTypeAndIndex(
             sourceTypeFromLocalStorage, sourceIndex
         );
     }
@@ -34,7 +34,7 @@ export function createSources(
         sourceTypeGetter.setUrlToCheck(urls[rememberedSourceIndex]);
         sourceTypeGetter.getSourceType((sourceType) => {
             localStorageManager.handleReceivedSourceTypeForUrl(sourceType, urls[rememberedSourceIndex]);
-            creatingSourcesActions.runActionsForSourceTypeAndIndex(sourceType, rememberedSourceIndex)
+            detectedTypeActions.runActionsForSourceTypeAndIndex(sourceType, rememberedSourceIndex)
         });
     }
 }

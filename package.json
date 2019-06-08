@@ -1,12 +1,12 @@
 {
   "name": "fslightbox-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React version of Fullscreen Lightbox.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --config webpack-prod.config.js --display-modules",
-    "start": "webpack-dev-server --mode development --open --host 192.168.0.12"
+    "start": "webpack-dev-server --mode development --open"
   },
   "repository": {
     "type": "git",
