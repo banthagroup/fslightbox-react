@@ -10,9 +10,6 @@ const sourceSizeAdjuster = {
     adjustSourceSize: () => {}
 };
 const fsLightbox = {
-    sourcesData: {
-        isSourceAlreadyInitializedArray: []
-    },
     elements: {
         sources: [{
             current: source
@@ -45,22 +42,22 @@ setUpSourceController(fsLightbox);
 const recreateSourceControllerSet0IndexAndCallInitialLoad = () => {
     setUpSourceController(fsLightbox);
     sourceController.setIndex(0);
-    sourceController.initialLoad();
+    sourceController.runInitialLoadActions();
 };
 
 const setIndexAndCallInitialLoad = () => {
     sourceController.setIndex(0);
-    sourceController.initialLoad();
+    sourceController.runInitialLoadActions();
 };
 
-describe('normalLoad', () => {
+describe('runNormalLoadActions', () => {
     describe('opacity 0 class', () => {
         describe('not removing opacity 0 className', () => {
             beforeAll(() => {
                 source.classList.contains = jest.fn(() => false);
                 source.classList.remove = jest.fn();
                 sourceController.setIndex(0);
-                sourceController.normalLoad();
+                sourceController.runNormalLoadActions();
             });
 
             it('should call contains with opacity 0 class name', () => {
@@ -77,7 +74,7 @@ describe('normalLoad', () => {
                 source.classList.contains = jest.fn(() => true);
                 source.classList.remove = jest.fn();
                 sourceController.setIndex(0);
-                sourceController.normalLoad();
+                sourceController.runNormalLoadActions();
             });
 
             it('should call contains with opacity 0 class name', () => {
@@ -96,7 +93,7 @@ describe('normalLoad', () => {
                 fsLightbox.core.stage.isSourceInStage = () => true;
                 fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn();
                 sourceController.setIndex(0);
-                sourceController.normalLoad();
+                sourceController.runNormalLoadActions();
             });
 
             it('should not call transformStageSourceHoldersAtIndex', () => {
@@ -114,7 +111,7 @@ describe('normalLoad', () => {
                     negative: negative
                 }));
                 sourceController.setIndex(0);
-                sourceController.normalLoad();
+                sourceController.runNormalLoadActions();
             });
 
             it('should call transformStageSourceHoldersAtIndex', () => {
@@ -128,15 +125,15 @@ describe('normalLoad', () => {
     });
 });
 
-describe('initialLoad', () => {
-    describe('calling normalLoad ', () => {
+describe('runInitialLoadActions', () => {
+    describe('calling runNormalLoadActions ', () => {
         beforeAll(() => {
-            sourceController.normalLoad = jest.fn();
+            sourceController.runNormalLoadActions = jest.fn();
             setIndexAndCallInitialLoad();
         });
 
-        it('should call normalLoad', () => {
-            expect(sourceController.normalLoad).toBeCalled();
+        it('should call runNormalLoadActions', () => {
+            expect(sourceController.runNormalLoadActions).toBeCalled();
         });
     });
 
@@ -149,7 +146,7 @@ describe('initialLoad', () => {
             sourceController.setSourceWidth(1500);
             sourceController.setSourceHeight(1000);
             sourceController.setIndex(0);
-            sourceController.initialLoad();
+            sourceController.runInitialLoadActions();
         });
 
         it('should inject SourceSizeAdjuster', () => {
@@ -229,18 +226,4 @@ describe('initialLoad', () => {
             });
         });
     });
-
-    describe('setIsSourceAlreadyInitializedToTrue', () => {
-        beforeAll(() => {
-            fsLightbox.sourcesData.isSourceAlreadyInitializedArray[0] = false;
-            recreateSourceControllerSet0IndexAndCallInitialLoad();
-        });
-
-        it('should true at 0 index in setIsSourceAlreadyInitialized array', () => {
-            expect(fsLightbox.sourcesData.isSourceAlreadyInitializedArray[0]).toBe(true)
-        });
-    });
 });
-
-
-

@@ -2,36 +2,19 @@ import React, { useEffect } from 'react';
 import PropTypes from "prop-types";
 import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVideoIdFromUrl";
 
-/**
- * @param { FsLightbox.data.urls } urls
- * @param { FsLightbox.elements.sources } sources
- * @param { FsLightbox.sourcesData.isSourceAlreadyInitializedArray } isSourceAlreadyInitializedArray
- * @param { FsLightbox.core.sourceController | SetUpSourceController } sourceController
- * @param { number } index
- */
 const Youtube = (
     {
         fsLightbox: {
             data: { urls },
-            sourcesData: { isSourceAlreadyInitializedArray },
             elements: { sources },
-            core: { sourceController }
+            collections: {
+                sourcesLoadHandlers
+            }
         },
         index,
     }
 ) => {
-    useEffect(() => {
-        sourceController.setIndex(index);
-        (isSourceAlreadyInitializedArray[index]) ?
-            sourceController.normalLoad() :
-            initialLoad();
-    });
-
-    const initialLoad = () => {
-        sourceController.setSourceWidth(1920);
-        sourceController.setSourceHeight(1080);
-        sourceController.initialLoad();
-    };
+    useEffect(sourcesLoadHandlers[index].handleLoad);
 
     return (
         <iframe

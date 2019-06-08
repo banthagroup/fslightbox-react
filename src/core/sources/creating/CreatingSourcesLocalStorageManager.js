@@ -34,7 +34,7 @@ export function CreatingSourcesLocalStorageManager(fsLightbox) {
                 // in ifAllNewTypesAreDetectedStoreAllTypesToLocalStorage we are assigning to
                 // decodedSourceTypes new Types so we need to make it an object to avoid errors
                 decodedSourceTypes = {};
-                this.getSourceTypeFromLocalStorageByUrl = addNewUrlToDetect
+                this.getSourceTypeFromLocalStorageByUrl = addNewUrlToDetect;
             }
         } else {
             this.getSourceTypeFromLocalStorageByUrl = function () {};

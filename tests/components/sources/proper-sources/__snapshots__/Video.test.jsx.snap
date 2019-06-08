@@ -5,7 +5,7 @@ exports[`Video DOM should match snapshot 1`] = `
   className="fslightbox-source fslightbox-video fslightbox-opacity-0"
   controls={true}
   onLoadedMetadata={[Function]}
-  poster="asdf"
+  poster="test-poster"
 >
   <source />
 </video>

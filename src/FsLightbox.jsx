@@ -98,6 +98,7 @@ class FsLightbox extends Component {
 
     setUpCollections() {
         this.collections = {
+            sourcesLoadHandlers: [],
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
             sourceSizeAdjusters: [],
             // if lightbox is unmounted pending xhrs need to be aborted
@@ -182,14 +183,14 @@ class FsLightbox extends Component {
 FsLightbox.propTypes = {
     toggler: PropTypes.bool.isRequired,
     urls: PropTypes.array.isRequired,
-    slide: PropTypes.number,
+    disableLocalStorage: PropTypes.bool,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onInit: PropTypes.func,
     onShow: PropTypes.func,
-    disableLocalStorage: PropTypes.bool,
-    videosPosters: PropTypes.array,
-    slideDistance: PropTypes.number
+    slide: PropTypes.number,
+    slideDistance: PropTypes.number,
+    videosPosters: PropTypes.array
 };
 
 export default FsLightbox;

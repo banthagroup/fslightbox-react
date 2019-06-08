@@ -51,29 +51,14 @@ module.exports = {
                         options: { minimize: true }
                     }
                 ]
-            },
-            // {
-            //     test: /\.scss$/,
-            //     use: [
-            //         'style-loader',
-            //         'css-loader',
-            //         'sass-loader'
-            //     ]
-            // },
-            // {
-            //     test: /\.css$/,
-            //     use: [
-            //         'style-loader',
-            //         'css-loader'
-            //     ],
-            // }
+            }
         ]
     },
     plugins: [
         new CopyPlugin([
             { from: './index.js', to: './dist' },
             { from: './package.json', to: './dist' },
-            { from: './Readme.md', to: './dist' }
+            { from: './README.md', to: './dist' }
         ])
     ]
 };

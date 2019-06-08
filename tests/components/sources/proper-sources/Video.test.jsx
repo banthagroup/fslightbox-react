@@ -1,39 +1,27 @@
 import React from 'react';
 import { mount, shallow } from "enzyme";
 import Video from "../../../../src/components/sources/proper-sources/Video";
+import Image from "../../../../src/components/sources/proper-sources/Image";
 
-const sourceController = {
-    setIndex: () => {},
-    setSourceWidth: () => {},
-    setSourceHeight: () => {},
-    normalLoad: () => {},
-    initialLoad: () => {}
-};
 let fsLightbox = {
     data: {
         urls: [],
     },
     sourcesData: {
-        videosPosters: ['asdf'],
-        isSourceAlreadyInitializedArray: []
+        videosPosters: ["test-poster"]
     },
     elements: {
         sources: [{
             current: null
         }]
     },
-    core: {
-        sourceController: sourceController
-    }
-
-};
-
-const onLoadedMetaDataEvent = {
-    target: {
-        videoWidth: 0,
-        videoHeight: 0
+    collections: {
+        sourcesLoadHandlers: [{
+            handleLoad: () => {}
+        }]
     }
 };
+
 let video;
 
 describe('ref to sources array in fsLightbox object', () => {
@@ -49,81 +37,23 @@ describe('ref to sources array in fsLightbox object', () => {
     });
 });
 
-describe('onload', () => {
-    describe('initial load', () => {
-        beforeAll(() => {
-            sourceController.setIndex = jest.fn();
-            sourceController.setSourceHeight = jest.fn();
-            sourceController.setSourceWidth = jest.fn();
-            sourceController.normalLoad = jest.fn();
-            sourceController.initialLoad = jest.fn();
-            // source is loaded for first time
-            fsLightbox.sourcesData.isSourceAlreadyInitializedArray[0] = false;
-            video = shallow(<Video
-                fsLightbox={ fsLightbox }
-                index={ 0 }
-            />);
-            onLoadedMetaDataEvent.target.videoWidth = 100;
-            onLoadedMetaDataEvent.target.videoHeight = 150;
-            video.simulate('loadedmetadata', onLoadedMetaDataEvent);
-        });
-
-        it('should not call normalLoad', () => {
-            expect(sourceController.normalLoad).not.toBeCalled();
-        });
-
-        it('should call setIndex with 0', () => {
-            expect(sourceController.setIndex).toBeCalledWith(0);
-        });
-
-        it('should call setSourceWidth with 100', () => {
-            expect(sourceController.setSourceWidth).toBeCalledWith(100);
-        });
-
-        it('should call setSourceHeight with 150', () => {
-            expect(sourceController.setSourceHeight).toBeCalledWith(150);
-        });
-
-        it('should call initialLoad', () => {
-            expect(sourceController.initialLoad).toBeCalled();
+describe('on load', () => {
+    beforeAll(() => {
+        fsLightbox.collections.sourcesLoadHandlers[2] = {
+            handleLoad: jest.fn()
+        };
+        video = shallow(<Image
+            fsLightbox={ fsLightbox }
+            index={ 2 }
+        />);
+        video.simulate('load', {
+            key: 'video-load-event'
         });
     });
 
-
-    describe('normal load', () => {
-        beforeAll(() => {
-            sourceController.setIndex = jest.fn();
-            sourceController.setSourceHeight = jest.fn();
-            sourceController.setSourceWidth = jest.fn();
-            sourceController.normalLoad = jest.fn();
-            sourceController.initialLoad = jest.fn();
-            // source is loaded for first time
-            fsLightbox.sourcesData.isSourceAlreadyInitializedArray[0] = true;
-            video = shallow(<Video
-                fsLightbox={ fsLightbox }
-                index={ 0 }
-            />);
-            video.simulate('loadedmetadata', onLoadedMetaDataEvent);
-        });
-
-        it('should not call setSourceWidth', () => {
-            expect(sourceController.setSourceWidth).not.toBeCalled();
-        });
-
-        it('should not call setSourceHeight', () => {
-            expect(sourceController.setSourceHeight).not.toBeCalled();
-        });
-
-        it('should not call initialLoad', () => {
-            expect(sourceController.initialLoad).not.toBeCalled();
-        });
-
-        it('should call setIndex with 0', () => {
-            expect(sourceController.setIndex).toBeCalledWith(0);
-        });
-
-        it('should call normalLoad', () => {
-            expect(sourceController.normalLoad).toBeCalled();
+    it('should call handleLoad', () => {
+        expect(fsLightbox.collections.sourcesLoadHandlers[2].handleLoad).toBeCalledWith({
+            key: 'video-load-event'
         });
     });
 });

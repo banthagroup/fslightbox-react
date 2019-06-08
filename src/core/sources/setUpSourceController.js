@@ -4,7 +4,6 @@ import { SourceSizeAdjuster } from "../sizes/SourceSizeAdjuster";
 
 export function setUpSourceController(
     {
-        sourcesData: { isSourceAlreadyInitializedArray },
         elements: { sources },
         collections: {
             sourceSizeAdjusters
@@ -36,17 +35,16 @@ export function setUpSourceController(
         sourceHeight = height
     };
 
-    self.normalLoad = () => {
+    self.runNormalLoadActions = () => {
         ifSourceContainsOpacityOClassRemoveIt();
         ifSourceIsNotInStageTransformItNegative();
     };
 
-    self.initialLoad = () => {
-        self.normalLoad();
+    self.runInitialLoadActions = () => {
+        self.runNormalLoadActions();
         setUpSourceSizeAdjuster();
         adjustSourceSize();
         longFadeInSourceIfItsInStage();
-        setIsSourceAlreadyInitializedToTrue();
     };
 
     const ifSourceContainsOpacityOClassRemoveIt = () => {
@@ -77,9 +75,5 @@ export function setUpSourceController(
         if (!stage.isSourceInStage(index))
             return;
         sourceAnimator.animateSourceFromIndex(index).longFadeIn();
-    };
-
-    const setIsSourceAlreadyInitializedToTrue = () => {
-        isSourceAlreadyInitializedArray[index] = true;
     };
 }

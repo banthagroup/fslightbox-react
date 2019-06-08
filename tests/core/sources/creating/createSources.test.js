@@ -1,7 +1,7 @@
 import { createSources } from "../../../../src/core/sources/creating/createSources";
-import { CreatingSourcesActions } from "../../../../src/core/sources/creating/CreatingSourcesActions";
 import { CreatingSourcesLocalStorageManager } from "../../../../src/core/sources/creating/CreatingSourcesLocalStorageManager";
 import { SOURCES_TYPES_KEY } from "../../../../src/constants/localStorageConstants";
+import { DetectedTypeActions } from "../../../../src/core/sources/types/DetectedTypeActions";
 
 const fsLightbox = {
     props: {
@@ -10,7 +10,7 @@ const fsLightbox = {
     },
     injector: {
         injectDependency: (dependency) => {
-            if (dependency === CreatingSourcesActions)
+            if (dependency === DetectedTypeActions)
                 return creatingSourcesActions;
 
             if (dependency === CreatingSourcesLocalStorageManager)
