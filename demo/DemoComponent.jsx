@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
-import FsLightbox from '../src/FsLightbox.jsx';
+import FsLightbox from '../index';
 import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "./demoData";
 
 class DemoComponent extends Component {
@@ -44,18 +44,21 @@ class DemoComponent extends Component {
                     toggler={ this.state.toggler }
                     urls={ [
                         '../demo/images/5.jpg',
-                        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                        'https://escalante-mkt-imgs.s3-us-west-2.amazonaws.com/TimeSheets/screenshot1.png',
                         // "invalid",
                         TEST_YOUTUBE_URL,
                         // testVideoURL,
                         "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                        "file:///",
                         "../demo/images/3.jpeg"
+                    ] }
+                    types={ [
+                        'image',
+                        'image'
                     ] }
                     videosPosters={ [
                         // "../demo/images/1.jpeg"
                     ] }
-                    disableLocalStorage={ false }
+                    disableLocalStorage={ true }
                     // onClose={ () => console.log('onClose') }
                     // onInit={ () => console.log('onInit') }
                     // onOpen={ () => console.log('onOpen') }

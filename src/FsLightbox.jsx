@@ -183,6 +183,7 @@ class FsLightbox extends Component {
 FsLightbox.propTypes = {
     toggler: PropTypes.bool.isRequired,
     urls: PropTypes.array.isRequired,
+    types: PropTypes.array,
     disableLocalStorage: PropTypes.bool,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
