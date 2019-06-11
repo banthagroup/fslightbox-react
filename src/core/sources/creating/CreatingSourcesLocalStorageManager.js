@@ -1,4 +1,5 @@
 import { SOURCES_TYPES_KEY } from "../../../constants/localStorageConstants";
+import { assignToObject } from "../../../helpers/objects/assignToObject";
 
 /**
  * @constructor
@@ -49,7 +50,7 @@ export function CreatingSourcesLocalStorageManager(fsLightbox) {
 
     const ifAllNewTypesAreDetectedStoreAllTypesToLocalStorage = () => {
         if (newSourceTypesToDetect === 0) {
-            Object.assign(decodedSourceTypes, newTypes);
+            assignToObject(decodedSourceTypes, newTypes);
             localStorage.setItem(SOURCES_TYPES_KEY, JSON.stringify(decodedSourceTypes));
         }
     };

@@ -4,26 +4,45 @@ import { DetectedTypeActions } from "../types/DetectedTypeActions";
 
 export function createSources(
     {
-        props: { urls },
+        props: {
+            urls,
+            types: typesSetManuallyByClient
+        },
         injector: { injectDependency }
     }
 ) {
     const detectedTypeActions = injectDependency(DetectedTypeActions);
     const localStorageManager = injectDependency(CreatingSourcesLocalStorageManager);
-    let sourceTypeFromLocalStorage;
+    let getTypeSetManuallyByClient;
+    let sourceTypeRetrievedWithoutXhr;
     let sourceIndex;
+    setUpGetTypeSetManuallyByClient();
 
     for (let i = 0; i < urls.length; i++) {
         sourceIndex = i;
-        sourceTypeFromLocalStorage = localStorageManager.getSourceTypeFromLocalStorageByUrl(urls[sourceIndex]);
-        (sourceTypeFromLocalStorage) ?
-            callActionsForSourceTypeFromLocalStorage() :
+        let typeSetManuallyByClient = getTypeSetManuallyByClient(i);
+        // if client set type it's always the most important one
+        if (typeSetManuallyByClient) {
+            sourceTypeRetrievedWithoutXhr = typeSetManuallyByClient;
+            callActionsForSourceTypeRetrievedWithoutXhr();
+            continue;
+        }
+        sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(urls[sourceIndex]);
+        (sourceTypeRetrievedWithoutXhr) ?
+            callActionsForSourceTypeRetrievedWithoutXhr() :
             retrieveTypeWithXhrAndCallActions();
     }
 
-    function callActionsForSourceTypeFromLocalStorage() {
+    function setUpGetTypeSetManuallyByClient() {
+        // if user didn't set types prop we need to prevent from retrieving indexes from undefined
+        (typeof typesSetManuallyByClient !== "object") ?
+            getTypeSetManuallyByClient = () => null :
+            getTypeSetManuallyByClient = (i) => typesSetManuallyByClient[i]
+    }
+
+    function callActionsForSourceTypeRetrievedWithoutXhr() {
         detectedTypeActions.runActionsForSourceTypeAndIndex(
-            sourceTypeFromLocalStorage, sourceIndex
+            sourceTypeRetrievedWithoutXhr, sourceIndex
         );
     }
 
