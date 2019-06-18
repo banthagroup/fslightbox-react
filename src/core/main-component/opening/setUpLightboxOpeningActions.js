@@ -1,7 +1,7 @@
 import { ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
 import { initializeLightbox } from "../initializing/initializeLightbox";
 import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
-import { OPEN_CLASS_NAME } from "../../../constants/cssConstants";
+import { OPEN_CLASS_NAME } from "../../../constants/css-constants";
 
 export function setUpLightboxOpeningActions(fsLightbox) {
     const {
@@ -22,7 +22,7 @@ export function setUpLightboxOpeningActions(fsLightbox) {
                 }
             },
             globalResizingController,
-            sourceHoldersTransformer,
+            stageSourcesHoldersTransformer,
         }
     } = fsLightbox;
 
@@ -34,7 +34,7 @@ export function setUpLightboxOpeningActions(fsLightbox) {
         swipingEventsController.attachListeners();
         documentKeyDownEventController.attachListener();
         globalResizingController.runAllResizingActions();
-        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
+        stageSourcesHoldersTransformer.transform().withoutTimeout();
         dispatch(ON_OPEN);
     };
 

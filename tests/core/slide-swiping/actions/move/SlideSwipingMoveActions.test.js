@@ -1,9 +1,9 @@
 import { SlideSwipingMoveActions } from "../../../../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/cssConstants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/css-constants";
 
 const fsLightbox = {
     data: {
-        totalSlides: 0
+        sourcesCount: 0
     },
     componentsStates: {
         hasMovedWhileSwiping: {
@@ -12,8 +12,8 @@ const fsLightbox = {
         }
     },
     core: {
-        sourceHoldersTransformer: {
-            transformStageSourceHoldersByValue: () => {}
+        sourcesHoldersTransformer: {
+            transformByValue: () => {}
         }
     },
     elements: {
@@ -31,7 +31,7 @@ let mockSwipingProps = {
 let slideSwipingMoveActions;
 
 const mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions = () => {
-    fsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue = jest.fn();
+    fsLightbox.core.sourcesHoldersTransformer.transformByValue = jest.fn();
     slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, mockSwipingProps)
 };
 
@@ -80,8 +80,8 @@ describe('event is mousedown', () => {
         expect(mockSwipingProps.swipedDifference).toEqual(mockEvent.clientX - mockSwipingProps.downClientX);
     });
 
-    it('should call transformStageSourceHoldersByValue with swiped difference at param', () => {
-        expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue)
+    it('should call transformByValue with swiped difference at param', () => {
+        expect(fsLightbox.core.sourcesHoldersTransformer.transformByValue)
             .toBeCalledWith(mockEvent.clientX - mockSwipingProps.downClientX);
     });
 });
@@ -103,8 +103,8 @@ describe('event is touchstart', () => {
         expect(mockSwipingProps.swipedDifference).toEqual(mockEvent.touches[0].clientX - mockSwipingProps.downClientX);
     });
 
-    it('should call transformStageSourceHoldersByValue with swiped difference at param', () => {
-        expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHoldersByValue)
+    it('should call transformByValue with swiped difference at param', () => {
+        expect(fsLightbox.core.sourcesHoldersTransformer.transformByValue)
             .toBeCalledWith(mockEvent.touches[0].clientX - mockSwipingProps.downClientX);
     });
 });
@@ -128,7 +128,7 @@ describe(`adding cursor grabbing class to container if there are at least 2 slid
         describe('due to there less than two slides even if class is not yed added', () => {
             beforeEach(() => {
                 containerClassList.contains = () => false;
-                fsLightbox.data.totalSlides = 1;
+                fsLightbox.data.sourcesCount = 1;
                 slideSwipingMoveActions.runActions();
             });
 
@@ -140,7 +140,7 @@ describe(`adding cursor grabbing class to container if there are at least 2 slid
         describe('dut to class is already added even if there are at least two slides', () => {
             beforeEach(() => {
                 containerClassList.contains = () => true;
-                fsLightbox.data.totalSlides = 2;
+                fsLightbox.data.sourcesCount = 2;
                 slideSwipingMoveActions.runActions();
             });
 
@@ -154,7 +154,7 @@ describe(`adding cursor grabbing class to container if there are at least 2 slid
         describe('there are at least two slides and class is not already added', () => {
             beforeEach(() => {
                 containerClassList.contains = () => false;
-                fsLightbox.data.totalSlides = 2;
+                fsLightbox.data.sourcesCount = 2;
                 slideSwipingMoveActions.runActions();
             });
 

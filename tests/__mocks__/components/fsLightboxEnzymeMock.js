@@ -5,11 +5,11 @@ import FsLightbox from "../../../src/FsLightbox.jsx";
 
 export class FsLightboxEnzymeMock {
     constructor() {
-        this.wrapper = mount(<FsLightbox isOpen={ true } urls={ testUrls }/>)
+        this.wrapper = mount(<FsLightbox isOpen={ true } sources={ testUrls }/>)
     }
 
     setOpenToFalse() {
-        this.wrapper = mount(<FsLightbox isOpen={ false } urls={ testUrls }/>)
+        this.wrapper = mount(<FsLightbox isOpen={ false } sources={ testUrls }/>)
     }
 
     /**

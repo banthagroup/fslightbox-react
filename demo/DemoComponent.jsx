@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
-import FsLightbox from '../index';
-import { TEST_YOUTUBE_URL, testVideoURL, testYoutubeURL } from "./demoData";
+import FsLightbox from '../src/FsLightbox.jsx';
+import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -42,12 +42,12 @@ class DemoComponent extends Component {
                 </div>
                 <FsLightbox
                     toggler={ this.state.toggler }
-                    urls={ [
+                    sources={ [
                         '../demo/images/5.jpg',
                         'https://escalante-mkt-imgs.s3-us-west-2.amazonaws.com/TimeSheets/screenshot1.png',
                         // "invalid",
                         TEST_YOUTUBE_URL,
-                        // testVideoURL,
+                        TEST_VIDEO_URL,
                         "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                         "../demo/images/3.jpeg"
                     ] }
@@ -56,7 +56,10 @@ class DemoComponent extends Component {
                         'image'
                     ] }
                     videosPosters={ [
-                        // "../demo/images/1.jpeg"
+                        null,
+                        null,
+                        null,
+                        "../demo/images/1.jpeg"
                     ] }
                     disableLocalStorage={ true }
                     // onClose={ () => console.log('onClose') }
@@ -64,7 +67,7 @@ class DemoComponent extends Component {
                     // onOpen={ () => console.log('onOpen') }
                     // onShow={ () => console.log('onShow') }
                 />
-                <FsLightbox toggler={ this.state.toggler2 } urls={ ["../demo/images/5.jpg"] }/>
+                <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] }/>
             </>
         );
     }

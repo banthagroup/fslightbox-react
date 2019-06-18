@@ -4,23 +4,21 @@ import PropTypes from "prop-types";
 const Image = (
     {
         fsLightbox: {
-            data: { urls },
-            elements: { sources },
+            data: { sources },
+            elements: { sources: sourcesElements },
             collections: { sourcesLoadHandlers }
         },
         index
     }
-) => {
-    return (
-        <img
-            onLoad={ sourcesLoadHandlers[index].handleLoad }
-            className={ "fslightbox-source fslightbox-opacity-0" }
-            ref={ sources[index] }
-            src={ urls[index] }
-            alt={ urls[index] }
-        />
-    );
-};
+) => (
+    <img
+        onLoad={ sourcesLoadHandlers[index].handleLoad }
+        className={ "fslightbox-source fslightbox-opacity-0" }
+        ref={ sourcesElements[index] }
+        src={ sources[index] }
+        alt={ sources[index] }
+    />
+);
 
 Image.propTypes = {
     fsLightbox: PropTypes.object.isRequired,

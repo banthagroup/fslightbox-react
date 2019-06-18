@@ -30,7 +30,7 @@ export function setUpSlideSwipingMove(
     };
 
     const ifThereIsOnlyOneSlideRewriteListener = () => {
-        if (data.totalSlides === 1)
+        if (data.sourcesCount === 1)
             self.listener = simulateSwipe;
     };
 

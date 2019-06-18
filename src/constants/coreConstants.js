@@ -1,5 +1,3 @@
-export const CONTAINER_FADE_OUT_TIME = 250;
-
 //sources types
 export const IMAGE_TYPE = 'image';
 export const VIDEO_TYPE = 'video';

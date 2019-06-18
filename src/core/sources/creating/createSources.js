@@ -4,8 +4,10 @@ import { DetectedTypeActions } from "../types/DetectedTypeActions";
 
 export function createSources(
     {
+        data: {
+            sources
+        },
         props: {
-            urls,
             types: typesSetManuallyByClient
         },
         injector: { injectDependency }
@@ -18,7 +20,7 @@ export function createSources(
     let sourceIndex;
     setUpGetTypeSetManuallyByClient();
 
-    for (let i = 0; i < urls.length; i++) {
+    for (let i = 0; i < sources.length; i++) {
         sourceIndex = i;
         let typeSetManuallyByClient = getTypeSetManuallyByClient(i);
         // if client set type it's always the most important one
@@ -27,7 +29,7 @@ export function createSources(
             callActionsForSourceTypeRetrievedWithoutXhr();
             continue;
         }
-        sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(urls[sourceIndex]);
+        sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(sources[sourceIndex]);
         (sourceTypeRetrievedWithoutXhr) ?
             callActionsForSourceTypeRetrievedWithoutXhr() :
             retrieveTypeWithXhrAndCallActions();
@@ -50,9 +52,9 @@ export function createSources(
         // we need to copy index because xhr will for sure come later than next loop iteration
         let rememberedSourceIndex = sourceIndex;
         const sourceTypeGetter = injectDependency(SourceTypeGetter);
-        sourceTypeGetter.setUrlToCheck(urls[rememberedSourceIndex]);
+        sourceTypeGetter.setUrlToCheck(sources[rememberedSourceIndex]);
         sourceTypeGetter.getSourceType((sourceType) => {
-            localStorageManager.handleReceivedSourceTypeForUrl(sourceType, urls[rememberedSourceIndex]);
+            localStorageManager.handleReceivedSourceTypeForUrl(sourceType, sources[rememberedSourceIndex]);
             detectedTypeActions.runActionsForSourceTypeAndIndex(sourceType, rememberedSourceIndex)
         });
     }

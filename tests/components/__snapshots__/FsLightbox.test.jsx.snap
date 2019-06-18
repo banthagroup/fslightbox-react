@@ -5,28 +5,6 @@ exports[`DOM lightbox is open or not isOpen === true should match snapshot 1`] =
   <DownEventDetector fsLightbox={{...}} />
   <SwipingInvisibleHover fsLightbox={{...}} />
   <Nav fsLightbox={{...}} />
-  <SlideButtonLeft fsLightbox={{...}} />
-  <SlideButtonRight fsLightbox={{...}} />
-  <SourceHoldersWrapper fsLightbox={{...}} />
-</div>"
-`;
-
-exports[`DOM rendering buttons or not (if there is only 1 slide buttons should not be rendered) totalSlide > 1 should match snapshot 1`] = `
-"<div className=\\"fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long\\">
-  <DownEventDetector fsLightbox={{...}} />
-  <SwipingInvisibleHover fsLightbox={{...}} />
-  <Nav fsLightbox={{...}} />
-  <SlideButtonLeft fsLightbox={{...}} />
-  <SlideButtonRight fsLightbox={{...}} />
-  <SourceHoldersWrapper fsLightbox={{...}} />
-</div>"
-`;
-
-exports[`DOM rendering buttons or not (if there is only 1 slide buttons should not be rendered) totalSlides === 1 should match snapshot 1`] = `
-"<div className=\\"fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long\\">
-  <DownEventDetector fsLightbox={{...}} />
-  <SwipingInvisibleHover fsLightbox={{...}} />
-  <Nav fsLightbox={{...}} />
   <SourceHoldersWrapper fsLightbox={{...}} />
 </div>"
 `;

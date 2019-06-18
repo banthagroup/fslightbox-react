@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SlideButtonRight DOM should match snapshot 1`] = `
+exports[`SlideButtonNext DOM should match snapshot 1`] = `
 <div
   className="fslightbox-slide-btn-container fslightbox-slide-btn-right-container"
   onClick={[Function]}

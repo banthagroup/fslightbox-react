@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SourceHolder from "./SourceHolder.jsx";
+import { PREFIX } from "../../constants/classes-names";
 
 const SourceHoldersWrapper = ({ fsLightbox }) => {
     const {
-        data: { totalSlides },
+        data: { sourcesCount },
         elements: {
             sourcesHoldersWrapper,
         },
@@ -18,7 +19,7 @@ const SourceHoldersWrapper = ({ fsLightbox }) => {
     } = fsLightbox;
     const sourceHolders = [];
 
-    for (let i = 0; i < totalSlides; i++) {
+    for (let i = 0; i < sourcesCount; i++) {
         sourceHolders.push(
             <SourceHolder
                 fsLightbox={ fsLightbox }
@@ -29,7 +30,7 @@ const SourceHoldersWrapper = ({ fsLightbox }) => {
     }
 
     return (
-        <div className={ 'fslightbox-sources-holders-wrapper' }
+        <div className={ `${ PREFIX }sources-holders-wrapper` }
              onMouseDown={ slideSwipingDownListener }
              onTouchStart={ slideSwipingDownListener }
              ref={ sourcesHoldersWrapper }>

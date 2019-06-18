@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const DownEventDetector = ({ fsLightbox: { core: { slideSwiping: { down: { listener } } } } }) => {
     return (
@@ -9,10 +8,6 @@ const DownEventDetector = ({ fsLightbox: { core: { slideSwiping: { down: { liste
             onTouchStart={ listener }>
         </div>
     );
-};
-
-DownEventDetector.propTypes = {
-    fsLightbox: PropTypes.object.isRequired
 };
 
 export default DownEventDetector;

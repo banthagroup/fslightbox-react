@@ -3,7 +3,7 @@ import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpene
 import { setUpSlideChanger } from "./slide/slide-changing/setUpSlideChanger";
 import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
 import { setUpSourceController } from "./sources/setUpSourceController";
-import { setUpSourceHoldersTransformer } from "./transforms/setUpSourceHoldersTransformer";
+import { setUpStageSourcesHoldersTransformer } from "./transforms/setUpStageSourcesHoldersTransformer";
 import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
 import { setUpGlobalResizingController } from "./sizes/setUpGlobalResizingController";
 import { setUpDocumentKeyDownEventController } from "./events-controllers/document/setUpDocumentKeyDownEventController";
@@ -16,8 +16,8 @@ import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor
 import { setUpSlideSwipingDown } from "./slide-swiping/events/setUpSlideSwipingDown";
 import { setUpSlideSwipingUp } from "./slide-swiping/events/setUpSlideSwipingUp";
 import { setUpSourceAnimator } from "./animations/setUpSourceAnimator";
-import { setUpStage } from "./stage/setUpStage";
 import { setUpLightboxUpdater } from "./main-component/updating/setUpLightboxUpdater";
+import { setUpStageManager } from "./stage/setUpStageManager";
 
 export function setUpCore(fsLightbox) {
     setUpDocumentKeyDownEventController(fsLightbox);
@@ -51,8 +51,8 @@ export function setUpCore(fsLightbox) {
 
     setUpSourceController(fsLightbox);
 
-    setUpSourceHoldersTransformer(fsLightbox);
+    setUpStageSourcesHoldersTransformer(fsLightbox);
 
-    setUpStage(fsLightbox);
+    setUpStageManager(fsLightbox);
 }
 

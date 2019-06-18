@@ -2,7 +2,7 @@ import { setUpLightboxOpeningActions } from "../../../../src/core/main-component
 import { ON_OPEN, ON_SHOW } from "../../../../src/constants/eventsConstants";
 import * as initializeLightboxObject from "../../../../src/core/main-component/initializing/initializeLightbox";
 import * as getDocumentElementClassListObject from "../../../../src/helpers/dom/document/getDocumentElementClassList";
-import { OPEN_CLASS_NAME } from "../../../../src/constants/cssConstants";
+import { OPEN_CLASS_NAME } from "../../../../src/constants/css-constants";
 
 const lightboxOpeningActions = {};
 const fsLightbox = {
@@ -35,8 +35,8 @@ const fsLightbox = {
                 }
             }
         },
-        sourceHoldersTransformer: {
-            transformStageSourceHolders: () => ({
+        sourcesHoldersTransformer: {
+            transform: () => ({
                 withoutTimeout: () => {}
             })
         }
@@ -99,7 +99,7 @@ describe('calling methods', () => {
         fsLightbox.core.eventsControllers.window.swiping.attachListeners = jest.fn();
         fsLightbox.core.eventsControllers.document.keyDown.attachListener = jest.fn();
         fsLightbox.core.globalResizingController.runAllResizingActions = jest.fn();
-        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+        fsLightbox.core.sourcesHoldersTransformer.transform = jest.fn(() => ({
             withoutTimeout: withoutTimeout
         }));
         fsLightbox.eventsDispatcher.dispatch = jest.fn();
@@ -147,8 +147,8 @@ describe('calling methods', () => {
     });
 
     describe('transforming stage source holders without timeout', () => {
-        it('should call transformStageSourceHolders', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
+        it('should call transform', () => {
+            expect(fsLightbox.core.sourcesHoldersTransformer.transform).toBeCalled();
         });
 
         it('should call withoutTimeout', () => {

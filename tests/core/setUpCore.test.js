@@ -1,10 +1,9 @@
-
 import * as getSwipingPropsObject from "../../src/core/slide-swiping/getSwipingProps";
 import * as setUpLightboxOpenerObject from "../../src/core/main-component/opening/setUpLightboxOpener";
 import * as setUpSlideChangerObject from "../../src/core/slide/slide-changing/setUpSlideChanger";
 import * as setUpSlideSwipingMoveObject from "../../src/core/slide-swiping/events/setUpSlideSwipingMove";
 import * as setUpSourceControllerObject from "../../src/core/sources/setUpSourceController";
-import * as setUpSourceHoldersTransformerObject from "../../src/core/transforms/setUpSourceHoldersTransformer";
+import * as setUpSourceHoldersTransformerObject from "../../src/core/transforms/setUpStageSourcesHoldersTransformer";
 import * as setUpSourcesFactoryObject from "../../src/core/sources/creating/createSources";
 import * as setUpFullscreenTogglerObject from "../../src/core/fullscreen/setUpFullscreenToggler";
 import * as setUpGlobalResizingControllerObject from "../../src/core/sizes/setUpGlobalResizingController";
@@ -22,7 +21,7 @@ import * as setUpScrollbarRecompensorObject from "../../src/core/scrollbar/setUp
 import * as setUpSlideSwipingDownObject from "../../src/core/slide-swiping/events/setUpSlideSwipingDown";
 import * as setUpSlideSwipingUpObject from "../../src/core/slide-swiping/events/setUpSlideSwipingUp";
 import * as setUpSourceAnimatorObject from "../../src/core/animations/setUpSourceAnimator";
-import * as setUpStageObject from "../../src/core/stage/setUpStage";
+import * as setUpStageManagerObject from "../../src/core/stage/setUpStageManager";
 import { setUpCore } from "../../src/core/setUpCore";
 
 const fsLightbox = { key: 'fsLightbox' };
@@ -32,7 +31,7 @@ beforeAll(() => {
     setUpLightboxOpenerObject.setUpLightboxOpener = jest.fn();
     setUpSlideChangerObject.setUpSlideChanger = jest.fn();
     setUpSourceControllerObject.setUpSourceController = jest.fn();
-    setUpSourceHoldersTransformerObject.setUpSourceHoldersTransformer = jest.fn();
+    setUpSourceHoldersTransformerObject.setUpStageSourcesHoldersTransformer = jest.fn();
     setUpSourcesFactoryObject.createSources = jest.fn();
     setUpFullscreenTogglerObject.setUpFullscreenToggler = jest.fn();
     setUpGlobalResizingControllerObject.setUpGlobalResizingController = jest.fn();
@@ -49,7 +48,7 @@ beforeAll(() => {
     setUpSlideSwipingDownObject.setUpSlideSwipingDown = jest.fn();
     setUpSlideSwipingUpObject.setUpSlideSwipingUp = jest.fn();
     setUpSourceAnimatorObject.setUpSourceAnimator = jest.fn();
-    setUpStageObject.setUpStage = jest.fn();
+    setUpStageManagerObject.setUpStageManager = jest.fn();
     setUpCore(fsLightbox);
 });
 
@@ -108,7 +107,7 @@ describe('calling correct methods which set up core', () => {
     });
 
     describe('slideSwiping', () => {
-        it('should call setUpSlideSwipingDown', () => {
+        it('should call setUpSlideSwipingown', () => {
             expect(setUpSlideSwipingDownObject.setUpSlideSwipingDown).toBeCalledWith(fsLightbox, swipingProps);
         });
 
@@ -129,11 +128,11 @@ describe('calling correct methods which set up core', () => {
         expect(setUpSourceControllerObject.setUpSourceController).toBeCalledWith(fsLightbox);
     });
 
-    it('should call setUpSourceHoldersTransformer', () => {
-        expect(setUpSourceHoldersTransformerObject.setUpSourceHoldersTransformer).toBeCalledWith(fsLightbox);
+    it('should call setUpStageSourcesHoldersTransformer', () => {
+        expect(setUpSourceHoldersTransformerObject.setUpStageSourcesHoldersTransformer).toBeCalledWith(fsLightbox);
     });
 
-    it('should call setUpStage', () => {
-        expect(setUpStageObject.setUpStage).toBeCalledWith(fsLightbox);
+    it('should call setUpStageManager', () => {
+        expect(setUpStageManagerObject.setUpStageManager).toBeCalledWith(fsLightbox);
     });
 });

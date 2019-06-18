@@ -1,4 +1,4 @@
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/cssConstants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/css-constants";
 
 /**
  * @constructor
@@ -13,7 +13,7 @@ export function SlideSwipingMoveActions(
             container: lightboxContainer
         },
         core: {
-            sourceHoldersTransformer,
+            sourcesHoldersTransformer,
         }
     }, swipingProps
 ) {
@@ -46,7 +46,7 @@ export function SlideSwipingMoveActions(
     };
 
     const addCursorGrabbingClassToContainerIfNotAlreadyAddedAndIfThereAreAtLeastTwoSlides = () => {
-        if (!lightboxContainer.current.classList.contains(CURSOR_GRABBING_CLASS_NAME) && data.totalSlides > 1) {
+        if (!lightboxContainer.current.classList.contains(CURSOR_GRABBING_CLASS_NAME) && data.sourcesCount > 1) {
             lightboxContainer.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
         }
     };
@@ -56,6 +56,8 @@ export function SlideSwipingMoveActions(
     };
 
     const callTransforms = () => {
-        sourceHoldersTransformer.transformStageSourceHoldersByValue(swipingProps.swipedDifference);
+        sourcesHoldersTransformer
+            .transform()
+            .byValue(swipingProps.swipedDifference);
     };
 }

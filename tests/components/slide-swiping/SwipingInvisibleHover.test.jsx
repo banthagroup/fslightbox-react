@@ -5,7 +5,7 @@ import SwipingInvisibleHover from "../../../src/components/slide-swiping/Swiping
 
 const fsLightbox = {
     data: {
-        totalSlides: 4
+        sourcesCount: 4
     },
     componentsStates: {
         hasMovedWhileSwiping: {}

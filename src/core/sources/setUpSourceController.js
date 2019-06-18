@@ -1,20 +1,21 @@
 import { getClassListOfElementInArrayByIndex } from "../../helpers/source/getClassListOfElementInArrayByIndex";
-import { OPACITY_0_CLASS_NAME } from "../../constants/cssConstants";
+import { OPACITY_0_CLASS_NAME } from "../../constants/css-constants";
 import { SourceSizeAdjuster } from "../sizes/SourceSizeAdjuster";
 
 export function setUpSourceController(
     {
         elements: { sources },
         collections: {
-            sourceSizeAdjusters
+            sourceSizeAdjusters,
+            sourcesHoldersTransformers
         },
         injector: {
             injectDependency
         },
         core: {
             sourceAnimator,
-            stage,
-            sourceHoldersTransformer,
+            stageManager,
+            sourcesHoldersTransformer,
             sourceController: self
         }
     }
@@ -55,8 +56,8 @@ export function setUpSourceController(
     };
 
     const ifSourceIsNotInStageTransformItNegative = () => {
-        if (!stage.isSourceInStage(index)) {
-            sourceHoldersTransformer.transformSourceHolderAtIndex(index).negative()
+        if (!stageManager.isSourceInStage(index)) {
+            sourcesHoldersTransformers[index].negative();
         }
     };
 
@@ -72,7 +73,7 @@ export function setUpSourceController(
     };
 
     const longFadeInSourceIfItsInStage = () => {
-        if (!stage.isSourceInStage(index))
+        if (!stageManager.isSourceInStage(index))
             return;
         sourceAnimator.animateSourceFromIndex(index).longFadeIn();
     };

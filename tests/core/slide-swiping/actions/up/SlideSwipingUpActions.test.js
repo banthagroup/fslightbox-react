@@ -3,7 +3,7 @@ import { SwipingTransitioner } from "../../../../../src/core/slide-swiping/actio
 import { SwipingSlideChanger } from "../../../../../src/core/slide-swiping/actions/up/SwipingSlideChanger";
 import * as ifElementContainsClassRemoveItObject
     from "../../../../../src/helpers/dom/classes/IfElementContainsClassRemoveIt";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/cssConstants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/css-constants";
 
 let slide;
 let isSwipingSlides;
@@ -18,7 +18,7 @@ let swipingSlideChanger = {
 };
 const fsLightbox = {
     data: {
-        totalSlides: 0
+        sourcesCount: 0
     },
     componentsStates: {
         hasMovedWhileSwiping: {
@@ -34,7 +34,7 @@ const fsLightbox = {
         stage: {
             getAllStageIndexes: () => {}
         },
-        sourceHoldersTransformer: {
+        sourcesHoldersTransformer: {
             transformSourceHolderAtIndex: () => {},
         },
     },
@@ -130,7 +130,7 @@ describe('setting stage sources indexes', () => {
 
     beforeEach(() => {
         stageSourcesIndexes = {};
-        fsLightbox.core.stage.getAllStageIndexes = jest.fn(() => stageSourcesIndexes);
+        fsLightbox.core.stage.updateStageIndexes = jest.fn(() => stageSourcesIndexes);
     });
 
     describe('setting stage sources indexes for SwipingTransitioner', () => {
@@ -161,8 +161,8 @@ describe('transforming sources holders', () => {
         addTransitionToCurrent: null,
         changeSlideToPrevious: null,
         changeSlideToNext: null,
-        transformStageSourceHoldersAtIndex: null,
-        transformStageSourceHolders: null,
+        transformAtIndex: null,
+        transform: null,
     };
 
     beforeEach(() => {
@@ -174,8 +174,8 @@ describe('transforming sources holders', () => {
         swipingTransitioner.setStageSourcesIndexes = () => {};
         swipingSlideChanger.changeSlideToPrevious = actions.changeSlideToPrevious;
         swipingSlideChanger.changeSlideToNext = actions.changeSlideToNext;
-        fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = actions.transformStageSourceHoldersAtIndex;
-        fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = actions.transformStageSourceHolders;
+        fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = actions.transformAtIndex;
+        fsLightbox.core.sourcesHoldersTransformer.transform = actions.transform;
     });
 
     const itShouldNotCallEverythingExcept = (calledOnesArray) => {
@@ -204,11 +204,11 @@ describe('transforming sources holders', () => {
         beforeEach(() => {
             zeroTransform = jest.fn();
             swipingProps.swipedDifference = 0;
-            fsLightbox.data.totalSlides = 1;
-            fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
+            fsLightbox.data.sourcesCount = 1;
+            fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
                 zero: zeroTransform
             }));
-            actions.transformStageSourceHoldersAtIndex = fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex;
+            actions.transformAtIndex = fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex;
             createNewSlideSwipingUpActionsAndCallMethods();
         });
 
@@ -216,19 +216,19 @@ describe('transforming sources holders', () => {
             itShouldCallOnce([actions.addTransitionToCurrent]);
         });
 
-        it('should call transformStageSourceHoldersAtIndex with 0 as param (0 - array index of current sources holder)', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex.mock.calls[0][0])
+        it('should call transformAtIndex with 0 as param (0 - array index of current sources holder)', () => {
+            expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex.mock.calls[0][0])
                 .toEqual(0);
         });
 
-        it('should call zero on transformStageSourceHoldersAtIndex', () => {
+        it('should call zero on transformAtIndex', () => {
             expect(zeroTransform).toBeCalled();
         });
 
         it('should not call everything expect addTransitionToCurrent and transformSourceHolderAtIndex', () => {
             itShouldNotCallEverythingExcept([
                 actions.addTransitionToCurrent,
-                actions.transformStageSourceHoldersAtIndex
+                actions.transformAtIndex
             ]);
         });
     });
@@ -240,7 +240,7 @@ describe('transforming sources holders', () => {
 
         describe('there are more than two slides', () => {
             beforeEach(() => {
-                fsLightbox.data.totalSlides = 3;
+                fsLightbox.data.sourcesCount = 3;
                 createNewSlideSwipingUpActionsAndCallMethods();
             });
 
@@ -255,7 +255,7 @@ describe('transforming sources holders', () => {
 
         describe('there are only two slides', () => {
             beforeEach(() => {
-                fsLightbox.data.totalSlides = 2;
+                fsLightbox.data.sourcesCount = 2;
             });
 
             describe('slide === 1', () => {
@@ -264,17 +264,17 @@ describe('transforming sources holders', () => {
                     createNewSlideSwipingUpActionsAndCallMethods();
                 });
 
-                it('should call addTransitionToCurrent and transformStageSourceHolders', () => {
+                it('should call addTransitionToCurrent and transform', () => {
                     itShouldCallOnce([
                         actions.addTransitionToCurrent,
-                        actions.transformStageSourceHolders
+                        actions.transform
                     ]);
                 });
 
-                it('should not call everything except addTransitionToCurrent and transformStageSourceHolders', () => {
+                it('should not call everything except addTransitionToCurrent and transform', () => {
                     itShouldNotCallEverythingExcept([
                         actions.addTransitionToCurrent,
-                        actions.transformStageSourceHolders
+                        actions.transform
                     ])
                 });
             });
@@ -304,7 +304,7 @@ describe('transforming sources holders', () => {
 
         describe('there are more than two slides', () => {
             beforeEach(() => {
-                fsLightbox.data.totalSlides = 3;
+                fsLightbox.data.sourcesCount = 3;
                 createNewSlideSwipingUpActionsAndCallMethods();
             });
 
@@ -319,7 +319,7 @@ describe('transforming sources holders', () => {
 
         describe('there are only two slides', () => {
             beforeEach(() => {
-                fsLightbox.data.totalSlides = 2;
+                fsLightbox.data.sourcesCount = 2;
             });
 
             describe('slide === 1', () => {
@@ -343,17 +343,17 @@ describe('transforming sources holders', () => {
                     createNewSlideSwipingUpActionsAndCallMethods();
                 });
 
-                it('should call addTransitionToCurrent and transformStageSourceHolders', () => {
+                it('should call addTransitionToCurrent and transform', () => {
                     itShouldCallOnce([
                         actions.addTransitionToCurrent,
-                        actions.transformStageSourceHolders
+                        actions.transform
                     ]);
                 });
 
-                it('should not call everything except addTransitionToCurrent and transformStageSourceHolders', () => {
+                it('should not call everything except addTransitionToCurrent and transform', () => {
                     itShouldNotCallEverythingExcept([
                         actions.addTransitionToCurrent,
-                        actions.transformStageSourceHolders
+                        actions.transform
                     ])
                 });
             });

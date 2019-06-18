@@ -1,5 +1,5 @@
 import { getRemoveFadeOutTimeoutQueue } from "../../../../src/core/slide/slide-changing/getRemoveFadeOutTimeoutQueue";
-import { FADE_IN_ANIMATION_TIME } from "../../../../src/constants/cssConstants";
+import { ANIMATION_TIME } from "../../../../src/constants/css-constants";
 import { TimeoutQueue } from "../../../../src/core/timeouts/TimeoutQueue";
 
 const timeoutQueue = {};
@@ -24,7 +24,7 @@ describe('injecting TimeoutQueue', () => {
 
 describe('setting timeout queue time', () => {
     it('should set time to fade in animation time ', () => {
-        expect(removeFadeOutTimeoutQueue.time).toBe(FADE_IN_ANIMATION_TIME);
+        expect(removeFadeOutTimeoutQueue.time).toBe(ANIMATION_TIME);
     });
 });
 

@@ -12,7 +12,7 @@ describe('onInit', () => {
         fsLightbox = mount(<FsLightbox
             toggler={ false }
             onInit={ onInit }
-            urls={ ['images/1.jpg'] }
+            sources={ ['images/1.jpg'] }
         />);
         fsLightbox.setProps({
             toggler: true
@@ -34,7 +34,7 @@ describe('onOpen - called on every open', () => {
         fsLightbox = mount(<FsLightbox
             toggler={ false }
             onOpen={ onOpen }
-            urls={ ['images/1.jpg'] }
+            sources={ ['images/1.jpg'] }
         />);
     });
 
@@ -71,7 +71,7 @@ describe('onClose - called on every close', () => {
         fsLightbox = mount(<FsLightbox
             toggler={ false }
             onClose={ onClose }
-            urls={ ['images/1.jpg'] }
+            sources={ ['images/1.jpg'] }
         />);
     });
 
@@ -108,7 +108,7 @@ describe('onShow - called on every open except init', () => {
         fsLightbox = mount(<FsLightbox
             toggler={ false }
             onShow={ onShow }
-            urls={ ['images/1.jpg'] }
+            sources={ ['images/1.jpg'] }
         />);
     });
 

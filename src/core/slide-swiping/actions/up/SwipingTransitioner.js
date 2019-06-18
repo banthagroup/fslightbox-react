@@ -1,35 +1,32 @@
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/cssConstants";
+import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/css-constants";
 import { getClassListOfElementInArrayByIndex } from "../../../../helpers/source/getClassListOfElementInArrayByIndex";
 
 /**
- * @class
- * @param { FsLightbox.elements.sourceHolders | Array } sourceHolders
+ * @constructor
  */
-export function SwipingTransitioner({ elements: { sourceHolders } }) {
-    /** @var {{previous: number | undefined , current: number, next: number | undefined}} stageSourcesIndexes */
-    let stageSourcesIndexes;
-
-    this.setStageSourcesIndexes = (indexes) => {
-        stageSourcesIndexes = indexes;
-    };
-
+export function SwipingTransitioner(
+    {
+        stageIndexes,
+        elements: { sourceHolders },
+    }
+) {
     this.addTransitionToCurrentAndPrevious = () => {
-        addTransitionToSourceHolderByIndex(stageSourcesIndexes.current);
-        addTransitionToSourceHolderByIndex(stageSourcesIndexes.previous);
+        addTransitionToSourceHolderByIndex(stageIndexes.current);
+        addTransitionToSourceHolderByIndex(stageIndexes.previous);
     };
 
     this.addTransitionToCurrentAndNext = () => {
-        addTransitionToSourceHolderByIndex(stageSourcesIndexes.current);
-        addTransitionToSourceHolderByIndex(stageSourcesIndexes.next);
+        addTransitionToSourceHolderByIndex(stageIndexes.current);
+        addTransitionToSourceHolderByIndex(stageIndexes.next);
     };
 
     this.addTransitionToCurrent = () => {
-        addTransitionToSourceHolderByIndex(stageSourcesIndexes.current);
+        addTransitionToSourceHolderByIndex(stageIndexes.current);
     };
 
     this.removeAllTransitionsFromStageSources = () => {
-        for (let index in stageSourcesIndexes) {
-            let sourceHolderClassList = getClassListOfElementInArrayByIndex(sourceHolders, stageSourcesIndexes[index]);
+        for (let index in stageIndexes) {
+            let sourceHolderClassList = getClassListOfElementInArrayByIndex(sourceHolders, stageIndexes[index]);
             if (sourceHolderClassList.contains(TRANSFORM_TRANSITION_CLASS_NAME)) {
                 sourceHolderClassList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
             }

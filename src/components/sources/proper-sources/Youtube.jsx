@@ -5,8 +5,8 @@ import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVide
 const Youtube = (
     {
         fsLightbox: {
-            data: { urls },
-            elements: { sources },
+            data: { sources },
+            elements: { sources: sourcesElements },
             collections: {
                 sourcesLoadHandlers
             }
@@ -19,10 +19,10 @@ const Youtube = (
     return (
         <iframe
             className="fslightbox-source fslightbox-youtube-iframe fslightbox-opacity-0"
-            ref={ sources[index] }
+            ref={ sourcesElements[index] }
             src={
                 "https://www.youtube.com/embed/"
-                + getYoutubeVideoIdFromUrl(urls[index])
+                + getYoutubeVideoIdFromUrl(sources[index])
                 + '?enablejsapi=1'
             }
             allowFullScreen={ true }

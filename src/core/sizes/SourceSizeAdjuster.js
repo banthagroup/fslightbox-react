@@ -1,7 +1,7 @@
 /**
  * @constructor
  */
-export function SourceSizeAdjuster({ sourcesData, elements: { sources } }) {
+export function SourceSizeAdjuster({ data, elements: { sources } }) {
     let i = null;
     let maxSourceWidth = 0;
     let maxSourceHeight = 0;
@@ -19,11 +19,11 @@ export function SourceSizeAdjuster({ sourcesData, elements: { sources } }) {
     };
 
     this.adjustSourceSize = () => {
-        newHeight = sourcesData.maxSourceWidth / ratio;
+        newHeight = data.maxSourceWidth / ratio;
 
         // wider than higher
-        if (newHeight < sourcesData.maxSourceHeight) {
-            if (maxSourceWidth < sourcesData.maxSourceWidth) {
+        if (newHeight < data.maxSourceHeight) {
+            if (maxSourceWidth < data.maxSourceWidth) {
                 newHeight = maxSourceHeight;
             }
             setDimensions();
@@ -31,8 +31,8 @@ export function SourceSizeAdjuster({ sourcesData, elements: { sources } }) {
         }
 
         // higher than wider
-        if (maxSourceHeight > sourcesData.maxSourceHeight) {
-            newHeight = sourcesData.maxSourceHeight;
+        if (maxSourceHeight > data.maxSourceHeight) {
+            newHeight = data.maxSourceHeight;
         } else {
             newHeight = maxSourceHeight;
         }

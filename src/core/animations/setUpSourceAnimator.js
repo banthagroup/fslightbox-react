@@ -2,7 +2,7 @@ import {
     FADE_IN_CLASS_NAME,
     LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
-} from "../../constants/cssConstants";
+} from "../../constants/css-constants";
 import { getClassListOfElementInArrayByIndex } from "../../helpers/source/getClassListOfElementInArrayByIndex";
 
 export function setUpSourceAnimator(

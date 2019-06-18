@@ -8,22 +8,66 @@ import * as runLightboxUnmountActionsObject from "../../src/core/main-component/
 import { Injector } from "../../src/injection/Injector";
 import { EventsDispatcher } from "../../src/core/main-component/EventsDispatcher";
 import * as runLightboxMountedActionsObject from "../../src/core/main-component/mounting/runLightboxMountedActions";
+import SlideButtonPrevious from "../../src/components/slide-buttons/SlideButtonPrevious";
+import SlideButtonNext from "../../src/components/slide-buttons/SlideButtonNext";
+import * as getInitialCurrentIndexObject from "../../src/core/stage/getInitialCurrentIndex";
+import * as getSourcesHoldersTransformersCollectionObject
+    from "../../src/core/collections/getSourcesHoldersTransformersCollection";
 
-let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } urls={ testUrls }/>, {
+let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } sources={ testUrls }/>, {
     disableLifecycleMethods: true
 });
 let fsLightbox = fsLightboxWrapper.instance();
 
+describe('stageIndexes', () => {
+    beforeAll(() => {
+        getInitialCurrentIndexObject.getInitialCurrentIndex = () => 950;
+        fsLightbox.setUpStageIndexes();
+    });
+
+    it('should set up stage indexes object', () => {
+        expect(fsLightbox.stageIndexes).toEqual({
+            previous: null,
+            current: 950,
+            next: null
+        });
+    });
+});
+
 describe('data', () => {
-    describe('urls', () => {
-        it('should be equal to urls', () => {
-            expect(fsLightbox.data.urls).toEqual(testUrls);
+    describe('sources', () => {
+        describe('sources array is not set', () => {
+            beforeAll(() => {
+                fsLightboxWrapper.setProps({
+                    urls: ['test-url'],
+                    sources: undefined
+                });
+                fsLightbox.setUpData();
+            });
+
+            it('should be equal to urls prop', () => {
+                expect(fsLightbox.data.sources).toEqual(['test-url']);
+            });
+        });
+
+        describe('sources prop is set', () => {
+            beforeAll(() => {
+                fsLightboxWrapper.setProps({
+                    urls: ['test-urls-prop'],
+                    sources: ['test-sources-prop']
+                });
+                fsLightbox.setUpData();
+            });
+
+            it('should be equal to sources prop', () => {
+                expect(fsLightbox.data.sources).toEqual(['test-sources-prop']);
+            });
         });
     });
 
-    describe('totalSlides', () => {
-        it('should be equal to urls array length', () => {
-            expect(fsLightbox.data.totalSlides).toEqual(testUrls.length);
+    describe('sourcesCount', () => {
+        it('should be equal to sources array length from data', () => {
+            expect(fsLightbox.data.sourcesCount).toEqual(fsLightbox.data.sources.length);
         });
     });
 
@@ -33,88 +77,21 @@ describe('data', () => {
         });
     });
 
-    describe('slideOnLightboxOpen', () => {
-        describe('slide prop is not set', () => {
-            beforeAll(() => {
-                fsLightboxWrapper.setProps({
-                    slide: undefined
-                });
-                fsLightbox.setUpData();
-            });
-
-            it('should be equal to 1', () => {
-                expect(fsLightbox.data.slideOnLightboxOpen).toBe(1);
-            });
-        });
-
-        describe('slide props is set', () => {
-            beforeAll(() => {
-                fsLightboxWrapper.setProps({
-                    slide: 10
-                });
-                fsLightbox.setUpData();
-            });
-
-            it('should be equal to 10', () => {
-                expect(fsLightbox.data.slideOnLightboxOpen).toBe(10);
-            });
-        });
-    });
-
     describe('scrollbarWidth', () => {
         it('should be equal to value returned from getScrollbarWidth', () => {
             expect(fsLightbox.data.scrollbarWidth).toBe(0);
         });
     });
 
-    describe('isSwipingSlides', () => {
-        it('should be false', () => {
-            expect(fsLightbox.data.isSwipingSlides).toBe(false);
-        });
-    });
-});
-
-describe('sourcesData', () => {
-    describe('isSourceAlreadyInitializedArray', () => {
-        it('should be equal empty array', () => {
-            expect(fsLightbox.sourcesData.isSourceAlreadyInitializedArray).toEqual([]);
-        });
-    });
-
-    describe('videosPosters', () => {
-        describe('videosPosters prop was not given', () => {
-            beforeAll(() => {
-                fsLightbox = new FsLightbox({ urls: testUrls, toggler: false })
-            });
-
-            it('should be equal to empty array', () => {
-                expect(fsLightbox.sourcesData.videosPosters).toEqual([]);
-            });
-        });
-
-        describe('videosPosters prop was not given', () => {
-            let videosPosters;
-
-            beforeAll(() => {
-                videosPosters = ['test'];
-                fsLightbox = new FsLightbox({ videosPosters: videosPosters, urls: testUrls, toggler: false })
-            });
-
-            it('should be equal', () => {
-                expect(fsLightbox.sourcesData.videosPosters).toEqual(videosPosters);
-            });
-        });
-    });
-
     describe('maxSourceWidth', () => {
         it('should be 0', () => {
-            expect(fsLightbox.sourcesData.maxSourceWidth).toBe(0);
+            expect(fsLightbox.data.maxSourceWidth).toBe(0);
         });
     });
 
     describe('maxSourceHeight', () => {
         it('should be 0', () => {
-            expect(fsLightbox.sourcesData.maxSourceHeight).toBe(0);
+            expect(fsLightbox.data.maxSourceHeight).toBe(0);
         });
     });
 
@@ -125,7 +102,7 @@ describe('sourcesData', () => {
             });
 
             it('should be equal 1.3', () => {
-                expect(fsLightbox.sourcesData.slideDistance).toBe(0.3);
+                expect(fsLightbox.data.slideDistance).toBe(0.3);
             });
         });
 
@@ -138,7 +115,7 @@ describe('sourcesData', () => {
             });
 
             it('should be equal 2', () => {
-                expect(fsLightbox.sourcesData.slideDistance).toBe(2);
+                expect(fsLightbox.data.slideDistance).toBe(2);
             });
         });
     });
@@ -157,27 +134,12 @@ describe('state', () => {
 });
 
 describe('componentsStates', () => {
-    describe('slide', () => {
-        it('should be equal empty object', () => {
-            expect(fsLightbox.componentsStates.slide).toEqual({});
-        });
-    });
-
-    describe('hasMovedWhileSwiping', () => {
-        it('should be equal empty object', () => {
-            expect(fsLightbox.componentsStates.hasMovedWhileSwiping).toEqual({});
-        });
-    });
-
-    describe('isFullscreenOpen', () => {
-        it('should be equal empty object', () => {
-            expect(fsLightbox.componentsStates.isFullscreenOpen).toEqual({});
-        });
-    });
-
-    describe('shouldSourceHolderBeUpdatedCollection', () => {
-        it('should be equal empty array', () => {
-            expect(fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection).toEqual([]);
+    it('should be equal to proper object', () => {
+        expect(fsLightbox.componentsStates).toEqual({
+            slideNumberUpdater: {},
+            hasMovedWhileSwiping: {},
+            isFullscreenOpen: {},
+            shouldSourceHolderBeUpdatedCollection: []
         });
     });
 });
@@ -225,13 +187,13 @@ describe('elements', () => {
 
     describe('sources', () => {
         it('should be equal to array of react refs equivalent to number of slides', () => {
-            expect(fsLightbox.elements.sources).toEqual(createRefsArrayForGivenNumber(fsLightbox.data.totalSlides));
+            expect(fsLightbox.elements.sources).toEqual(createRefsArrayForGivenNumber(fsLightbox.data.sourcesCount));
         });
     });
 
-    describe('sourceHolders', () => {
+    describe('sourcesHolders', () => {
         it('should be equal to array of react refs equivalent to number of slides', () => {
-            expect(fsLightbox.elements.sourceHolders).toEqual(createRefsArrayForGivenNumber(fsLightbox.data.totalSlides));
+            expect(fsLightbox.elements.sourcesHolders).toEqual(createRefsArrayForGivenNumber(fsLightbox.data.sourcesCount));
         });
     });
 
@@ -243,6 +205,18 @@ describe('elements', () => {
 });
 
 describe('collections', () => {
+    describe('sourcesHoldersTransformers', () => {
+        beforeAll(() => {
+            getSourcesHoldersTransformersCollectionObject.getSourcesHoldersTransformersCollection =
+                () => 'test-collection';
+            fsLightbox.setUpCollections();
+        });
+
+        it('should be equal to value returned from getSourcesHoldersTransformersCollection', () => {
+            expect(fsLightbox.collections.sourcesHoldersTransformers).toBe('test-collection')
+        });
+    });
+
     describe('sourceSizeAdjusters', () => {
         it('should be equal to empty array', () => {
             expect(fsLightbox.collections.sourceSizeAdjusters).toEqual([]);
@@ -330,7 +304,8 @@ describe('DOM', () => {
         describe('isOpen === false', () => {
             beforeAll(() => {
                 fsLightboxWrapper.setState({
-                    isOpen: false
+                    isOpen: false,
+                    sources: ['test-url']
                 });
             });
 
@@ -341,8 +316,8 @@ describe('DOM', () => {
 
         describe('isOpen === true', () => {
             beforeAll(() => {
-                fsLightboxWrapper.setState({
-                    isOpen: true
+                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } sources={ ['test-source'] }/>, {
+                    disableLifecycleMethods: true
                 });
             });
 
@@ -352,33 +327,57 @@ describe('DOM', () => {
         });
     });
 
-    describe('rendering buttons or not (if there is only 1 slide buttons should not be rendered)', () => {
-        describe('totalSlides === 1', () => {
+    describe('rendering toolbarButtons or not (if there is only 1 slide toolbarButtons should not be rendered)', () => {
+        describe('sourcesCount === 1', () => {
             beforeAll(() => {
-                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } urls={ ['only one'] }/>, {
+                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } sources={ ['only one'] }/>, {
                     disableLifecycleMethods: true
                 });
             });
 
-            it('should match snapshot', () => {
-                expect(fsLightboxWrapper.debug()).toMatchSnapshot();
+            it('should not have SlideButtonPrevious child', () => {
+                expect(fsLightboxWrapper.find('.fslightbox-container')
+                    .children()
+                    .find('SlideButtonPrevious'))
+                    .toHaveLength(0);
+            });
+
+            it('should not have SlideButtonNext child', () => {
+                expect(fsLightboxWrapper.find('.fslightbox-container')
+                    .children()
+                    .find('SlideButtonNext'))
+                    .toHaveLength(0);
             });
         });
 
         describe('totalSlide > 1', () => {
             beforeAll(() => {
-                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } urls={ ['first', 'second'] }/>, {
+                fsLightboxWrapper = shallow(<FsLightbox toggler={ true } sources={ ['first', 'second'] }/>, {
                     disableLifecycleMethods: true
                 });
             });
 
-            it('should match snapshot', () => {
-                expect(fsLightboxWrapper.debug()).toMatchSnapshot();
+            it('should have direct children SlideButtonPrevious', () => {
+                expect(fsLightboxWrapper.find('.fslightbox-container')
+                    .children()
+                    .filter('SlideButtonPrevious')
+                    .equals(
+                        <SlideButtonPrevious fsLightbox={ fsLightboxWrapper.instance() }/>
+                    )).toBe(true);
+            });
+
+            it('should have direct children SlideButtonNext', () => {
+                expect(fsLightboxWrapper.find('.fslightbox-container')
+                    .children()
+                    .filter('SlideButtonNext')
+                    .equals(
+                        <SlideButtonNext fsLightbox={ fsLightboxWrapper.instance() }/>
+                    )
+                ).toBe(true);
             });
         });
     });
 });
-
 
 
 

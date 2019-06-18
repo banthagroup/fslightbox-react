@@ -1,25 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Svg from "../helpers/Svg.jsx";
 
-
-/**
- * @param { FsLightbox.core.stage.getPreviousSlideNumber | Function } getPreviousSlideNumber
- * @param { FsLightbox.core.slideChanger.changeSlideTo | function(number) } changeSlideTo
- * @param changeSlideTo
- */
-const SlideButtonLeft = (
+const SlideButtonPrevious = (
     {
         fsLightbox: {
+            stageIndexes,
             core: {
-                stage: { getPreviousSlideNumber },
                 slideChanger: { changeSlideTo }
             }
         }
     }
 ) => {
+    // TODO: UPDATE TEST
     const goToPreviousSlide = () => {
-        changeSlideTo(getPreviousSlideNumber());
+        changeSlideTo(stageIndexes.previous + 1);
     };
 
     return (
@@ -37,7 +31,4 @@ const SlideButtonLeft = (
     );
 };
 
-SlideButtonLeft.propTypes = {
-    fsLightbox: PropTypes.object.isRequired
-};
-export default SlideButtonLeft;
+export default SlideButtonPrevious;

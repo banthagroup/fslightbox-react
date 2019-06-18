@@ -6,17 +6,20 @@ import { SourceSizeAdjusterIterator } from "./SourceSizeAdjusterIterator";
 
 export function setUpGlobalResizingController(
     {
+        data: { sourcesCount },
         data,
-        sourcesData,
         elements: {
             sourcesHoldersWrapper
+        },
+        collections: {
+            sourcesHoldersTransformers
         },
         injector: {
             injectDependency
         },
         core: {
-            stage,
-            sourceHoldersTransformer,
+            stageManager,
+            stageSourcesHoldersTransformer,
             globalResizingController: self
         }
     }
@@ -33,22 +36,22 @@ export function setUpGlobalResizingController(
     self.runAllResizingActions = () => {
         self.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         adjustAllSourcesSizes();
-        sourceHoldersTransformer.transformStageSourceHolders().withoutTimeout();
+        stageSourcesHoldersTransformer.transform().withoutTimeout();
         transformNegativeAllSourcesWhichAreNotInStage();
     };
 
     const saveMaxSourcesDimensions = () => {
         (window.innerWidth < SOURCE_DIMENSIONS_BREAK) ?
-            sourcesData.maxSourceWidth = window.innerWidth :
-            sourcesData.maxSourceWidth = getDecreasedByResponsiveValueDimension(window.innerWidth);
-        sourcesData.maxSourceHeight = getDecreasedByResponsiveValueDimension(window.innerHeight);
+            data.maxSourceWidth = window.innerWidth :
+            data.maxSourceWidth = getDecreasedByResponsiveValueDimension(window.innerWidth);
+        data.maxSourceHeight = getDecreasedByResponsiveValueDimension(window.innerHeight);
     };
 
     const getDecreasedByResponsiveValueDimension = (value) => value - (value * SOURCE_DIMENSIONS_DECREASE_VALUE);
 
     const adjustSourcesWrapperSize = () => {
-        getSourceHoldersWrapperStyle().width = sourcesData.maxSourceWidth + 'px';
-        getSourceHoldersWrapperStyle().height = sourcesData.maxSourceHeight + 'px';
+        getSourceHoldersWrapperStyle().width = data.maxSourceWidth + 'px';
+        getSourceHoldersWrapperStyle().height = data.maxSourceHeight + 'px';
     };
 
     /** @return { CSSStyleDeclaration } */
@@ -57,9 +60,9 @@ export function setUpGlobalResizingController(
     };
 
     const transformNegativeAllSourcesWhichAreNotInStage = () => {
-        for (let i = 0; i < data.totalSlides; i++) {
-            if (!stage.isSourceInStage(i)) {
-                sourceHoldersTransformer.transformSourceHolderAtIndex(i).negative();
+        for (let i = 0; i < sourcesCount; i++) {
+            if (!stageManager.isSourceInStage(i)) {
+                sourcesHoldersTransformers[i].negative();
             }
         }
     };

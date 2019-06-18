@@ -37,7 +37,7 @@ function App() {
             </button>
             <FsLightbox
                 toggler={ toggler }
-                urls={ [
+                sourcesElements={ [
                     'https://i.imgur.com/fsyrScY.jpg',
                     'https://www.youtube.com/watch?v=xshEZzpS4CQ',
                     'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'

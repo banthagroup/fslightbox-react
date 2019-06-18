@@ -4,8 +4,10 @@ import { DetectedTypeActions } from "../../../../src/core/sources/types/Detected
 import { SourceTypeGetter } from "../../../../src/core/sources/types/SourceTypeGetter";
 
 const fsLightbox = {
+    data: {
+        sources: ['first-url', 'second-url', 'third-url']
+    },
     props: {
-        urls: ['first-url', 'second-url', 'third-url'],
         types: []
     },
     injector: {
