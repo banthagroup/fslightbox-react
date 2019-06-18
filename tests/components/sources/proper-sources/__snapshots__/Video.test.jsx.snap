@@ -1,12 +1,213 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Video DOM should match snapshot 1`] = `
-<video
-  className="fslightbox-source fslightbox-video fslightbox-opacity-0"
-  controls={true}
-  onLoadedMetadata={[Function]}
-  poster="test-poster"
+exports[`ref && DOM && defined videosPosters should match snapshot 1`] = `
+<Video
+  fsLightbox={
+    Object {
+      "collections": Object {
+        "sourcesLoadHandlers": Array [
+          Object {
+            "handleLoad": [Function],
+          },
+        ],
+      },
+      "data": Object {
+        "sources": Array [
+          "test-url",
+        ],
+      },
+      "elements": Object {
+        "sources": Array [
+          Object {
+            "current": <video
+              class="fslightbox-source fslightbox-video fslightbox-opacity-0"
+              controls=""
+              poster="test-poster"
+            >
+              <source
+                src="test-url"
+              />
+            </video>,
+          },
+        ],
+      },
+      "props": Object {
+        "videosPosters": Array [
+          "test-poster",
+        ],
+      },
+    }
+  }
+  index={0}
 >
-  <source />
-</video>
+  <video
+    className="fslightbox-source fslightbox-video fslightbox-opacity-0"
+    controls={true}
+    onLoadedMetadata={[Function]}
+    poster="test-poster"
+  >
+    <source
+      src="test-url"
+    />
+  </video>
+</Video>
+`;
+
+exports[`ref && DOM && videosPosters should match snapshot 1`] = `
+<Video
+  fsLightbox={
+    Object {
+      "collections": Object {
+        "sourcesLoadHandlers": Array [
+          Object {
+            "handleLoad": [Function],
+          },
+        ],
+      },
+      "data": Object {
+        "sources": Array [
+          "test-url",
+        ],
+      },
+      "elements": Object {
+        "sources": Array [
+          Object {
+            "current": <video
+              class="fslightbox-source fslightbox-video fslightbox-opacity-0"
+              controls=""
+              poster="test-poster"
+            >
+              <source
+                src="test-url"
+              />
+            </video>,
+          },
+        ],
+      },
+      "props": Object {
+        "videosPosters": Array [
+          "test-poster",
+        ],
+      },
+    }
+  }
+  index={0}
+>
+  <video
+    className="fslightbox-source fslightbox-video fslightbox-opacity-0"
+    controls={true}
+    onLoadedMetadata={[Function]}
+    poster="test-poster"
+  >
+    <source
+      src="test-url"
+    />
+  </video>
+</Video>
+`;
+
+exports[`ref && DOM should match snapshot 1`] = `
+<Video
+  fsLightbox={
+    Object {
+      "collections": Object {
+        "sourcesLoadHandlers": Array [
+          Object {
+            "handleLoad": [Function],
+          },
+        ],
+      },
+      "data": Object {
+        "sources": Array [
+          "test-url",
+        ],
+      },
+      "elements": Object {
+        "sources": Array [
+          Object {
+            "current": <video
+              class="fslightbox-source fslightbox-video fslightbox-opacity-0"
+              controls=""
+              poster="test-poster"
+            >
+              <source
+                src="test-url"
+              />
+            </video>,
+          },
+        ],
+      },
+      "props": Object {
+        "videosPosters": Array [
+          "test-poster",
+        ],
+      },
+    }
+  }
+  index={0}
+>
+  <video
+    className="fslightbox-source fslightbox-video fslightbox-opacity-0"
+    controls={true}
+    onLoadedMetadata={[Function]}
+    poster="test-poster"
+  >
+    <source
+      src="test-url"
+    />
+  </video>
+</Video>
+`;
+
+exports[`ref and DOM should match snapshot 1`] = `
+<Video
+  fsLightbox={
+    Object {
+      "collections": Object {
+        "sourcesLoadHandlers": Array [
+          Object {
+            "handleLoad": [Function],
+          },
+        ],
+      },
+      "data": Object {
+        "sources": Array [
+          "test-url",
+        ],
+      },
+      "elements": Object {
+        "sources": Array [
+          Object {
+            "current": <video
+              class="fslightbox-source fslightbox-video fslightbox-opacity-0"
+              controls=""
+              poster="test-poster"
+            >
+              <source
+                src="test-url"
+              />
+            </video>,
+          },
+        ],
+      },
+      "props": Object {
+        "videosPosters": Array [
+          "test-poster",
+        ],
+      },
+    }
+  }
+  index={0}
+>
+  <video
+    className="fslightbox-source fslightbox-video fslightbox-opacity-0"
+    controls={true}
+    onLoadedMetadata={[Function]}
+    poster="test-poster"
+  >
+    <source
+      src="test-url"
+    />
+  </video>
+</Video>
 `;

@@ -36,7 +36,7 @@ class DemoComponentHiddenLightbox extends Component {
                 </div>
                 <FsLightbox
                     isOpen={ this.state.toggler }
-                    urls={ [
+                    sources={ [
                         "../demo/images/1.jpeg",
                         "../demo/images/2.jpg",
                         "../demo/images/3.jpeg",

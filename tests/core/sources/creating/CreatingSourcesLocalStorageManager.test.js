@@ -32,7 +32,7 @@ describe('getSourceTypeFromLocalStorageByUrl', () => {
 
     describe('localStorage is enabled', () => {
         beforeAll(() => {
-            fsLightbox.props.disableLocalStorage = undefined;
+            delete fsLightbox.props.disableLocalStorage;
             localStorage.setItem(SOURCES_TYPES_KEY, JSON.stringify({
                 'first-url': 'image'
             }));

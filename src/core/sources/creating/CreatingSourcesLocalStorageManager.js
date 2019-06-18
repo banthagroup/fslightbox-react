@@ -4,7 +4,7 @@ import { assignToObject } from "../../../helpers/objects/assignToObject";
 /**
  * @constructor
  */
-export function CreatingSourcesLocalStorageManager(fsLightbox) {
+export function CreatingSourcesLocalStorageManager({ props: { disableLocalStorage } }) {
     const NOT_YET_DETECTED = false;
     let decodedSourceTypes;
     let newSourceTypesToDetect = 0;
@@ -26,7 +26,7 @@ export function CreatingSourcesLocalStorageManager(fsLightbox) {
     };
 
     const setUp = () => {
-        if (!fsLightbox.props.disableLocalStorage) {
+        if (!disableLocalStorage) {
             decodedSourceTypes = JSON.parse(localStorage.getItem(SOURCES_TYPES_KEY));
             // we are checking if detected source types contains at certain key source type
             // when localStorage will be empty we can overwrite this method because we are sure

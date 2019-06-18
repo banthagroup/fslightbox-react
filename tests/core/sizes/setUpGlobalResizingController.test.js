@@ -11,9 +11,6 @@ const sourceSizeAdjusterIterator = {};
 const sourcesWrapper = document.createElement('div');
 const fsLightbox = {
     data: {
-        totalSlides: 0
-    },
-    sourcesData: {
         maxSourceWidth: 0,
         maxSourceHeight: 0
     },
@@ -29,8 +26,8 @@ const fsLightbox = {
         stage: {
             isSourceInStage: () => {}
         },
-        sourceHoldersTransformer: {
-            transformStageSourceHolders: () => {}
+        sourcesHoldersTransformer: {
+            transform: () => {}
         },
         globalResizingController: globalResizingController
     }
@@ -61,7 +58,7 @@ describe('saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize', () => {
                 });
 
                 it('should set maxSourceWidth to window.innerWidth, due to screen is small', () => {
-                    expect(fsLightbox.sourcesData.maxSourceWidth).toEqual(window.innerWidth);
+                    expect(fsLightbox.data.maxSourceWidth).toEqual(window.innerWidth);
                 });
             });
 
@@ -73,7 +70,7 @@ describe('saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize', () => {
 
                 it(`should set maxSourceWidth to window.innerWidth decreased by responsive value, 
                     due to screen is wide`, () => {
-                    expect(fsLightbox.sourcesData.maxSourceWidth)
+                    expect(fsLightbox.data.maxSourceWidth)
                         .toEqual(window.innerWidth - (window.innerWidth * SOURCE_DIMENSIONS_DECREASE_VALUE));
                 });
             });
@@ -87,7 +84,7 @@ describe('saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize', () => {
 
             it(`should set maxSourceHeight to window.innerHeight decreased by responsive value, 
                 due to decreased height always look better`, () => {
-                expect(fsLightbox.sourcesData.maxSourceHeight)
+                expect(fsLightbox.data.maxSourceHeight)
                     .toEqual(window.innerHeight - (window.innerHeight * SOURCE_DIMENSIONS_DECREASE_VALUE));
             });
         });
@@ -104,11 +101,11 @@ describe('saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize', () => {
         });
 
         it('should set sourcesHoldersWrapper width to maxSourceWidth value + px', () => {
-            expect(sourcesWrapper.style.width).toBe(fsLightbox.sourcesData.maxSourceWidth + 'px');
+            expect(sourcesWrapper.style.width).toBe(fsLightbox.data.maxSourceWidth + 'px');
         });
 
         it('should set sourcesHoldersWrapper width to maxSourceHeight value + px', () => {
-            expect(sourcesWrapper.style.width).toBe(fsLightbox.sourcesData.maxSourceWidth + 'px');
+            expect(sourcesWrapper.style.width).toBe(fsLightbox.data.maxSourceWidth + 'px');
         });
     });
 });
@@ -123,8 +120,8 @@ describe('runAllResizingActions', () => {
         };
         withoutTimeout = jest.fn();
         fsLightbox.injector.injectDependency = () => sourceSizeAdjusterIterator;
-        fsLightbox.core.sourceHoldersTransformer = {
-            transformStageSourceHolders: jest.fn(() => ({
+        fsLightbox.core.sourcesHoldersTransformer = {
+            transform: jest.fn(() => ({
                 withoutTimeout: withoutTimeout
             }))
         };
@@ -142,11 +139,11 @@ describe('runAllResizingActions', () => {
         expect(sourceSizeAdjusterIterator.adjustAllSourcesSizes).toBeCalled();
     });
 
-    it('should call transformStageSourceHolders from sourceHoldersTransformer', () => {
-        expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
+    it('should call transform from sourcesHoldersTransformer', () => {
+        expect(fsLightbox.core.sourcesHoldersTransformer.transform).toBeCalled();
     });
 
-    it('should call withoutTimeout from object received from transformStageSourceHolders', () => {
+    it('should call withoutTimeout from object received from transform', () => {
         expect(withoutTimeout).toBeCalled();
     });
 
@@ -155,26 +152,27 @@ describe('runAllResizingActions', () => {
         let transformCalls = [];
 
         beforeAll(() => {
-            fsLightbox.data.totalSlides = 4;
+            fsLightbox.data.sourcesCount = 4;
             fsLightbox.core.stage.isSourceInStage = jest.fn(() => {
                 isSourceInStageCall++;
                 return isSourceInStageCall === 0 || isSourceInStageCall === 2;
             });
-            fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn((index) => {
+            fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = jest.fn((index) => {
                 transformCalls[index] = {
                     negative: jest.fn()
                 };
                 return transformCalls[index];
             });
+            setUpGlobalResizingController(fsLightbox);
             globalResizingController.runAllResizingActions();
         });
 
-        it('should call isSourceInStage 4 times (data.totalSlides)', () => {
+        it('should call isSourceInStage 4 times (data.sourcesCount)', () => {
             expect(fsLightbox.core.stage.isSourceInStage).toHaveBeenCalledTimes(4);
         });
 
         it('should have called transformSourceHolderAtIndex with 2 (mocked isSourceInStage return value)', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(2);
+            expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(2);
         });
 
         it('should have called negative at transform object on 2 position in array', () => {
@@ -182,7 +180,7 @@ describe('runAllResizingActions', () => {
         });
 
         it('should have called transformSourceHolderAtIndex with 0 (mocked isSourceInStage return value)', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(0);
+            expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(0);
         });
 
         it('should have called negative at transform object on 0 position in array', () => {

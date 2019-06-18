@@ -9,7 +9,7 @@ let moveActions = {
 };
 const fsLightbox = {
     data: {
-        totalSlides: 0,
+        sourcesCount: 0,
         isSwipingSlides: false,
     },
     injector: {
@@ -37,7 +37,7 @@ const callListenerOnNewSlideSwipingMoveInstance = () => {
 
 beforeEach(() => {
     fsLightbox.core.animationer.requestFrame = jest.fn();
-    fsLightbox.data.totalSlides = 4;
+    fsLightbox.data.sourcesCount = 4;
     moveEvent = {};
     moveActions = {
         setMoveEvent: jest.fn(),
@@ -62,7 +62,7 @@ describe('injecting actions', () => {
 
 describe('simulating swipe (if there is only 1 slide)', () => {
     beforeEach(() => {
-        fsLightbox.data.totalSlides = 1;
+        fsLightbox.data.sourcesCount = 1;
         swipingProps = {
             swipedDifference: 0
         };
@@ -83,7 +83,7 @@ describe('not calling actions', () => {
                 isAfterSwipeAnimationRunning: false,
             };
             fsLightbox.data.isSwipingSlides = true;
-            fsLightbox.data.totalSlides = 1;
+            fsLightbox.data.sourcesCount = 1;
             swipingProps = {
                 swipedDifference: 0
             };
@@ -102,7 +102,7 @@ describe('not calling actions', () => {
     describe(`due to down event hasn't occurred even if animation is not running 
             and previous animation is debounced and there is more than one slide`, () => {
         beforeEach(() => {
-            fsLightbox.data.totalSlides = 2;
+            fsLightbox.data.sourcesCount = 2;
             isPrevoiusAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: false,
@@ -123,7 +123,7 @@ describe('not calling actions', () => {
     describe(`due to swiping animation is running, even if down event has occurred
             and previous animation is debounced and there is more than one slide`, () => {
         beforeEach(() => {
-            fsLightbox.data.totalSlides = 2;
+            fsLightbox.data.sourcesCount = 2;
             isPrevoiusAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: true,
@@ -144,7 +144,7 @@ describe('not calling actions', () => {
     describe(`due to previous animation is not debounced even if down event has occurred
             and previous swiping animation is not running and there is more than one slide`, () => {
         beforeEach(() => {
-            fsLightbox.data.totalSlides = 2;
+            fsLightbox.data.sourcesCount = 2;
             isPrevoiusAnimationDebounced = false;
             swipingProps = {
                 isAfterSwipeAnimationRunning: false
@@ -166,7 +166,7 @@ describe('not calling actions', () => {
 describe(`calling actions (animation is not running and down event has occurred
         and previous animation is debounced and there is more than one slide)`, () => {
     beforeEach(() => {
-        fsLightbox.data.totalSlides = 2;
+        fsLightbox.data.sourcesCount = 2;
         isPrevoiusAnimationDebounced = true;
         swipingProps = {
             isAfterSwipeAnimationRunning: false,

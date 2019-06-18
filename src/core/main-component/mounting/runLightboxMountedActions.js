@@ -8,11 +8,13 @@ export function runLightboxMountedActions(
         core: {
             lightboxOpeningActions: {
                 runActions: runLightboxOpeningActions
-            }
+            },
+            stageManager
         }
     }
 ) {
     injectStylesIfNotInDom();
+    stageManager.updateStageIndexes();
     data.scrollbarWidth = getScrollbarWidth();
     if (getState().isOpen) {
         runLightboxOpeningActions();

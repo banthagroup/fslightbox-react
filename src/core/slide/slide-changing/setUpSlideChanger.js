@@ -7,7 +7,7 @@ export function setUpSlideChanger(fsLightbox) {
         core: {
             stage,
             sourceAnimator,
-            sourceHoldersTransformer,
+            sourcesHoldersTransformer,
             slideChanger: self
         }
     } = fsLightbox;
@@ -21,7 +21,7 @@ export function setUpSlideChanger(fsLightbox) {
         newSlideNumber = newSlide;
         slideState.set(newSlideNumber);
         slideState.onUpdate = () => {
-            sourceHoldersTransformer.transformStageSourceHolders().withTimeout();
+            sourcesHoldersTransformer.transform().withTimeout();
         };
         animateSourceHolders();
         removeFadeOutFromAllSourcesAfterTimeout();
@@ -43,7 +43,7 @@ export function setUpSlideChanger(fsLightbox) {
         const previousSlideIndex = previousSlideNumber - 1;
         previousSourceNegativeTransformQueue.actionCallConditionFunc = () => !stage.isSourceInStage(previousSlideIndex);
         previousSourceNegativeTransformQueue.action = () => {
-            sourceHoldersTransformer.transformSourceHolderAtIndex(previousSlideIndex).negative();
+            sourcesHoldersTransformer.transformSourceHolderAtIndex(previousSlideIndex).negative();
         };
         previousSourceNegativeTransformQueue.startTimeout();
     };

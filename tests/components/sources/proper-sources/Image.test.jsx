@@ -4,7 +4,7 @@ import { mount, shallow } from "enzyme";
 
 let fsLightbox = {
     data: {
-        urls: [],
+        sources: []
     },
     elements: {
         sources: [{

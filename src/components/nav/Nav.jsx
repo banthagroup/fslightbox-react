@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Toolbar from "./toolbar/Toolbar.jsx";
 import SlideNumber from "./SlideNumber.jsx";
 
@@ -9,8 +8,4 @@ const Nav = ({ fsLightbox }) => (
         <SlideNumber fsLightbox={ fsLightbox }/>
     </div>
 );
-
-Nav.propTypes = {
-    fsLightbox: PropTypes.object.isRequired
-};
 export default Nav;

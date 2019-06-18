@@ -1,33 +1,37 @@
 /**
  * @constructor
  */
-export function SourceHolderTransformer({ sourcesData: { slideDistance } }) {
-    let sourceHolderStyle;
-    let transformValue = 0;
+export function SourceHolderTransformer({ data: { slideDistance } }) {
+    const realSlideDistance = slideDistance + 1;
+    let sourceHolder;
+    let additionalTransformValue = 0;
 
-    this.setSourceHolder = (sourceHolder) => {
-        transformValue = 0;
-        sourceHolderStyle = sourceHolder.current.style;
+    this.setSourceHolder = (sourceHolderElement) => {
+        sourceHolder = sourceHolderElement;
     };
 
     /** @return { this } */
     this.byValue = (value) => {
-        transformValue = value;
+        additionalTransformValue = value;
         return this;
     };
 
     this.negative = () => {
-        sourceHolderStyle.transform = getTransformStringForValue(-getDefaultTransformDistance());
+        setFinalTransformAndCleanTransformer(-getDefaultTransformDistance());
     };
 
     this.zero = () => {
-        sourceHolderStyle.transform = getTransformStringForValue(0);
+        setFinalTransformAndCleanTransformer(0);
     };
 
     this.positive = () => {
-        sourceHolderStyle.transform = getTransformStringForValue(getDefaultTransformDistance());
+        setFinalTransformAndCleanTransformer(getDefaultTransformDistance());
     };
 
-    const getDefaultTransformDistance = () => (1 + slideDistance) * window.innerWidth;
-    const getTransformStringForValue = (value) => `translate(${ value + transformValue }px,0)`;
+    const setFinalTransformAndCleanTransformer = (value) => {
+        sourceHolder.current.style.transform = `translateX(${ value + additionalTransformValue }px)`;
+        additionalTransformValue = 0;
+    }
+
+    const getDefaultTransformDistance = () => realSlideDistance * innerWidth;
 }

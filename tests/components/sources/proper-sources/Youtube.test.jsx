@@ -2,9 +2,9 @@ import React from 'react';
 import { mount, shallow } from "enzyme";
 import Youtube from "../../../../src/components/sources/proper-sources/Youtube";
 
-let fsLightbox = {
+const fsLightbox = {
     data: {
-        urls: ['https://www.youtube.com/watch?v=testId'],
+        sources: ['https://www.youtube.com/watch?v=testId'],
     },
     elements: {
         sources: [{
@@ -60,6 +60,3 @@ describe('Video DOM', () => {
         });
     });
 });
-
-
-

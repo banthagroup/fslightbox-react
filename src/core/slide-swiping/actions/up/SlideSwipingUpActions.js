@@ -1,4 +1,4 @@
-import { CURSOR_GRABBING_CLASS_NAME, FADE_IN_ANIMATION_TIME } from "../../../../constants/cssConstants";
+import { CURSOR_GRABBING_CLASS_NAME, ANIMATION_TIME } from "../../../../constants/css-constants";
 import { SwipingTransitioner } from "./SwipingTransitioner";
 import { SwipingSlideChanger } from "./SwipingSlideChanger";
 import { ifElementContainsClassRemoveIt } from "../../../../helpers/dom/classes/IfElementContainsClassRemoveIt";
@@ -15,7 +15,7 @@ export function SlideSwipingUpActions(
         },
         core: {
             stage,
-            sourceHoldersTransformer,
+            sourcesHoldersTransformer,
         },
         injector: {
             injectDependency
@@ -32,10 +32,10 @@ export function SlideSwipingUpActions(
     let transformSourceHoldersForward;
 
     this.setUpTransformSourceHolders = () => {
-        if (data.totalSlides === 1) {
+        if (data.sourcesCount === 1) {
             transformSourceHolders = () => {
                 transitioner.addTransitionToCurrent();
-                sourceHoldersTransformer.transformSourceHolderAtIndex(0).zero();
+                sourcesHoldersTransformer.transformSourceHolderAtIndex(0).zero();
             };
             return;
         }
@@ -80,7 +80,7 @@ export function SlideSwipingUpActions(
     };
 
     const areThereMoreThanTwoSlides = () => {
-        return data.totalSlides > 2;
+        return data.sourcesCount > 2;
     };
 
     const isSlideEqualsOne = () => {
@@ -89,14 +89,10 @@ export function SlideSwipingUpActions(
 
     const addTransitionToCurrentAndTransformStageSourceHolders = () => {
         transitioner.addTransitionToCurrent();
-        sourceHoldersTransformer.transformStageSourceHolders();
+        sourcesHoldersTransformer.transform();
     };
 
     this.runActions = () => {
-        const stageSourcesIndexes = stage.getAllStageIndexes();
-        transitioner.setStageSourcesIndexes(stageSourcesIndexes);
-        slideChanger.setStageSourcesIndexes(stageSourcesIndexes);
-
         transformSourceHolders();
 
         swipingProps.isAfterSwipeAnimationRunning = true;
@@ -105,6 +101,6 @@ export function SlideSwipingUpActions(
         setTimeout(() => {
             transitioner.removeAllTransitionsFromStageSources();
             swipingProps.isAfterSwipeAnimationRunning = false;
-        }, FADE_IN_ANIMATION_TIME);
+        }, ANIMATION_TIME);
     };
 }

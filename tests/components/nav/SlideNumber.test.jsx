@@ -3,53 +3,52 @@ import { mount, shallow } from "enzyme/build";
 import { act } from 'react-dom/test-utils';
 import SlideNumber from "../../../src/components/nav/SlideNumber";
 
-const totalSlides = 4;
-const slideState = {};
 const fsLightbox = {
+    props: {},
     data: {
-        totalSlides: totalSlides,
-        slideOnLightboxOpen: 0
+        sourcesCount: 4,
+        sourceIndexOnLightboxOpen: 0
     },
     componentsStates: {
-        slide: slideState
+        currentIndex: {}
     }
 };
-
+const currentIndexState = fsLightbox.componentsStates.currentIndex;
 let slideNumber;
 
 describe('slide - components state', () => {
     beforeAll(() => {
-        fsLightbox.data.slideOnLightboxOpen = 4;
+        fsLightbox.data.sourceIndexOnLightboxOpen = 4;
         slideNumber = mount(<SlideNumber fsLightbox={ fsLightbox }/>);
     });
 
-    it('should be initially slideOnLightboxOpen', () => {
-        expect(slideState.get()).toBe(4);
+    it('should be initially sourceIndexOnLightboxOpen', () => {
+        expect(currentIndexState.get()).toBe(4);
     });
 
     it('should set to 2', () => {
         act(() => {
-            slideState.set(2);
+            currentIndexState.set(2);
         });
-        expect(slideState.get()).toBe(2);
+        expect(currentIndexState.get()).toBe(2);
     });
 
     describe('onUpdate', () => {
         let actionToBeCalled = jest.fn();
 
         beforeAll(() => {
-           fsLightbox.data.slideOnLightboxOpen = 1;
-            slideState.onUpdate = () => {
+            fsLightbox.data.sourceIndexOnLightboxOpen = 1;
+            currentIndexState.onUpdate = () => {
                 actionToBeCalled();
             };
             // updating state
             act(() => {
-                slideState.set(3);
+                currentIndexState.set(3);
             });
         });
 
-        it('should set slideOnLightboxOpen to new slide', () => {
-            expect(fsLightbox.data.slideOnLightboxOpen).toBe(3);
+        it('should set sourceIndexOnLightboxOpen to new slide', () => {
+            expect(fsLightbox.data.sourceIndexOnLightboxOpen).toBe(3);
         });
 
         it('should call onUpdate', () => {
@@ -59,21 +58,21 @@ describe('slide - components state', () => {
 });
 
 describe('SlideNumber DOM', () => {
-    describe('totalSlides > 1', () => {
+    describe('sourcesCount > 1', () => {
         beforeAll(() => {
-            fsLightbox.data.totalSlides = 5;
-            fsLightbox.data.slideOnLightboxOpen = 6;
+            fsLightbox.data.sourcesCount = 5;
+            fsLightbox.data.sourceIndexOnLightboxOpen = 6;
             slideNumber = shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
         });
 
         describe('slide (first child of wrapper)', () => {
-            it('should be 6 (slideOnLightboxOpen)', () => {
-                expect(slideNumber.childAt(0).text()).toBe("6");
+            it('should be 7 (sourceIndexOnLightboxOpen + 1)', () => {
+                expect(slideNumber.childAt(0).text()).toBe('7');
             });
 
-            it('should be 3, because we set slide state to 3', () => {
-                fsLightbox.componentsStates.slide.set(3);
-                expect(slideNumber.childAt(0).text()).toBe("3");
+            it('should be 4, we set index to 3 so slide number will be 4', () => {
+                fsLightbox.componentsStates.currentIndex.set(3);
+                expect(slideNumber.childAt(0).text()).toBe('4');
             });
         });
 
@@ -84,9 +83,9 @@ describe('SlideNumber DOM', () => {
         });
     });
 
-    describe('totalSlides === 1', () => {
+    describe('sourcesCount === 1', () => {
         beforeAll(() => {
-            fsLightbox.data.totalSlides = 1;
+            fsLightbox.data.sourcesCount = 1;
             slideNumber = shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
         });
 

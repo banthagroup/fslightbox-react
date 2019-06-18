@@ -1,5 +1,5 @@
 import { getPreviousSourceNegativeTransformTimeoutQueue } from "../../../../src/core/slide/slide-changing/getPreviousSourceNegativeTransformTimeoutQueue";
-import { FADE_IN_ANIMATION_TIME } from "../../../../src/constants/cssConstants";
+import { ANIMATION_TIME } from "../../../../src/constants/css-constants";
 import { TimeoutQueue } from "../../../../src/core/timeouts/TimeoutQueue";
 
 const timeoutQueue = {};
@@ -19,7 +19,7 @@ describe('injecting TimeoutQueue', () => {
 
 describe('setting time to fade in animation time - 30 (better UX due to decreased by 30)', () => {
     it('should set time to fade in animation time - 30', () => {
-        expect(previousSourceTransformQueue.time).toBe(FADE_IN_ANIMATION_TIME - 30);
+        expect(previousSourceTransformQueue.time).toBe(ANIMATION_TIME - 30);
     });
 });
 

@@ -1,38 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { ifOnUpdateExistsHandleItForState } from "../../helpers/state/ifOnUpdateExistsHandleItForState";
+import React, { useState } from 'react';
 
 const SlideNumber = (
     {
         fsLightbox: {
+            stageIndexes,
             data,
-            componentsStates: { slide: slideState },
+            componentsStates: {
+                slideNumberUpdater: slideNumberUpdaterState
+            },
         }
     }
 ) => {
-    const [slide, setSlide] = useState(data.slideOnLightboxOpen);
-    slideState.get = () => slide;
-    slideState.set = setSlide;
+    const [slideNumberUpdater, setSlideNumberUpdater] = useState(false);
+    slideNumberUpdaterState.get = () => slideNumberUpdater;
+    slideNumberUpdaterState.set = setSlideNumberUpdater;
 
-    useEffect(() => {
-        if (data.slideOnLightboxOpen !== slide) data.slideOnLightboxOpen = slide;
-        ifOnUpdateExistsHandleItForState(slideState);
-    }, [slide]);
-
-    if (data.totalSlides === 1) {
-        return null;
-    }
-
-    return (
-        <div className="fslightbox-slide-number-container fslightbox-flex-centered">
-            <div>{ slide }</div>
-            <div className="fslightbox-slash">/</div>
-            <div>{ data.totalSlides }</div>
-        </div>
-    );
-};
-
-SlideNumber.propTypes = {
-    fsLightbox: PropTypes.object.isRequired
+    return (data.sourcesCount === 1) ?
+        null :
+        (
+            <div className="fslightbox-slide-number-container fslightbox-flex-centered">
+                <div>{ stageIndexes.current + 1 }</div>
+                <div className="fslightbox-slash">/</div>
+                <div>{ data.sourcesCount }</div>
+            </div>
+        );
 };
 export default SlideNumber;

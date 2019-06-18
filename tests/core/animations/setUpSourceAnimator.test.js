@@ -2,7 +2,7 @@ import {
     FADE_IN_CLASS_NAME,
     LONG_FADE_IN_CLASS_NAME,
     FADE_OUT_CLASS_NAME
-} from "../../../src/constants/cssConstants";
+} from "../../../src/constants/css-constants";
 import { setUpSourceAnimator } from "../../../src/core/animations/setUpSourceAnimator";
 
 const sourceAnimator = {};

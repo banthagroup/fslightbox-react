@@ -2,13 +2,13 @@ import {
     setUpSlideSwipingDown,
     SetUpSlideSwipingDown
 } from "../../../../src/core/slide-swiping/events/setUpSlideSwipingDown";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../src/constants/cssConstants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../src/constants/css-constants";
 
 const slideSwipingDown = {};
 const fsLightbox = {
     data: {
         isSwipingSlides: false,
-        totalSlides: 0
+        sourcesCount: 0
     },
     elements: {
         container: {

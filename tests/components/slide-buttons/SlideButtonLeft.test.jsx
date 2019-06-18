@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme/build';
-import SlideButtonLeft from "../../../src/components/slide-buttons/SlideButtonLeft";
+import SlideButtonPrevious from "../../../src/components/slide-buttons/SlideButtonPrevious";
 
 const previousSlideNumber = 4;
 const fsLightbox = {
@@ -14,15 +14,15 @@ const fsLightbox = {
     }
 };
 
-const slideButtonLeft = shallow(<SlideButtonLeft fsLightbox={ fsLightbox }/>);
+const slideButtonLeft = shallow(<SlideButtonPrevious fsLightbox={ fsLightbox }/>);
 
-describe('SlideButtonLeft DOM', () => {
+describe('SlideButtonPrevious DOM', () => {
     it('should match snapshot', () => {
         expect(slideButtonLeft).toMatchSnapshot();
     });
 });
 
-describe('after clicking SlideButtonLeft calling changeSlideTo with slide number received from getPreviousSlideNumber', () => {
+describe('after clicking SlideButtonPrevious calling changeSlideTo with slide number received from getPreviousSlideNumber', () => {
     beforeAll(() => {
         slideButtonLeft.simulate('click');
     });

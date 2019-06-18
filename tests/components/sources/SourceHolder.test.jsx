@@ -10,7 +10,7 @@ const fsLightbox = {
     },
     elements: {
         sourcesComponents: [],
-        sourceHolders: [{
+        sourcesHolders: [{
             current: null
         }]
     }
@@ -37,7 +37,7 @@ describe('setting to shouldSourceHolderBeUpdatedStateCollection correct state ob
     });
 });
 
-describe('sourceHolders array ref', () => {
+describe('sourcesHolders array ref', () => {
     beforeAll(() => {
         sourceHolder = mount(<SourceHolder
             fsLightbox={ fsLightbox }
@@ -46,7 +46,7 @@ describe('sourceHolders array ref', () => {
     });
 
     it('should be equal to source holder', () => {
-        expect(fsLightbox.elements.sourceHolders[0].current).toEqual(sourceHolder.getDOMNode());
+        expect(fsLightbox.elements.sourcesHolders[0].current).toEqual(sourceHolder.getDOMNode());
     });
 });
 

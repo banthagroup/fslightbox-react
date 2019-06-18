@@ -1,4 +1,4 @@
-import { OPACITY_0_CLASS_NAME } from "../../../src/constants/cssConstants";
+import { OPACITY_0_CLASS_NAME } from "../../../src/constants/css-constants";
 import { setUpSourceController } from "../../../src/core/sources/setUpSourceController";
 import { SourceSizeAdjuster } from "../../../src/core/sizes/SourceSizeAdjuster";
 
@@ -28,7 +28,7 @@ const fsLightbox = {
         stage: {
             isSourceInStage: () => {},
         },
-        sourceHoldersTransformer: {
+        sourcesHoldersTransformer: {
             transformSourceHolderAtIndex: () => ({
                 negative: () => {}
             })
@@ -88,34 +88,34 @@ describe('runNormalLoadActions', () => {
     });
 
     describe('transforming source negative if not in stage', () => {
-        describe('not calling transformStageSourceHolders (source is in stage)', () => {
+        describe('not calling transform (source is in stage)', () => {
             beforeAll(() => {
                 fsLightbox.core.stage.isSourceInStage = () => true;
-                fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn();
+                fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = jest.fn();
                 sourceController.setIndex(0);
                 sourceController.runNormalLoadActions();
             });
 
-            it('should not call transformStageSourceHoldersAtIndex', () => {
-                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).not.toBeCalled();
+            it('should not call transformAtIndex', () => {
+                expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex).not.toBeCalled();
             });
         });
 
-        describe('calling transformStageSourceHolders (source is not in stage)', () => {
+        describe('calling transform (source is not in stage)', () => {
             let negative;
 
             beforeAll(() => {
                 negative = jest.fn();
                 fsLightbox.core.stage.isSourceInStage = () => false;
-                fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
+                fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
                     negative: negative
                 }));
                 sourceController.setIndex(0);
                 sourceController.runNormalLoadActions();
             });
 
-            it('should call transformStageSourceHoldersAtIndex', () => {
-                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalled();
+            it('should call transformAtIndex', () => {
+                expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex).toBeCalled();
             });
 
             it('should call negative', () => {

@@ -36,8 +36,8 @@ const fsLightbox = {
             isSourceInStage: () => {}
         },
         sourceAnimator: sourceAnimator,
-        sourceHoldersTransformer: {
-            transformStageSourceHolders: () => {}
+        sourcesHoldersTransformer: {
+            transform: () => {}
         },
         slideChanger: slideChanger
     }
@@ -87,7 +87,7 @@ describe('changeSlideTo', () => {
 
             beforeAll(() => {
                 withTimeout = jest.fn();
-                fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+                fsLightbox.core.sourcesHoldersTransformer.transform = jest.fn(() => ({
                     withTimeout: withTimeout
                 }));
                 setSlideTo1AndCallChangeSlideTo(2);
@@ -95,8 +95,8 @@ describe('changeSlideTo', () => {
                 fsLightbox.componentsStates.slide.onUpdate();
             });
 
-            it('should call transformStageSourceHolders', () => {
-                expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
+            it('should call transform', () => {
+                expect(fsLightbox.core.sourcesHoldersTransformer.transform).toBeCalled();
             });
 
             it('should call withTimeout', () => {
@@ -213,7 +213,7 @@ describe('changeSlideTo', () => {
             previousSourceNegativeTransformQueue.actionCallConditionFunc = null;
             fsLightbox.core.stage.isSourceInStage = jest.fn(() => true);
             previousSourceNegativeTransformQueue.action = null;
-            fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
+            fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
                 negative: negative
             }));
             previousSourceNegativeTransformQueue.startTimeout = jest.fn();
@@ -243,7 +243,7 @@ describe('changeSlideTo', () => {
             });
 
             it('should call transformSourceHolderAtIndex with previous slide index', () => {
-                expect(fsLightbox.core.sourceHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(1);
+                expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex).toBeCalledWith(1);
             });
 
             it('should call negative', () => {

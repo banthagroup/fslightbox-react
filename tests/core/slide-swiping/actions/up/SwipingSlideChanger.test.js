@@ -8,8 +8,8 @@ const fsLightbox = {
         }
     },
     core: {
-        sourceHoldersTransformer: {
-            transformStageSourceHolders: () => {},
+        sourcesHoldersTransformer: {
+            transform: () => {},
         }
     }
 };
@@ -60,7 +60,7 @@ describe('changeSlideToPrevious', () => {
 
         beforeAll(() => {
             withoutTimeout = jest.fn();
-            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+            fsLightbox.core.sourcesHoldersTransformer.transform = jest.fn(() => ({
                 withoutTimeout: withoutTimeout
             }));
             recreateSwipingSlideChangerAndCallChangeSlideToPrevious();
@@ -68,8 +68,8 @@ describe('changeSlideToPrevious', () => {
             fsLightbox.componentsStates.slide.onUpdate();
         });
 
-        it('should call transformStageSourceHolders', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
+        it('should call transform', () => {
+            expect(fsLightbox.core.sourcesHoldersTransformer.transform).toBeCalled();
         });
 
         it('should call withoutTimeout', () => {
@@ -108,7 +108,7 @@ describe('changeSlideToNext', () => {
 
         beforeAll(() => {
             withoutTimeout = jest.fn();
-            fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders = jest.fn(() => ({
+            fsLightbox.core.sourcesHoldersTransformer.transform = jest.fn(() => ({
                 withoutTimeout: withoutTimeout
             }));
             recreateSwipingSlideChangerAndCallChangeSlideToNext();
@@ -116,8 +116,8 @@ describe('changeSlideToNext', () => {
             fsLightbox.componentsStates.slide.onUpdate();
         });
 
-        it('should call transformStageSourceHolders', () => {
-            expect(fsLightbox.core.sourceHoldersTransformer.transformStageSourceHolders).toBeCalled();
+        it('should call transform', () => {
+            expect(fsLightbox.core.sourcesHoldersTransformer.transform).toBeCalled();
         });
 
         it('should call withoutTimeout', () => {

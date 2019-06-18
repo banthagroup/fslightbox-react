@@ -2,12 +2,11 @@ import React from 'react';
 import { mount, shallow } from 'enzyme/build';
 import SourceHoldersWrapper from "../../../src/components/sources/SourceHoldersWrapper";
 import { FsLightboxMock } from "../../__mocks__/components/fsLightboxMock";
-import { IMAGE_TYPE } from "../../../src/constants/coreConstants";
 import SourceHolder from "../../../src/components/sources/SourceHolder";
 
 let fsLightbox = {
     data: {
-        totalSlides: 4
+        sourcesCount: 4
     },
     elements: {
         sourcesHoldersWrapper: {
@@ -28,9 +27,6 @@ describe('attaching element to sourcesHoldersWrapper ref from fsLightbox element
     beforeAll(() => {
         const fsLightboxMock = new FsLightboxMock();
         completeFsLightboxObject = fsLightboxMock.getFsLightbox();
-        // as we are using mount
-        // we mock sourcesTypes to not load sources via Xhr, because that would be waste of performance
-        completeFsLightboxObject.sourcesData.sourcesTypes = [IMAGE_TYPE, IMAGE_TYPE, IMAGE_TYPE, IMAGE_TYPE];
         sourcesHoldersWrapper = mount(<SourceHoldersWrapper fsLightbox={ completeFsLightboxObject }/>);
     });
 
@@ -39,7 +35,7 @@ describe('attaching element to sourcesHoldersWrapper ref from fsLightbox element
     });
 });
 
-describe('MediaHolder DOM', () => {
+describe('SourcesHoldersWrapper DOM', () => {
     beforeAll(() => {
         sourcesHoldersWrapper = shallow(<SourceHoldersWrapper fsLightbox={ fsLightbox }/>)
     });
@@ -83,14 +79,14 @@ describe('rendering sources holders', () => {
         sourcesHoldersWrapper = shallow(<SourceHoldersWrapper fsLightbox={ fsLightbox }/>)
     });
 
-    describe('rendering equivalent to totalSlides number of sources holders', () => {
+    describe('rendering equivalent to sourcesCount number of sources holders', () => {
         it('should render 4 sources holders', () => {
             expect(sourcesHoldersWrapper.find('SourceHolder').length).toEqual(4);
         });
     });
 
     describe('SourceHolders (testing correct props and dom)', () => {
-        for (let i = 0; i < fsLightbox.data.totalSlides; i++) {
+        for (let i = 0; i < fsLightbox.data.sourcesCount; i++) {
             let sourceHolder;
             beforeAll(() => {
                 sourceHolder = sourcesHoldersWrapper.childAt(i);

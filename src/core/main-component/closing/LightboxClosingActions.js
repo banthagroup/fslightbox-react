@@ -1,7 +1,7 @@
 import {
     OPEN_CLASS_NAME,
-    LONG_FADE_OUT_CLASS_NAME
-} from "../../../constants/cssConstants";
+    LONG_FADE_OUT_CLASS_NAME, ANIMATION_TIME
+} from "../../../constants/css-constants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../constants/coreConstants";
 import { ON_CLOSE } from "../../../constants/eventsConstants";
 import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
@@ -46,7 +46,7 @@ export function LightboxClosingActions(
         ifFullscreenIsOpenCloseIt();
         setTimeout(() => {
             afterFadeOut();
-        }, CONTAINER_FADE_OUT_TIME);
+        }, ANIMATION_TIME);
     };
 
     const ifFullscreenIsOpenCloseIt = () => {
