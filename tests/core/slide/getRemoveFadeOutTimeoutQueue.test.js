@@ -1,6 +1,6 @@
-import { getRemoveFadeOutTimeoutQueue } from "../../../../src/core/slide/slide-changing/getRemoveFadeOutTimeoutQueue";
-import { ANIMATION_TIME } from "../../../../src/constants/css-constants";
-import { TimeoutQueue } from "../../../../src/core/timeouts/TimeoutQueue";
+import { getRemoveFadeOutTimeoutQueue } from "../../../src/core/slide/getRemoveFadeOutTimeoutQueue";
+import { ANIMATION_TIME } from "../../../src/constants/css-constants";
+import { TimeoutQueue } from "../../../src/core/timeouts/TimeoutQueue";
 
 const timeoutQueue = {};
 const fsLightbox = {

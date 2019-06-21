@@ -4,11 +4,12 @@
 export function SwipingSlideChanger(
     {
         stageIndexes,
-        componentsStates: {
-            slide: slideState
+        collections: {
+            sourcesHoldersTransformers
         },
         core: {
-            sourcesHoldersTransformer
+            stageManager,
+            slideIndexChanger
         }
     }, {
         addTransitionToCurrentAndPrevious,
@@ -16,17 +17,16 @@ export function SwipingSlideChanger(
     },
 ) {
     this.changeSlideToPrevious = () => {
-        callTransformsAndSetSlideTo(stageIndexes.previous + 1);
         addTransitionToCurrentAndPrevious();
+        sourcesHoldersTransformers[stageIndexes.current].positive();
+        slideIndexChanger.changeTo(stageIndexes.previous);
+        sourcesHoldersTransformers[stageIndexes.current].zero();
     };
 
     this.changeSlideToNext = () => {
-        callTransformsAndSetSlideTo(stageIndexes.next + 1);
         addTransitionToCurrentAndNext();
-    };
-
-    const callTransformsAndSetSlideTo = (slide) => {
-        stageIndexes.current = slide - 1;
-        sourcesHoldersTransformer.transform().withoutTimeout();
+        sourcesHoldersTransformers[stageIndexes.current].negative();
+        slideIndexChanger.changeTo(stageIndexes.next);
+        sourcesHoldersTransformers[stageIndexes.current].zero();
     };
 }

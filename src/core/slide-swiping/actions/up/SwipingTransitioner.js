@@ -1,13 +1,16 @@
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/css-constants";
-import { getClassListOfElementInArrayByIndex } from "../../../../helpers/source/getClassListOfElementInArrayByIndex";
+import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-names";
+import { SOURCES_HOLDERS } from "../../../../constants/elements";
 
 /**
  * @constructor
  */
 export function SwipingTransitioner(
     {
+        core: {
+            classListManager
+        },
+        data: { sourcesCount },
         stageIndexes,
-        elements: { sourceHolders },
     }
 ) {
     this.addTransitionToCurrentAndPrevious = () => {
@@ -24,16 +27,21 @@ export function SwipingTransitioner(
         addTransitionToSourceHolderByIndex(stageIndexes.current);
     };
 
-    this.removeAllTransitionsFromStageSources = () => {
-        for (let index in stageIndexes) {
-            let sourceHolderClassList = getClassListOfElementInArrayByIndex(sourceHolders, stageIndexes[index]);
-            if (sourceHolderClassList.contains(TRANSFORM_TRANSITION_CLASS_NAME)) {
-                sourceHolderClassList.remove(TRANSFORM_TRANSITION_CLASS_NAME);
-            }
+    this.removeAllTransitions = () => {
+        for (let i = 0; i < sourcesCount; i++) {
+            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt(
+                SOURCES_HOLDERS,
+                i,
+                TRANSFORM_TRANSITION_CLASS_NAME
+            );
         }
     };
 
-    const addTransitionToSourceHolderByIndex = (sourceHolderIndex) => {
-        getClassListOfElementInArrayByIndex(sourceHolders, sourceHolderIndex).add(TRANSFORM_TRANSITION_CLASS_NAME);
+    const addTransitionToSourceHolderByIndex = (index) => {
+        classListManager.addToElementInArrayAtIndexClass(
+            SOURCES_HOLDERS,
+            index,
+            TRANSFORM_TRANSITION_CLASS_NAME
+        );
     };
 }

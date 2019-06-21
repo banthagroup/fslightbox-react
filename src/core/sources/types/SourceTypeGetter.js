@@ -3,7 +3,7 @@ import {
     INVALID_TYPE,
     VIDEO_TYPE,
     YOUTUBE_TYPE,
-} from "../../../constants/coreConstants";
+} from "../../../constants/core-constants";
 import { SourceTypeGetterHelpers } from "./SourceTypeGetterHelpers";
 
 /**

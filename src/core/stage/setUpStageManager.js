@@ -1,5 +1,3 @@
-import { CURRENT_POSITION, NEXT_POSITION, PREVIOUS_POSITION } from "../../constants/coreConstants";
-
 export function setUpStageManager(
     {
         stageIndexes,
@@ -31,6 +29,14 @@ export function setUpStageManager(
         return self.getNextSlideIndex() + 1;
     };
 
+    self.isPreviousStageIndexDefined = () => {
+        return typeof stageIndexes.previous !== "undefined";
+    };
+
+    self.isNextStageIndexDefined = () => {
+        return typeof stageIndexes.next !== "undefined";
+    };
+
     function setUpUpdateStageIndexes() {
         if (lastSourceIndex === 0) {
             self.updateStageIndexes = () => {};
@@ -56,7 +62,7 @@ export function setUpStageManager(
 
     function setUpIsSourceInStage() {
         // if there are 3, 2, 1 slides all sources will be always in stage
-        if(lastSourceIndex <= 2) {
+        if (lastSourceIndex <= 2) {
             self.isSourceInStage = () => true;
             return;
         }
@@ -68,9 +74,10 @@ export function setUpStageManager(
                 return true;
 
             const difference = currentIndex - index;
-            return difference === PREVIOUS_POSITION ||
-                difference === CURRENT_POSITION ||
-                difference === NEXT_POSITION;
+
+            return difference === -1 ||
+                difference === 0 ||
+                difference === 1;
         };
     }
 }

@@ -9,10 +9,17 @@ class DemoComponent extends Component {
         this.state = {
             toggler: true,
             toggler2: false,
-            updated: true
+            updated: true,
+            slide: 1,
         };
         this.toggleLightbox = this.toggleLightbox.bind(this);
         this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
+
+        setTimeout(() => {
+            // this.setState({
+            //     slide: 5
+            // });
+        }, 5000);
     }
 
     toggleLightbox() {
@@ -42,14 +49,20 @@ class DemoComponent extends Component {
                 </div>
                 <FsLightbox
                     toggler={ this.state.toggler }
+                    slide={ this.state.slide }
                     sources={ [
                         '../demo/images/5.jpg',
-                        'https://escalante-mkt-imgs.s3-us-west-2.amazonaws.com/TimeSheets/screenshot1.png',
-                        // "invalid",
-                        TEST_YOUTUBE_URL,
-                        TEST_VIDEO_URL,
-                        "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                        "../demo/images/3.jpeg"
+                        '../demo/images/4.jpeg',
+                        // '../demo/images/1.jpeg',
+                        // '../demo/images/2.jpg',
+                        // '../demo/images/6.jpg',
+                        // '../demo/images/7.jpg',
+                        // 'https://escalante-mkt-imgs.s3-us-west-2.amazonaws.com/TimeSheets/screenshot1.png',
+                        // // "invalid",
+                        // // TEST_YOUTUBE_URL,
+                        // TEST_VIDEO_URL,
+                        // "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        // "../demo/images/3.jpeg"
                     ] }
                     types={ [
                         'image',

@@ -4,8 +4,7 @@ import * as getAnimationDebounceObject from "../../../../src/core/animations/get
 
 const slideSwipingMove = {};
 let moveActions = {
-    setMoveEvent: () => {},
-    runActions: () => {}
+    runActionsForEvent: () => {}
 };
 const fsLightbox = {
     data: {
@@ -27,8 +26,8 @@ const fsLightbox = {
 let swipingProps;
 let moveEvent;
 getAnimationDebounceObject.getAnimationDebounce = () => canRunNextAnimationFunc;
-let isPrevoiusAnimationDebounced = false;
-let canRunNextAnimationFunc = () => isPrevoiusAnimationDebounced;
+let isPreviousAnimationDebounced = false;
+let canRunNextAnimationFunc = () => isPreviousAnimationDebounced;
 
 const callListenerOnNewSlideSwipingMoveInstance = () => {
     setUpSlideSwipingMove(fsLightbox, swipingProps);
@@ -41,7 +40,7 @@ beforeEach(() => {
     moveEvent = {};
     moveActions = {
         setMoveEvent: jest.fn(),
-        runActions: jest.fn()
+        runActionsForEvent: jest.fn()
     };
 });
 
@@ -78,7 +77,7 @@ describe('not calling actions', () => {
     describe(`due to there is only 1 slide even if previous animation is debounced and 
             down event occurred and swiping animation is not running`, () => {
         beforeEach(() => {
-            isPrevoiusAnimationDebounced = true;
+            isPreviousAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: false,
             };
@@ -94,8 +93,8 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
-            expect(moveActions.runActions).not.toBeCalled();
+        it('should not call runActionsForEvent', () => {
+            expect(moveActions.runActionsForEvent).not.toBeCalled();
         });
     });
 
@@ -103,7 +102,7 @@ describe('not calling actions', () => {
             and previous animation is debounced and there is more than one slide`, () => {
         beforeEach(() => {
             fsLightbox.data.sourcesCount = 2;
-            isPrevoiusAnimationDebounced = true;
+            isPreviousAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: false,
             };
@@ -115,8 +114,8 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
-            expect(moveActions.runActions).not.toBeCalled();
+        it('should not call runActionsForEvent', () => {
+            expect(moveActions.runActionsForEvent).not.toBeCalled();
         });
     });
 
@@ -124,7 +123,7 @@ describe('not calling actions', () => {
             and previous animation is debounced and there is more than one slide`, () => {
         beforeEach(() => {
             fsLightbox.data.sourcesCount = 2;
-            isPrevoiusAnimationDebounced = true;
+            isPreviousAnimationDebounced = true;
             swipingProps = {
                 isAfterSwipeAnimationRunning: true,
             };
@@ -136,8 +135,8 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
-            expect(moveActions.runActions).not.toBeCalled();
+        it('should not call runActionsForEvent', () => {
+            expect(moveActions.runActionsForEvent).not.toBeCalled();
         });
     });
 
@@ -145,7 +144,7 @@ describe('not calling actions', () => {
             and previous swiping animation is not running and there is more than one slide`, () => {
         beforeEach(() => {
             fsLightbox.data.sourcesCount = 2;
-            isPrevoiusAnimationDebounced = false;
+            isPreviousAnimationDebounced = false;
             swipingProps = {
                 isAfterSwipeAnimationRunning: false
             };
@@ -157,8 +156,8 @@ describe('not calling actions', () => {
             expect(moveActions.setMoveEvent).not.toBeCalled();
         });
 
-        it('should not call runActions', () => {
-            expect(moveActions.runActions).not.toBeCalled();
+        it('should not call runActionsForEvent', () => {
+            expect(moveActions.runActionsForEvent).not.toBeCalled();
         });
     });
 });
@@ -167,19 +166,14 @@ describe(`calling actions (animation is not running and down event has occurred
         and previous animation is debounced and there is more than one slide)`, () => {
     beforeEach(() => {
         fsLightbox.data.sourcesCount = 2;
-        isPrevoiusAnimationDebounced = true;
+        isPreviousAnimationDebounced = true;
         swipingProps = {
             isAfterSwipeAnimationRunning: false,
         };
         fsLightbox.data.isSwipingSlides = true;
         callListenerOnNewSlideSwipingMoveInstance();
     });
-
-    it('should not call setMoveEvent with event', () => {
-        expect(moveActions.setMoveEvent).toBeCalledWith(moveEvent);
-    });
-
-    it('should not call runActions', () => {
-        expect(moveActions.runActions).toBeCalled();
+    it('should not call runActionsForEvent', () => {
+        expect(moveActions.runActionsForEvent).toBeCalledWith(moveEvent);
     });
 });

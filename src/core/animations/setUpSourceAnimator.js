@@ -1,14 +1,11 @@
-import {
-    FADE_IN_CLASS_NAME,
-    LONG_FADE_IN_CLASS_NAME,
-    FADE_OUT_CLASS_NAME
-} from "../../constants/css-constants";
-import { getClassListOfElementInArrayByIndex } from "../../helpers/source/getClassListOfElementInArrayByIndex";
+import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../constants/classes-names";
+
 
 export function setUpSourceAnimator(
     {
-        elements: { sources },
+        data: { sourcesCount },
         core: {
+            classListGetter,
             sourceAnimator: self
         }
     }
@@ -21,21 +18,8 @@ export function setUpSourceAnimator(
      * @return { self }
      */
     self.animateSourceFromIndex = (index) => {
-        setClassListForSourceByIndex(index);
+        animatedSourceClassList = classListGetter.getSourceClassListByIndex(index);
         return self;
-    };
-
-    /**
-     * @param slideNumber
-     * @return { self }
-     */
-    self.animateSourceFromSlide = (slideNumber) => {
-        setClassListForSourceByIndex(slideNumber - 1);
-        return self;
-    };
-
-    const setClassListForSourceByIndex = (index) => {
-        animatedSourceClassList = getClassListOfElementInArrayByIndex(sources, index);
     };
 
     self.fadeOut = () => {
@@ -62,11 +46,12 @@ export function setUpSourceAnimator(
     };
 
     self.removeFadeOutFromAllSources = () => {
-        for (let i = 0; i < sources.length; i++) {
-            const sourceClassList = getClassListOfElementInArrayByIndex(sources, i);
-            if (sourceClassList.contains(FADE_OUT_CLASS_NAME)) {
-                sourceClassList.remove(FADE_OUT_CLASS_NAME);
-            }
+        for (let i = 0; i < sourcesCount; i++) {
+            classListGetter.ifElementFromArrayAtIndexHasClassRemoveIt(
+                'sources',
+                i,
+                FADE_OUT_CLASS_NAME
+            );
         }
     };
 }

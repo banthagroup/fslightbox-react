@@ -5,7 +5,7 @@ import { mount, shallow } from "enzyme";
 const fsLightbox = {
     core: {
         sourceAnimator: {
-            animateSourceFromSlide: () => ({
+            animateSourceFromIndex: () => ({
                 fadeIn: () => {}
             })
         }
@@ -34,14 +34,18 @@ describe('on render', () => {
 
     beforeAll(() => {
         fadeIn = jest.fn();
-        fsLightbox.core.sourceAnimator.animateSourceFromSlide = jest.fn(() => ({
-            fadeIn: fadeIn
-        }));
-        invalid = mount(<Invalid fsLightbox={ fsLightbox } index={ 0 }/>);
+        fsLightbox.core.sourceAnimator.animateSourceFromIndex = jest.fn((index) => {
+            if (index === 2) {
+                return {
+                    fadeIn: fadeIn
+                }
+            }
+        });
+        invalid = mount(<Invalid fsLightbox={ fsLightbox } index={ 2 }/>);
     });
 
-    it('should call animateSourceFromSlide', () => {
-        expect(fsLightbox.core.sourceAnimator.animateSourceFromSlide).toBeCalled();
+    it('should call animateSourceFromIndex', () => {
+        expect(fsLightbox.core.sourceAnimator.animateSourceFromIndex).toBeCalled();
     });
 
     it('should call fadeIn', () => {

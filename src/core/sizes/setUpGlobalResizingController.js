@@ -6,6 +6,7 @@ import { SourceSizeAdjusterIterator } from "./SourceSizeAdjusterIterator";
 
 export function setUpGlobalResizingController(
     {
+        stageIndexes,
         data: { sourcesCount },
         data,
         elements: {
@@ -18,8 +19,9 @@ export function setUpGlobalResizingController(
             injectDependency
         },
         core: {
+            slideIndexChanger,
             stageManager,
-            stageSourcesHoldersTransformer,
+            sourcesHoldersTransformingFacade,
             globalResizingController: self
         }
     }
@@ -36,7 +38,7 @@ export function setUpGlobalResizingController(
     self.runAllResizingActions = () => {
         self.saveMaxSourcesDimensionsAndAdjustSourcesWrapperSize();
         adjustAllSourcesSizes();
-        stageSourcesHoldersTransformer.transform().withoutTimeout();
+        // TODO: DELETED: sourcesHoldersTransformingFacade.transform().withoutTimeout();
         transformNegativeAllSourcesWhichAreNotInStage();
     };
 
@@ -49,6 +51,7 @@ export function setUpGlobalResizingController(
 
     const getDecreasedByResponsiveValueDimension = (value) => value - (value * SOURCE_DIMENSIONS_DECREASE_VALUE);
 
+    // TODO: this is not needed
     const adjustSourcesWrapperSize = () => {
         getSourceHoldersWrapperStyle().width = data.maxSourceWidth + 'px';
         getSourceHoldersWrapperStyle().height = data.maxSourceHeight + 'px';
@@ -61,8 +64,10 @@ export function setUpGlobalResizingController(
 
     const transformNegativeAllSourcesWhichAreNotInStage = () => {
         for (let i = 0; i < sourcesCount; i++) {
-            if (!stageManager.isSourceInStage(i)) {
-                sourcesHoldersTransformers[i].negative();
+            if (i !== stageIndexes.current) {
+                // TODO: this was edited
+                // if (!stageManager.isSourceInStage(i)) {
+                // sourcesHoldersTransformers[i].negative();
             }
         }
     };

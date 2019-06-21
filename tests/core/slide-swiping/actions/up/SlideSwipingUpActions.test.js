@@ -3,7 +3,7 @@ import { SwipingTransitioner } from "../../../../../src/core/slide-swiping/actio
 import { SwipingSlideChanger } from "../../../../../src/core/slide-swiping/actions/up/SwipingSlideChanger";
 import * as ifElementContainsClassRemoveItObject
     from "../../../../../src/helpers/dom/classes/IfElementContainsClassRemoveIt";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/css-constants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/classes-names";
 
 let slide;
 let isSwipingSlides;
@@ -31,11 +31,8 @@ const fsLightbox = {
         },
     },
     core: {
-        stage: {
-            getAllStageIndexes: () => {}
-        },
-        sourcesHoldersTransformer: {
-            transformSourceHolderAtIndex: () => {},
+        classListManger: {
+            ifElementHasClassRemoveIt: () => {},
         },
     },
     injector: {
@@ -44,10 +41,10 @@ const fsLightbox = {
             if (dependency === SwipingSlideChanger) return swipingSlideChanger;
         }
     },
-    elements: {
-        container: {
-            current: document.createElement('div')
-        }
+    stageIndexes: {
+        previous: undefined,
+        current: undefined,
+        next: undefined
     }
 };
 /** @var { SlideSwipingUpActions } slideSwipingUpActions */

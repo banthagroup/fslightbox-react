@@ -1,9 +1,10 @@
 import { getClassListOfElementInArrayByIndex } from "../../helpers/source/getClassListOfElementInArrayByIndex";
-import { OPACITY_0_CLASS_NAME } from "../../constants/css-constants";
 import { SourceSizeAdjuster } from "../sizes/SourceSizeAdjuster";
+import { OPACITY_0_CLASS_NAME } from "../../constants/classes-names";
 
 export function setUpSourceController(
     {
+        stageIndexes,
         elements: { sources },
         collections: {
             sourceSizeAdjusters,
@@ -38,7 +39,6 @@ export function setUpSourceController(
 
     self.runNormalLoadActions = () => {
         ifSourceContainsOpacityOClassRemoveIt();
-        ifSourceIsNotInStageTransformItNegative();
     };
 
     self.runInitialLoadActions = () => {
@@ -49,15 +49,10 @@ export function setUpSourceController(
     };
 
     const ifSourceContainsOpacityOClassRemoveIt = () => {
+        // TODO: TO IMPROVE WE HAVE OBJECT FOR THIS
         const classList = getClassListOfElementInArrayByIndex(sources, index);
         if (classList.contains(OPACITY_0_CLASS_NAME)) {
             classList.remove(OPACITY_0_CLASS_NAME);
-        }
-    };
-
-    const ifSourceIsNotInStageTransformItNegative = () => {
-        if (!stageManager.isSourceInStage(index)) {
-            sourcesHoldersTransformers[index].negative();
         }
     };
 
@@ -73,8 +68,10 @@ export function setUpSourceController(
     };
 
     const longFadeInSourceIfItsInStage = () => {
-        if (!stageManager.isSourceInStage(index))
-            return;
-        sourceAnimator.animateSourceFromIndex(index).longFadeIn();
+        if (stageIndexes.current === index) {
+            sourceAnimator.animateSourceFromIndex(index).longFadeIn();
+        } else {
+            sourcesHoldersTransformers[index].negative();
+        }
     };
 }

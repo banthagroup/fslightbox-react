@@ -20,6 +20,10 @@ export function SourceHolderTransformer({ data: { slideDistance } }) {
         setFinalTransformAndCleanTransformer(-getDefaultTransformDistance());
     };
 
+    this.clearTransform = () => {
+        sourceHolder.current.style.transform = '';
+    };
+
     this.zero = () => {
         setFinalTransformAndCleanTransformer(0);
     };

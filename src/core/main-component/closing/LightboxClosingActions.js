@@ -2,7 +2,7 @@ import {
     OPEN_CLASS_NAME,
     LONG_FADE_OUT_CLASS_NAME, ANIMATION_TIME
 } from "../../../constants/css-constants";
-import { CONTAINER_FADE_OUT_TIME } from "../../../constants/coreConstants";
+import { CONTAINER_FADE_OUT_TIME } from "../../../constants/core-constants";
 import { ON_CLOSE } from "../../../constants/eventsConstants";
 import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
 

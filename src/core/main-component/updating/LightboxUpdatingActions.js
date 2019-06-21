@@ -3,11 +3,7 @@
  */
 export function LightboxUpdatingActions(
     {
-        getters: {
-            props: {
-                getSlide
-            }
-        },
+        getProps,
         data,
         getters: {
             getIsOpen: getIsLightboxOpen,
@@ -15,7 +11,7 @@ export function LightboxUpdatingActions(
         core: {
             lightboxCloser,
             lightboxOpener,
-            slideChanger
+            slideIndexChanger
         }
     }
 ) {
@@ -27,7 +23,7 @@ export function LightboxUpdatingActions(
 
     this.runSlideUpdateActions = () => {
         (getIsLightboxOpen()) ?
-            slideChanger.changeSlideTo(getSlide()) :
-            data.slideOnLightboxOpen = getSlide();
+            slideIndexChanger.changeToWithActions(getProps().slide - 1) :
+            data.slideOnLightboxOpen = getProps().slide - 1;
     };
 }

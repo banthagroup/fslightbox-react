@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from "prop-types";
 
 const Invalid = (
     {
@@ -11,7 +10,7 @@ const Invalid = (
     }
 ) => {
     useEffect(() => {
-        sourceAnimator.animateSourceFromSlide(index + 1).fadeIn();
+        sourceAnimator.animateSourceFromIndex(index).fadeIn();
     });
 
     return (
@@ -23,8 +22,4 @@ const Invalid = (
     );
 };
 
-Invalid.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired
-};
 export default Invalid;

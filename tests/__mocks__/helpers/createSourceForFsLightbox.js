@@ -1,4 +1,4 @@
-import { VIDEO_TYPE } from "../../../src/constants/coreConstants";
+import { VIDEO_TYPE } from "../../../src/constants/core-constants";
 
 export const createVideoSourceForFsLightbox = (fsLightbox) => {
     fsLightbox.instance().sourcesData.sourcesTypes[1] = VIDEO_TYPE;

@@ -1,7 +1,10 @@
 import { getRemoveFadeOutTimeoutQueue } from "./getRemoveFadeOutTimeoutQueue";
 import { getPreviousSourceNegativeTransformTimeoutQueue } from "./getPreviousSourceNegativeTransformTimeoutQueue";
 
-export function setUpSlideChanger(fsLightbox) {
+/**
+ * @constructor
+ */
+export function SlideChangingActions(fsLightbox) {
     const {
         componentsStates: { slide: slideState },
         core: {

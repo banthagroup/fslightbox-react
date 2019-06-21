@@ -1,9 +1,9 @@
+import { setUpClassListsManager } from "./elements/setUpClassListsManager";
 import { getSwipingProps } from "./slide-swiping/getSwipingProps";
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
-import { setUpSlideChanger } from "./slide/slide-changing/setUpSlideChanger";
 import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
 import { setUpSourceController } from "./sources/setUpSourceController";
-import { setUpStageSourcesHoldersTransformer } from "./transforms/setUpStageSourcesHoldersTransformer";
+import { setUpSourcesHoldersTransformingFacade } from "./transforms/setUpSourcesHoldersTransformingFacade";
 import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
 import { setUpGlobalResizingController } from "./sizes/setUpGlobalResizingController";
 import { setUpDocumentKeyDownEventController } from "./events-controllers/document/setUpDocumentKeyDownEventController";
@@ -18,8 +18,12 @@ import { setUpSlideSwipingUp } from "./slide-swiping/events/setUpSlideSwipingUp"
 import { setUpSourceAnimator } from "./animations/setUpSourceAnimator";
 import { setUpLightboxUpdater } from "./main-component/updating/setUpLightboxUpdater";
 import { setUpStageManager } from "./stage/setUpStageManager";
+import { setUpSlideNumberUpdater } from "./slide/setUpSlideNumberUpdater";
+import { setUpSlideIndexChanger } from "./slide/setUpSlideIndexChanger";
 
 export function setUpCore(fsLightbox) {
+    setUpClassListsManager(fsLightbox);
+
     setUpDocumentKeyDownEventController(fsLightbox);
     setUpWindowResizeEventController(fsLightbox);
     setUpSwipingEventsControllersFacade(fsLightbox);
@@ -40,7 +44,9 @@ export function setUpCore(fsLightbox) {
 
     setUpScrollbarRecompensor(fsLightbox);
 
-    setUpSlideChanger(fsLightbox);
+    setUpSlideIndexChanger(fsLightbox);
+
+    setUpSlideNumberUpdater(fsLightbox);
 
     const swipingProps = getSwipingProps();
     setUpSlideSwipingDown(fsLightbox, swipingProps);
@@ -51,8 +57,9 @@ export function setUpCore(fsLightbox) {
 
     setUpSourceController(fsLightbox);
 
-    setUpStageSourcesHoldersTransformer(fsLightbox);
+    setUpSourcesHoldersTransformingFacade(fsLightbox);
 
     setUpStageManager(fsLightbox);
+
 }
 

@@ -22,7 +22,7 @@ describe('openLightbox', () => {
     let state;
 
     beforeAll(() => {
-        fsLightbox.core.lightboxOpeningActions.runActions = jest.fn();
+        fsLightbox.core.lightboxOpeningActions.runActionsForEvent = jest.fn();
         fsLightbox.setters.setState = jest.fn((stateObject, callback) => {
             state = stateObject;
             callback();

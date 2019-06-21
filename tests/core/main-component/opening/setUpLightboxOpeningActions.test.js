@@ -45,7 +45,7 @@ const fsLightbox = {
 
 const resetUpLightboxOpeningActionsAndCallRunActions = () => {
     setUpLightboxOpeningActions(fsLightbox);
-    lightboxOpeningActions.runActions();
+    lightboxOpeningActions.runActionsForEvent();
 };
 
 describe('calling actions depending on isInitialized', () => {

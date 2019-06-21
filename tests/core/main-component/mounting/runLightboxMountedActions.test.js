@@ -45,19 +45,19 @@ describe('setting scrollbarWidth', () => {
 describe('running or not opening actions', () => {
     describe('lightbox is closed', () => {
         beforeAll(() => {
-            fsLightbox.core.lightboxOpeningActions.runActions = jest.fn();
+            fsLightbox.core.lightboxOpeningActions.runActionsForEvent = jest.fn();
             lightboxState.isOpen = false;
             runLightboxMountedActions(fsLightbox);
         });
 
-        it('should not call runActions', () => {
+        it('should not call runActionsForEvent', () => {
             expect(fsLightbox.core.lightboxOpeningActions.runActions).not.toBeCalled();
         });
     });
 
     describe('lightbox is open', () => {
         beforeAll(() => {
-            fsLightbox.core.lightboxOpeningActions.runActions = jest.fn();
+            fsLightbox.core.lightboxOpeningActions.runActionsForEvent = jest.fn();
             lightboxState.isOpen = true;
             runLightboxMountedActions(fsLightbox);
         });

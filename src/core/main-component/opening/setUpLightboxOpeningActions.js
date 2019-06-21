@@ -1,13 +1,17 @@
 import { ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
 import { initializeLightbox } from "../initializing/initializeLightbox";
 import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
-import { OPEN_CLASS_NAME } from "../../../constants/css-constants";
+import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 
 export function setUpLightboxOpeningActions(fsLightbox) {
     const {
+        stageIndexes,
         data,
         eventsDispatcher: {
             dispatch
+        },
+        collections: {
+            sourcesHoldersTransformers
         },
         core: {
             lightboxOpeningActions: self,
@@ -21,8 +25,8 @@ export function setUpLightboxOpeningActions(fsLightbox) {
                     keyDown: documentKeyDownEventController
                 }
             },
+            slideIndexChanger,
             globalResizingController,
-            stageSourcesHoldersTransformer,
         }
     } = fsLightbox;
 
@@ -34,7 +38,6 @@ export function setUpLightboxOpeningActions(fsLightbox) {
         swipingEventsController.attachListeners();
         documentKeyDownEventController.attachListener();
         globalResizingController.runAllResizingActions();
-        stageSourcesHoldersTransformer.transform().withoutTimeout();
         dispatch(ON_OPEN);
     };
 

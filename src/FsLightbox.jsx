@@ -15,6 +15,7 @@ import { EventsDispatcher } from "./core/main-component/EventsDispatcher";
 import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
 import { getInitialCurrentIndex } from "./core/stage/getInitialCurrentIndex";
 import { getSourcesHoldersTransformersCollection } from "./core/collections/getSourcesHoldersTransformersCollection";
+import { FULL_DIMENSION_CLASS_NAME, LONG_FADE_IN_CLASS_NAME, PREFIX } from "./constants/classes-names";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class FsLightbox extends Component {
             sourcesCount: null,
             lastSourceIndex: null,
             isInitialized: false,
+            isSwipingSlides: false,
             maxSourceWidth: 0,
             maxSourceHeight: 0,
             scrollbarWidth: 0,
@@ -122,6 +124,7 @@ class FsLightbox extends Component {
 
     setUpCore() {
         this.core = {
+            classListManager: {},
             eventsControllers: {
                 document: {
                     keyDown: {},
@@ -139,7 +142,7 @@ class FsLightbox extends Component {
             lightboxOpeningActions: {},
             lightboxUpdater: {},
             scrollbarRecompensor: {},
-            slideChanger: {},
+            slideIndexChanger: {},
             slideNumberUpdater: {},
             slideSwiping: {
                 down: {},
@@ -148,8 +151,8 @@ class FsLightbox extends Component {
             },
             sourceAnimator: {},
             sourceController: {},
+            sourcesHoldersTransformingFacade: {},
             stageManager: {},
-            stageSourcesHoldersTransformer: {}
         };
         setUpCore(this);
     }
@@ -171,7 +174,7 @@ class FsLightbox extends Component {
 
         return (
             <div ref={ this.elements.container }
-                 className="fslightbox-container fslightbox-full-dimension fslightbox-fade-in-long">
+                 className={ `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ LONG_FADE_IN_CLASS_NAME }` }>
                 <DownEventDetector fsLightbox={ this }/>
                 <SwipingInvisibleHover fsLightbox={ this }/>
                 <Nav fsLightbox={ this }/>

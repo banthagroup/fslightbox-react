@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
-import { CONTAINER_FADE_OUT_TIME } from "../../src/constants/coreConstants";
+import { CONTAINER_FADE_OUT_TIME } from "../../src/constants/core-constants";
 
 describe('onInit', () => {
     let fsLightbox;
