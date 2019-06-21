@@ -1,6 +1,6 @@
-import { getPreviousSourceNegativeTransformTimeoutQueue } from "../../../../src/core/slide/slide-changing/getPreviousSourceNegativeTransformTimeoutQueue";
-import { ANIMATION_TIME } from "../../../../src/constants/css-constants";
-import { TimeoutQueue } from "../../../../src/core/timeouts/TimeoutQueue";
+import { getPreviousSourceNegativeTransformTimeoutQueue } from "../../../src/core/slide/getPreviousSourceNegativeTransformTimeoutQueue";
+import { ANIMATION_TIME } from "../../../src/constants/css-constants";
+import { TimeoutQueue } from "../../../src/core/timeouts/TimeoutQueue";
 
 const timeoutQueue = {};
 const fsLightbox = {

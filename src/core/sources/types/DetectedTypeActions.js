@@ -1,5 +1,5 @@
 import React from 'react';
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/coreConstants";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/core-constants";
 import Image from "../../../components/sources/proper-sources/Image.jsx";
 import Video from "../../../components/sources/proper-sources/Video.jsx";
 import Youtube from "../../../components/sources/proper-sources/Youtube.jsx";

@@ -2,7 +2,7 @@
 
 exports[`SlideButtonPrevious DOM should match snapshot 1`] = `
 <div
-  className="fslightbox-slide-btn-container fslightbox-slide-btn-left-container"
+  className="fslightbox-slide-btn-lightboxContainer fslightbox-slide-btn-left-lightboxContainer"
   onClick={[Function]}
   title="Previous slide"
 >

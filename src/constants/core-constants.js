@@ -4,7 +4,5 @@ export const VIDEO_TYPE = 'video';
 export const YOUTUBE_TYPE = 'youtube';
 export const INVALID_TYPE = 'invalid';
 
-// stage sources order types
-export const PREVIOUS_POSITION = -1;
-export const CURRENT_POSITION = 0;
-export const NEXT_POSITION = 1;
+export const PREVIOUS_SLIDE_INDEX = 'previous';
+export const NEXT_SLIDE_INDEX = 'next';

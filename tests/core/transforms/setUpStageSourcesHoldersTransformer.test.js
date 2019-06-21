@@ -1,4 +1,4 @@
-import { setUpStageSourcesHoldersTransformer } from "../../../src/core/transforms/setUpStageSourcesHoldersTransformer";
+import { setUpSourcesHoldersTransformingFacade } from "../../../src/core/transforms/setUpSourcesHoldersTransformingFacade";
 
 const fsLightbox = {
     data: {
@@ -13,17 +13,18 @@ const fsLightbox = {
         sourcesHoldersTransformers: []
     },
     core: {
-        stageSourcesHoldersTransformer: {}
+        sourcesHoldersTransformingFacade: {}
     }
 };
 
-const stageSourcesHoldersTransformer = fsLightbox.core.stageSourcesHoldersTransformer;
+const sourcesHoldersTransformingFacade = fsLightbox.core.sourcesHoldersTransformingFacade;
 const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
 
 const setUpStageSourcesHoldersTransformerAndCallTransformWithoutTimeout = () => {
-    setUpStageSourcesHoldersTransformer(fsLightbox);
-    stageSourcesHoldersTransformer.transform().withoutTimeout();
+    setUpSourcesHoldersTransformingFacade(fsLightbox);
+    sourcesHoldersTransformingFacade.transform().withoutTimeout();
 };
+
 
 describe('withoutTimeout', () => {
     beforeAll(() => {
@@ -70,8 +71,8 @@ describe('withTimeout - 220ms of timeout', () => {
         sourcesHoldersTransformersCollection[2] = {
             positive: jest.fn()
         };
-        setUpStageSourcesHoldersTransformer(fsLightbox);
-        stageSourcesHoldersTransformer
+        setUpSourcesHoldersTransformingFacade(fsLightbox);
+        sourcesHoldersTransformingFacade
             .transform()
             .withTimeout();
     });
@@ -140,8 +141,8 @@ describe('lastSourceIndex = 1', () => {
     describe('stageIndexes.current = 1', () => {
         beforeAll(() => {
             fsLightbox.stageIndexes = {
-                previous: 1,
-                current: 0,
+                previous: 0,
+                current: 1,
                 next: undefined
             };
             sourcesHoldersTransformersCollection[0] = {
@@ -285,11 +286,8 @@ describe('byValue', () => {
             positive: jest.fn(),
             byValue: jest.fn().mockReturnThis()
         };
-        setUpStageSourcesHoldersTransformer(fsLightbox);
-        stageSourcesHoldersTransformer
-            .transform()
-            .byValue(150)
-            .withoutTimeout();
+        setUpSourcesHoldersTransformingFacade(fsLightbox);
+        sourcesHoldersTransformingFacade.transformByValue(150)
     });
 
     it('should call transform negative and by value 150 for index 0', () => {

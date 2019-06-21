@@ -18,25 +18,18 @@ export function setUpSlideSwipingMove(
     const actions = injectDependency(SlideSwipingMoveActions, [swipingProps]);
     const isPreviousAnimationDebounced = getAnimationDebounce();
 
-    self.listener = (e) => {
-        if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
-            return;
-        }
-        if (!isPreviousAnimationDebounced()) {
-            return;
-        }
-        actions.setMoveEvent(e);
-        actions.runActions();
-    };
-
-    const ifThereIsOnlyOneSlideRewriteListener = () => {
-        if (data.sourcesCount === 1)
-            self.listener = simulateSwipe;
-    };
-
-    const simulateSwipe = () => {
-        swipingProps.swipedDifference = 1;
-    };
-
-    ifThereIsOnlyOneSlideRewriteListener();
+    (data.sourcesCount === 1) ?
+        self.listener = () => {
+            // if there is only one slide we need to simulate swipe to prevent lightbox from closing
+            swipingProps.swipedDifference = 1;
+        } :
+        self.listener = (e) => {
+            if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
+                return;
+            }
+            if (!isPreviousAnimationDebounced()) {
+                return;
+            }
+            actions.runActionsForEvent(e);
+        };
 }

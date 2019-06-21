@@ -1,121 +1,150 @@
-import {
-    FADE_IN_CLASS_NAME,
-    LONG_FADE_IN_CLASS_NAME,
-    FADE_OUT_CLASS_NAME
-} from "../../../src/constants/css-constants";
 import { setUpSourceAnimator } from "../../../src/core/animations/setUpSourceAnimator";
+import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../../src/constants/classes-names";
 
-const sourceAnimator = {};
 const fsLightbox = {
-    elements: {
-        sources: [
-            {
-                current: document.createElement('div')
-            }
-        ]
+    data: {
+        sourcesCount: null
     },
     core: {
-        sourceAnimator: sourceAnimator
+        classListGetter: {},
+        sourceAnimator: {}
     }
 };
 
-setUpSourceAnimator(fsLightbox);
+const sourcesClassLists = [
+    {
+        add: () => {},
+        remove: () => {},
+        contains: () => {}
+    },
+    {
+        add: () => {},
+        remove: () => {},
+        contains: () => {}
+    },
+    {
+        add: () => {},
+        remove: () => {},
+        contains: () => {}
+    }
+];
+fsLightbox.core.classListGetter.getSourceClassListByIndex = (index) => {
+    return sourcesClassLists[index];
+};
+const sourceAnimator = fsLightbox.core.sourceAnimator;
 
-describe('animateSourceFromSlide', () => {
-    it('should attach fade out animation', () => {
-        sourceAnimator.animateSourceFromSlide(1).fadeOut();
-        expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_OUT_CLASS_NAME))
-            .toBeTruthy();
+const setUp = () => {
+    sourcesClassLists.forEach((classList) => {
+        classList.add = jest.fn();
+        classList.remove = jest.fn();
+        classList.contains = jest.fn();
+    });
+    setUpSourceAnimator(fsLightbox);
+};
+
+describe('animateSourceFromIndex', () => {
+    beforeAll(() => {
+        setUp();
     });
 
-    it('should attach fade in animation', () => {
-        sourceAnimator.animateSourceFromSlide(1).fadeIn();
-        expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
-            .toBeTruthy();
-    });
-
-    it('should remove fade out animation', () => {
-        sourceAnimator.animateSourceFromSlide(1).fadeOut();
-        sourceAnimator.animateSourceFromSlide(1).removeFadeOut();
-        expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_OUT_CLASS_NAME))
-            .toBeFalsy();
-    });
-
-    it('should add long fade in animation', () => {
-        sourceAnimator.animateSourceFromSlide(1).longFadeIn();
-        expect(fsLightbox.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME)).toBe(true);
-    });
-
-
-    describe('Removing fadeIn animation', () => {
-        it('should fslightbox-fade-in, due to sources has this this class', () => {
-            sourceAnimator.animateSourceFromSlide(1).fadeIn();
-            sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
-                .toBeFalsy();
+    describe('fadeOut', () => {
+        beforeAll(() => {
+            sourceAnimator.animateSourceFromIndex(0).fadeOut();
         });
 
-        it('should fslightbox-fade-in-complete, due to sources has this this class', () => {
-            fsLightbox.elements.sources[0].current.classList.add(LONG_FADE_IN_CLASS_NAME);
-            sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightbox.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME))
-                .toBeFalsy();
+        it('should add fadeOut class', () => {
+            expect(sourcesClassLists[0].add).toBeCalledWith(FADE_OUT_CLASS_NAME);
+        });
+    });
+
+    describe('fadeIn', () => {
+        beforeAll(() => {
+            sourceAnimator.animateSourceFromIndex(1).fadeIn();
         });
 
-        it(`should remove both fslightbox-fade-in and fslightbox-fade-in-complete 
-            (that case may happen when source which have fslightbox-fade-in-complete 
-            after reopen is in stage and receives fslightbox-fade-in`, () => {
-            fsLightbox.elements.sources[0].current.classList.add(LONG_FADE_IN_CLASS_NAME);
-            fsLightbox.elements.sources[0].current.classList.add(FADE_IN_CLASS_NAME);
-            sourceAnimator.animateSourceFromSlide(1).removeFadeIn();
-            expect(fsLightbox.elements.sources[0].current.classList.contains(LONG_FADE_IN_CLASS_NAME))
-                .toBeFalsy();
-            expect(fsLightbox.elements.sources[0].current.classList.contains(FADE_IN_CLASS_NAME))
-                .toBeFalsy();
+        it('should add fadeIn class', () => {
+            expect(sourcesClassLists[1].add).toBeCalledWith(FADE_IN_CLASS_NAME);
+        });
+    });
+
+    describe('longFadeIn', () => {
+        beforeAll(() => {
+            sourceAnimator.animateSourceFromIndex(2).longFadeIn();
+        });
+
+        it('should add long fadeIn class', () => {
+            expect(sourcesClassLists[2].add).toBeCalledWith(LONG_FADE_IN_CLASS_NAME);
+        });
+    });
+
+    describe('removeFadeOut', () => {
+        beforeAll(() => {
+            sourceAnimator.animateSourceFromIndex(0).removeFadeOut();
+        });
+
+        it('should add fadeIn class', () => {
+            expect(sourcesClassLists[0].remove).toBeCalledWith(FADE_OUT_CLASS_NAME);
+        });
+    });
+
+    describe('removeFadeIn', () => {
+        beforeAll(() => {
+            setUp();
+        });
+
+        describe('sources do not have fadeIn', () => {
+            beforeAll(() => {
+                sourcesClassLists[0].contains = (className) => {
+                    if (className === FADE_IN_CLASS_NAME || className === LONG_FADE_IN_CLASS_NAME) {
+                        return false;
+                    }
+                };
+                sourceAnimator.animateSourceFromIndex(0).removeFadeIn();
+            });
+
+            it('should not remove fadeIn classes', () => {
+                expect(sourcesClassLists[0].remove).not.toBeCalled();
+            });
+        });
+
+        describe('sources have fadeIn classes', () => {
+            beforeAll(() => {
+                sourcesClassLists[0].contains = (className) => {
+                    if (className === FADE_IN_CLASS_NAME || className === LONG_FADE_IN_CLASS_NAME) {
+                        return true;
+                    }
+                };
+                sourceAnimator.animateSourceFromIndex(0).removeFadeIn();
+            });
+
+            it('should remove fadeIn and longFadeIn classes', () => {
+                expect(sourcesClassLists[0].remove).toBeCalledWith(FADE_IN_CLASS_NAME);
+                expect(sourcesClassLists[0].remove).toBeCalledWith(LONG_FADE_IN_CLASS_NAME);
+            });
         });
     });
 });
 
 describe('removeFadeOutFromAllSources', () => {
     beforeAll(() => {
-        // as in code is for we will be testing for at least to times
-        fsLightbox.elements.sources = [
-            {
-                current: document.createElement('div')
-            },
-            {
-                current: document.createElement('div')
-            }
-        ];
-
-        fsLightbox.elements.sources[0].current.classList.contains = jest.fn(() => false);
-        fsLightbox.elements.sources[1].current.classList.contains = jest.fn(() => true);
-
-        fsLightbox.elements.sources[0].current.classList.remove = jest.fn();
-        fsLightbox.elements.sources[1].current.classList.remove = jest.fn();
-
-        setUpSourceAnimator(fsLightbox);
+        fsLightbox.data.sourcesCount = 3;
+        setUp();
+        sourcesClassLists[0].contains = () => false;
+        sourcesClassLists[1].contains = () => true;
+        sourcesClassLists[2].contains = () => true;
         sourceAnimator.removeFadeOutFromAllSources();
     });
 
-    describe('first source (not contains fade out)', () => {
-        it('should call contains with fade out class name', () => {
-            expect(fsLightbox.elements.sources[0].current.classList.contains).toBeCalledWith(FADE_OUT_CLASS_NAME);
-        });
-
-        it('should not call remove', () => {
-            expect(fsLightbox.elements.sources[0].current.classList.remove).not.toBeCalled();
-        });
+    it('should not call remove for first source', () => {
+        expect(sourcesClassLists[0].remove).not.toBeCalled();
     });
 
-    describe('second source (contains fade out)', () => {
-        it('should call contains with fade out class name', () => {
-            expect(fsLightbox.elements.sources[1].current.classList.contains).toBeCalledWith(FADE_OUT_CLASS_NAME);
-        });
+    it('should call remove with FADE_OUT_CLASS_NAME for second source', () => {
+        expect(sourcesClassLists[1].remove).toBeCalledWith(FADE_OUT_CLASS_NAME);
+    });
 
-        it('should call remove with fade out class name', () => {
-            expect(fsLightbox.elements.sources[1].current.classList.remove).toBeCalledWith(FADE_OUT_CLASS_NAME);
-        });
+    it('should call remove with FADE_OUT_CLASS_NAME for third source', () => {
+        expect(sourcesClassLists[2].remove).toBeCalledWith(FADE_OUT_CLASS_NAME);
     });
 });
 

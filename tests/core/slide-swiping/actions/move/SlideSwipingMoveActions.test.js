@@ -1,51 +1,61 @@
 import { SlideSwipingMoveActions } from "../../../../../src/core/slide-swiping/actions/move/SlideSwipingMoveActions";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/css-constants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/classes-names";
+import * as getClientXFromEventObject from "../../../../../src/helpers/events/getClientXFromEvent";
+import { LIGHTBOX_CONTAINER } from "../../../../../src/constants/elements";
 
 const fsLightbox = {
-    data: {
-        sourcesCount: 0
-    },
     componentsStates: {
         hasMovedWhileSwiping: {
             get: () => {},
             set: () => {}
         }
     },
+    collections: {
+        sourcesHoldersTransformers: [
+            {
+                byValue: () => ({
+                    negative: () => {},
+                    zero: () => {},
+                    positive: () => {}
+                })
+            }
+        ]
+    },
     core: {
-        sourcesHoldersTransformer: {
-            transformByValue: () => {}
+        classListManager: {
+            ifElementHasClassRemoveIt: () => {}
         }
     },
-    elements: {
-        container: {
-            current: document.createElement('div')
-        }
+    data: {
+        sourcesCount: 0
+    },
+    stageIndexes: {
+        previous: 0,
+        current: 0,
+        next: 0
     }
 };
-let mockEvent;
 // initial set of swiping props will be edited in tests
-let mockSwipingProps = {
+const swipingProps = {
     downClientX: null,
     swipedDifference: null,
 };
 let slideSwipingMoveActions;
 
-const mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions = () => {
-    fsLightbox.core.sourcesHoldersTransformer.transformByValue = jest.fn();
-    slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, mockSwipingProps)
+const setUpAndCallRunActionsForEventWithEmptyEvent = () => {
+    slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, swipingProps);
+    slideSwipingMoveActions.runActionsForEvent({});
 };
 
 describe('setting hasMovedWhileSwipingState to true if not already set', () => {
     beforeAll(() => {
-        mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions();
         fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
-        slideSwipingMoveActions.setMoveEvent({});
     });
 
     describe('not setting (already set)', () => {
         beforeAll(() => {
             fsLightbox.componentsStates.hasMovedWhileSwiping.get = () => true;
-            slideSwipingMoveActions.runActions();
+            setUpAndCallRunActionsForEventWithEmptyEvent();
         });
 
         it('should not call set', () => {
@@ -56,7 +66,7 @@ describe('setting hasMovedWhileSwipingState to true if not already set', () => {
     describe('setting (not yet set)', () => {
         beforeAll(() => {
             fsLightbox.componentsStates.hasMovedWhileSwiping.get = () => false;
-            slideSwipingMoveActions.runActions();
+            setUpAndCallRunActionsForEventWithEmptyEvent();
         });
 
         it('should call set with true', () => {
@@ -65,102 +75,207 @@ describe('setting hasMovedWhileSwipingState to true if not already set', () => {
     });
 });
 
-describe('event is mousedown', () => {
+describe(`adding cursor grabbing class list to container`, () => {
     beforeEach(() => {
-        mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions();
-        mockEvent = {
-            clientX: 500,
+        fsLightbox.core.classListManager.ifElementHasClassRemoveIt = jest.fn();
+        setUpAndCallRunActionsForEventWithEmptyEvent();
+    });
+
+    it('should call ifElementHasClassRemoveIt with container and cursor grabbing class', () => {
+        expect(fsLightbox.core.classListManager.ifElementHasClassRemoveIt)
+            .toBeCalledWith(LIGHTBOX_CONTAINER, CURSOR_GRABBING_CLASS_NAME);
+    });
+});
+
+describe('calculating swiped difference', () => {
+    const event = { key: 'test-event' };
+
+    beforeAll(() => {
+        swipingProps.downClientX = 500;
+        getClientXFromEventObject.getClientXFromEvent = (e) => {
+            if (e === event) {
+                return 450;
+            }
         };
-        mockSwipingProps.downClientX = 256;
-        slideSwipingMoveActions.setMoveEvent(mockEvent);
-        slideSwipingMoveActions.runActions();
+        slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, swipingProps);
+        slideSwipingMoveActions.runActionsForEvent(event);
     });
 
-    it('should set swiped difference to clientX and downClientX difference', () => {
-        expect(mockSwipingProps.swipedDifference).toEqual(mockEvent.clientX - mockSwipingProps.downClientX);
-    });
-
-    it('should call transformByValue with swiped difference at param', () => {
-        expect(fsLightbox.core.sourcesHoldersTransformer.transformByValue)
-            .toBeCalledWith(mockEvent.clientX - mockSwipingProps.downClientX);
+    it('should set swipedDifference to move event clientX - down event clientX', () => {
+        expect(swipingProps.swipedDifference).toBe(-50);
     });
 });
 
-describe('event is touchstart', () => {
-    beforeEach(() => {
-        mockTransformStageSourceHoldersAndCreateNewSlideSwipingMoveActions();
-        mockEvent = {
-            touches: [{
-                clientX: 240
-            }],
+describe('transforming stage sources holders by swiped difference value', () => {
+    let negative;
+    let zero;
+    let positive;
+    let expectedByValue;
+
+    const setUpTransformMockFunctions = () => {
+        negative = jest.fn();
+        zero = jest.fn();
+        positive = jest.fn();
+    };
+
+    beforeAll(() => {
+        fsLightbox.collections.sourcesHoldersTransformers[3] = {
+            byValue: (value) => {
+                if (value === expectedByValue) {
+                    return {
+                        negative: negative
+                    }
+                }
+            }
         };
-        mockSwipingProps.downClientX = 768;
-        slideSwipingMoveActions.setMoveEvent(mockEvent);
-        slideSwipingMoveActions.runActions();
+        fsLightbox.collections.sourcesHoldersTransformers[5] = {
+            byValue: (value) => {
+                if (value === expectedByValue) {
+                    return {
+                        zero: zero
+                    }
+                }
+            }
+        };
+        fsLightbox.collections.sourcesHoldersTransformers[9] = {
+            byValue: (value) => {
+                if (value === expectedByValue) {
+                    return {
+                        positive: positive
+                    }
+                }
+            }
+        };
     });
 
-    it('should set swiped difference to clientX and downClientX difference', () => {
-        expect(mockSwipingProps.swipedDifference).toEqual(mockEvent.touches[0].clientX - mockSwipingProps.downClientX);
-    });
+    describe('new slide current source holder', () => {
+        beforeAll(() => {
+            getClientXFromEventObject.getClientXFromEvent = () => 750;
+            swipingProps.downClientX = 350;
+            expectedByValue = 400;
 
-    it('should call transformByValue with swiped difference at param', () => {
-        expect(fsLightbox.core.sourcesHoldersTransformer.transformByValue)
-            .toBeCalledWith(mockEvent.touches[0].clientX - mockSwipingProps.downClientX);
-    });
-});
-
-slideSwipingMoveActions = new SlideSwipingMoveActions(fsLightbox, mockSwipingProps);
-slideSwipingMoveActions.setMoveEvent({
-    clientX: 0
-});
-
-describe(`adding cursor grabbing class to container if there are at least 2 slides 
-        and class is not yet added`, () => {
-    let containerClassList = fsLightbox.elements.container.current.classList;
-    beforeEach(() => {
-        slideSwipingMoveActions.setMoveEvent({
-            clientX: 0
-        });
-        containerClassList.add = jest.fn();
-    });
-
-    describe('not adding class', () => {
-        describe('due to there less than two slides even if class is not yed added', () => {
-            beforeEach(() => {
-                containerClassList.contains = () => false;
-                fsLightbox.data.sourcesCount = 1;
-                slideSwipingMoveActions.runActions();
-            });
-
-            it('should not call add class', () => {
-                expect(containerClassList.add).not.toBeCalled();
-            });
+            fsLightbox.stageIndexes = {
+                current: 5
+            };
+            setUpTransformMockFunctions();
+            setUpAndCallRunActionsForEventWithEmptyEvent();
         });
 
-        describe('dut to class is already added even if there are at least two slides', () => {
-            beforeEach(() => {
-                containerClassList.contains = () => true;
-                fsLightbox.data.sourcesCount = 2;
-                slideSwipingMoveActions.runActions();
-            });
-
-            it('should not call add class ', () => {
-                expect(containerClassList.add).not.toBeCalled();
-            });
+        it('should call zero', () => {
+            expect(zero).toBeCalled();
         });
     });
 
-    describe('adding class', () => {
-        describe('there are at least two slides and class is not already added', () => {
-            beforeEach(() => {
-                containerClassList.contains = () => false;
-                fsLightbox.data.sourcesCount = 2;
-                slideSwipingMoveActions.runActions();
+    describe('new slide previous source holder', () => {
+        describe('there is no previous stage index - negative should not be called', () => {
+            beforeAll(() => {
+                fsLightbox.stageIndexes = {
+                    current: 5
+                };
+                setUpTransformMockFunctions();
+                setUpAndCallRunActionsForEventWithEmptyEvent();
             });
 
-            it('should call add class with cursor grabbing class', () => {
-                expect(containerClassList.add).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
+            it('should not call negative', () => {
+                expect(negative).not.toBeCalled();
+            });
+        });
+
+        describe('client is swiping forward - previous source holder should not be transformed', () => {
+            beforeAll(() => {
+                getClientXFromEventObject.getClientXFromEvent = () => 100;
+                swipingProps.downClientX = 400;
+                expectedByValue = -300;
+
+                fsLightbox.stageIndexes = {
+                    previous: 3,
+                    current: 5
+                };
+
+                setUpTransformMockFunctions();
+                setUpAndCallRunActionsForEventWithEmptyEvent();
+            });
+
+            it('should not call negative', () => {
+                expect(negative).not.toBeCalled();
+            });
+        });
+
+        describe('client is swiping backward - previous source holder should be transfored', () => {
+            beforeAll(() => {
+                getClientXFromEventObject.getClientXFromEvent = () => 500;
+                swipingProps.downClientX = 400;
+                expectedByValue = 100;
+
+                fsLightbox.stageIndexes = {
+                    previous: 3,
+                    current: 5
+                };
+
+                setUpTransformMockFunctions();
+                setUpAndCallRunActionsForEventWithEmptyEvent();
+            });
+
+            it('should call negative', () => {
+                expect(negative).toBeCalled();
             });
         });
     });
+
+
+    describe('new slide next source holder', () => {
+        describe('there is no next stage index - positive should not be called', () => {
+            beforeAll(() => {
+                fsLightbox.stageIndexes = {
+                    current: 5
+                };
+                setUpTransformMockFunctions();
+                setUpAndCallRunActionsForEventWithEmptyEvent();
+            });
+
+            it('should not call positive', () => {
+                expect(positive).not.toBeCalled();
+            });
+        });
+
+        describe('client is swiping backward - next source holder should not be transformed', () => {
+            beforeAll(() => {
+                getClientXFromEventObject.getClientXFromEvent = () => 500;
+                swipingProps.downClientX = 250;
+                expectedByValue = 250;
+
+                fsLightbox.stageIndexes = {
+                    current: 5,
+                    next: 9
+                };
+
+                setUpTransformMockFunctions();
+                setUpAndCallRunActionsForEventWithEmptyEvent();
+            });
+
+            it('should not call positive', () => {
+                expect(positive).not.toBeCalled();
+            });
+        });
+
+        describe('client is swiping forward - next source holder should be transformed', () => {
+            beforeAll(() => {
+                getClientXFromEventObject.getClientXFromEvent = () => 400;
+                swipingProps.downClientX = 1000;
+                expectedByValue = -600;
+
+                fsLightbox.stageIndexes = {
+                    current: 5,
+                    next: 9
+                };
+
+                setUpTransformMockFunctions();
+                setUpAndCallRunActionsForEventWithEmptyEvent();
+            });
+
+            it('should call positive', () => {
+                expect(positive).toBeCalled();
+            });
+        });
+    })
 });

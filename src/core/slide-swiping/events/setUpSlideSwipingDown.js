@@ -1,8 +1,12 @@
+import { FADE_OUT_CLASS_NAME } from "../../../constants/classes-names";
+
 export function setUpSlideSwipingDown(
     {
+        stageIndexes,
         data,
         elements: {
-            container
+            container,
+            sources
         },
         core: {
             slideSwiping: {
@@ -48,7 +52,7 @@ export function setUpSlideSwipingDown(
 
     const resetSwipedDifference = () => {
         swipingProps.swipedDifference = 0;
-    }
+    };
 }
 
 

@@ -1,6 +1,6 @@
 import { LightboxClosingActions } from "../../../../src/core/main-component/closing/LightboxClosingActions";
 import { OPEN_CLASS_NAME, LONG_FADE_OUT_CLASS_NAME } from "../../../../src/constants/css-constants";
-import { CONTAINER_FADE_OUT_TIME } from "../../../../src/constants/coreConstants";
+import { CONTAINER_FADE_OUT_TIME } from "../../../../src/constants/core-constants";
 import { ON_CLOSE } from "../../../../src/constants/eventsConstants";
 import * as getDocumentElementClassListObject from "../../../../src/helpers/dom/document/getDocumentElementClassList";
 

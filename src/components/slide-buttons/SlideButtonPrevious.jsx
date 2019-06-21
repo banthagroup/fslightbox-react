@@ -6,14 +6,13 @@ const SlideButtonPrevious = (
         fsLightbox: {
             stageIndexes,
             core: {
-                slideChanger: { changeSlideTo }
+                slideIndexChanger: { changeToWithActions }
             }
         }
     }
 ) => {
-    // TODO: UPDATE TEST
     const goToPreviousSlide = () => {
-        changeSlideTo(stageIndexes.previous + 1);
+        changeToWithActions(stageIndexes.previous);
     };
 
     return (

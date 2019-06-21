@@ -3,7 +3,7 @@ import {
     TEST_YOUTUBE_URL,
     TEST_VIDEO_URL
 } from "../../../__tests-helpers__/testVariables";
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/coreConstants";
+import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/core-constants";
 import { SourceTypeGetter } from "../../../../src/core/sources/types/SourceTypeGetter";
 
 const fsLightbox = {

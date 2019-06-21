@@ -11,7 +11,7 @@ export function TimeoutQueue() {
         queue.push(true);
         setTimeout(() => {
             queue.pop();
-            if (queue.length === 0 && this.actionCallConditionFunc()) {
+            if (!queue.length && this.actionCallConditionFunc()) {
                 this.action();
             }
         }, this.time);

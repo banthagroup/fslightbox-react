@@ -32,12 +32,15 @@ export function setUpLightboxUpdater(
     };
 
     const handleSlide = () => {
-        if (previousProps.slide !== currentProps.slide && !isSlideStateAndCurrentSlidePropEqual()) {
-            updatingActions.runSlideUpdateActions();
-        }
+        // TODO:
+        updatingActions.runSlideUpdateActions();
+        //     if (previousProps.slide !== currentProps.slide && !isSlideStateAndCurrentSlidePropEqual()) {
+        //         updatingActions.runSlideUpdateActions();
+        //     }
+        // };
     };
 
     const isSlideStateAndCurrentSlidePropEqual = () => {
-        return (slideState.get) ? currentProps.slide === slideState.get() : false;
+        // return (slideState.get) ? currentProps.slide === slideState.get() : false;
     };
 }

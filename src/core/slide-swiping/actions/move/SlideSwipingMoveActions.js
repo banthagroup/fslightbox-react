@@ -1,63 +1,47 @@
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/css-constants";
+import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
+import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
+import { LIGHTBOX_CONTAINER } from "../../../../constants/elements";
 
 /**
  * @constructor
  */
 export function SlideSwipingMoveActions(
     {
-        data,
+        collections: {
+            sourcesHoldersTransformers
+        },
         componentsStates: {
             hasMovedWhileSwiping: hasMovedWhileSwipingState,
         },
-        elements: {
-            container: lightboxContainer
-        },
         core: {
-            sourcesHoldersTransformer,
-        }
+            classListManager
+        },
+        data: { sourcesCount },
+        stageIndexes
     }, swipingProps
 ) {
-    /** @var { MouseEvent | TouchEvent } event */
-    let event;
-    let moveClientX;
-
-    this.setMoveEvent = (e) => {
-        event = e;
-    };
-
-    this.runActions = () => {
-        ifHasMovedWhileSwipingIsFalseSetItToTrue();
-        setUpMoveClientX();
-        addCursorGrabbingClassToContainerIfNotAlreadyAddedAndIfThereAreAtLeastTwoSlides();
-        calculateDifference();
-        callTransforms();
-    };
-
-    const ifHasMovedWhileSwipingIsFalseSetItToTrue = () => {
+    this.runActionsForEvent = (e) => {
+        // we are showing InvisibleHover component in move event not in down event
+        // due to IE problems with videos sources controlling
         if (!hasMovedWhileSwipingState.get()) {
             hasMovedWhileSwipingState.set(true);
         }
-    };
+        classListManager.ifElementHasClassRemoveIt(LIGHTBOX_CONTAINER, CURSOR_GRABBING_CLASS_NAME);
 
-    const setUpMoveClientX = () => {
-        (event.touches) ?
-            moveClientX = event.touches[0].clientX :
-            moveClientX = event.clientX
-    };
+        swipingProps.swipedDifference = getClientXFromEvent(e) - swipingProps.downClientX;
 
-    const addCursorGrabbingClassToContainerIfNotAlreadyAddedAndIfThereAreAtLeastTwoSlides = () => {
-        if (!lightboxContainer.current.classList.contains(CURSOR_GRABBING_CLASS_NAME) && data.sourcesCount > 1) {
-            lightboxContainer.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
+        transformSourceHolderAtIndexToPosition(stageIndexes.current, 'zero');
+        // if there are only two slides we need to check if source we want to transform exists
+        if (stageIndexes.previous !== undefined && swipingProps.swipedDifference > 0) {
+            transformSourceHolderAtIndexToPosition(stageIndexes.previous, 'negative');
+        } else if (stageIndexes.next !== undefined && swipingProps.swipedDifference < 0) {
+            transformSourceHolderAtIndexToPosition(stageIndexes.next, 'positive');
         }
     };
 
-    const calculateDifference = () => {
-        swipingProps.swipedDifference = moveClientX - swipingProps.downClientX;
-    };
-
-    const callTransforms = () => {
-        sourcesHoldersTransformer
-            .transform()
-            .byValue(swipingProps.swipedDifference);
+    const transformSourceHolderAtIndexToPosition = (index, position) => {
+        sourcesHoldersTransformers[index]
+            .byValue(swipingProps.swipedDifference)
+            [position]();
     };
 }

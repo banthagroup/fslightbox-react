@@ -1,5 +1,5 @@
-import { TimeoutQueue } from "../../timeouts/TimeoutQueue";
-import { ANIMATION_TIME } from "../../../constants/css-constants";
+import { TimeoutQueue } from "../timeouts/TimeoutQueue";
+import { ANIMATION_TIME } from "../../constants/css-constants";
 
 export function getRemoveFadeOutTimeoutQueue(
     {

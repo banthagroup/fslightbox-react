@@ -11,7 +11,7 @@ export function setUpLightboxOpener(
         setState({
             isOpen: true,
         }, () => {
-            lightboxOpeningActions.runActions();
+            lightboxOpeningActions.runActionsForEvent();
         });
     };
 }

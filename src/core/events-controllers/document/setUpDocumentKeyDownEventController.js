@@ -11,7 +11,7 @@ export function setUpDocumentKeyDownEventController(
     }
 ) {
     self.attachListener = () => {
-        document.addEventListener('keydown', keyboardController.handleKeyDown)
+        document.addEventListener('keydown', keyboardController.handleKeyDown);
     };
 
     self.removeListener = () => {

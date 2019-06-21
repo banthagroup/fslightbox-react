@@ -1,29 +1,35 @@
-import { SlideSwipingUpActions } from "../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
 import { setUpSlideSwipingUp } from "../../../../src/core/slide-swiping/events/setUpSlideSwipingUp";
+import { SlideSwipingUpActions } from "../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
 
-const slideSwipingUp = {};
-const slideSwipingUpActions = {
-    setUpTransformSourceHolders: jest.fn(),
-    resetSwiping: () => {},
-    runActions: () => {}
-};
 const fsLightbox = {
     data: {
         isSwipingSlides: false,
         isAfterSwipeAnimationRunning: false
     },
     injector: {
-        injectDependency: jest.fn(() => slideSwipingUpActions)
+        injectDependency: (constructorDependency) => {
+            if (constructorDependency === SlideSwipingUpActions) {
+                return slideSwipingUpActions;
+            }
+        }
     },
     core: {
         lightboxCloser: {
             closeLightbox: () => {}
         },
         slideSwiping: {
-            up: slideSwipingUp
+            up: {}
         }
     }
 };
+
+const slideSwipingUp = fsLightbox.core.slideSwiping.up;
+
+const slideSwipingUpActions = {
+    resetSwiping: () => {},
+    runActions: () => {}
+};
+
 const swipingProps = {
     isAfterSwipeAnimationRunning: false,
     isSourceDownEventTarget: false,
@@ -32,16 +38,6 @@ const swipingProps = {
 
 setUpSlideSwipingUp(fsLightbox, swipingProps);
 
-describe('constructor', () => {
-    it('should call injectDependency with SlideSwipingUpActions function and array with swipingProps', () => {
-        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SlideSwipingUpActions, [swipingProps]);
-    });
-
-    it('should call setUpTransformSourceHolders on actions instance', () => {
-        expect(slideSwipingUpActions.setUpTransformSourceHolders).toBeCalled();
-    });
-});
-
 describe('listener', () => {
     beforeEach(() => {
         slideSwipingUpActions.resetSwiping = jest.fn();
@@ -49,7 +45,7 @@ describe('listener', () => {
         fsLightbox.core.lightboxCloser.closeLightbox = jest.fn();
     });
 
-    describe('not calling resetSwiping, closeLightbox, runActionsForSourceTypeAndIndex', () => {
+    describe('not calling resetSwiping, closeLightbox, runActions', () => {
         describe('due to isSwipingSlides is false even if isAfterSwipeAnimationRunning is false', () => {
             beforeEach(() => {
                 fsLightbox.data.isSwipingSlides = false;
@@ -65,7 +61,7 @@ describe('listener', () => {
                 expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
             });
 
-            it('should not call runActionsForSourceTypeAndIndex', () => {
+            it('should not call runActions', () => {
                 expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
@@ -85,13 +81,13 @@ describe('listener', () => {
                 expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
             });
 
-            it('should not call runActionsForSourceTypeAndIndex', () => {
+            it('should not call runActions', () => {
                 expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
     });
 
-    describe('calling resetSwiping and closeLightbox but not calling runActionsForSourceTypeAndIndex', () => {
+    describe('calling resetSwiping and closeLightbox but not calling runActions', () => {
         describe('due to swipedDifference === 0 and isSourceDownEventTarget === false', () => {
             beforeEach(() => {
                 fsLightbox.data.isSwipingSlides = true;
@@ -109,13 +105,13 @@ describe('listener', () => {
                 expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
             });
 
-            it('should not call runActionsForSourceTypeAndIndex', () => {
+            it('should not call runActions', () => {
                 expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
     });
 
-    describe('calling resetSwiping but not calling closeLightbox and runActionsForSourceTypeAndIndex', () => {
+    describe('calling resetSwiping but not calling closeLightbox and runActions', () => {
         describe('due to swipedDifference === 0 and isSourceDownEventTarget === true', () => {
             beforeEach(() => {
                 fsLightbox.data.isSwipingSlides = true;
@@ -133,14 +129,14 @@ describe('listener', () => {
                 expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
             });
 
-            it('should not call runActionsForSourceTypeAndIndex', () => {
+            it('should not call runActions', () => {
                 expect(slideSwipingUpActions.runActions).not.toBeCalled();
             });
         });
     });
 
 
-    describe('calling resetSwiping and runActionsForSourceTypeAndIndex, not calling closeLightbox', () => {
+    describe('calling resetSwiping and runActions, not calling closeLightbox', () => {
         describe('due to swipedDifference !== 0', () => {
             beforeEach(() => {
                 fsLightbox.data.isSwipingSlides = true;
@@ -158,7 +154,7 @@ describe('listener', () => {
                 expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
             });
 
-            it('should call runActionsForSourceTypeAndIndex', () => {
+            it('should call runActions', () => {
                 expect(slideSwipingUpActions.runActions).toBeCalled();
             });
         });

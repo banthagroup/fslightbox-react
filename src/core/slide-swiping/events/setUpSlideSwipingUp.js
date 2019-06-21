@@ -15,25 +15,20 @@ export function setUpSlideSwipingUp(
     }, swipingProps
 ) {
     const actions = injectDependency(SlideSwipingUpActions, [swipingProps]);
-    actions.setUpTransformSourceHolders();
 
     self.listener = () => {
         if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
             return;
         }
+
         actions.resetSwiping();
-        if (!hasUserSwiped()) {
-            return ifSourceIsNotEventTargetCloseLightbox();
+
+        if (swipingProps.swipedDifference === 0) {
+            if (!swipingProps.isSourceDownEventTarget)
+                lightboxCloser.closeLightbox();
+            return;
         }
+
         actions.runActions();
-    };
-
-    const hasUserSwiped = () => {
-        return swipingProps.swipedDifference !== 0;
-    };
-
-    const ifSourceIsNotEventTargetCloseLightbox = () => {
-        if (!swipingProps.isSourceDownEventTarget)
-            lightboxCloser.closeLightbox();
     };
 }
