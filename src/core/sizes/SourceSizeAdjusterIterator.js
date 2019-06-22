@@ -1,7 +1,7 @@
 /**
  * @constructor
  */
-export function SourceSizeAdjusterIterator({ collections: { sourceSizeAdjusters } }) {
+export function SourceSizeAdjusterIterator({ collections: { sourcesSizesAdjusters } }) {
     let index;
 
     this.adjustAllSourcesSizes = () => {
@@ -13,16 +13,16 @@ export function SourceSizeAdjusterIterator({ collections: { sourceSizeAdjusters 
     };
 
     const hasNext = () => {
-        return index < sourceSizeAdjusters.length;
+        return index < sourcesSizesAdjusters.length;
     };
 
     const adjustSourceSize = () => {
         if (!isNull()) {
-            sourceSizeAdjusters[index].adjustSourceSize();
+            sourcesSizesAdjusters[index].adjustSourceSize();
         }
     };
 
     const isNull = () => {
-        return !sourceSizeAdjusters[index];
+        return !sourcesSizesAdjusters[index];
     };
 }

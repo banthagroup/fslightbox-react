@@ -8,13 +8,13 @@ const Youtube = (
             data: { sources },
             elements: { sources: sourcesElements },
             collections: {
-                sourcesLoadHandlers
+                sourcesLoadsHandlers
             }
         },
         index,
     }
 ) => {
-    useEffect(sourcesLoadHandlers[index].handleLoad);
+    useEffect(sourcesLoadsHandlers[index].handleLoad);
 
     return (
         <iframe

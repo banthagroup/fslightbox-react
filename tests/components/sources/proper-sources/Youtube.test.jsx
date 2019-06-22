@@ -12,7 +12,7 @@ const fsLightbox = {
         }]
     },
     collections: {
-        sourcesLoadHandlers: [{
+        sourcesLoadsHandlers: [{
             handleLoad: () => {}
         }]
     }
@@ -22,7 +22,7 @@ let youtube;
 
 describe('ref to sources array in fsLightbox object and component mount', () => {
     beforeAll(() => {
-        fsLightbox.collections.sourcesLoadHandlers[0] = {
+        fsLightbox.collections.sourcesLoadsHandlers[0] = {
             handleLoad: jest.fn()
         };
         youtube = mount(<Youtube
@@ -37,7 +37,7 @@ describe('ref to sources array in fsLightbox object and component mount', () => 
 
     describe('component mounted', () => {
         it('should call handleLoad', () => {
-            expect(fsLightbox.collections.sourcesLoadHandlers[0].handleLoad).toBeCalled();
+            expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalled();
         });
     });
 });

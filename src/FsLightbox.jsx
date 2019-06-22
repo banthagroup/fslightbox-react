@@ -110,9 +110,9 @@ class FsLightbox extends Component {
     setUpCollections() {
         this.collections = {
             sourcesHoldersTransformers: getSourcesHoldersTransformersCollection(this),
-            sourcesLoadHandlers: [],
+            sourcesLoadsHandlers: [],
             // after source load its size adjuster will be stored in this array so SourceSizeAdjusterIterator may use it
-            sourceSizeAdjusters: [],
+            sourcesSizesAdjusters: [],
             // if lightbox is unmounted pending xhrs need to be aborted
             xhrs: []
         }
@@ -150,7 +150,7 @@ class FsLightbox extends Component {
                 up: {}
             },
             sourceAnimator: {},
-            sourceController: {},
+            sourceLoadActions: {},
             sourcesHoldersTransformingFacade: {},
             stageManager: {},
         };

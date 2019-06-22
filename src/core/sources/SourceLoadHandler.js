@@ -4,13 +4,13 @@
 export function SourceLoadHandler(
     {
         core: {
-            sourceController
+            sourceLoadActions
         }
     }
 ) {
     let sourceIndex;
-    let sourceWidth;
-    let sourceHeight;
+    let defaultWidth;
+    let defaultHeight;
     let setUpSourceDimensions = () => {};
 
     this.setIndex = (index) => {
@@ -19,32 +19,31 @@ export function SourceLoadHandler(
 
     this.setUpLoadForImage = () => {
         setUpSourceDimensions = ({ target: { width, height } }) => {
-            sourceWidth = width;
-            sourceHeight = height;
+            defaultWidth = width;
+            defaultHeight = height;
         }
     };
 
     this.setUpLoadForVideo = () => {
         setUpSourceDimensions = ({ target: { videoWidth, videoHeight } }) => {
-            sourceWidth = videoWidth;
-            sourceHeight = videoHeight;
+            defaultWidth = videoWidth;
+            defaultHeight = videoHeight;
         }
     };
 
     this.setUpLoadForYoutube = () => {
-        sourceWidth = 1920;
-        sourceHeight = 1080;
+        defaultWidth = 1920;
+        defaultHeight = 1080;
     };
 
     this.handleLoad = (e) => {
         setUpSourceDimensions(e);
-        sourceController.setIndex(sourceIndex);
-        sourceController.setSourceWidth(sourceWidth);
-        sourceController.setSourceHeight(sourceHeight);
-        sourceController.runInitialLoadActions();
+        sourceLoadActions.setIndex(sourceIndex);
+        sourceLoadActions.setDefaultDimensions(defaultWidth, defaultHeight);
+        sourceLoadActions.runInitialLoadActions();
         this.handleLoad = () => {
-            sourceController.setIndex(sourceIndex);
-            sourceController.runNormalLoadActions();
+            sourceLoadActions.setIndex(sourceIndex);
+            sourceLoadActions.runNormalLoadActions();
         };
     };
 }

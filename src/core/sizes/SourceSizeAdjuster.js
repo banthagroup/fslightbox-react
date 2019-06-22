@@ -3,8 +3,8 @@
  */
 export function SourceSizeAdjuster({ data, elements: { sources } }) {
     let i = null;
-    let maxSourceWidth = 0;
-    let maxSourceHeight = 0;
+    let defaultSourceWidth = 0;
+    let defaultSourceHeight = 0;
     let ratio = 0;
     let newHeight = 0;
 
@@ -12,10 +12,10 @@ export function SourceSizeAdjuster({ data, elements: { sources } }) {
         i = index;
     };
 
-    this.setMaxDimensions = (width, height) => {
-        maxSourceWidth = width;
-        maxSourceHeight = height;
-        ratio = maxSourceWidth / maxSourceHeight;
+    this.setDefaultDimensions = (width, height) => {
+        defaultSourceWidth = width;
+        defaultSourceHeight = height;
+        ratio = defaultSourceWidth / defaultSourceHeight;
     };
 
     this.adjustSourceSize = () => {
@@ -23,18 +23,18 @@ export function SourceSizeAdjuster({ data, elements: { sources } }) {
 
         // wider than higher
         if (newHeight < data.maxSourceHeight) {
-            if (maxSourceWidth < data.maxSourceWidth) {
-                newHeight = maxSourceHeight;
+            if (defaultSourceWidth < data.maxSourceWidth) {
+                newHeight = defaultSourceHeight;
             }
             setDimensions();
             return;
         }
 
         // higher than wider
-        if (maxSourceHeight > data.maxSourceHeight) {
+        if (defaultSourceHeight > data.maxSourceHeight) {
             newHeight = data.maxSourceHeight;
         } else {
-            newHeight = maxSourceHeight;
+            newHeight = defaultSourceHeight;
         }
 
         setDimensions();

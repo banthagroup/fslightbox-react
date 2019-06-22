@@ -7,13 +7,13 @@ const Video = (
             props: { videosPosters },
             data: { sources },
             elements: { sources: sourcesElements },
-            collections: { sourcesLoadHandlers }
+            collections: { sourcesLoadsHandlers }
         },
         index
     }
 ) => (
     <video
-        onLoadedMetadata={ sourcesLoadHandlers[index].handleLoad }
+        onLoadedMetadata={ sourcesLoadsHandlers[index].handleLoad }
         className="fslightbox-source fslightbox-video fslightbox-opacity-0"
         controls
         ref={ sourcesElements[index] }

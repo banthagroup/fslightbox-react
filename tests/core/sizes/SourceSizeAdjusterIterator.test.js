@@ -2,7 +2,7 @@ import { SourceSizeAdjusterIterator } from "../../../src/core/sizes/SourceSizeAd
 
 const fsLightbox = {
     collections: {
-        sourceSizeAdjusters: []
+        sourcesSizesAdjusters: []
     }
 };
 let mockAdjustSourceSize;
@@ -16,7 +16,7 @@ describe('calling adjustSourceSize right number of times', () => {
     it('should call adjustSourceSize for all items in array', () => {
         // for e.g. 3 items
         for (let i = 0; i < 3; i++) {
-            fsLightbox.collections.sourceSizeAdjusters.push({
+            fsLightbox.collections.sourcesSizesAdjusters.push({
                 adjustSourceSize: mockAdjustSourceSize
             });
         }
@@ -25,9 +25,9 @@ describe('calling adjustSourceSize right number of times', () => {
     });
 
     it('should call adjust sources size only two times in three items array due too second item is null', () => {
-        fsLightbox.collections.sourceSizeAdjusters[0] = { adjustSourceSize: mockAdjustSourceSize };
-        fsLightbox.collections.sourceSizeAdjusters[1] = null;
-        fsLightbox.collections.sourceSizeAdjusters[2] = { adjustSourceSize: mockAdjustSourceSize };
+        fsLightbox.collections.sourcesSizesAdjusters[0] = { adjustSourceSize: mockAdjustSourceSize };
+        fsLightbox.collections.sourcesSizesAdjusters[1] = null;
+        fsLightbox.collections.sourcesSizesAdjusters[2] = { adjustSourceSize: mockAdjustSourceSize };
         sourceSizeAdjusterIterator.adjustAllSourcesSizes();
         expect(mockAdjustSourceSize).toBeCalledTimes(2);
     });

@@ -8,6 +8,7 @@ export function setUpSlideIndexChanger(
             sourcesHoldersTransformers
         },
         core: {
+            classListManager,
             slideIndexChanger: self,
             slideNumberUpdater,
             sourceAnimator,

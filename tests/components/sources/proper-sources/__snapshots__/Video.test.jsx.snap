@@ -5,7 +5,7 @@ exports[`ref && DOM && defined videosPosters should match snapshot 1`] = `
   fsLightbox={
     Object {
       "collections": Object {
-        "sourcesLoadHandlers": Array [
+        "sourcesLoadsHandlers": Array [
           Object {
             "handleLoad": [Function],
           },
@@ -58,7 +58,7 @@ exports[`ref && DOM && videosPosters should match snapshot 1`] = `
   fsLightbox={
     Object {
       "collections": Object {
-        "sourcesLoadHandlers": Array [
+        "sourcesLoadsHandlers": Array [
           Object {
             "handleLoad": [Function],
           },
@@ -111,7 +111,7 @@ exports[`ref && DOM should match snapshot 1`] = `
   fsLightbox={
     Object {
       "collections": Object {
-        "sourcesLoadHandlers": Array [
+        "sourcesLoadsHandlers": Array [
           Object {
             "handleLoad": [Function],
           },
@@ -164,7 +164,7 @@ exports[`ref and DOM should match snapshot 1`] = `
   fsLightbox={
     Object {
       "collections": Object {
-        "sourcesLoadHandlers": Array [
+        "sourcesLoadsHandlers": Array [
           Object {
             "handleLoad": [Function],
           },

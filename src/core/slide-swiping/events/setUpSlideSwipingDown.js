@@ -1,5 +1,3 @@
-import { FADE_OUT_CLASS_NAME } from "../../../constants/classes-names";
-
 export function setUpSlideSwipingDown(
     {
         stageIndexes,

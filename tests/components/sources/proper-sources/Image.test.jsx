@@ -12,7 +12,7 @@ let fsLightbox = {
         }]
     },
     collections: {
-        sourcesLoadHandlers: [
+        sourcesLoadsHandlers: [
             {
                 handleLoad: () => {}
             }
@@ -37,7 +37,7 @@ describe('ref to sources array in fsLightbox object', () => {
 
 describe('on load', () => {
     beforeAll(() => {
-        fsLightbox.collections.sourcesLoadHandlers[2] = {
+        fsLightbox.collections.sourcesLoadsHandlers[2] = {
             handleLoad: jest.fn()
         };
         image = shallow(<Image
@@ -50,7 +50,7 @@ describe('on load', () => {
     });
 
     it('should call handleLoad', () => {
-        expect(fsLightbox.collections.sourcesLoadHandlers[2].handleLoad).toBeCalledWith({
+        expect(fsLightbox.collections.sourcesLoadsHandlers[2].handleLoad).toBeCalledWith({
             key: 'image-load-event'
         });
     });

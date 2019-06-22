@@ -16,7 +16,7 @@ const fsLightbox = {
         sourcesComponents: []
     },
     collections: {
-        sourcesLoadHandlers: []
+        sourcesLoadsHandlers: []
     },
     injector: {
         injectDependency: (constructorDependency) => {
@@ -46,13 +46,13 @@ describe('runActionsForSourceTypeAndIndex', () => {
     describe('runNotInvalidSourceActions', () => {
         describe('source is invalid', () => {
             beforeAll(() => {
-                fsLightbox.collections.sourcesLoadHandlers = [];
+                fsLightbox.collections.sourcesLoadsHandlers = [];
                 sourceLoadHandler.setIndex = jest.fn();
                 createNewCreatingSourcesActionsAndCallRunActionsWith(INVALID_TYPE, 0);
             });
 
-            it('should not attach sourceLoadHandler to sourcesLoadHandlers collection', () => {
-                expect(fsLightbox.collections.sourcesLoadHandlers).toEqual([]);
+            it('should not attach sourceLoadHandler to sourcesLoadsHandlers collection', () => {
+                expect(fsLightbox.collections.sourcesLoadsHandlers).toEqual([]);
             });
 
             it('should not call setIndex on sourceLoadHandler', () => {
@@ -62,13 +62,13 @@ describe('runActionsForSourceTypeAndIndex', () => {
 
         describe('source is not invalid', () => {
             beforeAll(() => {
-                fsLightbox.collections.sourcesLoadHandlers = [];
+                fsLightbox.collections.sourcesLoadsHandlers = [];
                 sourceLoadHandler.setIndex = jest.fn();
                 createNewCreatingSourcesActionsAndCallRunActionsWith(IMAGE_TYPE, 3);
             });
 
-            it('should attach sourceLoadHandler to sourcesLoadHandlers collection', () => {
-                expect(fsLightbox.collections.sourcesLoadHandlers).toEqual([
+            it('should attach sourceLoadHandler to sourcesLoadsHandlers collection', () => {
+                expect(fsLightbox.collections.sourcesLoadsHandlers).toEqual([
                     undefined,
                     undefined,
                     undefined,

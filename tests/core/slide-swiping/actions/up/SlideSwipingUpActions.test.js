@@ -1,44 +1,31 @@
+import { SlideSwipingUpActionsBucket } from "../../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActionsBucket";
 import { SlideSwipingUpActions } from "../../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActions";
-import { SwipingTransitioner } from "../../../../../src/core/slide-swiping/actions/up/SwipingTransitioner";
-import { SwipingSlideChanger } from "../../../../../src/core/slide-swiping/actions/up/SwipingSlideChanger";
-import * as ifElementContainsClassRemoveItObject
-    from "../../../../../src/helpers/dom/classes/IfElementContainsClassRemoveIt";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../../src/constants/classes-names";
+import { LIGHTBOX_CONTAINER, SOURCES_HOLDERS } from "../../../../../src/constants/elements";
+import {
+    CURSOR_GRABBING_CLASS_NAME,
+    TRANSFORM_TRANSITION_CLASS_NAME
+} from "../../../../../src/constants/classes-names";
+import { ANIMATION_TIME } from "../../../../../src/constants/css-constants";
 
-let slide;
-let isSwipingSlides;
-let swipingTransitioner = {
-    setStageSourcesIndexes: () => {},
-    removeAllTransitionsFromStageSources: () => {}
-};
-let swipingSlideChanger = {
-    setStageSourcesIndexes: () => {},
-    changeSlideToPrevious: () => {},
-    changeSlideToNext: () => {}
-};
 const fsLightbox = {
-    data: {
-        sourcesCount: 0
-    },
     componentsStates: {
         hasMovedWhileSwiping: {
-            get: () => isSwipingSlides,
-            set: (boolean) => isSwipingSlides = boolean
-        },
-        slide: {
-            get: () => slide,
-            set: (number) => slide = number
-        },
+            hasMovedWhileSwiping: {
+                set: () => {}
+            }
+        }
     },
     core: {
-        classListManger: {
-            ifElementHasClassRemoveIt: () => {},
-        },
+        classListManager: {}
+    },
+    data: {
+        isSwipingSlides: false
     },
     injector: {
-        injectDependency: (dependency) => {
-            if (dependency === SwipingTransitioner) return swipingTransitioner;
-            if (dependency === SwipingSlideChanger) return swipingSlideChanger;
+        injectDependency: (constructorDependency) => {
+            if (constructorDependency === SlideSwipingUpActionsBucket) {
+                return slideSwipingUpActionsBucket;
+            }
         }
     },
     stageIndexes: {
@@ -47,378 +34,171 @@ const fsLightbox = {
         next: undefined
     }
 };
-/** @var { SlideSwipingUpActions } slideSwipingUpActions */
-let slideSwipingUpActions;
-let swipingProps = {};
 
-const createNewSlideSwipingUpActionsAndCallMethods = () => {
+const classListManager = fsLightbox.core.classListManager;
+
+const slideSwipingUpActionsBucket = {
+    changeSlideToPrevious: () => {},
+    changeSlideToNext: () => {},
+    addTransitionAndTransformZeroCurrentSlide: () => {}
+};
+
+const swipingProps = {
+    isAfterSwipeAnimationRunning: undefined,
+    swipedDifference: undefined
+};
+let slideSwipingUpActions;
+
+const setUpAndCallRunActions = () => {
     slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, swipingProps);
-    slideSwipingUpActions.setUpTransformSourceHolders();
     slideSwipingUpActions.runActions();
 };
 
-describe('injecting dependencies', () => {
-    const transitioner = { key: 'transitioner' };
-
-    beforeEach(() => {
-        fsLightbox.injector.injectDependency = jest.fn(() => transitioner);
-        slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, swipingProps);
-    });
-
-    it('should call injectDependency with SwipingTransitioner', () => {
-        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SwipingTransitioner);
-    });
-
-    it('should call injectDependency with SwipingSlideChanger with transitioner', () => {
-        expect(fsLightbox.injector.injectDependency).toBeCalledWith(SwipingSlideChanger, [transitioner]);
-    });
-
-    afterAll(() => {
-        fsLightbox.injector.injectDependency = (dependency) => {
-            if (dependency === SwipingTransitioner) return swipingTransitioner;
-            if (dependency === SwipingSlideChanger) return swipingSlideChanger;
-        };
-    });
-});
-
 describe('resetSwiping', () => {
     beforeAll(() => {
-        slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox, swipingProps);
+        fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
+        fsLightbox.data.isSwipingSlides = undefined;
+        classListManager.ifElementHasClassRemoveIt = jest.fn();
+        slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox);
+        slideSwipingUpActions.resetSwiping();
     });
 
-    describe('setting hasMovedWhileSwipingStats fo false', () => {
-        beforeAll(() => {
-            fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
-            slideSwipingUpActions.resetSwiping();
-        });
-
-        it('should call set with false', () => {
-            expect(fsLightbox.componentsStates.hasMovedWhileSwiping.set).toBeCalledWith(false);
-        });
+    it('should set hasMovedWhileSwiping state to false', () => {
+        expect(fsLightbox.componentsStates.hasMovedWhileSwiping.set).toBeCalledWith(false);
     });
 
-
-    describe('setting isSwipingSlides from data object to false', () => {
-        beforeAll(() => {
-            fsLightbox.data.isSwipingSlides = true;
-            slideSwipingUpActions.resetSwiping();
-        });
-
-        it('should set isSwipingSlides to false', () => {
-            expect(fsLightbox.data.isSwipingSlides).toBe(false);
-        });
+    it('should set isSwipingSlides on data object to false', () => {
+        expect(fsLightbox.data.isSwipingSlides).toBe(false);
     });
 
-    describe('removing from element cursor grabbing clas', () => {
-        beforeAll(() => {
-            ifElementContainsClassRemoveItObject.ifElementContainsClassRemoveIt = jest.fn();
-            slideSwipingUpActions.resetSwiping();
-        });
-
-        it('should call ifElementContainsClassRemoveIt with container and cursor grabbing class', () => {
-            expect(ifElementContainsClassRemoveItObject.ifElementContainsClassRemoveIt)
-                .toBeCalledWith(fsLightbox.elements.container, CURSOR_GRABBING_CLASS_NAME);
-        });
+    it('should remove from lightbox container cursor grabbing class', () => {
+        expect(classListManager.ifElementHasClassRemoveIt).toBeCalledWith(
+            LIGHTBOX_CONTAINER,
+            CURSOR_GRABBING_CLASS_NAME
+        );
     });
 });
 
-describe('setting stage sources indexes', () => {
-    let stageSourcesIndexes;
-
-    beforeEach(() => {
-        stageSourcesIndexes = {};
-        fsLightbox.core.stage.updateStageIndexes = jest.fn(() => stageSourcesIndexes);
-    });
-
-    describe('setting stage sources indexes for SwipingTransitioner', () => {
+describe('runActions', () => {
+    describe('changing slide or transitioning and transforming current slide source', () => {
         beforeEach(() => {
-            swipingTransitioner.setStageSourcesIndexes = jest.fn();
-            createNewSlideSwipingUpActionsAndCallMethods();
+            slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide = jest.fn();
+            slideSwipingUpActionsBucket.changeSlideToNext = jest.fn();
+            slideSwipingUpActionsBucket.changeSlideToPrevious = jest.fn();
         });
 
-        it('should call setStageSourcesIndexes with stageSourcesIndexes', () => {
-            expect(swipingTransitioner.setStageSourcesIndexes).toBeCalledWith(stageSourcesIndexes);
+        describe('swipingProps.swipedDifference > 0', () => {
+            beforeEach(() => {
+                swipingProps.swipedDifference = 10;
+            });
+
+            describe('stageIndexes.previous = undefined', () => {
+                beforeEach(() => {
+                    fsLightbox.stageIndexes.previous = undefined;
+                    setUpAndCallRunActions();
+                });
+
+                it('should call proper bucket method', () => {
+                    expect(slideSwipingUpActionsBucket.changeSlideToPrevious).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.changeSlideToNext).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).toBeCalled();
+                });
+            });
+
+            describe('stageIndexes.previous is defined', () => {
+                beforeEach(() => {
+                    fsLightbox.stageIndexes.previous = 4;
+                    setUpAndCallRunActions();
+                });
+
+                it('should call proper bucket method', () => {
+                    expect(slideSwipingUpActionsBucket.changeSlideToPrevious).toBeCalled();
+                    expect(slideSwipingUpActionsBucket.changeSlideToNext).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).not.toBeCalled();
+                });
+            });
+        });
+
+        describe('swipingProps.swipedDifference < 0', () => {
+            beforeEach(() => {
+                swipingProps.swipedDifference = -10;
+            });
+
+            describe('stageIndexes.next = undefined', () => {
+                beforeEach(() => {
+                    fsLightbox.stageIndexes.next = undefined;
+                    setUpAndCallRunActions();
+                });
+
+                it('should call proper bucket method', () => {
+                    expect(slideSwipingUpActionsBucket.changeSlideToPrevious).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.changeSlideToNext).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).toBeCalled();
+                });
+            });
+
+            describe('stageIndexes.next is defined', () => {
+                beforeEach(() => {
+                    fsLightbox.stageIndexes.next = 4;
+                    setUpAndCallRunActions();
+                });
+
+                it('should call proper bucket method', () => {
+                    expect(slideSwipingUpActionsBucket.changeSlideToPrevious).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.changeSlideToNext).toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).not.toBeCalled();
+                });
+            });
         });
     });
 
-    describe('setting stage sources indexes for SwipingSlideChanger', () => {
-        beforeEach(() => {
-            swipingSlideChanger.setStageSourcesIndexes = jest.fn();
-            createNewSlideSwipingUpActionsAndCallMethods();
+    describe('setting up swiping props', () => {
+        beforeAll(() => {
+            swipingProps.isAfterSwipeAnimationRunning = undefined;
+            swipingProps.swipedDifference = undefined;
+            setUpAndCallRunActions();
         });
 
-        it('should call setStageSourcesIndexes with stageSourcesIndexes', () => {
-            expect(swipingSlideChanger.setStageSourcesIndexes).toBeCalledWith(stageSourcesIndexes);
+        it('should set isAfterSwipeAnimationRunning to true', () => {
+            expect(swipingProps.isAfterSwipeAnimationRunning).toBe(true);
+        });
+
+        it('should set swipedDifference to 0', () => {
+            expect(swipingProps.swipedDifference).toBe(0);
         });
     });
-});
 
-describe('transforming sources holders', () => {
-    let actions = {
-        addTransitionToCurrent: null,
-        changeSlideToPrevious: null,
-        changeSlideToNext: null,
-        transformAtIndex: null,
-        transform: null,
-    };
+    describe('after timeout actions', () => {
+        let setTimeoutParams;
 
-    beforeEach(() => {
-        for (let i in actions) {
-            actions[i] = jest.fn();
-        }
-        swipingTransitioner.setStageSourcesIndexes = () => {};
-        swipingTransitioner.addTransitionToCurrent = actions.addTransitionToCurrent;
-        swipingTransitioner.setStageSourcesIndexes = () => {};
-        swipingSlideChanger.changeSlideToPrevious = actions.changeSlideToPrevious;
-        swipingSlideChanger.changeSlideToNext = actions.changeSlideToNext;
-        fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = actions.transformAtIndex;
-        fsLightbox.core.sourcesHoldersTransformer.transform = actions.transform;
-    });
+        beforeAll(() => {
+            fsLightbox.data.sourcesCount = 4;
+            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt = jest.fn();
+            window.setTimeout = (...params) => {
+                setTimeoutParams = params;
+            };
+            setUpAndCallRunActions();
+        });
 
-    const itShouldNotCallEverythingExcept = (calledOnesArray) => {
-        for (let i in actions) {
-            let isCalledOne = false;
-            for (let j in calledOnesArray) {
-                if (actions[i] === calledOnesArray[j]) {
-                    isCalledOne = true;
+        it('should call setTimeout with animation time', () => {
+            expect(setTimeoutParams[1]).toBe(ANIMATION_TIME);
+        });
+
+        describe('callback', () => {
+            beforeAll(() => {
+                setTimeoutParams[0]();
+            });
+
+            it('should ifElementFromArrayAtIndexHasClassRemoveIt for all sources holders', () => {
+                expect(classListManager.ifElementFromArrayAtIndexHasClassRemoveIt).toBeCalledTimes(4);
+                for (let i = 0; i < 4; i++) {
+                    expect(classListManager.ifElementFromArrayAtIndexHasClassRemoveIt).toBeCalledWith(
+                        SOURCES_HOLDERS,
+                        i,
+                        TRANSFORM_TRANSITION_CLASS_NAME
+                    );
                 }
-            }
-            if (!isCalledOne) {
-                expect(actions[i]).not.toBeCalled();
-            }
-        }
-    };
-
-    const itShouldCallOnce = (toBeCalledArray) => {
-        for (let i in toBeCalledArray) {
-            expect(toBeCalledArray[i]).toBeCalledTimes(1);
-        }
-    };
-
-    describe('transforming only current (there is only one slide)', () => {
-        let zeroTransform;
-
-        beforeEach(() => {
-            zeroTransform = jest.fn();
-            swipingProps.swipedDifference = 0;
-            fsLightbox.data.sourcesCount = 1;
-            fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex = jest.fn(() => ({
-                zero: zeroTransform
-            }));
-            actions.transformAtIndex = fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex;
-            createNewSlideSwipingUpActionsAndCallMethods();
-        });
-
-        it('should call addTransitionToCurrent', () => {
-            itShouldCallOnce([actions.addTransitionToCurrent]);
-        });
-
-        it('should call transformAtIndex with 0 as param (0 - array index of current sources holder)', () => {
-            expect(fsLightbox.core.sourcesHoldersTransformer.transformSourceHolderAtIndex.mock.calls[0][0])
-                .toEqual(0);
-        });
-
-        it('should call zero on transformAtIndex', () => {
-            expect(zeroTransform).toBeCalled();
-        });
-
-        it('should not call everything expect addTransitionToCurrent and transformSourceHolderAtIndex', () => {
-            itShouldNotCallEverythingExcept([
-                actions.addTransitionToCurrent,
-                actions.transformAtIndex
-            ]);
-        });
-    });
-
-    describe('transforming backward (swiped difference is bigger than 0)', () => {
-        beforeEach(() => {
-            swipingProps.swipedDifference = 100;
-        });
-
-        describe('there are more than two slides', () => {
-            beforeEach(() => {
-                fsLightbox.data.sourcesCount = 3;
-                createNewSlideSwipingUpActionsAndCallMethods();
             });
-
-            it('should call changeSlideToPrevious', () => {
-                itShouldCallOnce([actions.changeSlideToPrevious]);
-            });
-
-            it('should not call everything except changeSlideToPrevious', () => {
-                itShouldNotCallEverythingExcept([actions.changeSlideToPrevious]);
-            });
-        });
-
-        describe('there are only two slides', () => {
-            beforeEach(() => {
-                fsLightbox.data.sourcesCount = 2;
-            });
-
-            describe('slide === 1', () => {
-                beforeEach(() => {
-                    slide = 1;
-                    createNewSlideSwipingUpActionsAndCallMethods();
-                });
-
-                it('should call addTransitionToCurrent and transform', () => {
-                    itShouldCallOnce([
-                        actions.addTransitionToCurrent,
-                        actions.transform
-                    ]);
-                });
-
-                it('should not call everything except addTransitionToCurrent and transform', () => {
-                    itShouldNotCallEverythingExcept([
-                        actions.addTransitionToCurrent,
-                        actions.transform
-                    ])
-                });
-            });
-
-            describe('slide === 2', () => {
-                beforeEach(() => {
-                    slide = 2;
-                    createNewSlideSwipingUpActionsAndCallMethods();
-                });
-
-                it('should call changeSlideToPrevious', () => {
-                    itShouldCallOnce([actions.changeSlideToPrevious]);
-                });
-
-                it('should not call everything except changeSlideToPrevious', () => {
-                    itShouldNotCallEverythingExcept([actions.changeSlideToPrevious]);
-                });
-            });
-        });
-    });
-
-
-    describe('transforming forward (swiped difference is less than 0)', () => {
-        beforeEach(() => {
-            swipingProps.swipedDifference = -100;
-        });
-
-        describe('there are more than two slides', () => {
-            beforeEach(() => {
-                fsLightbox.data.sourcesCount = 3;
-                createNewSlideSwipingUpActionsAndCallMethods();
-            });
-
-            it('should call changeSlideToPrevious', () => {
-                itShouldCallOnce([actions.changeSlideToNext]);
-            });
-
-            it('should not call everything except changeSlideToPrevious', () => {
-                itShouldNotCallEverythingExcept([actions.changeSlideToNext]);
-            });
-        });
-
-        describe('there are only two slides', () => {
-            beforeEach(() => {
-                fsLightbox.data.sourcesCount = 2;
-            });
-
-            describe('slide === 1', () => {
-                beforeEach(() => {
-                    slide = 1;
-                    createNewSlideSwipingUpActionsAndCallMethods();
-                });
-
-                it('should call changeSlideToNext', () => {
-                    itShouldCallOnce([actions.changeSlideToNext]);
-                });
-
-                it('should not call everything except changeSlideToPrevious', () => {
-                    itShouldNotCallEverythingExcept([actions.changeSlideToNext]);
-                });
-            });
-
-            describe('slide === 2', () => {
-                beforeEach(() => {
-                    slide = 2;
-                    createNewSlideSwipingUpActionsAndCallMethods();
-                });
-
-                it('should call addTransitionToCurrent and transform', () => {
-                    itShouldCallOnce([
-                        actions.addTransitionToCurrent,
-                        actions.transform
-                    ]);
-                });
-
-                it('should not call everything except addTransitionToCurrent and transform', () => {
-                    itShouldNotCallEverythingExcept([
-                        actions.addTransitionToCurrent,
-                        actions.transform
-                    ])
-                });
-            });
-        });
-    })
-});
-
-describe('setting isAfterSwipeAnimationRunning from swiping props to true', () => {
-    beforeEach(() => {
-        swipingProps = {
-            isAfterSwipeAnimationRunning: false
-        };
-        createNewSlideSwipingUpActionsAndCallMethods();
-    });
-
-    it('should set isAfterSwipeAnimationRunning to true', () => {
-        expect(swipingProps.isAfterSwipeAnimationRunning).toBeTruthy();
-    });
-});
-
-describe('setting swiped difference from swiping props to 0', () => {
-    beforeEach(() => {
-        swipingProps = {
-            swipedDifference: 100
-        };
-        createNewSlideSwipingUpActionsAndCallMethods();
-    });
-
-    it('should set isAfterSwipeAnimationRunning to true', () => {
-        expect(swipingProps.swipedDifference).toBe(0);
-    });
-});
-
-describe('setTimeout', () => {
-    beforeEach(() => {
-        jest.useFakeTimers();
-    });
-
-    describe('calling removeAllTransitionsFromStageSources at SwipingTransitioner', () => {
-        let removeAllTransitionsFromStageSources;
-
-        beforeEach(() => {
-            removeAllTransitionsFromStageSources = jest.fn();
-            swipingTransitioner = {
-                removeAllTransitionsFromStageSources: removeAllTransitionsFromStageSources,
-                setStageSourcesIndexes: () => {},
-                addTransitionToCurrentAndPrevious: () => {}
-            };
-            createNewSlideSwipingUpActionsAndCallMethods();
-            jest.runAllTimers();
-        });
-
-        it('should call removeAllTransitionsFromStageSources', () => {
-            expect(removeAllTransitionsFromStageSources).toBeCalled();
-        });
-    });
-
-    describe('setting isAfterSwipeAnimationRunning to false', () => {
-        beforeEach(() => {
-            swipingProps = {
-                isAfterSwipeAnimationRunning: true
-            };
-            createNewSlideSwipingUpActionsAndCallMethods();
-            jest.runAllTimers();
-        });
-
-        it('set isAfterSwipeAnimationRunning to false', () => {
-            expect(swipingProps.isAfterSwipeAnimationRunning).toBeFalsy();
         });
     });
 });
