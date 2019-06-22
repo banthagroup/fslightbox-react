@@ -2,7 +2,7 @@ import * as setUpClassListsManagerObject from "../../src/core/elements/setUpClas
 import * as getSwipingPropsObject from "../../src/core/slide-swiping/getSwipingProps";
 import * as setUpLightboxOpenerObject from "../../src/core/main-component/opening/setUpLightboxOpener";
 import * as setUpSlideSwipingMoveObject from "../../src/core/slide-swiping/events/setUpSlideSwipingMove";
-import * as setUpSourceControllerObject from "../../src/core/sources/setUpSourceController";
+import * as setUpSourceControllerObject from "../../src/core/sources/setUpSourceLoadActions";
 import * as setUpSourcesHoldersTransformingFacadeObject
     from "../../src/core/transforms/setUpSourcesHoldersTransformingFacade";
 import * as setUpSourcesFactoryObject from "../../src/core/sources/creating/createSources";
@@ -33,7 +33,7 @@ const swipingProps = { key: 'swipingProps' };
 beforeAll(() => {
     setUpClassListsManagerObject.setUpClassListsManager = jest.fn();
     setUpLightboxOpenerObject.setUpLightboxOpener = jest.fn();
-    setUpSourceControllerObject.setUpSourceController = jest.fn();
+    setUpSourceControllerObject.setUpSourceLoadActions = jest.fn();
     setUpSourcesFactoryObject.createSources = jest.fn();
     setUpFullscreenTogglerObject.setUpFullscreenToggler = jest.fn();
     setUpGlobalResizingControllerObject.setUpGlobalResizingController = jest.fn();
@@ -137,8 +137,8 @@ describe('calling correct methods which set up core', () => {
         expect(setUpSourceAnimatorObject.setUpSourceAnimator).toBeCalledWith(fsLightbox);
     });
 
-    it('should call setUpSourceController', () => {
-        expect(setUpSourceControllerObject.setUpSourceController).toBeCalledWith(fsLightbox);
+    it('should call setUpSourceLoadActions', () => {
+        expect(setUpSourceControllerObject.setUpSourceLoadActions).toBeCalledWith(fsLightbox);
     });
 
     it('should call setUpSourcesHoldersTransformingFacade', () => {

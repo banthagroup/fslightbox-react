@@ -217,13 +217,13 @@ describe('collections', () => {
         });
     });
 
-    describe('sourceSizeAdjusters', () => {
+    describe('sourcesSizesAdjusters', () => {
         it('should be equal to empty array', () => {
-            expect(fsLightbox.collections.sourceSizeAdjusters).toEqual([]);
+            expect(fsLightbox.collections.sourcesSizesAdjusters).toEqual([]);
         });
     });
 
-    describe('sourceSizeAdjusters', () => {
+    describe('sourcesSizesAdjusters', () => {
         it('should be equal to empty array', () => {
             expect(fsLightbox.collections.xhrs).toEqual([]);
         });

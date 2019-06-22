@@ -1,32 +1,31 @@
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
-import { SwipingTransitioner } from "./SwipingTransitioner";
-import { SwipingSlideChanger } from "./SwipingSlideChanger";
+import { CURSOR_GRABBING_CLASS_NAME, TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-names";
 import { ANIMATION_TIME } from "../../../../constants/css-constants";
-import { LIGHTBOX_CONTAINER } from "../../../../constants/elements";
+import { LIGHTBOX_CONTAINER, SOURCES_HOLDERS } from "../../../../constants/elements";
+import { SlideSwipingUpActionsBucket } from "./SlideSwipingUpActionsBucket";
 
 /**
  * @constructor
  */
 export function SlideSwipingUpActions(
     {
-        data,
-        collections: {
-            sourcesHoldersTransformers
-        },
         componentsStates: {
             hasMovedWhileSwiping: hasMovedWhileSwipingState,
         },
         core: {
             classListManager
         },
+        data,
         injector: {
             injectDependency
         },
         stageIndexes
     }, swipingProps
 ) {
-    const swipingTransitioner = injectDependency(SwipingTransitioner);
-    const swipingSlideChanger = injectDependency(SwipingSlideChanger, [swipingTransitioner]);
+    const {
+        changeSlideToPrevious,
+        changeSlideToNext,
+        addTransitionAndTransformZeroCurrentSlide
+    } = injectDependency(SlideSwipingUpActionsBucket);
 
     this.resetSwiping = () => {
         hasMovedWhileSwipingState.set(false);
@@ -36,26 +35,30 @@ export function SlideSwipingUpActions(
 
     this.runActions = () => {
         if (swipingProps.swipedDifference > 0) {
-            (stageIndexes.previous !== undefined) ?
-                swipingSlideChanger.changeSlideToPrevious() :
-                addTransitionToCurrentAndTransformCurrentZero();
+            (stageIndexes.previous === undefined) ?
+                addTransitionAndTransformZeroCurrentSlide() :
+                changeSlideToPrevious();
         } else {
-            (stageIndexes.next !== undefined) ?
-                swipingSlideChanger.changeSlideToNext() :
-                addTransitionToCurrentAndTransformCurrentZero();
+            (stageIndexes.next === undefined) ?
+                addTransitionAndTransformZeroCurrentSlide() :
+                changeSlideToNext();
         }
 
         swipingProps.isAfterSwipeAnimationRunning = true;
         swipingProps.swipedDifference = 0;
 
         setTimeout(() => {
-            swipingTransitioner.removeAllTransitions();
+            // we are removing all transition classes from all sources because client may change during swipe animation
+            // with e.g. keyboard keys
+            for (let i = 0; i < data.sourcesCount; i++) {
+                classListManager.ifElementFromArrayAtIndexHasClassRemoveIt(
+                    SOURCES_HOLDERS,
+                    i,
+                    TRANSFORM_TRANSITION_CLASS_NAME
+                );
+            }
+
             swipingProps.isAfterSwipeAnimationRunning = false;
         }, ANIMATION_TIME);
-    };
-
-    const addTransitionToCurrentAndTransformCurrentZero = () => {
-        swipingTransitioner.addTransitionToCurrent();
-        sourcesHoldersTransformers[stageIndexes.current].zero();
     };
 }

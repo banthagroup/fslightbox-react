@@ -1,10 +1,8 @@
-import {
-    OPEN_CLASS_NAME,
-    LONG_FADE_OUT_CLASS_NAME, ANIMATION_TIME
-} from "../../../constants/css-constants";
 import { CONTAINER_FADE_OUT_TIME } from "../../../constants/core-constants";
 import { ON_CLOSE } from "../../../constants/eventsConstants";
 import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
+import { LONG_FADE_OUT_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
+import { ANIMATION_TIME } from "../../../constants/css-constants";
 
 /**
  * @constructor

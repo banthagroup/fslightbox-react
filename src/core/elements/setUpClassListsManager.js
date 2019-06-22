@@ -7,48 +7,55 @@ export function setUpClassListsManager(
     }
 ) {
     self.addToElementClass = (elementName, className) => {
-        addToElementClass(elements[elementName], className);
+        addToClassListClass(getClassListFromElement(elements[elementName]), className);
     };
 
     self.removeFromElementClass = (elementName, className) => {
-        removeFromElementClass(elements[elementName], className);
+        removeFromClassListClass(getClassListFromElement(elements[elementName]), className);
     };
 
     self.addToElementInArrayAtIndexClass = (elementsArrayName, index, className) => {
-        addToElementClass(elements[elementsArrayName][index], className);
+        addToClassListClass(getClassListFromElement(elements[elementsArrayName][index]), className);
+    };
+
+    self.removeFromElementInArrayAtIndexClass = (elementsArrayName, index, className) => {
+        removeFromClassListClass(getClassListFromElement(elements[elementsArrayName][index]), className);
     };
 
     self.ifElementNotHasClassAddIt = (elementName, className) => {
-        if (!doesElementContainsClassList(elements[elementName], className)) {
-            addToElementClass(elements[elementName], className);
+        let classList = getClassListFromElement(elements[elementName]);
+        if (!doesClassListContainsClass(classList, className)) {
+            addToClassListClass(classList, className);
         }
     };
 
     self.ifElementHasClassRemoveIt = (elementName, className) => {
-        if (doesElementContainsClassList(elements[elementName], className)) {
-            removeFromElementClass(elements[elementName], className);
+        let classList = getClassListFromElement(elements[elementName]);
+        if (doesClassListContainsClass(classList, className)) {
+            removeFromClassListClass(classList, className);
         }
     };
 
     self.ifElementFromArrayAtIndexHasClassRemoveIt = (elementsArrayName, index, className) => {
-        if (doesElementContainsClassList(elements[elementsArrayName][index], className)) {
-            removeFromElementClass(elements[elementsArrayName][index], className);
+        let classList = getClassListFromElement(elements[elementsArrayName][index]);
+        if (doesClassListContainsClass(classList, className)) {
+            removeFromClassListClass(classList, className);
         }
-    };
-
-    const addToElementClass = (element, className) => {
-        getClassListFromElement(element).add(className);
-    };
-
-    const removeFromElementClass = (element, className) => {
-        getClassListFromElement(element).remove(className);
-    };
-
-    const doesElementContainsClassList = (element, className) => {
-        return getClassListFromElement(element).contains(className);
     };
 
     const getClassListFromElement = (element) => {
         return element.current.classList;
+    };
+
+    const addToClassListClass = (classList, className) => {
+        classList.add(className);
+    };
+
+    const removeFromClassListClass = (classList, className) => {
+        classList.remove(className);
+    };
+
+    const doesClassListContainsClass = (classList, className) => {
+        return classList.contains(className);
     };
 }

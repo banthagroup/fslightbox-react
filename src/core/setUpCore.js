@@ -2,7 +2,7 @@ import { setUpClassListsManager } from "./elements/setUpClassListsManager";
 import { getSwipingProps } from "./slide-swiping/getSwipingProps";
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
 import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
-import { setUpSourceController } from "./sources/setUpSourceController";
+import { setUpSourceLoadActions } from "./sources/setUpSourceLoadActions";
 import { setUpSourcesHoldersTransformingFacade } from "./transforms/setUpSourcesHoldersTransformingFacade";
 import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
 import { setUpGlobalResizingController } from "./sizes/setUpGlobalResizingController";
@@ -55,7 +55,7 @@ export function setUpCore(fsLightbox) {
 
     setUpSourceAnimator(fsLightbox);
 
-    setUpSourceController(fsLightbox);
+    setUpSourceLoadActions(fsLightbox);
 
     setUpSourcesHoldersTransformingFacade(fsLightbox);
 

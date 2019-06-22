@@ -16,7 +16,7 @@ let fsLightbox = {
         }]
     },
     collections: {
-        sourcesLoadHandlers: [{
+        sourcesLoadsHandlers: [{
             handleLoad: () => {}
         }]
     }
@@ -56,7 +56,7 @@ describe('undefined videosPosters', () => {
 
 describe('on load', () => {
     beforeAll(() => {
-        fsLightbox.collections.sourcesLoadHandlers[2] = {
+        fsLightbox.collections.sourcesLoadsHandlers[2] = {
             handleLoad: jest.fn()
         };
         video = shallow(<Image
@@ -69,7 +69,7 @@ describe('on load', () => {
     });
 
     it('should call handleLoad', () => {
-        expect(fsLightbox.collections.sourcesLoadHandlers[2].handleLoad).toBeCalledWith({
+        expect(fsLightbox.collections.sourcesLoadsHandlers[2].handleLoad).toBeCalledWith({
             key: 'video-load-event'
         });
     });

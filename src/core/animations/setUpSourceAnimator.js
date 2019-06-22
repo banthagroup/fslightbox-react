@@ -1,13 +1,15 @@
 import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../constants/classes-names";
+import { SOURCES } from "../../constants/elements";
 
 
 export function setUpSourceAnimator(
     {
         data: { sourcesCount },
         core: {
-            classListGetter,
+            classListManager,
             sourceAnimator: self
-        }
+        },
+        elements: { sources }
     }
 ) {
     /** @var { DOMTokenList } animatedSourceClassList */
@@ -18,7 +20,7 @@ export function setUpSourceAnimator(
      * @return { self }
      */
     self.animateSourceFromIndex = (index) => {
-        animatedSourceClassList = classListGetter.getSourceClassListByIndex(index);
+        animatedSourceClassList = sources[index].current.classList;
         return self;
     };
 
@@ -47,8 +49,8 @@ export function setUpSourceAnimator(
 
     self.removeFadeOutFromAllSources = () => {
         for (let i = 0; i < sourcesCount; i++) {
-            classListGetter.ifElementFromArrayAtIndexHasClassRemoveIt(
-                'sources',
+            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt(
+                SOURCES,
                 i,
                 FADE_OUT_CLASS_NAME
             );

@@ -12,6 +12,9 @@ const fsLightbox = {
         sourcesHoldersTransformers: []
     },
     core: {
+        classListManager: {
+
+        },
         slideIndexChanger: {},
         slideNumberUpdater: {
             updateSlideNumber: () => {},

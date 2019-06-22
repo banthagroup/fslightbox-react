@@ -53,23 +53,23 @@ export function DetectedTypeActions(fsLightbox) {
 
     const runNotInvalidSourceActions = () => {
         if (sourceType !== INVALID_TYPE) {
-            fsLightbox.collections.sourcesLoadHandlers[sourceIndex] = injectDependency(SourceLoadHandler);
-            fsLightbox.collections.sourcesLoadHandlers[sourceIndex].setIndex(sourceIndex);
+            fsLightbox.collections.sourcesLoadsHandlers[sourceIndex] = injectDependency(SourceLoadHandler);
+            fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setIndex(sourceIndex);
         }
     };
 
     const runImageTypeActions = () => {
-        fsLightbox.collections.sourcesLoadHandlers[sourceIndex].setUpLoadForImage();
+        fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setUpLoadForImage();
         BaseSourceComponent = Image;
     };
 
     const runVideoTypeActions = () => {
-        fsLightbox.collections.sourcesLoadHandlers[sourceIndex].setUpLoadForVideo();
+        fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setUpLoadForVideo();
         BaseSourceComponent = Video;
     };
 
     const runYoutubeTypeActions = () => {
-        fsLightbox.collections.sourcesLoadHandlers[sourceIndex].setUpLoadForYoutube();
+        fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setUpLoadForYoutube();
         BaseSourceComponent = Youtube;
     };
 

@@ -5,13 +5,9 @@ import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 
 export function setUpLightboxOpeningActions(fsLightbox) {
     const {
-        stageIndexes,
         data,
         eventsDispatcher: {
             dispatch
-        },
-        collections: {
-            sourcesHoldersTransformers
         },
         core: {
             lightboxOpeningActions: self,
@@ -25,7 +21,6 @@ export function setUpLightboxOpeningActions(fsLightbox) {
                     keyDown: documentKeyDownEventController
                 }
             },
-            slideIndexChanger,
             globalResizingController,
         }
     } = fsLightbox;

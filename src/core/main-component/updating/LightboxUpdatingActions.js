@@ -22,8 +22,9 @@ export function LightboxUpdatingActions(
     };
 
     this.runSlideUpdateActions = () => {
-        (getIsLightboxOpen()) ?
-            slideIndexChanger.changeToWithActions(getProps().slide - 1) :
-            data.slideOnLightboxOpen = getProps().slide - 1;
+        // TODO:
+        // (getIsLightboxOpen()) ?
+        //     slideIndexChanger.changeToWithActions(getProps().slide - 1) :
+        //     data.slideOnLightboxOpen = getProps().slide - 1;
     };
 }

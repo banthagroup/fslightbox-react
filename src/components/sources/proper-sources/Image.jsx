@@ -6,13 +6,13 @@ const Image = (
         fsLightbox: {
             data: { sources },
             elements: { sources: sourcesElements },
-            collections: { sourcesLoadHandlers }
+            collections: { sourcesLoadsHandlers }
         },
         index
     }
 ) => (
     <img
-        onLoad={ sourcesLoadHandlers[index].handleLoad }
+        onLoad={ sourcesLoadsHandlers[index].handleLoad }
         className={ "fslightbox-source fslightbox-opacity-0" }
         ref={ sourcesElements[index] }
         src={ sources[index] }
