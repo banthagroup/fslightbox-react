@@ -45,7 +45,7 @@ describe('setting scrollbarWidth', () => {
 describe('running or not opening actions', () => {
     describe('lightbox is closed', () => {
         beforeAll(() => {
-            fsLightbox.core.lightboxOpeningActions.runActionsForEvent = jest.fn();
+            fsLightbox.core.lightboxOpeningActions.runActions = jest.fn();
             lightboxState.isOpen = false;
             runLightboxMountedActions(fsLightbox);
         });

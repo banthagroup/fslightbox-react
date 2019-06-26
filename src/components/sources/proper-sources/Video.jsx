@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import { PREFIX, SOURCE_CLASSES_NAMES } from "../../../constants/classes-names";
 
 const Video = (
     {
@@ -11,21 +11,15 @@ const Video = (
         },
         index
     }
-) => (
-    <video
+) => {
+    return <video
         onLoadedMetadata={ sourcesLoadsHandlers[index].handleLoad }
-        className="fslightbox-source fslightbox-video fslightbox-opacity-0"
+        className={ `${ SOURCE_CLASSES_NAMES } ${ PREFIX }video` }
         controls
         ref={ sourcesElements[index] }
         poster={ videosPosters && videosPosters[index] }>
         <source src={ sources[index] }/>
     </video>
-);
-
-
-Video.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired
 };
 
 export default Video;

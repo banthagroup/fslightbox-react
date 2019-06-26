@@ -1,17 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Video DOM should match snapshot 1`] = `
-<iframe
-  allowFullScreen={true}
-  className="fslightbox-source fslightbox-youtube-iframe fslightbox-opacity-0"
-  src="https://www.youtube.com/embed/testId?enablejsapi=1"
-/>
-`;
-
 exports[`Video DOM static DOM should match snapshot 1`] = `
 <iframe
   allowFullScreen={true}
-  className="fslightbox-source fslightbox-youtube-iframe fslightbox-opacity-0"
+  className="fslightbox-source fslightbox-opacity-0 fslightbox-youtube-iframe"
   src="https://www.youtube.com/embed/testId?enablejsapi=1"
 />
 `;

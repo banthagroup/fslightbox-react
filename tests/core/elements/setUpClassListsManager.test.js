@@ -55,138 +55,179 @@ const setUpElementFromArrayAtIndexForClass = (elementsArrayName, index, classNam
     };
 };
 
-describe('addToElementClass', () => {
-    beforeAll(() => {
-        setUpElementForClass(LIGHTBOX_CONTAINER, 'test-container-class');
-        classListManager.addToElementClass(LIGHTBOX_CONTAINER, 'test-container-class');
-    });
-
-    it('should call add with test-container-class', () => {
-        expect(add).toBeCalledWith('test-container-class');
-    });
-});
-
-describe('removeFromElementClass', () => {
-    beforeAll(() => {
-        setUpElementForClass(LIGHTBOX_CONTAINER, 'test-container-class');
-        classListManager.removeFromElementClass(LIGHTBOX_CONTAINER, 'test-container-class');
-    });
-
-    it('should call remove with test-container-class', () => {
-        expect(remove).toBeCalledWith('test-container-class');
-    });
-});
-
-describe('addToElementInArrayAtIndexClass', () => {
-    beforeAll(() => {
-        setUpElementFromArrayAtIndexForClass(
-            SOURCES,
-            3,
-            'test-source-class'
-        );
-        classListManager.addToElementInArrayAtIndexClass(
-            SOURCES,
-            3,
-            'test-source-class'
-        );
-    });
-
-    it('should call add with test-source-class', () => {
-        expect(add).toBeCalledWith('test-source-class');
-    });
-});
-
-describe('ifElementNotHasClassAddIt', () => {
-    describe('element does not has class name', () => {
+describe('manageElement', () => {
+    describe('add', () => {
         beforeAll(() => {
-            toReturnFromContains = true;
-            setUpElementForClass(LIGHTBOX_CONTAINER, 'test-container-class');
-            classListManager.ifElementNotHasClassAddIt(LIGHTBOX_CONTAINER, 'test-container-class');
+            setUpElementForClass(LIGHTBOX_CONTAINER, 'test-add');
+            classListManager
+                .manageElement(LIGHTBOX_CONTAINER)
+                .add('test-add');
         });
 
-        it('should not call add', () => {
-            expect(add).not.toBeCalled();
-        });
-    });
-
-    describe('element has class name', () => {
-        beforeAll(() => {
-            toReturnFromContains = false;
-            setUpElementForClass(LIGHTBOX_CONTAINER, 'test-container-class');
-            classListManager.ifElementNotHasClassAddIt(LIGHTBOX_CONTAINER, 'test-container-class');
-        });
-
-        it('should not call add', () => {
-            expect(add).toBeCalledWith('test-container-class');
-        });
-    });
-});
-
-describe('ifElementHasClassRemoveIt', () => {
-    describe('element does not has class name', () => {
-        beforeAll(() => {
-            toReturnFromContains = false;
-            setUpElementForClass(LIGHTBOX_CONTAINER, 'test-container-class');
-            classListManager.ifElementHasClassRemoveIt(LIGHTBOX_CONTAINER, 'test-container-class');
-        });
-
-        it('should not call remove', () => {
-            expect(remove).not.toBeCalled();
+        it('should call add with passed class name', () => {
+            expect(add).toBeCalledWith('test-add');
         });
     });
 
-    describe('element has class name', () => {
-        beforeAll(() => {
-            toReturnFromContains = true;
-            setUpElementForClass(LIGHTBOX_CONTAINER, 'test-container-class');
-            classListManager.ifElementHasClassRemoveIt(LIGHTBOX_CONTAINER, 'test-container-class');
+    describe('addIfNotContains', () => {
+        describe('element does not contain class name', () => {
+            beforeAll(() => {
+                toReturnFromContains = true;
+                setUpElementForClass(LIGHTBOX_CONTAINER, 'test-contains-add');
+                classListManager
+                    .manageElement(LIGHTBOX_CONTAINER)
+                    .addIfNotContains('test-contains-add');
+            });
+
+            it('should not call add', () => {
+                expect(add).not.toBeCalled();
+            });
         });
 
-        it('should not call remove', () => {
-            expect(remove).toBeCalledWith('test-container-class');
+        describe('element contains class', () => {
+            beforeAll(() => {
+                toReturnFromContains = false;
+                setUpElementForClass(LIGHTBOX_CONTAINER, 'test-contains-add');
+                classListManager
+                    .manageElement(LIGHTBOX_CONTAINER)
+                    .addIfNotContains('test-contains-add');
+            });
+
+            it('should call add with passed class', () => {
+                expect(add).toBeCalledWith('test-contains-add');
+            });
+        });
+    });
+
+    describe('remove', () => {
+        beforeAll(() => {
+            setUpElementForClass(LIGHTBOX_CONTAINER, 'test-remove');
+            classListManager
+                .manageElement(LIGHTBOX_CONTAINER)
+                .remove('test-remove');
+        });
+
+        it('should call remove with passed remove class name', () => {
+            expect(remove).toBeCalledWith('test-remove');
+        });
+    });
+
+    describe('removeIfContains', () => {
+        describe('element does not contain class', () => {
+            beforeAll(() => {
+                toReturnFromContains = false;
+                setUpElementForClass(LIGHTBOX_CONTAINER, 'test-contains-remove');
+                classListManager
+                    .manageElement(LIGHTBOX_CONTAINER)
+                    .removeIfContains('test-contains-remove');
+            });
+
+            it('should not call remove', () => {
+                expect(remove).not.toBeCalled();
+            });
+        });
+
+        describe('element contains class name', () => {
+            beforeAll(() => {
+                toReturnFromContains = true;
+                setUpElementForClass(LIGHTBOX_CONTAINER, 'test-contains-remove');
+                classListManager
+                    .manageElement(LIGHTBOX_CONTAINER)
+                    .removeIfContains('test-contains-remove');
+            });
+
+            it('should call remove with passed class name', () => {
+                expect(remove).toBeCalledWith('test-contains-remove');
+            });
         });
     });
 });
 
-describe('ifElementFromArrayAtIndexHasClassRemoveIt', () => {
-    describe('element does not has class name', () => {
+describe('manageArrayElementAtIndex', () => {
+    describe('add', () => {
         beforeAll(() => {
-            toReturnFromContains = false;
-            setUpElementFromArrayAtIndexForClass(
-                SOURCES_HOLDERS,
-                2,
-                'test-source-holder-class'
-            );
-            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt(
-                SOURCES_HOLDERS,
-                2,
-                'test-source-holder-class'
-            );
+            setUpElementFromArrayAtIndexForClass(SOURCES, 0, 'test-add');
+            classListManager
+                .manageArrayElementAtIndex(SOURCES, 0)
+                .add('test-add');
         });
 
-        it('should not call remove', () => {
-            expect(remove).not.toBeCalled();
+        it('should call add with passed class name', () => {
+            expect(add).toBeCalledWith('test-add');
         });
     });
 
-    describe('element has class list', () => {
-        beforeAll(() => {
-            toReturnFromContains = true;
-            setUpElementFromArrayAtIndexForClass(
-                SOURCES,
-                5,
-                'test-source-class'
-            );
-            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt(
-                SOURCES,
-                5,
-                'test-source-class'
-            );
-            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt(SOURCES, 5, 'test-source-class');
+    describe('addIfNotContains', () => {
+        describe('element does not contain class name', () => {
+            beforeAll(() => {
+                toReturnFromContains = true;
+                setUpElementFromArrayAtIndexForClass(SOURCES_HOLDERS, 2, 'test-contains-add');
+                classListManager
+                    .manageArrayElementAtIndex(SOURCES_HOLDERS, 2)
+                    .addIfNotContains('test-contains-add');
+            });
+
+            it('should not call add', () => {
+                expect(add).not.toBeCalled();
+            });
         });
 
-        it('should call remove', () => {
-            expect(remove).toBeCalledWith('test-source-class');
+        describe('element contain class name', () => {
+            beforeAll(() => {
+                toReturnFromContains = false;
+                setUpElementFromArrayAtIndexForClass(SOURCES_HOLDERS, 4, 'test-contains-add');
+                classListManager
+                    .manageArrayElementAtIndex(SOURCES_HOLDERS, 4)
+                    .addIfNotContains('test-contains-add');
+            });
+
+            it('should call add with passed class', () => {
+                expect(add).toBeCalledWith('test-contains-add');
+            });
+        });
+    });
+
+    describe('remove', () => {
+        beforeAll(() => {
+            setUpElementFromArrayAtIndexForClass(SOURCES, 3, 'test-remove');
+            classListManager
+                .manageArrayElementAtIndex(SOURCES, 3)
+                .remove('test-remove');
+        });
+
+        it('should call remove with passed remove class name', () => {
+            expect(remove).toBeCalledWith('test-remove');
+        });
+    });
+
+    describe('removeIfContains', () => {
+        describe('element does not has class name', () => {
+            beforeAll(() => {
+                toReturnFromContains = false;
+                setUpElementFromArrayAtIndexForClass(SOURCES, 3, 'test-contains-remove');
+                classListManager
+                    .manageArrayElementAtIndex(SOURCES, 3)
+                    .removeIfContains('test-contains-remove');
+            });
+
+            it('should not call remove', () => {
+                expect(remove).not.toBeCalled();
+            });
+        });
+
+        describe('element has class name', () => {
+            beforeAll(() => {
+                toReturnFromContains = true;
+                setUpElementFromArrayAtIndexForClass(SOURCES_HOLDERS, 10, 'test-contains-remove');
+                classListManager
+                    .manageArrayElementAtIndex(SOURCES_HOLDERS, 10)
+                    .removeIfContains('test-contains-remove');
+            });
+
+            it('should call remove with passed class name', () => {
+                expect(remove).toBeCalledWith('test-contains-remove');
+            });
         });
     });
 });
+

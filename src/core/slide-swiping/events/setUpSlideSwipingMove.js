@@ -27,9 +27,11 @@ export function setUpSlideSwipingMove(
             if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {
                 return;
             }
+            
             if (!isPreviousAnimationDebounced()) {
                 return;
             }
+            
             actions.runActionsForEvent(e);
         };
 }

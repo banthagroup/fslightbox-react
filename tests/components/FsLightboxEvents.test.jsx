@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
-import { CONTAINER_FADE_OUT_TIME } from "../../src/constants/core-constants";
+import { ANIMATION_TIME } from "../../src/constants/css-constants";
 
 describe('onInit', () => {
     let fsLightbox;
@@ -49,7 +49,7 @@ describe('onOpen - called on every open', () => {
         fsLightbox.setProps({
             toggler: false
         });
-        jest.runTimersToTime(CONTAINER_FADE_OUT_TIME);
+        jest.runTimersToTime(ANIMATION_TIME);
         expect(onOpen).toBeCalledTimes(1);
     });
 
@@ -86,11 +86,11 @@ describe('onClose - called on every close', () => {
         fsLightbox.setProps({
             toggler: false
         });
-        jest.runTimersToTime(CONTAINER_FADE_OUT_TIME);
+        jest.runTimersToTime(ANIMATION_TIME);
         expect(onClose).toBeCalledTimes(1);
     });
 
-    it('should not call onCloseafter reopening', () => {
+    it('should not call onClose after reopening', () => {
         fsLightbox.setProps({
             toggler: true
         });
@@ -123,7 +123,7 @@ describe('onShow - called on every open except init', () => {
         fsLightbox.setProps({
             toggler: false
         });
-        jest.runTimersToTime(CONTAINER_FADE_OUT_TIME);
+        jest.runTimersToTime(ANIMATION_TIME);
         expect(onShow).not.toBeCalled();
     });
 

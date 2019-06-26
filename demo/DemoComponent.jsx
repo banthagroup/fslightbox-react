@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
-import FsLightbox from '../src/FsLightbox.jsx';
+import FsLightbox from '../index';
 import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";
 
 class DemoComponent extends Component {
@@ -11,15 +11,14 @@ class DemoComponent extends Component {
             toggler2: false,
             updated: true,
             slide: 1,
+            source: '',
+            sourceIndex: 0
         };
         this.toggleLightbox = this.toggleLightbox.bind(this);
         this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
 
         setTimeout(() => {
-            // this.setState({
-            //     slide: 5
-            // });
-        }, 5000);
+        }, 2000);
     }
 
     toggleLightbox() {
@@ -50,23 +49,12 @@ class DemoComponent extends Component {
                 <FsLightbox
                     toggler={ this.state.toggler }
                     slide={ this.state.slide }
+                    source={ this.state.source }
+                    sourceIndex={ this.state.sourceIndex }
                     sources={ [
-                        '../demo/images/5.jpg',
-                        '../demo/images/4.jpeg',
-                        // '../demo/images/1.jpeg',
-                        // '../demo/images/2.jpg',
-                        // '../demo/images/6.jpg',
-                        // '../demo/images/7.jpg',
-                        // 'https://escalante-mkt-imgs.s3-us-west-2.amazonaws.com/TimeSheets/screenshot1.png',
-                        // // "invalid",
-                        // // TEST_YOUTUBE_URL,
-                        // TEST_VIDEO_URL,
+                        TEST_YOUTUBE_URL,
                         // "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                         // "../demo/images/3.jpeg"
-                    ] }
-                    types={ [
-                        'image',
-                        'image'
                     ] }
                     videosPosters={ [
                         null,

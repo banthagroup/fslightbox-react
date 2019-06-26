@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import ToolbarButton from "../ToolbarButton.jsx";
 
 function FullscreenButton(
@@ -46,9 +45,5 @@ function FullscreenButton(
         />
     );
 }
-
-FullscreenButton.propTypes = {
-    fsLightbox: PropTypes.object.isRequired
-};
 
 export default FullscreenButton;

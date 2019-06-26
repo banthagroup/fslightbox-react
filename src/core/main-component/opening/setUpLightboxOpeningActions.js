@@ -1,17 +1,11 @@
 import { ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
 import { initializeLightbox } from "../initializing/initializeLightbox";
-import { getDocumentElementClassList } from "../../../helpers/dom/document/getDocumentElementClassList";
 import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 
 export function setUpLightboxOpeningActions(fsLightbox) {
     const {
         data,
-        eventsDispatcher: {
-            dispatch
-        },
         core: {
-            lightboxOpeningActions: self,
-            scrollbarRecompensor,
             eventsControllers: {
                 window: {
                     resize: windowResizeEventController,
@@ -21,32 +15,31 @@ export function setUpLightboxOpeningActions(fsLightbox) {
                     keyDown: documentKeyDownEventController
                 }
             },
-            globalResizingController,
+            eventsDispatcher,
+            lightboxOpeningActions: self,
+            scrollbarRecompensor,
+            stageManager,
+            windowResizeActions,
         }
     } = fsLightbox;
 
     self.runActions = () => {
-        callActionsDependingOnIsInitialized();
-        getDocumentElementClassList().add(OPEN_CLASS_NAME);
+        stageManager.updateStageIndexes();
+
+        document.documentElement.classList.add(OPEN_CLASS_NAME);
+
+        windowResizeActions.runActions();
+
         scrollbarRecompensor.addRecompense();
+
         windowResizeEventController.attachListener();
         swipingEventsController.attachListeners();
         documentKeyDownEventController.attachListener();
-        globalResizingController.runAllResizingActions();
-        dispatch(ON_OPEN);
-    };
 
-    const callActionsDependingOnIsInitialized = () => {
+        eventsDispatcher.dispatch(ON_OPEN);
+
         (data.isInitialized) ?
-            callInitializedActions() :
-            callNotInitializedActions();
-    };
-
-    const callInitializedActions = () => {
-        dispatch(ON_SHOW);
-    };
-
-    const callNotInitializedActions = () => {
-        initializeLightbox(fsLightbox);
+            eventsDispatcher.dispatch(ON_SHOW) :
+            initializeLightbox(fsLightbox);
     };
 }

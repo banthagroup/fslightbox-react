@@ -24,8 +24,9 @@ export function setUpSlideSwipingUp(
         actions.resetSwiping();
 
         if (swipingProps.swipedDifference === 0) {
-            if (!swipingProps.isSourceDownEventTarget)
+            if (!swipingProps.isSourceDownEventTarget) {
                 lightboxCloser.closeLightbox();
+            }
             return;
         }
 

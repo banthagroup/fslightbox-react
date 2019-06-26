@@ -10,7 +10,7 @@ import { DetectedTypeActions } from "../../../../src/core/sources/types/Detected
 const fsLightbox = {
     getState: () => fsLightboxState,
     componentsStates: {
-        shouldSourceHolderBeUpdatedCollection: [],
+        sourcesHoldersUpdatersCollection: [],
     },
     elements: {
         sourcesComponents: []
@@ -26,9 +26,13 @@ const fsLightbox = {
         }
     }
 };
+
 const fsLightboxState = {
     isOpen: false
 };
+
+const sourcesHoldersUpdatersStateCollection = fsLightbox.componentsStates.sourcesHoldersUpdatersCollection;
+
 const sourceLoadHandler = {
     setIndex: () => {},
     setUpLoadForImage: () => {},
@@ -207,7 +211,7 @@ describe('runActionsForSourceTypeAndIndex', () => {
 
         beforeAll(() => {
             setSourceHolderState = jest.fn();
-            fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection[20] = {
+            sourcesHoldersUpdatersStateCollection[20] = {
                 set: setSourceHolderState
             };
             createNewCreatingSourcesActionsAndCallRunActionsWith('video', 20);
@@ -220,7 +224,7 @@ describe('runActionsForSourceTypeAndIndex', () => {
             });
 
             it('should not call set at proper source holder state manager', () => {
-                expect(fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection[20].set).not.toBeCalled();
+                expect(sourcesHoldersUpdatersStateCollection[20].set).not.toBeCalled();
             });
         });
 
@@ -231,7 +235,7 @@ describe('runActionsForSourceTypeAndIndex', () => {
             });
 
             it('should call set with true at proper source holder state manager', () => {
-                expect(fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection[20].set).toBeCalledWith(true);
+                expect(sourcesHoldersUpdatersStateCollection[20].set).toBeCalledWith(true);
             });
         });
     });

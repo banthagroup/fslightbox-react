@@ -6,7 +6,7 @@ import Image from "../../../src/components/sources/proper-sources/Image";
 
 const fsLightbox = {
     componentsStates: {
-        shouldSourceHolderBeUpdatedCollection: []
+        sourcesHoldersUpdatersCollection: []
     },
     elements: {
         sourcesComponents: [],
@@ -16,6 +16,8 @@ const fsLightbox = {
     }
 };
 
+const sourcesHoldersUpdatersStateCollection = fsLightbox.componentsStates.sourcesHoldersUpdatersCollection;
+
 let sourceHolder = shallow(<SourceHolder
     fsLightbox={ fsLightbox }
     index={ 0 }
@@ -23,16 +25,16 @@ let sourceHolder = shallow(<SourceHolder
 
 describe('setting to shouldSourceHolderBeUpdatedStateCollection correct state object', () => {
     it('should have initial value false', () => {
-        expect(fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection[0].get()).toBe(false);
+        expect(sourcesHoldersUpdatersStateCollection[0].get()).toBe(false);
     });
 
     describe('setting value to true', () => {
         beforeAll(() => {
-            fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection[0].set(true);
+            sourcesHoldersUpdatersStateCollection[0].set(true);
         });
 
         it('should be equal true', () => {
-            expect(fsLightbox.componentsStates.shouldSourceHolderBeUpdatedCollection[0].get()).toBe(true);
+            expect(sourcesHoldersUpdatersStateCollection[0].get()).toBe(true);
         });
     });
 });

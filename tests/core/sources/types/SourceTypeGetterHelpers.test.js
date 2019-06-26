@@ -1,5 +1,5 @@
 import { SourceTypeGetterHelpers } from "../../../../src/core/sources/types/SourceTypeGetterHelpers";
-import { TEST_YOUTUBE_URL } from "../../../__tests-helpers__/testVariables";
+import { TEST_YOUTUBE_URL } from "../../../__tests-stores__/testVariables";
 
 describe('checking if url is valid youtube url', () => {
     it('should not return false because url is not youtube one', () => {

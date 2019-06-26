@@ -1,149 +1,172 @@
 import { setUpLightboxUpdater } from "../../../../src/core/main-component/updating/setUpLightboxUpdater";
-import { LightboxUpdatingActions } from "../../../../src/core/main-component/updating/LightboxUpdatingActions";
+import { LightboxUpdateActions } from "../../../../src/core/main-component/updating/LightboxUpdateActions";
+import * as getLightboxUpdaterConditionerObject
+    from "../../../../src/core/main-component/updating/getLightboxUpdaterConditioner";
 
 const fsLightbox = {
-    getProps: () => currentProps,
-    componentsStates: {
-        slide: {
-            get: () => {}
-        }
-    },
-    injector: {
-        injectDependency: () => lightboxUpdatingActions,
-    },
     core: {
         lightboxUpdater: {}
+    },
+    data: {
+        sources: []
+    },
+    getProps: () => currentProps,
+    injector: {
+        injectDependency: (constructorDependency) => {
+            if (constructorDependency === LightboxUpdateActions) {
+                return lightboxUpdatingActions;
+            }
+        },
     }
 };
 const lightboxUpdatingActions = {
     runIsOpenUpdateActions: () => {},
-    runSlideUpdateActions: () => {},
-};
-const currentProps = {
-    toggler: false,
-    slide: 0,
-    urls: []
-};
-const prevProps = {
-    toggler: false,
-    slide: 0,
-    urls: []
+    runCurrentStageIndexUpdateActionsFor: () => {},
 };
 
+const lightboxUpdaterConditioner = {
+    setPrevProps: () => {},
+    setCurrProps: () => {},
+    hasTogglerPropChanged: () => {},
+    hasSlidePropChanged: () => {},
+    hasSourcePropChanged: () => {},
+    hasSourceIndexPropChanged: () => {}
+};
+getLightboxUpdaterConditionerObject.getLightboxUpdaterConditioner = () => lightboxUpdaterConditioner;
+
+let previousProps = {
+    slide: undefined,
+    source: undefined,
+    sourceIndex: undefined
+};
+let currentProps = {
+    slide: undefined,
+    source: undefined,
+    sourceIndex: undefined
+};
+
+const lightboxUpdater = fsLightbox.core.lightboxUpdater;
 setUpLightboxUpdater(fsLightbox);
 
-describe('injecting dependency', () => {
+describe('passing props to LightboxUpdaterConditioner', () => {
     beforeAll(() => {
-        fsLightbox.injector.injectDependency = jest.fn(() => lightboxUpdatingActions);
-        setUpLightboxUpdater(fsLightbox);
+        lightboxUpdaterConditioner.setPrevProps = jest.fn();
+        lightboxUpdaterConditioner.setCurrProps = jest.fn();
+        previousProps.key = 'previous-props';
+        currentProps.key = 'current-props';
+        lightboxUpdater.handleUpdate(previousProps);
     });
 
-    it('should inject LightboxUpdatingActions', () => {
-        expect(fsLightbox.injector.injectDependency).toBeCalledWith(LightboxUpdatingActions);
+    it('should set up right props', () => {
+        expect(lightboxUpdaterConditioner.setPrevProps).toBeCalledWith({
+            slide: undefined,
+            source: undefined,
+            sourceIndex: undefined,
+            key: 'previous-props'
+        });
+        expect(lightboxUpdaterConditioner.setCurrProps).toBeCalledWith({
+            slide: undefined,
+            source: undefined,
+            sourceIndex: undefined,
+            key: 'current-props'
+        });
     });
-
-    afterAll(() => {
-        fsLightbox.injector.injectDependency = () => lightboxUpdatingActions;
-    })
 });
 
 describe('handling toggler', () => {
     beforeEach(() => {
-        lightboxUpdatingActions.runIsOpenUpdateActions = jest.fn();
+        lightboxUpdatingActions.runTogglerUpdateActions = jest.fn();
     });
 
-    describe('toggler has not change', () => {
-        beforeEach(() => {
-            prevProps.toggler = true;
-            currentProps.toggler = true;
-            setUpLightboxUpdater(fsLightbox);
-            fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
-        });
-
-        it('should not call runIsOpenUpdateActions', () => {
-            expect(lightboxUpdatingActions.runIsOpenUpdateActions).not.toBeCalled();
-        });
+    it('should not call runTogglerUpdateActions due to toggler prop has changed', () => {
+        lightboxUpdaterConditioner.hasTogglerPropChanged = () => false;
+        lightboxUpdater.handleUpdate(previousProps);
+        expect(lightboxUpdatingActions.runTogglerUpdateActions).not.toBeCalled()
     });
 
-    describe('toggler has changed', () => {
-        beforeEach(() => {
-            prevProps.toggler = false;
-            currentProps.toggler = true;
-            setUpLightboxUpdater(fsLightbox);
-            fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
-        });
-
-        it('should call runIsOpenUpdateActions', () => {
-            expect(lightboxUpdatingActions.runIsOpenUpdateActions).toBeCalled();
-        });
+    it('should call runTogglerUpdateActions due to toggler prop has changed', () => {
+        lightboxUpdaterConditioner.hasTogglerPropChanged = () => true;
+        lightboxUpdater.handleUpdate(previousProps);
+        expect(lightboxUpdatingActions.runTogglerUpdateActions).toBeCalled()
     });
 });
 
-describe('handling slide', () => {
+describe('handling change of props: slide, source, sourceIndex', () => {
     beforeEach(() => {
-        lightboxUpdatingActions.runSlideUpdateActions = jest.fn();
+        lightboxUpdatingActions.runCurrentStageIndexUpdateActionsFor = jest.fn();
     });
 
-    describe('not calling actions', () => {
-        describe('due to slide prop has not changed even if slide prop !== slide state', () => {
-            beforeEach(() => {
-                prevProps.slide = 1;
-                currentProps.slide = 1;
-                fsLightbox.componentsStates.slide.get = () => 2;
-                setUpLightboxUpdater(fsLightbox);
-                fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
-            });
+    describe('all props has changed', () => {
+        beforeEach(() => {
+            lightboxUpdaterConditioner.hasSourcePropChanged = () => true;
+            lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
+            lightboxUpdaterConditioner.hasSlidePropChanged = () => true;
 
-            it('should not call runSlideUpdateActions', () => {
-                expect(lightboxUpdatingActions.runSlideUpdateActions).not.toBeCalled();
-            });
+            currentProps.slide = 10;
+            fsLightbox.data.sources[0] = undefined;
+            fsLightbox.data.sources[1] = 'current-source';
+            currentProps.source = 'current-source';
+            currentProps.sourceIndex = 5;
+
+            lightboxUpdater.handleUpdate(previousProps);
         });
 
-        describe('due to slide prop === state slide, even if slide prop has changed', () => {
-            beforeEach(() => {
-                prevProps.slide = 1;
-                currentProps.slide = 2;
-                fsLightbox.componentsStates.slide.get = () => 2;
-                setUpLightboxUpdater(fsLightbox);
-                fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
-            });
-
-            it('should not call runSlideUpdateActions', () => {
-                expect(lightboxUpdatingActions.runSlideUpdateActions).not.toBeCalled();
-            });
+        it('should run current stage index update actions for source prop change', () => {
+            expect(lightboxUpdatingActions.runCurrentStageIndexUpdateActionsFor).toBeCalledWith(1);
         });
     });
 
-    describe('calling actions', () => {
-        describe('current and previous slide prop is not equal', () => {
-            beforeEach(() => {
-                prevProps.slide = 1;
-                currentProps.slide = 2;
-                setUpLightboxUpdater(fsLightbox);
-                lightboxUpdatingActions.runSlideUpdateActions = jest.fn();
-            });
+    describe('source index prop and source prop has changed', () => {
+        beforeEach(() => {
+            lightboxUpdaterConditioner.hasSourcePropChanged = () => true;
+            lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
+            lightboxUpdaterConditioner.hasSlidePropChanged = () => false;
 
-            describe('slide get is not set', () => {
-                beforeEach(() => {
-                    fsLightbox.componentsStates.slide.get = undefined;
-                    fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
-                });
+            currentProps.slide = 20;
+            fsLightbox.data.sources[0] = undefined;
+            fsLightbox.data.sources[1] = undefined;
+            fsLightbox.data.sources[2] = 'current-source';
+            currentProps.source = 'current-source';
+            currentProps.sourceIndex = 10;
 
-                it('should call runSlideUpdateActions', () => {
-                    expect(lightboxUpdatingActions.runSlideUpdateActions).toBeCalled();
-                });
-            });
+            lightboxUpdater.handleUpdate(previousProps);
+        });
 
-            describe('slide state is set and it not equal to slide prop', () => {
-                beforeEach(() => {
-                    fsLightbox.componentsStates.slide.get = () => 1;
-                    fsLightbox.core.lightboxUpdater.handleUpdate(prevProps);
-                });
+        it('should run current stage index update actions for source prop change', () => {
+            expect(lightboxUpdatingActions.runCurrentStageIndexUpdateActionsFor).toBeCalledWith(2);
+        });
+    });
 
-                it('should call runSlideUpdateActions', () => {
-                    expect(lightboxUpdatingActions.runSlideUpdateActions).toBeCalled();
-                });
-            });
+    describe('source index prop has changes', () => {
+        beforeEach(() => {
+            lightboxUpdaterConditioner.hasSlidePropChanged = () => false;
+            lightboxUpdaterConditioner.hasSourcePropChanged = () => false;
+            lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
+
+            currentProps.slide = 50;
+            fsLightbox.data.sources[0] = 'current-source';
+            currentProps.source = 'current-source';
+            currentProps.sourceIndex = 25;
+
+            lightboxUpdater.handleUpdate(previousProps);
+        });
+
+        it('should run current stage index update actions for source index prop change', () => {
+            expect(lightboxUpdatingActions.runCurrentStageIndexUpdateActionsFor).toBeCalledWith(25);
+        });
+    });
+
+    describe('none prop has changed', () => {
+        beforeEach(() => {
+            lightboxUpdaterConditioner.hasSlidePropChanged = () => false;
+            lightboxUpdaterConditioner.hasSourcePropChanged = () => false;
+            lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => false;
+
+            lightboxUpdater.handleUpdate(previousProps);
+        });
+
+        it('should not run current stage index update actions', () => {
+            expect(lightboxUpdatingActions.runCurrentStageIndexUpdateActionsFor).not.toBeCalled();
         });
     });
 });

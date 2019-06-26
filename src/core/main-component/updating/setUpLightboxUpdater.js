@@ -1,46 +1,38 @@
-import { LightboxUpdatingActions } from "./LightboxUpdatingActions";
+import { LightboxUpdateActions } from "./LightboxUpdateActions";
+import { getLightboxUpdaterConditioner } from "./getLightboxUpdaterConditioner";
 
 export function setUpLightboxUpdater(
     {
-        getProps,
-        componentsStates: {
-            slide: slideState
+        core: {
+            lightboxUpdater: self,
         },
+        data: {
+            sources
+        },
+        getProps,
         injector: {
             injectDependency
-        },
-        core: {
-            lightboxUpdater: self
-        },
+        }
     }
 ) {
-    const updatingActions = injectDependency(LightboxUpdatingActions);
-    let previousProps;
-    let currentProps;
+    const updatingActions = injectDependency(LightboxUpdateActions);
+    const lightboxUpdaterConditioner = getLightboxUpdaterConditioner();
 
-    self.handleUpdate = (prevProps) => {
-        previousProps = prevProps;
-        currentProps = getProps();
-        handleToggle();
-        handleSlide();
-    };
+    self.handleUpdate = (previousProps) => {
+        const currentProps = getProps();
+        lightboxUpdaterConditioner.setPrevProps(previousProps);
+        lightboxUpdaterConditioner.setCurrProps(currentProps);
 
-    const handleToggle = () => {
-        if (previousProps.toggler !== currentProps.toggler) {
-            updatingActions.runIsOpenUpdateActions();
+        if (lightboxUpdaterConditioner.hasTogglerPropChanged()) {
+            updatingActions.runTogglerUpdateActions();
         }
-    };
 
-    const handleSlide = () => {
-        // TODO:
-        updatingActions.runSlideUpdateActions();
-        //     if (previousProps.slide !== currentProps.slide && !isSlideStateAndCurrentSlidePropEqual()) {
-        //         updatingActions.runSlideUpdateActions();
-        //     }
-        // };
-    };
-
-    const isSlideStateAndCurrentSlidePropEqual = () => {
-        // return (slideState.get) ? currentProps.slide === slideState.get() : false;
+        if (lightboxUpdaterConditioner.hasSourcePropChanged()) {
+            updatingActions.runCurrentStageIndexUpdateActionsFor(sources.indexOf(currentProps.source));
+        } else if (lightboxUpdaterConditioner.hasSourceIndexPropChanged()) {
+            updatingActions.runCurrentStageIndexUpdateActionsFor(currentProps.sourceIndex);
+        } else if (lightboxUpdaterConditioner.hasSlidePropChanged()) {
+            updatingActions.runCurrentStageIndexUpdateActionsFor(currentProps.slide - 1);
+        }
     };
 }

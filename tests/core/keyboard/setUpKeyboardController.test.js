@@ -1,22 +1,21 @@
 import { ESCAPE, LEFT_ARROW, RIGHT_ARROW } from "../../../src/constants/keyboardConstants";
 import { setUpKeyboardController } from "../../../src/core/keyboard/setUpKeyboardController";
 
-const keyboardController = {};
 const fsLightbox = {
     core: {
-        stage: {
-            getPreviousSlideNumber: () => {},
-            getNextSlideNumber: () => {},
-        },
+        keyboardController: {},
         lightboxCloser: {
             closeLightbox: () => {}
         },
-        slideChanger: {
-            changeSlideTo: () => {}
-        },
-        keyboardController: keyboardController
+        slideChangeFacade: {
+            changeToNext: () => {},
+            changeToPrevious: () => {}
+        }
     }
 };
+const keyboardController = fsLightbox.core.keyboardController;
+const lightboxCloser = fsLightbox.core.lightboxCloser;
+const slideChangeFacade = fsLightbox.core.slideChangeFacade;
 
 setUpKeyboardController(fsLightbox);
 
@@ -25,8 +24,9 @@ const keyDownEvent = {
 };
 
 const setUpMockFunctionsAndCallHandleKeyDown = () => {
-    fsLightbox.core.lightboxCloser.closeLightbox = jest.fn();
-    fsLightbox.core.slideChanger.changeSlideTo = jest.fn();
+    lightboxCloser.closeLightbox = jest.fn();
+    slideChangeFacade.changeToPrevious = jest.fn();
+    slideChangeFacade.changeToNext = jest.fn();
     keyboardController.handleKeyDown(keyDownEvent);
 };
 
@@ -37,46 +37,36 @@ describe('keyDownListener', () => {
             setUpMockFunctionsAndCallHandleKeyDown();
         });
 
-        it('should not call changeSlideTo', () => {
-            expect(fsLightbox.core.slideChanger.changeSlideTo).not.toBeCalled();
-        });
-
-        it('should call closeLightbox', () => {
-            expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
+        it('should call proper method', () => {
+            expect(slideChangeFacade.changeToPrevious).not.toBeCalled();
+            expect(slideChangeFacade.changeToNext).not.toBeCalled();
+            expect(lightboxCloser.closeLightbox).toBeCalled();
         });
     });
 
     describe('left arrow key', () => {
         beforeAll(() => {
             keyDownEvent.keyCode = LEFT_ARROW;
-            fsLightbox.core.stage.getPreviousSlideNumber = () => 1;
-            fsLightbox.core.stage.getNextSlideNumber = () => 2;
             setUpMockFunctionsAndCallHandleKeyDown();
         });
 
-        it('should not call closeLightbox', () => {
-            expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
-        });
-
-        it('should call change slide to with previous slide number', () => {
-            expect(fsLightbox.core.slideChanger.changeSlideTo).toBeCalledWith(1);
+        it('should call proper method', () => {
+            expect(slideChangeFacade.changeToPrevious).toBeCalled();
+            expect(slideChangeFacade.changeToNext).not.toBeCalled();
+            expect(lightboxCloser.closeLightbox).not.toBeCalled();
         });
     });
 
     describe('right arrow key', () => {
         beforeAll(() => {
             keyDownEvent.keyCode = RIGHT_ARROW;
-            fsLightbox.core.stage.getPreviousSlideNumber = () => 1;
-            fsLightbox.core.stage.getNextSlideNumber = () => 2;
             setUpMockFunctionsAndCallHandleKeyDown();
         });
 
-        it('should not call closeLightbox', () => {
-            expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
-        });
-
-        it('should call change slide to with previous slide number', () => {
-            expect(fsLightbox.core.slideChanger.changeSlideTo).toBeCalledWith(2);
+        it('should call proper method', () => {
+            expect(slideChangeFacade.changeToPrevious).not.toBeCalled();
+            expect(slideChangeFacade.changeToNext).toBeCalled();
+            expect(lightboxCloser.closeLightbox).not.toBeCalled();
         });
     });
 });

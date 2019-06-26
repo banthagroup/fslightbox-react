@@ -2,7 +2,7 @@ import {
     TEST_IMAGE_URL,
     TEST_YOUTUBE_URL,
     TEST_VIDEO_URL
-} from "../../../__tests-helpers__/testVariables";
+} from "../../../__tests-stores__/testVariables";
 import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../../src/constants/core-constants";
 import { SourceTypeGetter } from "../../../../src/core/sources/types/SourceTypeGetter";
 

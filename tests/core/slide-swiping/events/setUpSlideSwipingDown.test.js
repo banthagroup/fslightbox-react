@@ -1,8 +1,5 @@
-import {
-    setUpSlideSwipingDown,
-    SetUpSlideSwipingDown
-} from "../../../../src/core/slide-swiping/events/setUpSlideSwipingDown";
-import { CURSOR_GRABBING_CLASS_NAME } from "../../../../src/constants/css-constants";
+import { setUpSlideSwipingDown } from "../../../../src/core/slide-swiping/events/setUpSlideSwipingDown";
+import * as getClientXFromEventObject from "../../../../src/helpers/events/getClientXFromEvent";
 
 const slideSwipingDown = {};
 const fsLightbox = {
@@ -27,7 +24,8 @@ let event = {
         classList: {
             contains: () => {}
         }
-    }
+    },
+    preventDefault: () => {}
 };
 let swipingProps = {
     isSourceDownEventTarget: false,
@@ -40,6 +38,17 @@ const recreateSlideSwipingDownAndCallListener = () => {
     setUpSlideSwipingDown(fsLightbox, swipingProps);
     slideSwipingDown.listener(event);
 };
+
+describe('setting isSwipingSlides in data object to true', () => {
+    beforeAll(() => {
+        recreateSlideSwipingDownAndCallListener();
+    });
+
+    it('should set hasMovedWhileSwiping state to true', () => {
+        expect(fsLightbox.data.isSwipingSlides).toBeTruthy();
+    });
+});
+
 
 describe('calling or not calling preventDefault', () => {
     beforeEach(() => {
@@ -55,12 +64,6 @@ describe('calling or not calling preventDefault', () => {
     });
 
     describe('not calling preventDefault', () => {
-        it('should not call prevent default due to tag name not set', () => {
-            event.target.tagName = undefined;
-            slideSwipingDown.listener(event);
-            expect(event.preventDefault).not.toBeCalled();
-        });
-
         it('should not call preventDefault due to tag name equals VIDEO', () => {
             event.target.tagName = 'VIDEO';
             slideSwipingDown.listener(event);
@@ -142,59 +145,18 @@ describe('setting isSourceDownEventTarget if sources is target', () => {
 });
 
 
-
-describe('setting isSwipingSlides in data object to true', () => {
-    beforeAll(() => {
+describe('setting down client x', () => {
+    beforeEach(() => {
+        getClientXFromEventObject.getClientXFromEvent = (eventToGetClientX) => {
+            if (Object.is(eventToGetClientX, event)) {
+                return 1500;
+            }
+        };
         recreateSlideSwipingDownAndCallListener();
     });
 
-    it('should set hasMovedWhileSwiping state to true', () => {
-        expect(fsLightbox.data.isSwipingSlides).toBeTruthy();
-    });
-});
-
-describe('setting down client x', () => {
-    beforeEach(() => {
-        swipingProps = {
-            downClientX: 0,
-            isAfterSwipeAnimationRunning: false,
-            swipedDifference: 0,
-        };
-        setUpSlideSwipingDown(fsLightbox, swipingProps);
-    });
-
-    describe('event is mousedown', () => {
-        // no touches property in event so it is mouse down
-        const mouseDownEvent = {
-            target: {
-                classList: {
-                    contains: () => {
-                    }
-                }
-            },
-            clientX: 1000
-        };
-        it('should set clientX to 1000 due to its the value in event', () => {
-            slideSwipingDown.listener(mouseDownEvent);
-            expect(swipingProps.downClientX).toEqual(1000);
-        });
-    });
-
-    describe('event is touchstart', () => {
-        // there is touch property with clientX so it is touchstart event
-        const touchStartEvent = {
-            target: {
-                classList: {
-                    contains: () => {
-                    }
-                }
-            },
-            touches: [{ clientX: 1500 }]
-        };
-        it('should set clientX to 1500 due to its the value in event', () => {
-            slideSwipingDown.listener(touchStartEvent);
-            expect(swipingProps.downClientX).toEqual(1500);
-        });
+    it('should attach to downClientX value from getClientXFromEvent', () => {
+        expect(swipingProps.downClientX).toBe(1500);
     });
 });
 

@@ -5,13 +5,14 @@ import { LONG_FADE_IN_CLASS_NAME, OPACITY_0_CLASS_NAME } from "../../../src/cons
 
 const fsLightbox = {
     collections: {
-        sourcesSizesAdjusters: [],
-        sourcesHoldersTransformers: []
+        sourcesSizesAdjusters: []
     },
     core: {
         classListManager: {
-            removeFromElementInArrayAtIndexClass: () => {},
-            addToElementInArrayAtIndexClass: () => {}
+            manageArrayElementAtIndex: () => ({
+                add: () => {},
+                remove: () => {}
+            }),
         },
         sourceLoadActions: {}
     },
@@ -32,8 +33,7 @@ const fsLightbox = {
 const sourceLoadActions = fsLightbox.core.sourceLoadActions;
 
 const classListManager = fsLightbox.core.classListManager;
-const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
-const sourcesSizesAdjustersCollection = fsLightbox.collections.sourcesSizesAdjusters;
+const sourcesSizesAdjusters = fsLightbox.collections.sourcesSizesAdjusters;
 
 const sourceSizeAdjuster = {
     setIndex: () => {},
@@ -44,55 +44,24 @@ const sourceSizeAdjuster = {
 setUpSourceLoadActions(fsLightbox);
 
 describe('runNormalLoadActions', () => {
-    describe('removing opacity 0 class', () => {
-        beforeAll(() => {
-            // setting equal to checked stage index to prevent calling negative transform
-            // which would throw error
-            fsLightbox.stageIndexes.current = 3;
+    let removeClass;
 
-            classListManager.removeFromElementInArrayAtIndexClass = jest.fn();
-            sourceLoadActions.setIndex(3);
-            sourceLoadActions.runNormalLoadActions();
-        });
+    beforeAll(() => {
+        removeClass = jest.fn();
+        classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+            if (elementsArrayName === SOURCES && index === 3) {
+                return {
+                    remove: removeClass
+                }
+            }
+        };
 
-        it('should call removeFromElementInArrayAtIndexClass with right params', () => {
-            expect(classListManager.removeFromElementInArrayAtIndexClass).toBeCalledWith(
-                SOURCES,
-                3,
-                OPACITY_0_CLASS_NAME
-            );
-        });
+        sourceLoadActions.setIndex(3);
+        sourceLoadActions.runNormalLoadActions();
     });
 
-    describe('transforming negative if source is not current', () => {
-        beforeAll(() => {
-            sourcesHoldersTransformersCollection[2] = {
-                negative: jest.fn()
-            };
-            sourceLoadActions.setIndex(2);
-        });
-
-        describe('source is current', () => {
-            beforeAll(() => {
-                fsLightbox.stageIndexes.current = 2;
-                sourceLoadActions.runNormalLoadActions();
-            });
-
-            it('should not call transform negative', () => {
-                expect(sourcesHoldersTransformersCollection[2].negative).not.toBeCalled();
-            });
-        });
-
-        describe('sources is not current', () => {
-            beforeAll(() => {
-                fsLightbox.stageIndexes.current = 3;
-                sourceLoadActions.runNormalLoadActions();
-            });
-
-            it('should call transform negative', () => {
-                expect(sourcesHoldersTransformersCollection[2].negative).toBeCalled();
-            });
-        });
+    it('should remove opacity 0 class', () => {
+        expect(removeClass).toBeCalledWith(OPACITY_0_CLASS_NAME);
     });
 });
 
@@ -108,10 +77,10 @@ describe('runInitialLoadActions', () => {
         });
     });
 
-    describe('setting up SourceSizeAdjuster and adjusting sources size', () => {
+    describe('setting up SourceSizeAdjuster and adjusting source size', () => {
         beforeAll(() => {
-            // mocking runInitialLoadActions to prevent calling negative transform
-            // which would throw error
+            // mocking runNormalLoadActions to prevent throwing error
+            // when trying to call undefined transform
             sourceLoadActions.runNormalLoadActions = () => {};
 
             sourceSizeAdjuster.setIndex = jest.fn();
@@ -131,23 +100,31 @@ describe('runInitialLoadActions', () => {
             expect(sourceSizeAdjuster.setDefaultDimensions).toBeCalledWith(250, 750);
         });
 
-        it('should adjust source size', () => {
+        it('should call adjustSourceSize', () => {
             expect(sourceSizeAdjuster.adjustSourceSize).toBeCalled();
         });
 
         it('should add SourceSizeAdjuster to collection', () => {
-            expect(sourcesSizesAdjustersCollection[0]).toEqual(sourceSizeAdjuster);
+            expect(sourcesSizesAdjusters[0]).toEqual(sourceSizeAdjuster);
         });
     });
 
     describe('adding long fade in class if loaded source is current', () => {
-        beforeAll(() => {
-            // mocking runInitialLoadActions to prevent calling negative transform
-            // which would throw error
-            sourceLoadActions.runNormalLoadActions = () => {};
+        let addClass;
 
+        beforeAll(() => {
+            addClass = jest.fn();
+            classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+                if (elementsArrayName === SOURCES && index === 4) {
+                    return {
+                        remove: () => {},
+                        add: addClass
+                    };
+                }
+            };
+
+            setUpSourceLoadActions(fsLightbox);
             sourceLoadActions.setIndex(4);
-            classListManager.addToElementInArrayAtIndexClass = jest.fn();
         });
 
         describe('source is not current', () => {
@@ -156,23 +133,19 @@ describe('runInitialLoadActions', () => {
                 sourceLoadActions.runInitialLoadActions();
             });
 
-            it('should not call addToElementInArrayAtIndexClass', () => {
-                expect(classListManager.addToElementInArrayAtIndexClass).not.toBeCalled();
+            it('should not call add', () => {
+                expect(addClass).not.toBeCalled();
             });
         });
 
-        describe('source is current ', () => {
+        describe('source is current', () => {
             beforeAll(() => {
                 fsLightbox.stageIndexes.current = 4;
                 sourceLoadActions.runInitialLoadActions();
             });
 
             it('should call addToElementInArrayAtIndexClass with right params', () => {
-                expect(classListManager.addToElementInArrayAtIndexClass).toBeCalledWith(
-                    SOURCES,
-                    4,
-                    LONG_FADE_IN_CLASS_NAME
-                );
+                expect(addClass).toBeCalledWith(LONG_FADE_IN_CLASS_NAME);
             });
         });
     });

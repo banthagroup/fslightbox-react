@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import SourceLoader from "../loaders/SourceLoader.jsx";
 
 const SourceHolder = (
     {
         fsLightbox: {
             componentsStates: {
-                shouldSourceHolderBeUpdatedCollection: shouldSourceHolderBeUpdatedStateCollection
+                sourcesHoldersUpdatersCollection: sourcesHoldersUpdatersStateCollection
             },
             elements: {
                 sourcesComponents,
@@ -16,10 +15,10 @@ const SourceHolder = (
         index
     }
 ) => {
-    const [shouldBeUpdated, setShouldBeUpdated] = useState(false);
-    shouldSourceHolderBeUpdatedStateCollection[index] = {
-        get: () => shouldBeUpdated,
-        set: setShouldBeUpdated
+    const [currentUpdaterValue, setSourceHolderUpdaterValue] = useState(false);
+    sourcesHoldersUpdatersStateCollection[index] = {
+        get: () => currentUpdaterValue,
+        set: setSourceHolderUpdaterValue
     };
 
     return (
@@ -30,11 +29,6 @@ const SourceHolder = (
             }
         </div>
     );
-};
-
-SourceHolder.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired
 };
 
 export default SourceHolder;

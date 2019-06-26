@@ -13,7 +13,7 @@ export function DetectedTypeActions(fsLightbox) {
     const {
         getState: getLightboxState,
         componentsStates: {
-            shouldSourceHolderBeUpdatedCollection: shouldSourceHolderBeUpdatedStateCollection
+            sourcesHoldersUpdatersCollection: sourcesHoldersUpdatersStateCollection
         },
         elements: { sourcesComponents },
         injector: {
@@ -21,72 +21,39 @@ export function DetectedTypeActions(fsLightbox) {
         }
     } = fsLightbox;
 
-    let sourceIndex;
-    let sourceType;
-    let BaseSourceComponent;
-
     this.runActionsForSourceTypeAndIndex = (type, index) => {
-        sourceIndex = index;
-        sourceType = type;
-        runNotInvalidSourceActions();
-        runTypeSpecificActions();
-        buildSourceComponent();
-        updateSourceHolderIfLightboxIsOpen();
-    };
+        let BaseSourceComponent;
 
-    const runTypeSpecificActions = () => {
-        switch (sourceType) {
+        if (type !== INVALID_TYPE) {
+            fsLightbox.collections.sourcesLoadsHandlers[index] = injectDependency(SourceLoadHandler);
+            fsLightbox.collections.sourcesLoadsHandlers[index].setIndex(index);
+        }
+
+        switch (type) {
             case IMAGE_TYPE:
-                runImageTypeActions();
+                fsLightbox.collections.sourcesLoadsHandlers[index].setUpLoadForImage();
+                BaseSourceComponent = Image;
                 break;
             case VIDEO_TYPE:
-                runVideoTypeActions();
+                fsLightbox.collections.sourcesLoadsHandlers[index].setUpLoadForVideo();
+                BaseSourceComponent = Video;
                 break;
             case YOUTUBE_TYPE:
-                runYoutubeTypeActions();
+                fsLightbox.collections.sourcesLoadsHandlers[index].setUpLoadForYoutube();
+                BaseSourceComponent = Youtube;
                 break;
             default:
-                runInvalidTypeActions();
+                BaseSourceComponent = Invalid;
                 break;
         }
-    };
 
-    const runNotInvalidSourceActions = () => {
-        if (sourceType !== INVALID_TYPE) {
-            fsLightbox.collections.sourcesLoadsHandlers[sourceIndex] = injectDependency(SourceLoadHandler);
-            fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setIndex(sourceIndex);
-        }
-    };
-
-    const runImageTypeActions = () => {
-        fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setUpLoadForImage();
-        BaseSourceComponent = Image;
-    };
-
-    const runVideoTypeActions = () => {
-        fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setUpLoadForVideo();
-        BaseSourceComponent = Video;
-    };
-
-    const runYoutubeTypeActions = () => {
-        fsLightbox.collections.sourcesLoadsHandlers[sourceIndex].setUpLoadForYoutube();
-        BaseSourceComponent = Youtube;
-    };
-
-    const runInvalidTypeActions = () => {
-        BaseSourceComponent = Invalid;
-    };
-
-    const buildSourceComponent = () => {
-        sourcesComponents[sourceIndex] = <BaseSourceComponent
+        sourcesComponents[index] = <BaseSourceComponent
             fsLightbox={ fsLightbox }
-            index={ sourceIndex }
+            index={ index }
         />;
-    };
 
-    const updateSourceHolderIfLightboxIsOpen = () => {
         if (getLightboxState().isOpen) {
-            shouldSourceHolderBeUpdatedStateCollection[sourceIndex].set(true);
+            sourcesHoldersUpdatersStateCollection[index].set(true);
         }
     };
 }

@@ -17,3 +17,21 @@ exports[`SlideNumber DOM sourcesCount > 1 static DOM should match snapshot 1`] =
   </div>
 </div>
 `;
+
+exports[`SlideNumber dom should match snapshot 1`] = `
+<div
+  className="fslightbox-slide-number-container fslightbox-flex-centered"
+>
+  <div>
+    1
+  </div>
+  <div
+    className="fslightbox-slash"
+  >
+    /
+  </div>
+  <div>
+    4
+  </div>
+</div>
+`;

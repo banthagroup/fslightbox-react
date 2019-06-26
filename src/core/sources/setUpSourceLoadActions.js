@@ -6,7 +6,6 @@ export function setUpSourceLoadActions(
     {
         collections: {
             sourcesSizesAdjusters,
-            sourcesHoldersTransformers
         },
         core: {
             classListManager,
@@ -21,6 +20,7 @@ export function setUpSourceLoadActions(
     let index;
     let defaultWidth;
     let defaultHeight;
+    let loadedSourceClassListManager;
 
     self.setIndex = (sourceIndex) => {
         index = sourceIndex;
@@ -32,15 +32,8 @@ export function setUpSourceLoadActions(
     };
 
     self.runNormalLoadActions = () => {
-        classListManager.removeFromElementInArrayAtIndexClass(
-            SOURCES,
-            index,
-            OPACITY_0_CLASS_NAME
-        );
-
-        if (stageIndexes.current !== index) {
-            sourcesHoldersTransformers[index].negative();
-        }
+        loadedSourceClassListManager = classListManager.manageArrayElementAtIndex(SOURCES, index);
+        loadedSourceClassListManager.remove(OPACITY_0_CLASS_NAME);
     };
 
     self.runInitialLoadActions = () => {
@@ -53,11 +46,7 @@ export function setUpSourceLoadActions(
         sourcesSizesAdjusters[index] = sourceSizeAdjuster;
 
         if (stageIndexes.current === index) {
-            classListManager.addToElementInArrayAtIndexClass(
-                SOURCES,
-                index,
-                LONG_FADE_IN_CLASS_NAME
-            );
+            loadedSourceClassListManager.add(LONG_FADE_IN_CLASS_NAME);
         }
     };
 }

@@ -16,7 +16,14 @@ const fsLightbox = {
         }
     },
     core: {
-        classListManager: {}
+        classListManager: {
+            manageElement: () => ({
+                removeIfContains: () => {}
+            }),
+            manageArrayElementAtIndex: () => ({
+                removeIfContains: () => {}
+            })
+        }
     },
     data: {
         isSwipingSlides: false
@@ -40,7 +47,7 @@ const classListManager = fsLightbox.core.classListManager;
 const slideSwipingUpActionsBucket = {
     changeSlideToPrevious: () => {},
     changeSlideToNext: () => {},
-    addTransitionAndTransformZeroCurrentSlide: () => {}
+    addTransitionAndTransformZeroCurrentSlideSource: () => {}
 };
 
 const swipingProps = {
@@ -55,10 +62,19 @@ const setUpAndCallRunActions = () => {
 };
 
 describe('resetSwiping', () => {
+    let removeIfContains;
+
     beforeAll(() => {
         fsLightbox.componentsStates.hasMovedWhileSwiping.set = jest.fn();
         fsLightbox.data.isSwipingSlides = undefined;
-        classListManager.ifElementHasClassRemoveIt = jest.fn();
+        removeIfContains = jest.fn();
+        classListManager.manageElement = (elementName) => {
+            if (elementName === LIGHTBOX_CONTAINER) {
+                return {
+                    removeIfContains: removeIfContains
+                };
+            }
+        };
         slideSwipingUpActions = new SlideSwipingUpActions(fsLightbox);
         slideSwipingUpActions.resetSwiping();
     });
@@ -72,17 +88,14 @@ describe('resetSwiping', () => {
     });
 
     it('should remove from lightbox container cursor grabbing class', () => {
-        expect(classListManager.ifElementHasClassRemoveIt).toBeCalledWith(
-            LIGHTBOX_CONTAINER,
-            CURSOR_GRABBING_CLASS_NAME
-        );
+        expect(removeIfContains).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
     });
 });
 
 describe('runActions', () => {
     describe('changing slide or transitioning and transforming current slide source', () => {
         beforeEach(() => {
-            slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide = jest.fn();
+            slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlideSource = jest.fn();
             slideSwipingUpActionsBucket.changeSlideToNext = jest.fn();
             slideSwipingUpActionsBucket.changeSlideToPrevious = jest.fn();
         });
@@ -101,7 +114,7 @@ describe('runActions', () => {
                 it('should call proper bucket method', () => {
                     expect(slideSwipingUpActionsBucket.changeSlideToPrevious).not.toBeCalled();
                     expect(slideSwipingUpActionsBucket.changeSlideToNext).not.toBeCalled();
-                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlideSource).toBeCalled();
                 });
             });
 
@@ -114,7 +127,7 @@ describe('runActions', () => {
                 it('should call proper bucket method', () => {
                     expect(slideSwipingUpActionsBucket.changeSlideToPrevious).toBeCalled();
                     expect(slideSwipingUpActionsBucket.changeSlideToNext).not.toBeCalled();
-                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlideSource).not.toBeCalled();
                 });
             });
         });
@@ -133,7 +146,7 @@ describe('runActions', () => {
                 it('should call proper bucket method', () => {
                     expect(slideSwipingUpActionsBucket.changeSlideToPrevious).not.toBeCalled();
                     expect(slideSwipingUpActionsBucket.changeSlideToNext).not.toBeCalled();
-                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlideSource).toBeCalled();
                 });
             });
 
@@ -146,7 +159,7 @@ describe('runActions', () => {
                 it('should call proper bucket method', () => {
                     expect(slideSwipingUpActionsBucket.changeSlideToPrevious).not.toBeCalled();
                     expect(slideSwipingUpActionsBucket.changeSlideToNext).toBeCalled();
-                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlide).not.toBeCalled();
+                    expect(slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlideSource).not.toBeCalled();
                 });
             });
         });
@@ -170,13 +183,24 @@ describe('runActions', () => {
 
     describe('after timeout actions', () => {
         let setTimeoutParams;
+        let removeIfContains;
+        let removingTransitionIndex = -1;
 
         beforeAll(() => {
             fsLightbox.data.sourcesCount = 4;
-            classListManager.ifElementFromArrayAtIndexHasClassRemoveIt = jest.fn();
+            removeIfContains = jest.fn();
+            classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+                removingTransitionIndex++;
+                if (elementsArrayName === SOURCES_HOLDERS && index === removingTransitionIndex) {
+                    return {
+                        removeIfContains: removeIfContains
+                    }
+                }
+            };
             window.setTimeout = (...params) => {
                 setTimeoutParams = params;
             };
+            swipingProps.isAfterSwipeAnimationRunning = undefined;
             setUpAndCallRunActions();
         });
 
@@ -189,15 +213,12 @@ describe('runActions', () => {
                 setTimeoutParams[0]();
             });
 
-            it('should ifElementFromArrayAtIndexHasClassRemoveIt for all sources holders', () => {
-                expect(classListManager.ifElementFromArrayAtIndexHasClassRemoveIt).toBeCalledTimes(4);
-                for (let i = 0; i < 4; i++) {
-                    expect(classListManager.ifElementFromArrayAtIndexHasClassRemoveIt).toBeCalledWith(
-                        SOURCES_HOLDERS,
-                        i,
-                        TRANSFORM_TRANSITION_CLASS_NAME
-                    );
-                }
+            it('should remove transition class from all sources if they contains it', () => {
+                expect(removeIfContains).toHaveBeenNthCalledWith(4, TRANSFORM_TRANSITION_CLASS_NAME);
+            });
+
+            it('should set isAfterSwipeAnimationRunning to false', () => {
+                expect(swipingProps.isAfterSwipeAnimationRunning).toBe(false);
             });
         });
     });

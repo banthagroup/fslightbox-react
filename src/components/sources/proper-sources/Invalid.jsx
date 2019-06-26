@@ -1,21 +1,27 @@
 import React, { useEffect } from 'react';
+import {
+    FADE_IN_CLASS_NAME,
+    FLEX_CENTERED_CLASS_NAME,
+    PREFIX
+} from "../../../constants/classes-names";
 
 const Invalid = (
     {
         fsLightbox: {
-            core: { sourceAnimator },
-            elements: { sources }
+            elements: {
+                sources
+            }
         },
         index
     }
 ) => {
     useEffect(() => {
-        sourceAnimator.animateSourceFromIndex(index).fadeIn();
+        sources[index].current.classList.add(FADE_IN_CLASS_NAME);
     });
 
     return (
         <div
-            className="fslightbox-invalid-file-wrapper fslightbox-flex-centered"
+            className={ `${ PREFIX }invalid-file-wrapper ${ FLEX_CENTERED_CLASS_NAME }` }
             ref={ sources[index] }>
             Invalid file
         </div>

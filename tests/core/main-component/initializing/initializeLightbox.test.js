@@ -6,10 +6,14 @@ const fsLightbox = {
     data: {
         isInitialized: false
     },
-    eventsDispatcher: {
-        dispatch: jest.fn()
+    core: {
+        eventsDispatcher: {
+            dispatch: jest.fn()
+        }
     }
 };
+
+const eventsDispatcher = fsLightbox.core.eventsDispatcher;
 createSourcesObject.createSources = jest.fn();
 
 beforeAll(() => {
@@ -29,7 +33,7 @@ describe('creating sources', () => {
 });
 
 describe('dispatching onInit event', () => {
-    it('should call dispatch with onInin', () => {
-        expect(fsLightbox.eventsDispatcher.dispatch).toBeCalledWith(ON_INIT);
+    it('should call dispatch with on init', () => {
+        expect(eventsDispatcher.dispatch).toBeCalledWith(ON_INIT);
     });
 });
