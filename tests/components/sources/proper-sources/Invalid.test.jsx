@@ -1,61 +1,42 @@
 import React from 'react';
 import Invalid from "../../../../src/components/sources/proper-sources/Invalid";
 import { mount, shallow } from "enzyme";
+import { FADE_IN_CLASS_NAME } from "../../../../src/constants/classes-names";
 
 const fsLightbox = {
-    core: {
-        sourceAnimator: {
-            animateSourceFromIndex: () => ({
-                fadeIn: () => {}
-            })
-        }
-    },
     elements: {
-        sources: [{
-            current: null
-        }]
+        sources: []
+    }
+};
+
+fsLightbox.elements.sources[10] = {
+    current: {
+        classList: {
+            add: jest.fn()
+        }
     }
 };
 
 let invalid;
 
-describe('ref to sources array in fsLightbox object', () => {
+describe('attaching ref and adding fade in class', () => {
     beforeAll(() => {
-        invalid = mount(<Invalid fsLightbox={ fsLightbox } index={ 0 }/>);
+        invalid = mount(<Invalid fsLightbox={ fsLightbox } index={ 10 }/>);
     });
 
     it('should be equal to Invalid', () => {
-        expect(fsLightbox.elements.sources[0].current).toEqual(invalid.getDOMNode());
+        expect(fsLightbox.elements.sources[10].current).toEqual(invalid.getDOMNode());
+    });
+
+    it('should add fade in class name', () => {
+        expect(fsLightbox.elements.sources[10].current.classList.contains(FADE_IN_CLASS_NAME))
+            .toBe(true);
     });
 });
 
-describe('on render', () => {
-    let fadeIn;
-
+describe('DOM', () => {
     beforeAll(() => {
-        fadeIn = jest.fn();
-        fsLightbox.core.sourceAnimator.animateSourceFromIndex = jest.fn((index) => {
-            if (index === 2) {
-                return {
-                    fadeIn: fadeIn
-                }
-            }
-        });
-        invalid = mount(<Invalid fsLightbox={ fsLightbox } index={ 2 }/>);
-    });
-
-    it('should call animateSourceFromIndex', () => {
-        expect(fsLightbox.core.sourceAnimator.animateSourceFromIndex).toBeCalled();
-    });
-
-    it('should call fadeIn', () => {
-        expect(fadeIn).toBeCalled();
-    });
-});
-
-describe('Invalid DOM', () => {
-    beforeAll(() => {
-        invalid = shallow(<Invalid fsLightbox={ fsLightbox } index={ 0 }/>);
+        invalid = shallow(<Invalid fsLightbox={ fsLightbox } index={ 10 }/>);
     });
 
     it('should match snapshot', () => {

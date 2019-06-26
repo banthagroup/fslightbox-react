@@ -26,7 +26,10 @@ export function SlideSwipingMoveActions(
         if (!hasMovedWhileSwipingState.get()) {
             hasMovedWhileSwipingState.set(true);
         }
-        classListManager.ifElementHasClassRemoveIt(LIGHTBOX_CONTAINER, CURSOR_GRABBING_CLASS_NAME);
+
+        classListManager
+            .manageElement(LIGHTBOX_CONTAINER)
+            .add(CURSOR_GRABBING_CLASS_NAME);
 
         swipingProps.swipedDifference = getClientXFromEvent(e) - swipingProps.downClientX;
 

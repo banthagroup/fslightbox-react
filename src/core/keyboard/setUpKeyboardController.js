@@ -2,11 +2,10 @@ import { ESCAPE, LEFT_ARROW, RIGHT_ARROW } from "../../constants/keyboardConstan
 
 export function setUpKeyboardController(
     {
-        stageIndexes,
         core: {
-            slideIndexChanger,
+            keyboardController: self,
             lightboxCloser,
-            keyboardController: self
+            slideChangeFacade
         }
     }
 ) {
@@ -16,10 +15,10 @@ export function setUpKeyboardController(
                 lightboxCloser.closeLightbox();
                 break;
             case LEFT_ARROW:
-                slideIndexChanger.changeToWithActions(stageIndexes.previous);
+                slideChangeFacade.changeToPrevious();
                 break;
             case RIGHT_ARROW:
-                slideIndexChanger.changeToWithActions(stageIndexes.next);
+                slideChangeFacade.changeToNext();
                 break;
         }
     };

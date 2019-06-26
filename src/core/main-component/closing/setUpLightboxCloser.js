@@ -1,4 +1,4 @@
-import { LightboxClosingActions } from "./LightboxClosingActions";
+import { LightboxCloseActions } from "./LightboxCloseActions";
 
 export function setUpLightboxCloser(
     {
@@ -10,7 +10,7 @@ export function setUpLightboxCloser(
         }
     }
 ) {
-    const lightboxClosingActions = injectDependency(LightboxClosingActions);
+    const lightboxClosingActions = injectDependency(LightboxCloseActions);
 
     self.closeLightbox = () => {
         if (!lightboxClosingActions.isLightboxFadingOut)

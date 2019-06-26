@@ -23,7 +23,9 @@ const fsLightbox = {
     },
     core: {
         classListManager: {
-            ifElementHasClassRemoveIt: () => {}
+            manageElement: () => ({
+                add: () => {}
+            })
         }
     },
     data: {
@@ -76,14 +78,22 @@ describe('setting hasMovedWhileSwipingState to true if not already set', () => {
 });
 
 describe(`adding cursor grabbing class list to container`, () => {
+    let addClass;
+
     beforeEach(() => {
-        fsLightbox.core.classListManager.ifElementHasClassRemoveIt = jest.fn();
+        addClass = jest.fn();
+        fsLightbox.core.classListManager.manageElement = (elementName) => {
+            if (elementName === LIGHTBOX_CONTAINER) {
+                return {
+                    add: addClass
+                }
+            }
+        };
         setUpAndCallRunActionsForEventWithEmptyEvent();
     });
 
     it('should call ifElementHasClassRemoveIt with container and cursor grabbing class', () => {
-        expect(fsLightbox.core.classListManager.ifElementHasClassRemoveIt)
-            .toBeCalledWith(LIGHTBOX_CONTAINER, CURSOR_GRABBING_CLASS_NAME);
+        expect(addClass).toBeCalledWith(CURSOR_GRABBING_CLASS_NAME);
     });
 });
 

@@ -1,39 +1,56 @@
 import { setUpSlideIndexChanger } from "../../../src/core/slide/setUpSlideIndexChanger";
 import { TimeoutQueue } from "../../../src/core/timeouts/TimeoutQueue";
 import { ANIMATION_TIME } from "../../../src/constants/css-constants";
+import { SOURCES } from "../../../src/constants/elements";
+import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../../src/constants/classes-names";
 
 const fsLightbox = {
+    collections: {
+        sourcesHoldersTransformers: []
+    },
+    componentsStates: {
+        slideNumberUpdater: {
+            set: () => {},
+            get: () => {}
+        }
+    },
+    core: {
+        classListManager: {
+            manageArrayElementAtIndex: () => ({
+                add: () => {},
+                remove: () => {},
+                removeIfContains: () => {}
+            })
+        },
+        slideIndexChanger: {},
+        stageManager: {
+            updateStageIndexes: () => {}
+        },
+        slideNumberUpdater: {
+            updateSlideNumber: () => {},
+        }
+    },
+    data: {
+        sourcesCount: 0
+    },
+    injector: {
+        injectDependency: () => ({})
+    },
     stageIndexes: {
         previous: undefined,
         current: undefined,
         next: undefined
-    },
-    collections: {
-        sourcesHoldersTransformers: []
-    },
-    core: {
-        classListManager: {
-
-        },
-        slideIndexChanger: {},
-        slideNumberUpdater: {
-            updateSlideNumber: () => {},
-        },
-        sourceAnimator: {
-            animateSourceFromIndex: () => {}
-        },
-        stageManager: {
-            updateStageIndexes: () => {}
-        }
-    },
-    injector: {
-        injectDependency: () => ({})
     }
 };
-const slideIndexChanger = fsLightbox.core.slideIndexChanger;
-const sourceAnimator = fsLightbox.core.sourceAnimator;
+
+const slideNumberUpdaterState = fsLightbox.componentsStates.slideNumberUpdater;
+
+const classListManager = fsLightbox.core.classListManager;
+const stageManager = fsLightbox.core.stageManager;
 
 const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
+
+const slideIndexChanger = fsLightbox.core.slideIndexChanger;
 
 describe('changeTo', () => {
     let updateSlideNumber;
@@ -46,14 +63,15 @@ describe('changeTo', () => {
         // we will be testing changing slide index to 2
         updateStageIndexes = jest.fn();
         updateSlideNumber = jest.fn();
-        fsLightbox.core.stageManager.updateStageIndexes = () => {
+        stageManager.updateStageIndexes = () => {
             if (fsLightbox.stageIndexes.current === 2) {
                 updateStageIndexes();
             }
         };
-        fsLightbox.core.slideNumberUpdater.updateSlideNumber = () => {
+        slideNumberUpdaterState.get = () => false;
+        slideNumberUpdaterState.set = (updaterValue) => {
             if (fsLightbox.stageIndexes.current === 2) {
-                updateSlideNumber();
+                updateSlideNumber(updaterValue);
             }
         };
 
@@ -65,8 +83,8 @@ describe('changeTo', () => {
         expect(fsLightbox.stageIndexes.current).toBe(2);
     });
 
-    it('should call updateStageIndexes', () => {
-        expect(updateStageIndexes).toBeCalled();
+    it('should update slide number with opposite of slide number updater value', () => {
+        expect(updateSlideNumber).toBeCalledWith(true);
     });
 
     it('should call updateSlideNumber', () => {
@@ -86,6 +104,28 @@ describe('changeToWithActions', () => {
     beforeAll(() => {
         fsLightbox.stageIndexes.current = 3;
 
+
+        classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+            if (elementsArrayName !== SOURCES) {
+                return;
+            }
+            if (index === 3) {
+                return previousSourceAnimator;
+            }
+            if (index === 0) {
+                return newSourceAnimator;
+            }
+        };
+        previousSourceAnimator = {
+            removeIfContains: jest.fn(),
+            add: jest.fn()
+        };
+        newSourceAnimator = {
+            removeIfContains: jest.fn(),
+            add: jest.fn()
+        };
+
+
         removeFadeOutQueue.startTimeout = jest.fn();
         fsLightbox.injector.injectDependency = (constructorDependency) => {
             if (constructorDependency === TimeoutQueue) {
@@ -103,23 +143,6 @@ describe('changeToWithActions', () => {
             negative: jest.fn()
         };
 
-        previousSourceAnimator = {
-            removeFadeIn: jest.fn(),
-            fadeOut: jest.fn()
-        };
-        newSourceAnimator = {
-            removeFadeOut: jest.fn(),
-            fadeIn: jest.fn()
-        };
-        sourceAnimator.animateSourceFromIndex = (index) => {
-            if (index === 3) {
-                return previousSourceAnimator;
-            }
-            if (index === 0) {
-                return newSourceAnimator;
-            }
-        };
-
         setUpSlideIndexChanger(fsLightbox);
         slideIndexChanger.changeTo = jest.fn();
         slideIndexChanger.changeToWithActions(0);
@@ -130,14 +153,58 @@ describe('changeToWithActions', () => {
     });
 
     describe('actions', () => {
-        describe('removeFadeOutQueue action', () => {
+        describe('removeFadeOutQueue', () => {
+            let manageArrayElementAtIndexIndex = -1;
+            const removeIfContains = jest.fn();
+
             beforeAll(() => {
-                sourceAnimator.removeFadeOutFromAllSources = jest.fn();
+                classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+                    manageArrayElementAtIndexIndex++;
+                    if (elementsArrayName === SOURCES && index === manageArrayElementAtIndexIndex) {
+                        return {
+                            removeIfContains: removeIfContains
+                        }
+                    }
+                };
                 removeFadeOutQueue.action();
             });
 
-            it('should call sourceAnimator.removeFadeOutFromAllSources', () => {
-                expect(sourceAnimator.removeFadeOutFromAllSources).toBeCalled();
+            it('should set time to animation time', () => {
+                expect(removeFadeOutQueue.time).toBe(ANIMATION_TIME);
+            });
+
+            it('should remove fade out from all sources if they contain it', () => {
+                expect(removeIfContains).toBeCalledTimes(fsLightbox.data.sourcesCount);
+            });
+        });
+
+        describe('animating previous slide source', () => {
+            it('should remove fade in class if contains', () => {
+                expect(previousSourceAnimator.removeIfContains).toBeCalledWith(FADE_IN_CLASS_NAME);
+            });
+
+            it('should remove long fade in class if contains', () => {
+                expect(previousSourceAnimator.removeIfContains).toBeCalledWith(LONG_FADE_IN_CLASS_NAME);
+            });
+
+            it('should add fade out class', () => {
+                expect(previousSourceAnimator.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
+            });
+        });
+
+        describe('animating new slide source', () => {
+            it('should remove fade out class if contains', () => {
+                expect(newSourceAnimator.removeIfContains).toBeCalledWith(FADE_OUT_CLASS_NAME);
+            });
+
+            it('should add fade in class', () => {
+                expect(newSourceAnimator.add).toBeCalledWith(FADE_IN_CLASS_NAME);
+            });
+        });
+
+        describe('removeFadeOutFromAllSourcesAfterQueueEnd', () => {
+            it('should call startTimeout', () => {
+                expect(removeFadeOutQueue.startTimeout).toBeCalled();
             });
         });
 
@@ -168,30 +235,6 @@ describe('changeToWithActions', () => {
                         expect(setTimeoutParams[1]).toBe(ANIMATION_TIME);
                     });
                 });
-            });
-        });
-
-        describe('animateSourceHolders', () => {
-            it('should call removeFadeIn for previous slide source', () => {
-                expect(previousSourceAnimator.removeFadeIn).toBeCalled();
-            });
-
-            it('should call fadeOut for previous slide source', () => {
-                expect(previousSourceAnimator.fadeOut).toBeCalled();
-            });
-
-            it('should call removeFadeOut from new slide source', () => {
-                expect(newSourceAnimator.removeFadeOut).toBeCalled();
-            });
-
-            it('should call fadeIn for new slide source', () => {
-                expect(newSourceAnimator.fadeIn).toBeCalled();
-            });
-        });
-
-        describe('removeFadeOutFromAllSourcesAfterQueueEnd', () => {
-            it('should call startTimeout', () => {
-                expect(removeFadeOutQueue.startTimeout).toBeCalled();
             });
         });
     });

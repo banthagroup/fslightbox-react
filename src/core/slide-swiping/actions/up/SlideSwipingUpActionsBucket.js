@@ -28,16 +28,14 @@ export function SlideSwipingUpActionsBucket(
         addTransitionToCurrentSourceHolderAndTransformItToPosition('zero');
     };
 
-    this.addTransitionAndTransformZeroCurrentSlide = () => {
+    this.addTransitionAndTransformZeroCurrentSlideSource = () => {
         addTransitionToCurrentSourceHolderAndTransformItToPosition('zero');
     };
 
     const addTransitionToCurrentSourceHolderAndTransformItToPosition = (position) => {
-        classListManager.addToElementInArrayAtIndexClass(
-            SOURCES_HOLDERS,
-            stageIndexes.current,
-            TRANSFORM_TRANSITION_CLASS_NAME
-        );
+        classListManager
+            .manageArrayElementAtIndex(SOURCES_HOLDERS, stageIndexes.current)
+            .add(TRANSFORM_TRANSITION_CLASS_NAME);
         sourcesHoldersTransformers[stageIndexes.current][position]();
     };
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import PropTypes from "prop-types";
 import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVideoIdFromUrl";
+import { PREFIX, SOURCE_CLASSES_NAMES } from "../../../constants/classes-names";
 
 const Youtube = (
     {
@@ -18,7 +18,7 @@ const Youtube = (
 
     return (
         <iframe
-            className="fslightbox-source fslightbox-youtube-iframe fslightbox-opacity-0"
+            className={ `${ SOURCE_CLASSES_NAMES } ${ PREFIX }youtube-iframe` }
             ref={ sourcesElements[index] }
             src={
                 "https://www.youtube.com/embed/"
@@ -28,11 +28,6 @@ const Youtube = (
             allowFullScreen={ true }
         />
     );
-};
-
-Youtube.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired
 };
 
 export default Youtube;

@@ -1,5 +1,5 @@
 import { SourceSizeAdjuster } from "../../../src/core/sizes/SourceSizeAdjuster";
-import { testSourceDimensions } from "../../__tests-helpers__/testVariables";
+import { testSourceDimensions } from "../../__tests-stores__/testVariables";
 
 const source = document.createElement('div');
 const fsLightbox = {
@@ -16,7 +16,7 @@ const fsLightbox = {
 const sourceSizeAdjuster = new SourceSizeAdjuster(fsLightbox);
 
 describe('it should adjust sources size when ...', () => {
-    sourceSizeAdjuster.setMaxDimensions(testSourceDimensions.width, testSourceDimensions.height);
+    sourceSizeAdjuster.setDefaultDimensions(testSourceDimensions.width, testSourceDimensions.height);
     sourceSizeAdjuster.setIndex(0);
 
     test(`sources width > max source width (SourcesHoldersWrapper dynamic width) 

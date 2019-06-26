@@ -41,7 +41,7 @@ export function SourceSizeAdjuster({ data, elements: { sources } }) {
     };
 
     const setDimensions = () => {
-        sources[i].current.style.height = newHeight + "px";
         sources[i].current.style.width = (newHeight * ratio) + "px";
+        sources[i].current.style.height = newHeight + "px";
     }
 }

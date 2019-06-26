@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import { SOURCE_CLASSES_NAMES } from "../../../constants/classes-names";
 
 const Image = (
     {
@@ -13,16 +13,11 @@ const Image = (
 ) => (
     <img
         onLoad={ sourcesLoadsHandlers[index].handleLoad }
-        className={ "fslightbox-source fslightbox-opacity-0" }
+        className={ SOURCE_CLASSES_NAMES }
         ref={ sourcesElements[index] }
         src={ sources[index] }
         alt={ sources[index] }
     />
 );
-
-Image.propTypes = {
-    fsLightbox: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
-};
 
 export default Image;

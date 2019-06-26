@@ -1,3 +1,5 @@
+import { getClientXFromEvent } from "../../../helpers/events/getClientXFromEvent";
+
 export function setUpSlideSwipingDown(
     {
         stageIndexes,
@@ -12,43 +14,23 @@ export function setUpSlideSwipingDown(
             }
         }
     }, swipingProps) {
-    /** @var { MouseEvent | TouchEvent } event */
-    let event;
+
 
     self.listener = (e) => {
-        event = e;
-        preventDefaultIfNeeded();
-        setIsSourceDownEventTargetIfTargetIsSource();
-        setIsSwipingSlidesToTrue();
-        setDownClientX();
-        resetSwipedDifference();
-    };
+        data.isSwipingSlides = true;
 
-    const preventDefaultIfNeeded = () => {
-        if (!event.target.tagName)
-            return;
-        if (event.target.tagName === 'VIDEO' || event.touches)
-            return;
-        event.preventDefault();
-    };
+        // cannot prevent default action when target is video because button would be not clickable
+        // and cannot prevent event on mobile because we use passive event listener for touch start
+        if (e.target.tagName !== 'VIDEO' && !e.touches) {
+            e.preventDefault();
+        }
 
-    const setIsSourceDownEventTargetIfTargetIsSource = () => {
-        (event.target.classList.contains('fslightbox-source')) ?
+        (e.target.classList.contains('fslightbox-source')) ?
             swipingProps.isSourceDownEventTarget = true :
             swipingProps.isSourceDownEventTarget = false;
-    };
 
-    const setIsSwipingSlidesToTrue = () => {
-        data.isSwipingSlides = true;
-    };
+        swipingProps.downClientX = getClientXFromEvent(e);
 
-    const setDownClientX = () => {
-        (event.touches) ?
-            swipingProps.downClientX = event.touches[0].clientX :
-            swipingProps.downClientX = event.clientX;
-    };
-
-    const resetSwipedDifference = () => {
         swipingProps.swipedDifference = 0;
     };
 }

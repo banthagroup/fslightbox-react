@@ -2,8 +2,8 @@ export function setUpLightboxOpener(
     {
         setters: { setState },
         core: {
-            lightboxOpeningActions,
-            lightboxOpener: self
+            lightboxOpener: self,
+            lightboxOpeningActions
         }
     }
 ) {

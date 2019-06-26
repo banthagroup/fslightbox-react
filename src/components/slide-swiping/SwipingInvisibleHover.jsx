@@ -15,7 +15,7 @@ const SwipingInvisibleHover = (
     hasMovedWhileSwipingState.set = setHasMovedWhileSwiping;
 
     return (hasMovedWhileSwiping) ? (
-        <div className="fslightbox-swiping-invisible-hover fslightbox-full-dimension"></div>
+        <div className="fslightbox-swiping-invisible-hover fslightbox-full-dimension"/>
     ) : null;
 };
 

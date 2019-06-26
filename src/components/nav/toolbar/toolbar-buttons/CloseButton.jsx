@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ToolbarButton from "../ToolbarButton.jsx";
 
 const CloseButton = ({ fsLightbox: { core: { lightboxCloser: { closeLightbox } } } }) => (
@@ -11,9 +10,5 @@ const CloseButton = ({ fsLightbox: { core: { lightboxCloser: { closeLightbox } }
         title="Close"
     />
 );
-
-CloseButton.propTypes = {
-    fsLightbox: PropTypes.object.isRequired
-};
 
 export default CloseButton;

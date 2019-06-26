@@ -1,6 +1,5 @@
 import { setUpLightboxOpener } from "../../../../src/core/main-component/opening/setUpLightboxOpener";
 
-const lightboxOpener = {};
 const fsLightbox = {
     setters: {
         setState: () => {}
@@ -9,25 +8,25 @@ const fsLightbox = {
         lightboxOpeningActions: {
             runActions: () => {}
         },
-        lightboxOpener: lightboxOpener
+        lightboxOpener: {}
     }
 };
 
-const recreateLightboxOpenerAndCallOpenLightbox = () => {
-    setUpLightboxOpener(fsLightbox);
-    lightboxOpener.openLightbox();
-};
+const lightboxOpeningActions = fsLightbox.core.lightboxOpeningActions;
+
+const lightboxOpener = fsLightbox.core.lightboxOpener;
 
 describe('openLightbox', () => {
     let state;
 
     beforeAll(() => {
-        fsLightbox.core.lightboxOpeningActions.runActionsForEvent = jest.fn();
+        lightboxOpeningActions.runActions = jest.fn();
         fsLightbox.setters.setState = jest.fn((stateObject, callback) => {
             state = stateObject;
             callback();
         });
-        recreateLightboxOpenerAndCallOpenLightbox()
+        setUpLightboxOpener(fsLightbox);
+        lightboxOpener.openLightbox();
     });
 
     it('should call setState', () => {

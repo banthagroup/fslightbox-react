@@ -3,26 +3,24 @@ import React, { useState } from 'react';
 const SlideNumber = (
     {
         fsLightbox: {
-            stageIndexes,
-            data,
             componentsStates: {
                 slideNumberUpdater: slideNumberUpdaterState
             },
+            data: { sourcesCount },
+            stageIndexes
         }
     }
 ) => {
-    const [slideNumberUpdater, setSlideNumberUpdater] = useState(false);
-    slideNumberUpdaterState.get = () => slideNumberUpdater;
-    slideNumberUpdaterState.set = setSlideNumberUpdater;
+    const [currentSlideNumberUpdaterValue, setSlideNumberUpdaterValue] = useState(false);
+    slideNumberUpdaterState.get = () => currentSlideNumberUpdaterValue;
+    slideNumberUpdaterState.set = setSlideNumberUpdaterValue;
 
-    return (data.sourcesCount === 1) ?
-        null :
-        (
-            <div className="fslightbox-slide-number-container fslightbox-flex-centered">
-                <div>{ stageIndexes.current + 1 }</div>
-                <div className="fslightbox-slash">/</div>
-                <div>{ data.sourcesCount }</div>
-            </div>
-        );
+    return (
+        <div className="fslightbox-slide-number-container fslightbox-flex-centered">
+            <div>{ stageIndexes.current + 1 }</div>
+            <div className="fslightbox-slash">/</div>
+            <div>{ sourcesCount }</div>
+        </div>
+    );
 };
 export default SlideNumber;

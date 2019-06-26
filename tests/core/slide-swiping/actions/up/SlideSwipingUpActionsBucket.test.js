@@ -1,7 +1,6 @@
 import { SlideSwipingUpActionsBucket } from "../../../../../src/core/slide-swiping/actions/up/SlideSwipingUpActionsBucket";
 import { SOURCES_HOLDERS } from "../../../../../src/constants/elements";
 import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../../src/constants/classes-names";
-import { getMountedImageForFsLightboxInstance } from "../../../../__mocks__/helpers/getMountedImageForFsLightboxInstance";
 
 const fsLightbox = {
     collections: {
@@ -9,8 +8,9 @@ const fsLightbox = {
     },
     core: {
         classListManager: {
-            addToElementInArrayAtIndexClass: () => {}
-
+            manageArrayElementAtIndex: () => ({
+                add: () => {}
+            })
         },
         slideIndexChanger: {
             changeTo: () => {}
@@ -23,6 +23,7 @@ const fsLightbox = {
     }
 };
 
+
 const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
 const classListManager = fsLightbox.core.classListManager;
 const slideIndexChanger = fsLightbox.core.slideIndexChanger;
@@ -30,13 +31,32 @@ const slideIndexChanger = fsLightbox.core.slideIndexChanger;
 let slideSwipingUpActionsBucket;
 
 describe('changeSlideToPrevious', () => {
+    let addClassToPreviousSlideSource;
+    let addClassToNewSlideSource;
+
     beforeAll(() => {
         fsLightbox.stageIndexes = {
             previous: 5,
             current: 6
         };
 
-        classListManager.addToElementInArrayAtIndexClass = jest.fn();
+        addClassToPreviousSlideSource = jest.fn();
+        addClassToNewSlideSource = jest.fn();
+        classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+            if (elementsArrayName !== SOURCES_HOLDERS) {
+                return;
+            }
+            if (index === 6) {
+                return {
+                    add: addClassToPreviousSlideSource
+                }
+            }
+            if (index === 5) {
+                return {
+                    add: addClassToNewSlideSource
+                }
+            }
+        };
 
         slideIndexChanger.changeTo = (newCurrentIndex) => {
             if (newCurrentIndex === 5) {
@@ -56,19 +76,11 @@ describe('changeSlideToPrevious', () => {
     });
 
     it('should add to previous slide source holder transition class', () => {
-        expect(classListManager.addToElementInArrayAtIndexClass).toBeCalledWith(
-            SOURCES_HOLDERS,
-            6,
-            TRANSFORM_TRANSITION_CLASS_NAME
-        );
+        expect(addClassToPreviousSlideSource).toBeCalledWith(TRANSFORM_TRANSITION_CLASS_NAME);
     });
 
     it('should add to new slide source holder transition class', () => {
-        expect(classListManager.addToElementInArrayAtIndexClass).toBeCalledWith(
-            SOURCES_HOLDERS,
-            5,
-            TRANSFORM_TRANSITION_CLASS_NAME
-        );
+        expect(addClassToNewSlideSource).toBeCalledWith(TRANSFORM_TRANSITION_CLASS_NAME);
     });
 
     it('should transform previous slide source holder positive', () => {
@@ -81,13 +93,33 @@ describe('changeSlideToPrevious', () => {
 });
 
 describe('changeSlideToNext', () => {
+    let addClassToPreviousSlideSource;
+    let addClassToNewSlideSource;
+
     beforeAll(() => {
         fsLightbox.stageIndexes = {
             current: 3,
             next: 4
         };
 
-        classListManager.addToElementInArrayAtIndexClass = jest.fn();
+
+        addClassToPreviousSlideSource = jest.fn();
+        addClassToNewSlideSource = jest.fn();
+        classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+            if (elementsArrayName !== SOURCES_HOLDERS) {
+                return;
+            }
+            if (index === 3) {
+                return {
+                    add: addClassToPreviousSlideSource
+                }
+            }
+            if (index === 4) {
+                return {
+                    add: addClassToNewSlideSource
+                }
+            }
+        };
 
         slideIndexChanger.changeTo = (newCurrentIndex) => {
             if (newCurrentIndex === 4) {
@@ -107,19 +139,11 @@ describe('changeSlideToNext', () => {
     });
 
     it('should add to previous slide source holder transition class', () => {
-        expect(classListManager.addToElementInArrayAtIndexClass).toBeCalledWith(
-            SOURCES_HOLDERS,
-            3,
-            TRANSFORM_TRANSITION_CLASS_NAME
-        );
+        expect(addClassToPreviousSlideSource).toBeCalledWith(TRANSFORM_TRANSITION_CLASS_NAME);
     });
 
     it('should add to new slide source holder transition class', () => {
-        expect(classListManager.addToElementInArrayAtIndexClass).toBeCalledWith(
-            SOURCES_HOLDERS,
-            4,
-            TRANSFORM_TRANSITION_CLASS_NAME
-        );
+        expect(addClassToNewSlideSource).toBeCalledWith(TRANSFORM_TRANSITION_CLASS_NAME);
     });
 
     it('should transform previous slide source holder negative', () => {
@@ -132,22 +156,27 @@ describe('changeSlideToNext', () => {
 });
 
 describe('addTransitionAndTransformZeroCurrentSource', () => {
+    let addClass;
+
     beforeAll(() => {
         fsLightbox.stageIndexes.current = 10;
-        classListManager.addToElementInArrayAtIndexClass = jest.fn();
+        addClass = jest.fn();
+        classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
+            if (elementsArrayName === SOURCES_HOLDERS && index === 10) {
+                return {
+                    add: addClass
+                }
+            }
+        };
         sourcesHoldersTransformersCollection[10] = {
             zero: jest.fn()
         };
         slideSwipingUpActionsBucket = new SlideSwipingUpActionsBucket(fsLightbox);
-        slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSource();
+        slideSwipingUpActionsBucket.addTransitionAndTransformZeroCurrentSlideSource();
     });
 
     it('should add transition to current source holder', () => {
-        expect(classListManager.addToElementInArrayAtIndexClass).toBeCalledWith(
-            SOURCES_HOLDERS,
-            10,
-            TRANSFORM_TRANSITION_CLASS_NAME
-        );
+        expect(addClass).toBeCalledWith(TRANSFORM_TRANSITION_CLASS_NAME);
     });
 
     it('should transform zero current source holder', () => {
