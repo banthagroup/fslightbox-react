@@ -3,9 +3,6 @@ import { LONG_FADE_OUT_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/cl
 import { ANIMATION_TIME } from "../../../constants/css-constants";
 import { LIGHTBOX_CONTAINER } from "../../../constants/elements";
 
-/**
- * @constructor
- */
 export function LightboxCloseActions(
     {
         componentsStates: {
@@ -26,7 +23,7 @@ export function LightboxCloseActions(
             fullscreenToggler,
             scrollbarRecompensor
         },
-        setters: { setState }
+        setMainComponentState
     }
 ) {
     this.isLightboxFadingOut = false;
@@ -57,7 +54,7 @@ export function LightboxCloseActions(
             scrollbarRecompensor.removeRecompense();
             windowResizeEventController.removeListener();
 
-            setState({
+            setMainComponentState({
                 isOpen: false
             }, () => {
                 eventsDispatcher.dispatch(ON_CLOSE);

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
 import { testSources } from "../__tests-stores__/testVariables";
-import { createRefsArrayForGivenNumber } from "../../src/helpers/arrays/createRefsArrayForGivenNumber";
+import *  as createRefsArrayWithLength from "../../src/helpers/arrays/createRefsArrayWithLength";
 import * as setUpCoreObject from "../../src/core/setUpCore";
 import * as runLightboxUnmountActionsObject from "../../src/core/main-component/unmounting/runLightboxUnmountActions";
 import { Injector } from "../../src/injection/Injector";
@@ -12,282 +12,150 @@ import * as getSourcesHoldersTransformersCollectionObject
     from "../../src/core/collections/getSourcesHoldersTransformersCollection";
 import SlideButton from "../../src/components/SlideButton";
 
-let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } sources={ testSources }/>, {
-    disableLifecycleMethods: true
-});
+let fsLightboxWrapper = shallow(
+    <FsLightbox
+        toggler={ false }
+        sources={ testSources }
+    />,
+    { disableLifecycleMethods: true }
+);
 let fsLightbox = fsLightboxWrapper.instance();
 
-describe('stageIndexes', () => {
-    beforeAll(() => {
-        getInitialCurrentIndexObject.getInitialCurrentIndex = () => 950;
-        fsLightbox.setUpStageIndexes();
-    });
-
-    it('should set up stage indexes object', () => {
-        expect(fsLightbox.stageIndexes).toEqual({
-            previous: undefined,
-            current: 950,
-            next: undefined
-        });
-    });
-});
+// resetting props to make them extensible
+delete fsLightbox.props;
+fsLightbox.props = {
+    toggler: false,
+    sources: testSources
+};
 
 describe('data', () => {
-    describe('sources', () => {
-        describe('sources array is not set', () => {
-            beforeAll(() => {
-                fsLightboxWrapper.setProps({
-                    urls: ['test-url'],
-                    sources: undefined
-                });
-                fsLightbox.setUpData();
-            });
-
-            it('should be equal to urls prop', () => {
-                expect(fsLightbox.data.sources).toEqual(['test-url']);
-            });
-        });
-
-        describe('sources prop is set', () => {
-            beforeAll(() => {
-                fsLightboxWrapper.setProps({
-                    urls: ['test-urls-prop'],
-                    sources: ['test-sources-prop']
-                });
-                fsLightbox.setUpData();
-            });
-
-            it('should be equal to sources prop', () => {
-                expect(fsLightbox.data.sources).toEqual(['test-sources-prop']);
-            });
-        });
+    it('should have valid only one possible value properties', () => {
+        expect(fsLightbox.data.sourcesCount).toBe(testSources.length);
+        expect(fsLightbox.data.isInitialized).toBe(false);
+        expect(fsLightbox.data.isSwipingSlides).toBe(false);
+        expect(fsLightbox.data.maxSourceWidth).toBe(0);
+        expect(fsLightbox.data.maxSourceHeight).toBe(0);
+        expect(fsLightbox.data.scrollbarWidth).toBe(0);
     });
 
-    describe('sourcesCount', () => {
-        it('should be equal to sources array length from data', () => {
-            expect(fsLightbox.data.sourcesCount).toEqual(fsLightbox.data.sources.length);
-        });
+    it('should have valid slideDistance property depending on slideDistance prop', () => {
+        delete fsLightbox.props.slideDistance;
+        fsLightbox.setUpData();
+        expect(fsLightbox.data.slideDistance).toBe(0.3);
+
+        fsLightbox.props.slideDistance = 2.5;
+        fsLightbox.setUpData();
+        expect(fsLightbox.data.slideDistance).toBe(2.5);
     });
 
-    describe('isInitialized', () => {
-        it('should be false', () => {
-            expect(fsLightbox.data.isInitialized).toBe(false);
-        });
-    });
+    it('should have valid sources property depending on props', () => {
+        delete fsLightbox.props.urls;
+        fsLightbox.props.sources = 'sources';
+        fsLightbox.setUpData();
+        expect(fsLightbox.data.sources).toBe('sources');
 
-    describe('isSwipingSlides', () => {
-        it('should be false', () => {
-            expect(fsLightbox.data.isSwipingSlides).toBe(false);
-        });
-    });
+        delete fsLightbox.props.sources;
+        fsLightbox.props.urls = 'urls';
+        fsLightbox.setUpData();
+        expect(fsLightbox.data.sources).toBe('urls');
 
-    describe('scrollbarWidth', () => {
-        it('should be equal to value returned from getScrollbarWidth', () => {
-            expect(fsLightbox.data.scrollbarWidth).toBe(0);
-        });
-    });
-
-    describe('maxSourceWidth', () => {
-        it('should be 0', () => {
-            expect(fsLightbox.data.maxSourceWidth).toBe(0);
-        });
-    });
-
-    describe('maxSourceHeight', () => {
-        it('should be 0', () => {
-            expect(fsLightbox.data.maxSourceHeight).toBe(0);
-        });
-    });
-
-    describe('slideDistance', () => {
-        describe('slideDistance prop was not given', () => {
-            beforeAll(() => {
-                fsLightbox = new FsLightbox({ urls: testSources, toggler: false });
-            });
-
-            it('should be equal 1.3', () => {
-                expect(fsLightbox.data.slideDistance).toBe(0.3);
-            });
-        });
-
-        describe('slideDistance prop was given', () => {
-            let slideDistance;
-
-            beforeAll(() => {
-                slideDistance = 2;
-                fsLightbox = new FsLightbox({ slideDistance: 2, urls: testSources, toggler: false });
-            });
-
-            it('should be equal 2', () => {
-                expect(fsLightbox.data.slideDistance).toBe(2);
-            });
-        });
+        fsLightbox.props.sources = 'sources';
+        fsLightbox.props.urls = 'urls';
+        fsLightbox.setUpData();
+        expect(fsLightbox.data.sources).toBe('sources');
     });
 });
 
-describe('state', () => {
-    describe('toggler (it should be same as prop with the same name)', () => {
-        beforeAll(() => {
-            fsLightbox = new FsLightbox({ urls: testSources, toggler: true })
-        });
+test('stageIndexes', () => {
+    getInitialCurrentIndexObject.getInitialCurrentIndex = () => 950;
+    fsLightbox.setUpStageIndexes();
 
-        it('should be truthy', () => {
-            expect(fsLightbox.state.isOpen).toBeTruthy();
-        });
+    expect(fsLightbox.stageIndexes).toEqual({
+        previous: undefined,
+        current: 950,
+        next: undefined
     });
 });
 
-describe('componentsStates', () => {
-    it('should be equal to proper object', () => {
-        expect(fsLightbox.componentsStates).toEqual({
-            slideNumberUpdater: {},
-            hasMovedWhileSwiping: {},
-            isFullscreenOpen: {},
-            sourcesHoldersUpdatersCollection: []
-        });
+test('main component state', () => {
+    fsLightbox.props.toggler = false;
+    fsLightbox.setUpStates();
+    expect(fsLightbox.state.isOpen).toBe(false);
+
+    fsLightbox.props.toggler = true;
+    fsLightbox.setUpStates();
+    expect(fsLightbox.state.isOpen).toBe(true);
+});
+
+test('componentsStates', () => {
+    expect(fsLightbox.componentsStates).toEqual({
+        slideNumberUpdater: {},
+        hasMovedWhileSwiping: {},
+        isFullscreenOpen: {},
+        sourcesHoldersUpdatersCollection: []
     });
 });
 
-describe('getters', () => {
-    describe('getProps', () => {
-        it('should return props', () => {
-            expect(fsLightbox.getProps()).toBe(fsLightbox.props);
-        });
-    });
-
-    describe('getStage', () => {
-        it('should return state', () => {
-            expect(fsLightbox.getState()).toBe(fsLightbox.state);
-        });
-    });
+test('getters', () => {
+    expect(fsLightbox.getProps()).toBe(fsLightbox.props);
+    expect(fsLightbox.getState()).toBe(fsLightbox.state);
 });
 
-describe('setters', () => {
-    describe('setState', () => {
-        let stateValue;
-        let callback;
-
-        beforeAll(() => {
-            stateValue = { isOpen: false };
-            callback = () => {};
-            fsLightbox.setState = jest.fn();
-            fsLightbox.setters.setState(stateValue, callback);
-        });
-
-        it('should call setState', () => {
-            expect(fsLightbox.setState).toBeCalledWith(stateValue, callback);
-        });
-    });
+test('setters', () => {
+    fsLightbox.setState = jest.fn();
+    fsLightbox.setMainComponentState('value', 'callback');
+    expect(fsLightbox.setState).toBeCalledWith('value', 'callback');
 });
 
-describe('elements', () => {
-    describe('container', () => {
-        it('should be equal to react ref', () => {
-            expect(fsLightbox.elements.container).toEqual(React.createRef());
-        });
-    });
 
-    describe('sourcesHoldersWrapper', () => {
-        it('should be equal to react ref', () => {
-            expect(fsLightbox.elements.sourcesHoldersWrapper).toEqual(React.createRef());
-        });
-    });
+test('elements', () => {
+    createRefsArrayWithLength.createRefsArrayWithLength = () => 'refs-array';
+    fsLightbox.setUpElements();
 
-    describe('sources', () => {
-        it('should be equal to array of react refs equivalent to number of slides', () => {
-            expect(fsLightbox.elements.sources).toEqual(createRefsArrayForGivenNumber(fsLightbox.data.sourcesCount));
-        });
-    });
-
-    describe('sourcesHolders', () => {
-        it('should be equal to array of react refs equivalent to number of slides', () => {
-            expect(fsLightbox.elements.sourcesHolders).toEqual(createRefsArrayForGivenNumber(fsLightbox.data.sourcesCount));
-        });
-    });
-
-    describe('sourcesComponents', () => {
-        it('should be equal to empty array', () => {
-            expect(fsLightbox.elements.sourcesComponents).toEqual({});
-        });
-    });
+    expect(fsLightbox.elements.container).toEqual(React.createRef());
+    expect(fsLightbox.elements.sourcesHoldersWrapper).toEqual(React.createRef());
+    expect(fsLightbox.elements.sources).toEqual('refs-array');
+    expect(fsLightbox.elements.sourcesHolders).toEqual('refs-array');
+    expect(fsLightbox.elements.sourcesComponents).toEqual([]);
 });
 
-describe('collections', () => {
-    describe('sourcesHoldersTransformers', () => {
-        beforeAll(() => {
-            getSourcesHoldersTransformersCollectionObject.getSourcesHoldersTransformersCollection =
-                () => 'test-collection';
-            fsLightbox.setUpCollections();
-        });
+test('collections', () => {
+    getSourcesHoldersTransformersCollectionObject.getSourcesHoldersTransformersCollection =
+        () => 'test-collection';
+    fsLightbox.setUpCollections();
 
-        it('should be equal to value returned from getSourcesHoldersTransformersCollection', () => {
-            expect(fsLightbox.collections.sourcesHoldersTransformers).toBe('test-collection')
-        });
-    });
-
-    describe('sourcesSizesAdjusters', () => {
-        it('should be equal to empty array', () => {
-            expect(fsLightbox.collections.sourcesSizesAdjusters).toEqual([]);
-        });
-    });
-
-    describe('sourcesSizesAdjusters', () => {
-        it('should be equal to empty array', () => {
-            expect(fsLightbox.collections.xhrs).toEqual([]);
-        });
-    })
+    expect(fsLightbox.collections.sourcesHoldersTransformers).toBe('test-collection');
+    expect(fsLightbox.collections.sourcesLoadsHandlers).toEqual([]);
+    expect(fsLightbox.collections.sourcesSizesAdjusters).toEqual([]);
+    expect(fsLightbox.collections.xhrs).toEqual([]);
 });
 
-describe('injector', () => {
-    it('should be instanceof Injector', () => {
-        expect(fsLightbox.injector).toBeInstanceOf(Injector);
-    });
+test('injector', () => {
+    expect(fsLightbox.injector).toBeInstanceOf(Injector);
 });
 
-describe('core', () => {
-    beforeAll(() => {
-        setUpCoreObject.setUpCore = jest.fn();
-        fsLightbox.setUpCore();
-    });
-
-    it('should call setUpCore', () => {
-        expect(setUpCoreObject.setUpCore).toBeCalledWith(fsLightbox);
-    });
+test('core', () => {
+    setUpCoreObject.setUpCore = jest.fn();
+    fsLightbox.setUpCore();
+    expect(setUpCoreObject.setUpCore).toBeCalledWith(fsLightbox);
 });
 
-describe('componentDidUpdate', () => {
-    let prevProps = { key: 'prevProps' };
-
-    beforeAll(() => {
-        fsLightbox.core.lightboxUpdater.handleUpdate = jest.fn();
-        fsLightbox.componentDidUpdate(prevProps);
-    });
-
-    it('should call handleUpdate with prevProps', () => {
-        expect(fsLightbox.core.lightboxUpdater.handleUpdate).toBeCalledWith(prevProps);
-    });
+test('componentDidUpdate', () => {
+    fsLightbox.core.lightboxUpdater.handleUpdate = jest.fn();
+    fsLightbox.componentDidUpdate('prev-props');
+    expect(fsLightbox.core.lightboxUpdater.handleUpdate).toBeCalledWith('prev-props');
 });
 
-describe('componentDidMount', () => {
-    beforeAll(() => {
-        runLightboxMountedActionsObject.runLightboxMountedActions = jest.fn();
-        fsLightbox.componentDidMount();
-    });
-
-    it('should call runLightboxMountedActions', () => {
-        expect(runLightboxMountedActionsObject.runLightboxMountedActions).toBeCalled();
-    });
+test('componentDidMount', () => {
+    runLightboxMountedActionsObject.runLightboxMountedActions = jest.fn();
+    fsLightbox.componentDidMount();
+    expect(runLightboxMountedActionsObject.runLightboxMountedActions).toBeCalled();
 });
 
-describe('componentWillUnmount', () => {
-    beforeAll(() => {
-        runLightboxUnmountActionsObject.runLightboxUnmountActions = jest.fn();
-        fsLightbox.componentWillUnmount();
-    });
-
-    it('should call runActionsForSourceTypeAndIndex', () => {
-        expect(runLightboxUnmountActionsObject.runLightboxUnmountActions).toBeCalled();
-    });
+test('componentWillUnmount', () => {
+    runLightboxUnmountActionsObject.runLightboxUnmountActions = jest.fn();
+    fsLightbox.componentWillUnmount();
+    expect(runLightboxUnmountActionsObject.runLightboxUnmountActions).toBeCalled();
 });
 
 describe('DOM', () => {
