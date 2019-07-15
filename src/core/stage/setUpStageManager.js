@@ -2,9 +2,11 @@ export function setUpStageManager(
     {
         stageIndexes,
         core: { stageManager: self },
-        data: { lastSourceIndex },
+        data: { sourcesCount },
     }
 ) {
+    const lastSourceIndex = sourcesCount - 1;
+
     self.getPreviousSlideIndex = () => {
         return (stageIndexes.current === 0) ?
             lastSourceIndex :
