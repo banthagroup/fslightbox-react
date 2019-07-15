@@ -34,12 +34,10 @@ for (let i = 0; i < 15; i++) {
 
 const retrievedCollection = getSourcesHoldersTransformersCollection(fsLightbox);
 
-describe('calling setSourceHolder on SourceHolderTransformer instances', () => {
-    it('should call setSourceHolder with correct param on each SourceHolderTransformer', () => {
-        for (let i = 0; i < 15; i++) {
-            expect(sourcesHoldersTransformingFacades[i].setSourceHolder).toBeCalledWith(sourcesHolders[i]);
-        }
-    });
+it('should call setSourceHolder with correct param on each SourceHolderTransformer', () => {
+    for (let i = 0; i < 15; i++) {
+        expect(sourcesHoldersTransformingFacades[i].setSourceHolder).toBeCalledWith(sourcesHolders[i]);
+    }
 });
 
 it('should return array containing SourceHolderTransformer intances', () => {

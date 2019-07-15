@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Nav from "./components/nav/Nav.jsx";
 import SourcesHoldersWrapper from "./components/sources/SourcesHoldersWrapper.jsx";
-import { createRefsArrayForGivenNumber } from "./helpers/arrays/createRefsArrayForGivenNumber";
+import { createRefsArrayWithLength } from "./helpers/arrays/createRefsArrayWithLength";
 import { setUpCore } from "./core/setUpCore";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
 import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
@@ -42,7 +42,6 @@ class FsLightbox extends Component {
         this.data.sourcesCount = this.data.sources.length;
     }
 
-
     setUpStageIndexes() {
         this.stageIndexes = {
             previous: undefined,
@@ -76,18 +75,16 @@ class FsLightbox extends Component {
     }
 
     setUpSetters() {
-        this.setters = {
-            setState: (value, callback) => this.setState(value, callback),
-        }
+        this.setMainComponentState = (value, callback) => this.setState(value, callback);
     }
 
     setUpElements() {
         this.elements = {
             container: React.createRef(),
             sourcesHoldersWrapper: React.createRef(),
-            sources: createRefsArrayForGivenNumber(this.data.sourcesCount),
-            sourcesHolders: createRefsArrayForGivenNumber(this.data.sourcesCount),
-            sourcesComponents: {},
+            sources: createRefsArrayWithLength(this.data.sourcesCount),
+            sourcesHolders: createRefsArrayWithLength(this.data.sourcesCount),
+            sourcesComponents: [],
         };
     }
 

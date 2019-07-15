@@ -1,6 +1,6 @@
 export function setUpLightboxOpener(
     {
-        setters: { setState },
+        setMainComponentState,
         core: {
             lightboxOpener: self,
             lightboxOpeningActions
@@ -8,7 +8,7 @@ export function setUpLightboxOpener(
     }
 ) {
     self.openLightbox = () => {
-        setState({
+        setMainComponentState({
             isOpen: true,
         }, () => {
             lightboxOpeningActions.runActions();

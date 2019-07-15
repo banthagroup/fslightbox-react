@@ -1,9 +1,7 @@
 import { setUpLightboxOpener } from "../../../../src/core/main-component/opening/setUpLightboxOpener";
 
 const fsLightbox = {
-    setters: {
-        setState: () => {}
-    },
+    setMainComponentState: () => {},
     core: {
         lightboxOpeningActions: {
             runActions: () => {}
@@ -21,16 +19,12 @@ describe('openLightbox', () => {
 
     beforeAll(() => {
         lightboxOpeningActions.runActions = jest.fn();
-        fsLightbox.setters.setState = jest.fn((stateObject, callback) => {
+        fsLightbox.setMainComponentState = (stateObject, callback) => {
             state = stateObject;
             callback();
-        });
+        };
         setUpLightboxOpener(fsLightbox);
         lightboxOpener.openLightbox();
-    });
-
-    it('should call setState', () => {
-        expect(fsLightbox.setters.setState).toBeCalled();
     });
 
     it('should set state to object with toggler set to true', () => {

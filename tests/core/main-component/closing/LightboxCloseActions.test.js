@@ -42,9 +42,7 @@ const fsLightbox = {
             removeRecompense: () => {}
         }
     },
-    setters: {
-        setState: () => {},
-    }
+    setMainComponentState: () => {}
 };
 
 const isFullscreenOpenState = fsLightbox.componentsStates.isFullscreenOpen;
@@ -82,19 +80,10 @@ describe('before fadeOut (instant actions)', () => {
         lightboxClosingActions.runActions();
     });
 
-    it('should set isLightboxFadingOut to true', () => {
+    it('should correctly call non conditional actions', () => {
         expect(lightboxClosingActions.isLightboxFadingOut).toBe(true);
-    });
-
-    it('should add long fade out class to lightboxContainer', () => {
         expect(addClass).toBeCalledWith(LONG_FADE_OUT_CLASS_NAME);
-    });
-
-    it('should remove swiping listeners', () => {
         expect(swipingEventsControllerFacade.removeListeners).toBeCalled();
-    });
-
-    it('should remove key down event listener', () => {
         expect(keyDownEventController.removeListener).toBeCalled();
     });
 
@@ -112,7 +101,7 @@ describe('before fadeOut (instant actions)', () => {
 });
 
 describe('after fade out', () => {
-    let setStateParams;
+    let setMainComponentStateParams;
     let setTimeoutParams;
     let removeClass;
 
@@ -134,8 +123,8 @@ describe('after fade out', () => {
         document.documentElement.classList.remove = jest.fn();
         scrollbarRecompensor.removeRecompense = jest.fn();
         windowResizeEventController.removeListener = jest.fn();
-        fsLightbox.setters.setState = (...params) => {
-            setStateParams = params;
+        fsLightbox.setMainComponentState = (...params) => {
+            setMainComponentStateParams = params;
         };
         eventsDispatcher.dispatch = jest.fn();
 
@@ -152,30 +141,18 @@ describe('after fade out', () => {
             setTimeoutParams[0]();
         });
 
-        it('should remove long fade out class from lightbox container', () => {
+        it('should correctly run actions', () => {
             expect(removeClass).toBeCalledWith(LONG_FADE_OUT_CLASS_NAME);
-        });
-
-        it('should remove open class from document element', () => {
             expect(document.documentElement.classList.remove).toBeCalledWith(OPEN_CLASS_NAME);
-        });
-
-        it('should remove scrollbar recompense', () => {
             expect(scrollbarRecompensor.removeRecompense).toBeCalled();
-        });
-
-        it('should remove window resize event listener', () => {
             expect(windowResizeEventController.removeListener).toBeCalled();
-        });
 
-        it('should set isOpen state to false', () => {
-            expect(setStateParams[0]).toEqual({
+            // setting main component isOpen state
+            expect(setMainComponentStateParams[0]).toEqual({
                 isOpen: false
             });
-        });
-
-        it('should dispatch on close event in setState callback', () => {
-            setStateParams[1]();
+            // ste state callback
+            setMainComponentStateParams[1]();
             expect(eventsDispatcher.dispatch).toBeCalledWith(ON_CLOSE);
         });
     });
