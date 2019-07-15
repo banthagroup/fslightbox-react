@@ -7,7 +7,7 @@ const fsLightbox = {
         next: undefined
     },
     data: {
-        lastSourceIndex: 0
+        sourcesCount: 0
     },
     core: {
         stageManager: {}
@@ -22,7 +22,7 @@ const setUpStageManagerAndCallUpdateStageIndexes = () => {
 
 describe('isSourceInStage', () => {
     beforeAll(() => {
-        fsLightbox.data.lastSourceIndex = 9;
+        fsLightbox.data.sourcesCount = 10;
         setUpStageManager(fsLightbox);
     });
 
@@ -52,7 +52,7 @@ describe('isSourceInStage', () => {
 
     describe('there are only 3 slides', () => {
         beforeAll(() => {
-            fsLightbox.data.lastSourceIndex = 2;
+            fsLightbox.data.sourcesCount = 3;
             setUpStageManager(fsLightbox);
         });
 
@@ -65,9 +65,9 @@ describe('isSourceInStage', () => {
 });
 
 describe('updateStageIndexes', () => {
-    describe('lastSourceIndex = 0', () => {
+    describe('there is only one slide', () => {
         beforeAll(() => {
-            fsLightbox.data.lastSourceIndex = 0;
+            fsLightbox.data.sourcesCount = 1;
             setUpStageManagerAndCallUpdateStageIndexes();
         });
 
@@ -77,54 +77,48 @@ describe('updateStageIndexes', () => {
         });
     });
 
-    describe('lastSourceIndex = 1', () => {
+    describe('there are two slides', () => {
         beforeAll(() => {
-            fsLightbox.data.lastSourceIndex = 1;
+            fsLightbox.data.sourcesCount = 2;
         });
 
-        describe('fsLightbox.stageIndexes.current = 0', () => {
+        describe('current slide = 1', () => {
             beforeAll(() => {
                 fsLightbox.stageIndexes.current = 0;
                 setUpStageManagerAndCallUpdateStageIndexes();
             });
 
-            it('should set next index to 1', () => {
-                expect(fsLightbox.stageIndexes.next).toBe(1);
-            });
-
-            it('should delete previous index property', () => {
+            it('should set valid stage indexes', () => {
                 expect(fsLightbox.stageIndexes.previous).toBeUndefined();
+                expect(fsLightbox.stageIndexes.next).toBe(1);
             });
         });
 
-        describe('fsLightbox.stageIndexes.current = 1', () => {
+        describe('current slide = 2', () => {
             beforeAll(() => {
                 fsLightbox.stageIndexes.current = 1;
                 setUpStageManagerAndCallUpdateStageIndexes();
             });
 
-            it('should set previous index to 0', () => {
+            it('should set valid stage indexes', () => {
                 expect(fsLightbox.stageIndexes.previous).toBe(0);
-            });
-
-            it('should delete next index property', () => {
                 expect(fsLightbox.stageIndexes.next).toBeUndefined();
             });
         });
     });
 
-    describe('lastSourceIndex = 2', () => {
+    describe('there are 3 slides', () => {
         beforeAll(() => {
-            fsLightbox.data.lastSourceIndex = 2;
+            fsLightbox.data.sourcesCount = 3;
         });
 
-        describe('fsLightbox.stageIndexes.current = 0', () => {
+        describe('current slide = 1', () => {
             beforeAll(() => {
                 fsLightbox.stageIndexes.current = 0;
                 setUpStageManagerAndCallUpdateStageIndexes();
             });
 
-            it('should set right indexes', () => {
+            it('should set valid stage indexes', () => {
                 expect(fsLightbox.stageIndexes).toEqual({
                     previous: 2,
                     current: 0,
@@ -133,13 +127,13 @@ describe('updateStageIndexes', () => {
             });
         });
 
-        describe('fsLightbox.stageIndexes.current = 1', () => {
+        describe('current slide = 2', () => {
             beforeAll(() => {
                 fsLightbox.stageIndexes.current = 1;
                 setUpStageManagerAndCallUpdateStageIndexes();
             });
 
-            it('should set right indexes', () => {
+            it('should set valid stage indexes', () => {
                 expect(fsLightbox.stageIndexes).toEqual({
                     previous: 0,
                     current: 1,
@@ -148,13 +142,13 @@ describe('updateStageIndexes', () => {
             });
         });
 
-        describe('fsLightbox.stageIndexes.current = 2', () => {
+        describe('current slide = 3', () => {
             beforeAll(() => {
                 fsLightbox.stageIndexes.current = 2;
                 setUpStageManagerAndCallUpdateStageIndexes();
             });
 
-            it('should set right indexes', () => {
+            it('should set valid stage indexes', () => {
                 expect(fsLightbox.stageIndexes).toEqual({
                     previous: 1,
                     current: 2,

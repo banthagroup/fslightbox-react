@@ -32,7 +32,6 @@ class FsLightbox extends Component {
         this.data = {
             sources: (this.props.sources) ? this.props.sources : this.props.urls,
             sourcesCount: null,
-            lastSourceIndex: null,
             isInitialized: false,
             isSwipingSlides: false,
             maxSourceWidth: 0,
@@ -41,7 +40,6 @@ class FsLightbox extends Component {
             slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3
         };
         this.data.sourcesCount = this.data.sources.length;
-        this.data.lastSourceIndex = this.data.sourcesCount - 1;
     }
 
 
