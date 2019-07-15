@@ -201,6 +201,7 @@ FsLightbox.propTypes = {
     // types
     disableLocalStorage: PropTypes.bool,
     types: PropTypes.array,
+    type: PropTypes.string,
 
     // sources
     videosPosters: PropTypes.array,
