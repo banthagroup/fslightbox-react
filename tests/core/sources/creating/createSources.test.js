@@ -8,7 +8,8 @@ const fsLightbox = {
         sources: ['first-url', 'second-url', 'third-url']
     },
     props: {
-        types: []
+        types: [],
+        type: undefined
     },
     injector: {
         injectDependency: (dependency) => {
@@ -40,7 +41,7 @@ const sourceTypeGetter = {
     getSourceType: () => {}
 };
 
-describe('creating sources from correct types', () => {
+describe('creating sources with correct types', () => {
     beforeAll(() => {
         localStorageManager.getSourceTypeFromLocalStorageByUrl = jest.fn((url) => {
             return typesToReturnFromGetSourceTypeFromLocalStorage[url];
@@ -69,63 +70,100 @@ describe('creating sources from correct types', () => {
         expect(sourceTypeGetter.getSourceType).toBeCalledTimes(1);
     });
 
-    describe('first source', () => {
-        it('should call getSourceTypeFromLocalStorageByUrl with first url', () => {
-            expect(localStorageManager.getSourceTypeFromLocalStorageByUrl).toBeCalledWith('first-url');
-        });
+    it('should correctly detect first source type', () => {
+        expect(localStorageManager.getSourceTypeFromLocalStorageByUrl)
+            .toBeCalledWith('first-url');
 
-        describe('not detecting type via xhr', () => {
-            it('should not call setUrlToCheck with first url', () => {
-                expect(sourceTypeGetter.setUrlToCheck).not.toBeCalledWith('first-url');
-            });
-        });
+        expect(sourceTypeGetter.setUrlToCheck)
+            .not
+            .toBeCalledWith('first-url');
 
-        it('should call runActionsForSourceType with source type from local storage', () => {
-            expect(detectedTypeActions.runActionsForSourceTypeAndIndex).toBeCalledWith('type-from-local-storage', 0);
-        });
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledWith('type-from-local-storage', 0);
     });
 
-    describe('second source', () => {
-        it('should not call getSourceTypeFromLocalStorageByUrl with second url', () => {
-            expect(localStorageManager.getSourceTypeFromLocalStorageByUrl).not.toBeCalledWith('second-url');
-        });
+    it('should correctly detect second source type', () => {
+        expect(localStorageManager.getSourceTypeFromLocalStorageByUrl)
+            .not
+            .toBeCalledWith('second-url');
 
-        describe('not detecting type via xhr', () => {
-            it('should not call setUrlToCheck with second url', () => {
-                expect(sourceTypeGetter.setUrlToCheck).not.toBeCalledWith('second-url');
-            });
-        });
+        expect(sourceTypeGetter.setUrlToCheck)
+            .not
+            .toBeCalledWith('second-url');
 
-        it('should call runActionsForSourceType with source type manually set by client', () => {
-            expect(detectedTypeActions.runActionsForSourceTypeAndIndex).toBeCalledWith('type-set-manually', 1);
-        });
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledWith('type-set-manually', 1);
     });
 
+    it('should correctly detect third source type', () => {
+        expect(localStorageManager.getSourceTypeFromLocalStorageByUrl)
+            .toBeCalledWith('third-url');
 
-    describe('third source', () => {
-        it('should call getSourceTypeFromLocalStorageByUrl with third url', () => {
-            expect(localStorageManager.getSourceTypeFromLocalStorageByUrl).toBeCalledWith('third-url');
-        });
+        expect(sourceTypeGetter.setUrlToCheck)
+            .toBeCalledWith('third-url');
 
-        describe('not detecting type via xhr', () => {
-            it('should call setUrlToCheck with third url', () => {
-                expect(sourceTypeGetter.setUrlToCheck).toBeCalledWith('third-url');
-            });
-        });
 
-        describe('passing correct callback to getSourceType', () => {
-            beforeAll(() => {
-                // calling this callback
-                sourceTypeGetter.getSourceType.mock.calls[0][0]('type-from-xhr');
-            });
+        // calling retrieving type via xhr asynchronous callback
+        sourceTypeGetter.getSourceType.mock.calls[0][0]('type-from-xhr');
 
-            it('should call handleReceivedSourceTypeForUrl with right source type and url', () => {
-                expect(localStorageManager.handleReceivedSourceTypeForUrl).toBeCalledWith('type-from-xhr', 'third-url');
-            });
+        expect(localStorageManager.handleReceivedSourceTypeForUrl)
+            .toBeCalledWith('type-from-xhr', 'third-url');
 
-            it('should call runActionsForSourceTypeAndIndex with right index and type', () => {
-                expect(detectedTypeActions.runActionsForSourceTypeAndIndex).toBeCalledWith('type-from-xhr', 2);
-            });
-        });
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledWith('type-from-xhr', 2);
+    });
+});
+
+describe('creating sources when type prop is used', () => {
+    beforeAll(() => {
+        localStorageManager.getSourceTypeFromLocalStorageByUrl = jest.fn();
+        sourceTypeGetter.setUrlToCheck = jest.fn();
+        sourceTypeGetter.getSourceType = jest.fn();
+        detectedTypeActions.runActionsForSourceTypeAndIndex = jest.fn();
+
+        fsLightbox.props.type = 'image';
+
+        fsLightbox.props.types[0] = 'video';
+        fsLightbox.props.types[1] = undefined;
+        fsLightbox.props.types[2] = 'youtube';
+
+        createSources(fsLightbox);
+    });
+
+    it('should get type from local storage', () => {
+        expect(localStorageManager.getSourceTypeFromLocalStorageByUrl).not.toBeCalled();
+    });
+
+    it('should not get type via xhr', () => {
+        expect(sourceTypeGetter.setUrlToCheck).not.toBeCalled();
+        expect(sourceTypeGetter.getSourceType).not.toBeCalled();
+    });
+
+    it('should correctly run detected type actions', () => {
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledTimes(3);
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledWith('video', 0);
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledWith('image', 1);
+        expect(detectedTypeActions.runActionsForSourceTypeAndIndex)
+            .toBeCalledWith('youtube', 2);
+    });
+});
+
+describe('creating sources when types prop is undefined', () => {
+    beforeAll(() => {
+        localStorageManager.getSourceTypeFromLocalStorageByUrl = () => {};
+        sourceTypeGetter.setUrlToCheck = () => {};
+        sourceTypeGetter.getSourceType = () => {};
+        detectedTypeActions.runActionsForSourceTypeAndIndex = () => {};
+
+        fsLightbox.props.types = undefined;
+    });
+
+    it('should not throw error (to prevent getting item from undefined)', () => {
+        expect(() => {
+            createSources(fsLightbox);
+        }).not.toThrowError();
     });
 });

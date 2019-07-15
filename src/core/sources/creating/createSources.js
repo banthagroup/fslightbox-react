@@ -8,38 +8,38 @@ export function createSources(
             sources
         },
         props: {
-            types: typesSetManuallyByClient
+            types: typesProp,
+            type: typeProp,
         },
         injector: { injectDependency }
     }
 ) {
     const detectedTypeActions = injectDependency(DetectedTypeActions);
     const localStorageManager = injectDependency(CreatingSourcesLocalStorageManager);
-    let getTypeSetManuallyByClient;
     let sourceTypeRetrievedWithoutXhr;
     let sourceIndex;
-    setUpGetTypeSetManuallyByClient();
 
     for (let i = 0; i < sources.length; i++) {
         sourceIndex = i;
-        let typeSetManuallyByClient = getTypeSetManuallyByClient(i);
+
+        let typeSetManuallyByClient;
+        if (typesProp && typesProp[i]) {
+            typeSetManuallyByClient = typesProp[i];
+        } else if (typeProp) {
+            typeSetManuallyByClient = typeProp;
+        }
+
         // if client set type it's always the most important one
         if (typeSetManuallyByClient) {
             sourceTypeRetrievedWithoutXhr = typeSetManuallyByClient;
             callActionsForSourceTypeRetrievedWithoutXhr();
             continue;
         }
-        sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(sources[sourceIndex]);
+
+        sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(sources[i]);
         (sourceTypeRetrievedWithoutXhr) ?
             callActionsForSourceTypeRetrievedWithoutXhr() :
             retrieveTypeWithXhrAndCallActions();
-    }
-
-    function setUpGetTypeSetManuallyByClient() {
-        // if user didn't set types prop we need to prevent from retrieving indexes from undefined
-        (typeof typesSetManuallyByClient !== "object") ?
-            getTypeSetManuallyByClient = () => null :
-            getTypeSetManuallyByClient = (i) => typesSetManuallyByClient[i]
     }
 
     function callActionsForSourceTypeRetrievedWithoutXhr() {

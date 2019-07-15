@@ -3,6 +3,7 @@
 /demo
 /node_modules
 /.idea
+/gulpfile.babel.js
 /dist
 /.babelrc
 /webpack-prod.config.js

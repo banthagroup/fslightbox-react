@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import "./css/demo.css";
-import FsLightbox from '../index';
+import FsLightbox from '../src/FsLightbox.jsx';
 import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";
 
 class DemoComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            toggler: true,
+            toggler: false,
             toggler2: false,
             updated: true,
             slide: 1,
             source: '',
-            sourceIndex: 0
+            sourceIndex: 0,
+            product: false
         };
         this.toggleLightbox = this.toggleLightbox.bind(this);
         this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
 
         setTimeout(() => {
+            this.setState({
+                product: true
+            });
         }, 2000);
     }
 
@@ -33,6 +37,14 @@ class DemoComponent extends Component {
     }
 
     render() {
+        const key = (this.state.product) ? 1 : 2;
+        const sources = [
+            'https://unsplash.com/photos/WWVD4wXRX38/download?force=true',
+            'https://unsplash.com/photos/WWVD4wXRX38/download?force=true',
+            'https://unsplash.com/photos/WWVD4wXRX38/download?force=true',
+            "../demo/images/3.jpeg"
+        ];
+
         return (
             <>
                 <button onClick={ this.toggleLightbox }>
@@ -51,18 +63,14 @@ class DemoComponent extends Component {
                     slide={ this.state.slide }
                     source={ this.state.source }
                     sourceIndex={ this.state.sourceIndex }
-                    sources={ [
-                        TEST_YOUTUBE_URL,
-                        // "https://images.pexels.com/photos/2118563/pexels-photo-2118563.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                        // "../demo/images/3.jpeg"
-                    ] }
+                    sources={ sources }
                     videosPosters={ [
                         null,
                         null,
                         null,
                         "../demo/images/1.jpeg"
                     ] }
-                    disableLocalStorage={ true }
+                    type='image'
                     // onClose={ () => console.log('onClose') }
                     // onInit={ () => console.log('onInit') }
                     // onOpen={ () => console.log('onOpen') }
