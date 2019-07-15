@@ -57,6 +57,5 @@ export function setUpCore(fsLightbox) {
     setUpSourceLoadActions(fsLightbox);
 
     setUpStageManager(fsLightbox);
-
 }
 
