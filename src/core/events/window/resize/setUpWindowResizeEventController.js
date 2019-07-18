@@ -11,10 +11,10 @@ export function setUpWindowResizeEventController(
     }
 ) {
     self.attachListener = () => {
-        window.addEventListener('resize', windowResizeActions.runActions);
+        addEventListener('resize', windowResizeActions.runActions);
     };
 
     self.removeListener = () => {
-        window.removeEventListener('resize', windowResizeActions.runActions);
+        removeEventListener('resize', windowResizeActions.runActions);
     };
 }

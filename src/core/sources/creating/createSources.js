@@ -1,4 +1,4 @@
-import { SourceTypeGetter } from "../types/SourceTypeGetter";
+import { AutomaticTypeDetector } from "../types/AutomaticTypeDetector";
 import { CreatingSourcesLocalStorageManager } from "./CreatingSourcesLocalStorageManager";
 import { DetectedTypeActions } from "../types/DetectedTypeActions";
 
@@ -51,7 +51,7 @@ export function createSources(
     function retrieveTypeWithXhrAndCallActions() {
         // we need to copy index because xhr will for sure come later than next loop iteration
         let rememberedSourceIndex = sourceIndex;
-        const sourceTypeGetter = injectDependency(SourceTypeGetter);
+        const sourceTypeGetter = injectDependency(AutomaticTypeDetector);
         sourceTypeGetter.setUrlToCheck(sources[rememberedSourceIndex]);
         sourceTypeGetter.getSourceType((sourceType) => {
             localStorageManager.handleReceivedSourceTypeForUrl(sourceType, sources[rememberedSourceIndex]);

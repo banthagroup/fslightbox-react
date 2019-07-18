@@ -1,6 +1,3 @@
-/**
- * @constructor
- */
 export function SourceSizeAdjuster({ data, elements: { sources } }) {
     let i = null;
     let defaultSourceWidth = 0;

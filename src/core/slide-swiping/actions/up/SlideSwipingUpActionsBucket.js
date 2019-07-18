@@ -1,9 +1,6 @@
 import { SOURCES_HOLDERS } from "../../../../constants/elements";
 import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-names";
 
-/**
- * @constructor
- */
 export function SlideSwipingUpActionsBucket(
     {
         collections: {

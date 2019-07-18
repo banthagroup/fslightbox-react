@@ -1,4 +1,4 @@
-import { ON_OPEN, ON_SHOW } from "../../../constants/eventsConstants";
+import { ON_OPEN, ON_SHOW } from "../../../constants/events-constants";
 import { initializeLightbox } from "../initializing/initializeLightbox";
 import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 

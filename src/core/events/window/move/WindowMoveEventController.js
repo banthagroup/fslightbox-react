@@ -1,6 +1,3 @@
-/**
- * @constructor
- */
 export function WindowMoveEventController(
     {
         core: {
@@ -10,12 +7,12 @@ export function WindowMoveEventController(
         }
     }) {
     this.attachListener = () => {
-        window.addEventListener('mousemove', slideSwipingMove.listener);
-        window.addEventListener('touchmove', slideSwipingMove.listener, { passive: true });
+        addEventListener('mousemove', slideSwipingMove.listener);
+        addEventListener('touchmove', slideSwipingMove.listener, { passive: true });
     };
 
     this.removeListener = () => {
-        window.removeEventListener('mousemove', slideSwipingMove.listener);
-        window.removeEventListener('touchmove', slideSwipingMove.listener);
+        removeEventListener('mousemove', slideSwipingMove.listener);
+        removeEventListener('touchmove', slideSwipingMove.listener);
     };
 }

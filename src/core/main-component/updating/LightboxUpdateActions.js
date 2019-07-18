@@ -1,6 +1,3 @@
-/**
- * @constructor
- */
 export function LightboxUpdateActions(
     {
         core: {
@@ -13,29 +10,18 @@ export function LightboxUpdateActions(
     }
 ) {
     this.runTogglerUpdateActions = () => {
-        callActionDependingOnIsOpenState(
-            lightboxCloser.closeLightbox,
-            lightboxOpener.openLightbox
-        );
+        (getState().isOpen) ?
+            lightboxCloser.closeLightbox() :
+            lightboxOpener.openLightbox();
     };
 
     this.runCurrentStageIndexUpdateActionsFor = (newSlideSourceIndex) => {
         if (newSlideSourceIndex === stageIndexes.current) {
             return;
         }
-        callActionDependingOnIsOpenState(
-            () => {
-                slideIndexChanger.changeToWithActions(newSlideSourceIndex)
-            },
-            () => {
-                stageIndexes.current = newSlideSourceIndex;
-            }
-        )
-    };
 
-    const callActionDependingOnIsOpenState = (isOpenTrueCallback, isOpenFalseCallback) => {
         (getState().isOpen) ?
-            isOpenTrueCallback() :
-            isOpenFalseCallback();
+            slideIndexChanger.changeToWithActions(newSlideSourceIndex) :
+            stageIndexes.current = newSlideSourceIndex;
     };
 }

@@ -1,4 +1,4 @@
-import { ESCAPE, LEFT_ARROW, RIGHT_ARROW } from "../../constants/keyboardConstants";
+import { ESCAPE, LEFT_ARROW, RIGHT_ARROW } from "../../constants/keyboard-constants";
 
 export function setUpKeyboardController(
     {

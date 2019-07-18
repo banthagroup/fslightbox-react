@@ -22,7 +22,6 @@
     "verbose": true,
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/src/",
       "/demo/",
       "/dist/"
     ],
@@ -81,7 +80,10 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1"
+    "webpack-dev-server": "^3.3.1",
+    "xhr-mock": "^2.5.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dev": "^0.1.3"
+  }
 }

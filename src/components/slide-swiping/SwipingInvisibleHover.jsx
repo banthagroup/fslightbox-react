@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FULL_DIMENSION_CLASS_NAME, PREFIX } from "../../constants/classes-names";
 
 // this component enables up event over the youtube video because it hovers it up with bigger z-index
 const SwipingInvisibleHover = (
@@ -15,7 +16,7 @@ const SwipingInvisibleHover = (
     hasMovedWhileSwipingState.set = setHasMovedWhileSwiping;
 
     return (hasMovedWhileSwiping) ? (
-        <div className="fslightbox-swiping-invisible-hover fslightbox-full-dimension"/>
+        <div className={ `${ PREFIX }swiping-invisible-hover ${ FULL_DIMENSION_CLASS_NAME }` }/>
     ) : null;
 };
 

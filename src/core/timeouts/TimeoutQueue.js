@@ -1,6 +1,3 @@
-/**
- * @constructor
- */
 export function TimeoutQueue() {
     const queue = [];
     this.time = 0;

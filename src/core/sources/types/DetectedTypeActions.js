@@ -6,9 +6,6 @@ import Youtube from "../../../components/sources/proper-sources/Youtube.jsx";
 import Invalid from "../../../components/sources/proper-sources/Invalid.jsx";
 import { SourceLoadHandler } from "../SourceLoadHandler";
 
-/**
- * @constructor
- */
 export function DetectedTypeActions(fsLightbox) {
     const {
         getState: getLightboxState,
