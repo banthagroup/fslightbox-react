@@ -1,7 +1,5 @@
-import { getDiv } from "../../helpers/dom/getDiv";
-
 export function getOuterElementOfWidthGetter() {
-    const outer = getDiv();
+    const outer = document.createElement('div');
     const outerStyle = outer.style;
     outerStyle.visibility = "hidden";
     outerStyle.width = "100px";

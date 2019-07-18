@@ -1,6 +1,3 @@
-/**
- * @constructor
- */
 export function SourceHolderTransformer({ data: { slideDistance } }) {
     const realSlideDistance = slideDistance + 1;
     let sourceHolder;
@@ -20,10 +17,6 @@ export function SourceHolderTransformer({ data: { slideDistance } }) {
         setFinalTransformAndCleanTransformer(-getDefaultTransformDistance());
     };
 
-    this.clearTransform = () => {
-        sourceHolder.current.style.transform = '';
-    };
-
     this.zero = () => {
         setFinalTransformAndCleanTransformer(0);
     };
@@ -35,7 +28,7 @@ export function SourceHolderTransformer({ data: { slideDistance } }) {
     const setFinalTransformAndCleanTransformer = (value) => {
         sourceHolder.current.style.transform = `translateX(${ value + additionalTransformValue }px)`;
         additionalTransformValue = 0;
-    }
+    };
 
     const getDefaultTransformDistance = () => realSlideDistance * innerWidth;
 }

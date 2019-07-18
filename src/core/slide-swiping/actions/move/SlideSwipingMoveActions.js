@@ -2,9 +2,6 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names"
 import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
 import { LIGHTBOX_CONTAINER } from "../../../../constants/elements";
 
-/**
- * @constructor
- */
 export function SlideSwipingMoveActions(
     {
         collections: {

@@ -1,4 +1,4 @@
-import { setUpClassListsManager } from "./elements/setUpClassListsManager";
+import { setUpClassListManager } from "./elements/setUpClassListManager";
 import { getSwipingProps } from "./slide-swiping/getSwipingProps";
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
 import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
@@ -21,41 +21,30 @@ import { setUpEventsDispatcher } from "./events/setUpEventsDispatcher";
 import { setUpSlideChangeFacade } from "./slide/setUpSlideChangeFacade";
 
 export function setUpCore(fsLightbox) {
-    setUpClassListsManager(fsLightbox);
-
+    setUpClassListManager(fsLightbox);
+    // events controllers
     setUpDocumentKeyDownEventController(fsLightbox);
     setUpWindowResizeEventController(fsLightbox);
     setUpSwipingEventsControllersFacade(fsLightbox);
-
+    // ------------------
     setUpEventsDispatcher(fsLightbox);
-
     setUpFullscreenToggler(fsLightbox);
-
-    setUpWindowResizeActions(fsLightbox);
-
     setUpKeyboardController(fsLightbox);
-
     setUpLightboxCloser(fsLightbox);
-
     setUpLightboxOpener(fsLightbox);
-
     setUpLightboxOpeningActions(fsLightbox);
-
     setUpLightboxUpdater(fsLightbox);
-
     setUpScrollbarRecompensor(fsLightbox);
-
     setUpSlideChangeFacade(fsLightbox);
-
     setUpSlideIndexChanger(fsLightbox);
-
+    // slide swiping
     const swipingProps = getSwipingProps();
     setUpSlideSwipingDown(fsLightbox, swipingProps);
     setUpSlideSwipingMove(fsLightbox, swipingProps);
     setUpSlideSwipingUp(fsLightbox, swipingProps);
-
+    // ------------------
     setUpSourceLoadActions(fsLightbox);
-
     setUpStageManager(fsLightbox);
+    setUpWindowResizeActions(fsLightbox);
 }
 

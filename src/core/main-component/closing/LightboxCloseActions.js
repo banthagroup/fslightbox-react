@@ -1,4 +1,4 @@
-import { ON_CLOSE } from "../../../constants/eventsConstants";
+import { ON_CLOSE } from "../../../constants/events-constants";
 import { LONG_FADE_OUT_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
 import { ANIMATION_TIME } from "../../../constants/css-constants";
 import { LIGHTBOX_CONTAINER } from "../../../constants/elements";

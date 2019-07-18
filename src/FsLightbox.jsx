@@ -1,4 +1,4 @@
-import "./core/styles/styles-injection";
+import "./core/styles/styles-injection/styles-injection";
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Nav from "./components/nav/Nav.jsx";

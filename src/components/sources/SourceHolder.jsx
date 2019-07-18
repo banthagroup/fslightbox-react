@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SourceLoader from "../loaders/SourceLoader.jsx";
+import Loader from "../Loader.jsx";
 
 const SourceHolder = (
     {
@@ -25,7 +25,7 @@ const SourceHolder = (
         <div ref={ sourcesHolders[index] } className="fslightbox-source-holder fslightbox-full-dimension">
             { sourcesComponents[index] ?
                 sourcesComponents[index] :
-                <SourceLoader/>
+                <Loader/>
             }
         </div>
     );

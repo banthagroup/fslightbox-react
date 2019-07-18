@@ -1,6 +1,3 @@
-/**
- * @constructor
- */
 export function WindowUpEventController({ core: { slideSwiping: { up: slideSwipingUp } } }) {
     this.attachListener = () => {
         addEventListener('mouseup', slideSwipingUp.listener);

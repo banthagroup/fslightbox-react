@@ -3,9 +3,6 @@ import { ANIMATION_TIME } from "../../../../constants/css-constants";
 import { LIGHTBOX_CONTAINER, SOURCES_HOLDERS } from "../../../../constants/elements";
 import { SlideSwipingUpActionsBucket } from "./SlideSwipingUpActionsBucket";
 
-/**
- * @constructor
- */
 export function SlideSwipingUpActions(
     {
         componentsStates: {

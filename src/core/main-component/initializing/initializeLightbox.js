@@ -1,11 +1,11 @@
-import { ON_INIT } from "../../../constants/eventsConstants";
+import { ON_INIT } from "../../../constants/events-constants";
 import { createSources } from "../../sources/creating/createSources";
 
 export function initializeLightbox(fsLightbox) {
     const {
         data,
         core: {
-            eventsDispatcher,
+            eventsDispatcher
         }
     } = fsLightbox;
 
