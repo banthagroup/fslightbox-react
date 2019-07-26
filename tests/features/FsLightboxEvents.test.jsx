@@ -1,136 +1,36 @@
-import React from 'react';
-import { mount } from "enzyme/build";
-import FsLightbox from "../../src/FsLightbox";
 import { ANIMATION_TIME } from "../../src/constants/css-constants";
+import { mountedLightbox, onClose, onInit, onOpen, onShow } from "../__tests-vars__/mountedLightbox";
 
-describe('onInit', () => {
-    let fsLightbox;
-    let onInit;
+test('opening events', () => {
+    jest.useFakeTimers();
 
-    beforeAll(() => {
-        onInit = jest.fn();
-        fsLightbox = mount(<FsLightbox
-            toggler={ false }
-            onInit={ onInit }
-            sources={ ['images/1.jpg'] }
-        />);
-        fsLightbox.setProps({
-            toggler: true
-        })
+    expect(onInit).toBeCalledTimes(1);
+    expect(onOpen).toBeCalledTimes(1);
+    expect(onShow).toBeCalledTimes(0);
+    expect(onClose).toBeCalledTimes(0);
+
+    mountedLightbox.setProps({
+        toggler: !mountedLightbox.prop('toggler')
     });
 
-    it('should call onInit', () => {
-        expect(onInit).toBeCalledTimes(1);
-    });
-});
+    expect(onInit).toBeCalledTimes(1);
+    expect(onOpen).toBeCalledTimes(1);
+    expect(onShow).toBeCalledTimes(0);
+    expect(onClose).toBeCalledTimes(0);
 
-describe('onOpen - called on every open', () => {
-    let fsLightbox;
-    let onOpen;
+    jest.runTimersToTime(ANIMATION_TIME);
 
-    beforeAll(() => {
-        onOpen = jest.fn();
-        jest.useFakeTimers();
-        fsLightbox = mount(<FsLightbox
-            toggler={ false }
-            onOpen={ onOpen }
-            sources={ ['images/1.jpg'] }
-        />);
+    expect(onInit).toBeCalledTimes(1);
+    expect(onOpen).toBeCalledTimes(1);
+    expect(onShow).toBeCalledTimes(0);
+    expect(onClose).toBeCalledTimes(1);
+
+    mountedLightbox.setProps({
+        toggler: !mountedLightbox.prop('toggler')
     });
 
-    it('should call onOpen', () => {
-        fsLightbox.setProps({
-            toggler: true
-        });
-        expect(onOpen).toBeCalledTimes(1);
-    });
-
-    it('should still call onOpen one time after close', () => {
-        fsLightbox.setProps({
-            toggler: false
-        });
-        jest.runTimersToTime(ANIMATION_TIME);
-        expect(onOpen).toBeCalledTimes(1);
-    });
-
-    it('should call onOpen twice after reopening', () => {
-        fsLightbox.setProps({
-            toggler: true
-        });
-        expect(onOpen).toBeCalledTimes(2);
-    });
-});
-
-describe('onClose - called on every close', () => {
-    let fsLightbox;
-    let onClose;
-
-    beforeAll(() => {
-        onClose = jest.fn();
-        jest.useFakeTimers();
-        fsLightbox = mount(<FsLightbox
-            toggler={ false }
-            onClose={ onClose }
-            sources={ ['images/1.jpg'] }
-        />);
-    });
-
-    it('should not onClose after open', () => {
-        fsLightbox.setProps({
-            toggler: true
-        });
-        expect(onClose).toBeCalledTimes(0);
-    });
-
-    it('should call onClose after close', () => {
-        fsLightbox.setProps({
-            toggler: false
-        });
-        jest.runTimersToTime(ANIMATION_TIME);
-        expect(onClose).toBeCalledTimes(1);
-    });
-
-    it('should not call onClose after reopening', () => {
-        fsLightbox.setProps({
-            toggler: true
-        });
-        expect(onClose).toBeCalledTimes(1);
-    });
-});
-
-describe('onShow - called on every open except init', () => {
-    let fsLightbox;
-    let onShow;
-
-    beforeAll(() => {
-        onShow = jest.fn();
-        jest.useFakeTimers();
-        fsLightbox = mount(<FsLightbox
-            toggler={ false }
-            onShow={ onShow }
-            sources={ ['images/1.jpg'] }
-        />);
-    });
-
-    it('should not call onShow after open (first open is initialize)', () => {
-        fsLightbox.setProps({
-            toggler: true
-        });
-        expect(onShow).not.toBeCalled();
-    });
-
-    it('should not call onShow after close', () => {
-        fsLightbox.setProps({
-            toggler: false
-        });
-        jest.runTimersToTime(ANIMATION_TIME);
-        expect(onShow).not.toBeCalled();
-    });
-
-    it('should call onShow after reopen', () => {
-        fsLightbox.setProps({
-            toggler: true
-        });
-        expect(onShow).toBeCalledTimes(1);
-    });
+    expect(onInit).toBeCalledTimes(1);
+    expect(onOpen).toBeCalledTimes(2);
+    expect(onShow).toBeCalledTimes(1);
+    expect(onClose).toBeCalledTimes(1);
 });

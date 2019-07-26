@@ -1,5 +1,5 @@
 import { SourceSizeAdjuster } from "./SourceSizeAdjuster";
-import { testSourceDimensions } from "../../../tests/__tests-stores__/testVariables";
+import { testSourceDimensions } from "../../../tests/__tests-vars__/testVariables";
 
 const source = document.createElement('div');
 const fsLightbox = {

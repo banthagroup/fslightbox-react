@@ -3,24 +3,12 @@ export const TEST_VIDEO_URL = "https://commondatastorage.googleapis.com/gtv-vide
 export const TEST_YOUTUBE_URL = "https://www.youtube.com/watch?v=jNQXAC9IVRw";
 export const TEST_INVALID_URL = "invalid";
 
-
 export const testSources = [
     TEST_IMAGE_URL,
     TEST_VIDEO_URL,
     TEST_YOUTUBE_URL,
     TEST_INVALID_URL
 ];
-export const testTypes = [
-    'image',
-    'video',
-    'youtube',
-    'invalid'
-];
-
-export const testProps = {
-    isOpen: true,
-    sources: testSources
-};
 
 export const testSourceDimensions = {
     width: 2000,

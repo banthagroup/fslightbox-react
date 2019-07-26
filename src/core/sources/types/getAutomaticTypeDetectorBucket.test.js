@@ -1,5 +1,5 @@
 import { getAutomaticTypeDetectorBucket } from "./getAutomaticTypeDetectorBucket";
-import { TEST_YOUTUBE_URL } from "../../../../tests/__tests-stores__/testVariables";
+import { TEST_YOUTUBE_URL } from "../../../../tests/__tests-vars__/testVariables";
 
 const automaticTypeDetectorBucket = getAutomaticTypeDetectorBucket();
 

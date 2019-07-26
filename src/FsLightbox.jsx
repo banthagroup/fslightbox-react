@@ -1,4 +1,4 @@
-import "./core/styles/styles-injection/styles-injection";
+import './core/styles/styles-injection/styles-injection';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Nav from "./components/nav/Nav.jsx";
@@ -52,7 +52,7 @@ class FsLightbox extends Component {
 
     setUpStates() {
         this.state = {
-            isOpen: this.props.toggler,
+            isOpen: this.props.openOnMount,
         };
 
         // to objects are assigned in correct components two methods:
@@ -202,7 +202,8 @@ FsLightbox.propTypes = {
     videosPosters: PropTypes.array,
 
     // preferences
-    slideDistance: PropTypes.number
+    slideDistance: PropTypes.number,
+    openOnMount: PropTypes.bool
 };
 
 export default FsLightbox;
