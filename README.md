@@ -25,7 +25,6 @@ import React, { useState } from 'react';
 import FsLightbox from 'fslightbox-react';
 
 function App() {
-    // initial toggler value determines if lightbox should be opened on init
     // if toggler is updated when lightbox is closed it will open it
     // if toggler is updated when lightbox is opened it will close it
     const [toggler, setToggler] = useState(false);
