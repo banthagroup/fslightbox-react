@@ -1,26 +1,18 @@
 import React from 'react';
-import FsLightbox from "../../src/FsLightbox";
-import { testTypes, testSources } from "../__tests-stores__/testVariables";
-import { mount } from "enzyme";
 import { act } from 'react-dom/test-utils';
 import { ANIMATION_TIME } from "../../src/constants/css-constants";
 import { PREFIX } from "../../src/constants/classes-names";
+import { mountedLightbox } from "../__tests-vars__/mountedLightbox";
 
-const fsLightboxWrapper = mount(<FsLightbox
-    toggler={ true }
-    urls={ testSources }
-    types={ testTypes }
-/>);
-const sourcesHoldersWrapper = fsLightboxWrapper.find('SourcesHoldersWrapper');
+const sourcesHoldersWrapper = mountedLightbox.find('SourcesHoldersWrapper');
 
 let requestAnimationFrameCallback;
-
 window.requestAnimationFrame = (callback) => {
     requestAnimationFrameCallback = callback;
 };
 
 it('should change slide to previous without throwing error', () => {
-    fsLightboxWrapper.instance().stageIndexes.next = 1;
+    mountedLightbox.instance().stageIndexes.next = 1;
 
     const changingSlideToNextViaSlideSwiping = () => {
         act(() => {
@@ -47,7 +39,7 @@ it('should change slide to previous without throwing error', () => {
         });
     };
     expect(changingSlideToNextViaSlideSwiping).not.toThrowError();
-    expect(fsLightboxWrapper.instance().stageIndexes).toEqual({
+    expect(mountedLightbox.instance().stageIndexes).toEqual({
         previous: 0,
         current: 1,
         next: 2
@@ -57,7 +49,7 @@ it('should change slide to previous without throwing error', () => {
 it('should change slide to next without throwing error', () => {
     const changingSlideToPreviousViaSlideSwiping = () => {
         act(() => {
-            fsLightboxWrapper.instance().stageIndexes.previous = 3;
+            mountedLightbox.instance().stageIndexes.previous = 3;
 
             jest.useFakeTimers();
 
@@ -82,7 +74,7 @@ it('should change slide to next without throwing error', () => {
         });
     };
     expect(changingSlideToPreviousViaSlideSwiping).not.toThrowError();
-    expect(fsLightboxWrapper.instance().stageIndexes).toEqual({
+    expect(mountedLightbox.instance().stageIndexes).toEqual({
         previous: 2,
         current: 3,
         next: 0
@@ -94,7 +86,7 @@ it('should close lightbox when clicking in overlay', () => {
         act(() => {
             jest.useFakeTimers();
 
-            fsLightboxWrapper.instance().stageIndexes.previous = 3;
+            mountedLightbox.instance().stageIndexes.previous = 3;
 
             // simulation that mouse down clientX is equal to mouse move clientX
             // so user just clicked and click target was not source lightbox should be closed
@@ -130,5 +122,5 @@ it('should close lightbox when clicking in overlay', () => {
     };
     expect(closeLightboxWhenClickingInOverlay).not.toThrowError();
     // lightbox should be closed
-    expect(fsLightboxWrapper.getDOMNode()).toBeNull();
+    expect(mountedLightbox.getDOMNode()).toBeNull();
 }); 

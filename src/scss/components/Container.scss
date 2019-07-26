@@ -6,6 +6,9 @@
   left: 0;
   background: linear-gradient(rgba(30, 30, 30, 0.9), black 1810%);
   z-index: 9999999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }

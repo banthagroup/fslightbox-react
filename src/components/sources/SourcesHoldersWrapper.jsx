@@ -17,6 +17,7 @@ const SourcesHoldersWrapper = ({ fsLightbox }) => {
             }
         },
     } = fsLightbox;
+    
     const sourceHolders = [];
 
     for (let i = 0; i < sourcesCount; i++) {
