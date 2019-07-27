@@ -7,17 +7,17 @@ const fsLightbox = {
         sourcesHolders: []
     },
     injector: {
-        injectDependency: (constructorDependency) => {
+        resolve: (constructorDependency) => {
             if (constructorDependency === SourceHolderTransformer) {
-                injectDependencyCalls++;
-                return sourcesHoldersTransformingFacades[injectDependencyCalls - 1];
+                resolveCalls++;
+                return sourcesHoldersTransformingFacades[resolveCalls - 1];
             }
         }
 
     }
 };
 
-let injectDependencyCalls = 0;
+let resolveCalls = 0;
 const sourcesHoldersTransformingFacades = [];
 
 for (let i = 0; i < 15; i++) {

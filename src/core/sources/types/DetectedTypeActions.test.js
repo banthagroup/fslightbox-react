@@ -19,7 +19,7 @@ const fsLightbox = {
         sourcesLoadsHandlers: []
     },
     injector: {
-        injectDependency: (constructorDependency) => {
+        resolve: (constructorDependency) => {
             if (constructorDependency === SourceLoadHandler) {
                 return sourceLoadHandler;
             }

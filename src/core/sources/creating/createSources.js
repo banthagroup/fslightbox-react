@@ -11,11 +11,11 @@ export function createSources(
             types: typesProp,
             type: typeProp,
         },
-        injector: { injectDependency }
+        injector: { resolve }
     }
 ) {
-    const detectedTypeActions = injectDependency(DetectedTypeActions);
-    const localStorageManager = injectDependency(CreatingSourcesLocalStorageManager);
+    const detectedTypeActions = resolve(DetectedTypeActions);
+    const localStorageManager = resolve(CreatingSourcesLocalStorageManager);
     let sourceTypeRetrievedWithoutXhr;
     let sourceIndex;
 
@@ -51,7 +51,7 @@ export function createSources(
     function retrieveTypeWithXhrAndCallActions() {
         // we need to copy index because xhr will for sure come later than next loop iteration
         let rememberedSourceIndex = sourceIndex;
-        const sourceTypeGetter = injectDependency(AutomaticTypeDetector);
+        const sourceTypeGetter = resolve(AutomaticTypeDetector);
         sourceTypeGetter.setUrlToCheck(sources[rememberedSourceIndex]);
         sourceTypeGetter.getSourceType((sourceType) => {
             localStorageManager.handleReceivedSourceTypeForUrl(sourceType, sources[rememberedSourceIndex]);

@@ -3,19 +3,13 @@ import { getLightboxUpdaterConditioner } from "./getLightboxUpdaterConditioner";
 
 export function setUpLightboxUpdater(
     {
-        core: {
-            lightboxUpdater: self,
-        },
-        data: {
-            sources
-        },
+        core: { lightboxUpdater: self, },
+        data: { sources },
         getProps,
-        injector: {
-            injectDependency
-        }
+        injector: { resolve }
     }
 ) {
-    const updatingActions = injectDependency(LightboxUpdateActions);
+    const updatingActions = resolve(LightboxUpdateActions);
     const lightboxUpdaterConditioner = getLightboxUpdaterConditioner();
 
     self.handleUpdate = (previousProps) => {

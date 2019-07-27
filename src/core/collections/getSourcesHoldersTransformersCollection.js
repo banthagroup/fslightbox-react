@@ -6,13 +6,13 @@ export function getSourcesHoldersTransformersCollection(
             sourcesHolders
         },
         injector: {
-            injectDependency
+            resolve
         }
     }
 ) {
     const collection = [];
     for (let i = 0; i < sourcesHolders.length; i++) {
-        const sourceHolderTransformer = injectDependency(SourceHolderTransformer);
+        const sourceHolderTransformer = resolve(SourceHolderTransformer);
         sourceHolderTransformer.setSourceHolder(sourcesHolders[i]);
         collection.push(sourceHolderTransformer);
     }

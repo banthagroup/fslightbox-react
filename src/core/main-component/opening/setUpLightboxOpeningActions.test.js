@@ -29,7 +29,7 @@ const fsLightbox = {
         eventsDispatcher: {
             dispatch: () => {},
         },
-        lightboxOpeningActions: {},
+        lightboxOpenActions: {},
         scrollbarRecompensor: {
             addRecompense: () => {}
         },
@@ -50,7 +50,7 @@ const scrollbarRecompensor = fsLightbox.core.scrollbarRecompensor;
 const stageManager = fsLightbox.core.stageManager;
 const windowResizeActions = fsLightbox.core.windowResizeActions;
 
-const lightboxOpeningActions = fsLightbox.core.lightboxOpeningActions;
+const lightboxOpenActions = fsLightbox.core.lightboxOpenActions;
 setUpLightboxOpeningActions(fsLightbox);
 
 stageManager.updateStageIndexes = jest.fn();
@@ -62,7 +62,7 @@ swipingEventsController.attachListeners = jest.fn();
 documentKeyDownEventController.attachListener = jest.fn();
 eventsDispatcher.dispatch = jest.fn();
 initializeLightboxObject.initializeLightbox = () => {};
-lightboxOpeningActions.runActions();
+lightboxOpenActions.runActions();
 
 test('simple actions', () => {
     expect(stageManager.updateStageIndexes).toBeCalled();
@@ -83,7 +83,7 @@ describe('calling actions depending on isInitialized', () => {
 
     test('lightbox is already initialized', () => {
         fsLightbox.data.isInitialized = true;
-        lightboxOpeningActions.runActions();
+        lightboxOpenActions.runActions();
 
         expect(initializeLightboxObject.initializeLightbox).not.toBeCalled();
         expect(eventsDispatcher.dispatch).toBeCalledWith(ON_SHOW);
@@ -91,7 +91,7 @@ describe('calling actions depending on isInitialized', () => {
 
     test('lightbox is not initialized', () => {
         fsLightbox.data.isInitialized = false;
-        lightboxOpeningActions.runActions();
+        lightboxOpenActions.runActions();
 
         expect(initializeLightboxObject.initializeLightbox).toBeCalled();
         expect(eventsDispatcher.dispatch).not.toBeCalledWith(ON_SHOW);

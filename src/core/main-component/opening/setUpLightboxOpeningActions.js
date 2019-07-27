@@ -16,7 +16,7 @@ export function setUpLightboxOpeningActions(fsLightbox) {
                 }
             },
             eventsDispatcher,
-            lightboxOpeningActions: self,
+            lightboxOpenActions: self,
             scrollbarRecompensor,
             stageManager,
             windowResizeActions,

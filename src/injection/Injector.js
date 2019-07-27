@@ -4,7 +4,7 @@ export function Injector(fsLightbox) {
      * @param { Array } paramsArray Array with parameters which will be passed to new object.
      * @return { Object } New object created with params from given constructor dependency.
      */
-    this.injectDependency = (dependency, params = []) => {
+    this.resolve = (dependency, params = []) => {
         params.unshift(fsLightbox);
         return new dependency(...params);
     };

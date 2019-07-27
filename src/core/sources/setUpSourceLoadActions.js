@@ -12,7 +12,7 @@ export function setUpSourceLoadActions(
             sourceLoadActions: self
         },
         injector: {
-            injectDependency
+            resolve
         },
         stageIndexes
     }
@@ -39,7 +39,7 @@ export function setUpSourceLoadActions(
     self.runInitialLoadActions = () => {
         self.runNormalLoadActions();
 
-        const sourceSizeAdjuster = injectDependency(SourceSizeAdjuster);
+        const sourceSizeAdjuster = resolve(SourceSizeAdjuster);
         sourceSizeAdjuster.setIndex(index);
         sourceSizeAdjuster.setDefaultDimensions(defaultWidth, defaultHeight);
         sourceSizeAdjuster.adjustSourceSize();

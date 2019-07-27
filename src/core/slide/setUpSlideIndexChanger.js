@@ -24,12 +24,12 @@ export function setUpSlideIndexChanger(
             sourcesCount
         },
         injector: {
-            injectDependency
+            resolve
         },
         stageIndexes
     }
 ) {
-    const removeFadeOutQueue = injectDependency(TimeoutQueue);
+    const removeFadeOutQueue = resolve(TimeoutQueue);
     removeFadeOutQueue.time = ANIMATION_TIME;
     removeFadeOutQueue.action = () => {
         for (let i = 0; i < sourcesCount; i++) {

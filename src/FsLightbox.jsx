@@ -120,7 +120,7 @@ class FsLightbox extends Component {
             keyboardController: {},
             lightboxCloser: {},
             lightboxOpener: {},
-            lightboxOpeningActions: {},
+            lightboxOpenActions: {},
             lightboxUpdater: {},
             scrollbarRecompensor: {},
             slideChangeFacade: {},

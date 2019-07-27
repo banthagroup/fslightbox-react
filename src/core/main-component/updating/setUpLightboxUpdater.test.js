@@ -12,7 +12,7 @@ const fsLightbox = {
     },
     getProps: () => currentProps,
     injector: {
-        injectDependency: (constructorDependency) => {
+        resolve: (constructorDependency) => {
             if (constructorDependency === LightboxUpdateActions) {
                 return lightboxUpdatingActions;
             }

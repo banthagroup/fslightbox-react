@@ -3,7 +3,7 @@ export function setUpLightboxOpener(
         setMainComponentState,
         core: {
             lightboxOpener: self,
-            lightboxOpeningActions
+            lightboxOpenActions
         }
     }
 ) {
@@ -11,7 +11,7 @@ export function setUpLightboxOpener(
         setMainComponentState({
             isOpen: true,
         }, () => {
-            lightboxOpeningActions.runActions();
+            lightboxOpenActions.runActions();
         });
     };
 }
