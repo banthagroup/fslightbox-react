@@ -7,7 +7,7 @@ const fsLightbox = {
         isAfterSwipeAnimationRunning: false
     },
     injector: {
-        injectDependency: (constructorDependency) => {
+        resolve: (constructorDependency) => {
             if (constructorDependency === SlideSwipingUpActions) {
                 return slideSwipingUpActions;
             }

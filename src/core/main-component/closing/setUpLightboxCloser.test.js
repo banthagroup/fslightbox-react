@@ -7,7 +7,7 @@ const lightboxClosingActions = {
 };
 const fsLightbox = {
     injector: {
-        injectDependency: () => lightboxClosingActions
+        resolve: () => lightboxClosingActions
     },
     core: {
         lightboxCloser: lightboxCloser

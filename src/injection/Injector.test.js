@@ -17,11 +17,11 @@ function Dependency() {
 }
 
 test('returning correct dependency', () => {
-    expect(injector.injectDependency(Dependency)).toBeInstanceOf(Dependency);
+    expect(injector.resolve(Dependency)).toBeInstanceOf(Dependency);
 });
 
 test('returning correct params with fsLightbox', () => {
-    injector.injectDependency(Dependency, arrayOfParams);
+    injector.resolve(Dependency, arrayOfParams);
     // as arguments object returns object to test it wu will make array from it
     expect(Array.from(passedParams)).toEqual(arrayOfParams);
 });

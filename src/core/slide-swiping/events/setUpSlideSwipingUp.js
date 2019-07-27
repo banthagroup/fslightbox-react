@@ -4,7 +4,7 @@ export function setUpSlideSwipingUp(
     {
         data,
         injector: {
-            injectDependency
+            resolve
         },
         core: {
             lightboxCloser,
@@ -14,7 +14,7 @@ export function setUpSlideSwipingUp(
         },
     }, swipingProps
 ) {
-    const actions = injectDependency(SlideSwipingUpActions, [swipingProps]);
+    const actions = resolve(SlideSwipingUpActions, [swipingProps]);
 
     self.listener = () => {
         if (!data.isSwipingSlides || swipingProps.isAfterSwipeAnimationRunning) {

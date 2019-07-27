@@ -29,7 +29,7 @@ const fsLightbox = {
         isSwipingSlides: false
     },
     injector: {
-        injectDependency: (constructorDependency) => {
+        resolve: (constructorDependency) => {
             if (constructorDependency === SlideSwipingUpActionsBucket) {
                 return slideSwipingUpActionsBucket;
             }

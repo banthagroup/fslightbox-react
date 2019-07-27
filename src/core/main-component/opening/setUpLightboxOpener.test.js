@@ -3,21 +3,21 @@ import { setUpLightboxOpener } from "./setUpLightboxOpener";
 const fsLightbox = {
     setMainComponentState: () => {},
     core: {
-        lightboxOpeningActions: {
+        lightboxOpenActions: {
             runActions: () => {}
         },
         lightboxOpener: {}
     }
 };
 
-const lightboxOpeningActions = fsLightbox.core.lightboxOpeningActions;
+const lightboxOpenActions = fsLightbox.core.lightboxOpenActions;
 
 const lightboxOpener = fsLightbox.core.lightboxOpener;
 
 let state;
 
 test('simple actions', () => {
-    lightboxOpeningActions.runActions = jest.fn();
+    lightboxOpenActions.runActions = jest.fn();
     fsLightbox.setMainComponentState = (stateObject, callback) => {
         state = stateObject;
         callback();
@@ -26,5 +26,5 @@ test('simple actions', () => {
     lightboxOpener.openLightbox();
 
     expect(state).toEqual({ isOpen: true });
-    expect(fsLightbox.core.lightboxOpeningActions.runActions).toBeCalled();
+    expect(fsLightbox.core.lightboxOpenActions.runActions).toBeCalled();
 });

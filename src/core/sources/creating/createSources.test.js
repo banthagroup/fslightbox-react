@@ -12,7 +12,7 @@ const fsLightbox = {
         type: undefined
     },
     injector: {
-        injectDependency: (dependency) => {
+        resolve: (dependency) => {
             if (dependency === DetectedTypeActions)
                 return detectedTypeActions;
 

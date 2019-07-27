@@ -17,7 +17,7 @@ const fsLightbox = {
         sourceLoadActions: {}
     },
     injector: {
-        injectDependency: (constructorDependency) => {
+        resolve: (constructorDependency) => {
             if (constructorDependency === SourceSizeAdjuster) {
                 return sourceSizeAdjuster;
             }

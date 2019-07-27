@@ -5,7 +5,7 @@ export function setUpSlideSwipingMove(
     {
         data,
         injector: {
-            injectDependency
+            resolve
         },
         core: {
             animationer,
@@ -15,7 +15,7 @@ export function setUpSlideSwipingMove(
         }
     }, swipingProps
 ) {
-    const actions = injectDependency(SlideSwipingMoveActions, [swipingProps]);
+    const actions = resolve(SlideSwipingMoveActions, [swipingProps]);
     const isPreviousAnimationDebounced = getAnimationDebounce();
 
     (data.sourcesCount === 1) ?

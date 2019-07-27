@@ -3,7 +3,7 @@ import * as injectStylesIfNotInDomObject from "../../styles/injectStylesIfNotInD
 import * as getScrollbarWidthObject from "../../scrollbar/getScrollbarWidth";
 
 const fsLightbox = {
-    core: { lightboxOpeningActions: { runActions: jest.fn() } },
+    core: { lightboxOpenActions: { runActions: jest.fn() } },
     data: {},
     props: {}
 };
@@ -17,10 +17,10 @@ test('actions', () => {
 
     expect(injectStylesIfNotInDomObject.injectStylesIfNotInDom).toBeCalled();
     expect(fsLightbox.data.scrollbarWidth).toBe(15);
-    expect(fsLightbox.core.lightboxOpeningActions.runActions).not.toBeCalled();
+    expect(fsLightbox.core.lightboxOpenActions.runActions).not.toBeCalled();
 
     fsLightbox.props.openOnMount = true;
     runLightboxMountedActions(fsLightbox);
-    expect(fsLightbox.core.lightboxOpeningActions.runActions).toBeCalled();
+    expect(fsLightbox.core.lightboxOpenActions.runActions).toBeCalled();
 });
 

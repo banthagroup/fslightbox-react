@@ -13,7 +13,7 @@ export function SlideSwipingUpActions(
         },
         data,
         injector: {
-            injectDependency
+            resolve
         },
         stageIndexes
     }, swipingProps
@@ -22,7 +22,7 @@ export function SlideSwipingUpActions(
         changeSlideToPrevious,
         changeSlideToNext,
         addTransitionAndTransformZeroCurrentSlideSource
-    } = injectDependency(SlideSwipingUpActionsBucket);
+    } = resolve(SlideSwipingUpActionsBucket);
 
     this.resetSwiping = () => {
         hasMovedWhileSwipingState.set(false);

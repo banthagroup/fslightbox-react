@@ -13,7 +13,7 @@ let windowUpEventController = {
 };
 const fsLightbox = {
     injector: {
-        injectDependency: (dependency) => {
+        resolve: (dependency) => {
             if (dependency === WindowMoveEventController) return windowMoveEventController;
             if (dependency === WindowUpEventController) return windowUpEventController;
         }

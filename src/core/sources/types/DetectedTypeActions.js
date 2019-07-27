@@ -14,7 +14,7 @@ export function DetectedTypeActions(fsLightbox) {
         },
         elements: { sourcesComponents },
         injector: {
-            injectDependency
+            resolve
         }
     } = fsLightbox;
 
@@ -22,7 +22,7 @@ export function DetectedTypeActions(fsLightbox) {
         let BaseSourceComponent;
 
         if (type !== INVALID_TYPE) {
-            fsLightbox.collections.sourcesLoadsHandlers[index] = injectDependency(SourceLoadHandler);
+            fsLightbox.collections.sourcesLoadsHandlers[index] = resolve(SourceLoadHandler);
             fsLightbox.collections.sourcesLoadsHandlers[index].setIndex(index);
         }
 

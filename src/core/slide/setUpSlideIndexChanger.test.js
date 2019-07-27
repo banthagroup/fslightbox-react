@@ -34,7 +34,7 @@ const fsLightbox = {
         sourcesCount: 0
     },
     injector: {
-        injectDependency: () => ({})
+        resolve: () => ({})
     },
     stageIndexes: {
         previous: undefined,
@@ -121,7 +121,7 @@ describe('changeToWithActions', () => {
 
 
         removeFadeOutQueue.startTimeout = jest.fn();
-        fsLightbox.injector.injectDependency = (constructorDependency) => {
+        fsLightbox.injector.resolve = (constructorDependency) => {
             if (constructorDependency === TimeoutQueue) {
                 return removeFadeOutQueue;
             }

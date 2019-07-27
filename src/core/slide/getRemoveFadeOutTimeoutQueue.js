@@ -4,14 +4,14 @@ import { ANIMATION_TIME } from "../../constants/css-constants";
 export function getRemoveFadeOutTimeoutQueue(
     {
         injector: {
-            injectDependency
+            resolve
         },
         core: {
             sourceAnimator
         }
     }
 ) {
-    const timeoutQueue = injectDependency(TimeoutQueue);
+    const timeoutQueue = resolve(TimeoutQueue);
     timeoutQueue.time = ANIMATION_TIME;
     timeoutQueue.action = () => {
         sourceAnimator.removeFadeOutFromAllSources();

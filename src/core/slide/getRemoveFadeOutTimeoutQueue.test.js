@@ -5,7 +5,7 @@ import { TimeoutQueue } from "../timeouts/TimeoutQueue";
 const timeoutQueue = {};
 const fsLightbox = {
     injector: {
-        injectDependency: jest.fn(() => timeoutQueue)
+        resolve: jest.fn(() => timeoutQueue)
     },
     core: {
         sourceAnimator: {
@@ -17,7 +17,7 @@ const fsLightbox = {
 const removeFadeOutTimeoutQueue = getRemoveFadeOutTimeoutQueue(fsLightbox);
 
 test('actions', () => {
-    expect(fsLightbox.injector.injectDependency).toBeCalledWith(TimeoutQueue);
+    expect(fsLightbox.injector.resolve).toBeCalledWith(TimeoutQueue);
     expect(removeFadeOutTimeoutQueue.time).toBe(ANIMATION_TIME);
 
     removeFadeOutTimeoutQueue.action();
