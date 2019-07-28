@@ -2,12 +2,8 @@ import { LightboxCloseActions } from "./LightboxCloseActions";
 
 export function setUpLightboxCloser(
     {
-        injector: {
-            resolve
-        },
-        core: {
-            lightboxCloser: self
-        }
+        core: { lightboxCloser: self },
+        injector: { resolve }
     }
 ) {
     const lightboxClosingActions = resolve(LightboxCloseActions);
