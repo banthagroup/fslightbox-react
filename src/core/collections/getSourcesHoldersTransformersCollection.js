@@ -3,7 +3,7 @@ import { SourceHolderTransformer } from "../transforms/SourceHolderTransformer";
 export function getSourcesHoldersTransformersCollection(
     {
         elements: {
-            sourcesHolders
+            sourcesOuters
         },
         injector: {
             resolve
@@ -11,9 +11,9 @@ export function getSourcesHoldersTransformersCollection(
     }
 ) {
     const collection = [];
-    for (let i = 0; i < sourcesHolders.length; i++) {
+    for (let i = 0; i < sourcesOuters.length; i++) {
         const sourceHolderTransformer = resolve(SourceHolderTransformer);
-        sourceHolderTransformer.setSourceHolder(sourcesHolders[i]);
+        sourceHolderTransformer.setSourceHolder(sourcesOuters[i]);
         collection.push(sourceHolderTransformer);
     }
     return collection;

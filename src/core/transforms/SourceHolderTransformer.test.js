@@ -5,7 +5,7 @@ const fsLightbox = {
         slideDistance: 0
     },
     elements: {
-        sourcesHolders: [
+        sourcesOuters: [
             {
                 current: document.createElement('div')
             }
@@ -21,8 +21,8 @@ const sourceHolderTransformer = new SourceHolderTransformer(fsLightbox);
 let sourceHolderStyle;
 
 beforeEach(() => {
-    sourceHolderTransformer.setSourceHolder(fsLightbox.elements.sourcesHolders[0]);
-    sourceHolderStyle = fsLightbox.elements.sourcesHolders[0].current.style;
+    sourceHolderTransformer.setSourceHolder(fsLightbox.elements.sourcesOuters[0]);
+    sourceHolderStyle = fsLightbox.elements.sourcesOuters[0].current.style;
 });
 
 describe('default transforming (depends on window width and slide distance)', () => {

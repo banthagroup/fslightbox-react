@@ -1,30 +1,23 @@
 import React, { useEffect } from 'react';
 import { getYoutubeVideoIdFromUrl } from "../../../helpers/source/getYoutubeVideoIdFromUrl";
-import { PREFIX, SOURCE_CLASSES_NAMES } from "../../../constants/classes-names";
+import { PREFIX, SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 
 const Youtube = (
     {
         fsLightbox: {
-            data: { sources },
+            props: { sources },
             elements: { sources: sourcesElements },
-            collections: {
-                sourcesLoadsHandlers
-            }
-        },
-        index,
+            collections: { sourcesLoadsHandlers }
+        }, i
     }
 ) => {
-    useEffect(sourcesLoadsHandlers[index].handleLoad);
+    useEffect(sourcesLoadsHandlers[i].handleLoad);
 
     return (
         <iframe
-            className={ `${ SOURCE_CLASSES_NAMES } ${ PREFIX }youtube-iframe` }
-            ref={ sourcesElements[index] }
-            src={
-                "https://www.youtube.com/embed/"
-                + getYoutubeVideoIdFromUrl(sources[index])
-                + '?enablejsapi=1'
-            }
+            className={ `${ SOURCE_CLASS_NAME } ${ PREFIX }youtube-iframe` }
+            ref={ sourcesElements[i] }
+            src={ `https://www.youtube.com/embed/${ getYoutubeVideoIdFromUrl(sources[i]) }` }
             allowFullScreen={ true }
         />
     );

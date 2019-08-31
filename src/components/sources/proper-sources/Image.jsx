@@ -1,22 +1,21 @@
 import React from 'react';
-import { SOURCE_CLASSES_NAMES } from "../../../constants/classes-names";
+import { SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 
 const Image = (
     {
         fsLightbox: {
-            data: { sources },
+            props: { sources },
             elements: { sources: sourcesElements },
             collections: { sourcesLoadsHandlers }
-        },
-        index
+        }, i
     }
 ) => (
     <img
-        onLoad={ sourcesLoadsHandlers[index].handleLoad }
-        className={ SOURCE_CLASSES_NAMES }
-        ref={ sourcesElements[index] }
-        src={ sources[index] }
-        alt={ sources[index] }
+        onLoad={ sourcesLoadsHandlers[i].handleLoad }
+        className={ SOURCE_CLASS_NAME }
+        ref={ sourcesElements[i] }
+        src={ sources[i] }
+        alt={ sources[i] }
     />
 );
 

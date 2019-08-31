@@ -6,37 +6,33 @@ import Youtube from "../../../components/sources/proper-sources/Youtube.jsx";
 import Invalid from "../../../components/sources/proper-sources/Invalid.jsx";
 import { SourceLoadHandler } from "../SourceLoadHandler";
 
-export function DetectedTypeActions(fsLightbox) {
+export function DetectedTypeActioner(fsLightbox) {
     const {
+        collections: { sourcesLoadsHandlers },
         getState: getLightboxState,
-        componentsStates: {
-            sourcesHoldersUpdatersCollection: sourcesHoldersUpdatersStateCollection
-        },
+        componentsStates: { isSourceLoadedCollection: sourcesHoldersUpdatersStateCollection },
         elements: { sourcesComponents },
-        injector: {
-            resolve
-        }
+        injector: { resolve }
     } = fsLightbox;
 
-    this.runActionsForSourceTypeAndIndex = (type, index) => {
+    this.runActionsForSourceTypeAndIndex = (type, i) => {
         let BaseSourceComponent;
 
         if (type !== INVALID_TYPE) {
-            fsLightbox.collections.sourcesLoadsHandlers[index] = resolve(SourceLoadHandler);
-            fsLightbox.collections.sourcesLoadsHandlers[index].setIndex(index);
+            sourcesLoadsHandlers[i] = resolve(SourceLoadHandler, [i]);
         }
 
         switch (type) {
             case IMAGE_TYPE:
-                fsLightbox.collections.sourcesLoadsHandlers[index].setUpLoadForImage();
+                fsLightbox.collections.sourcesLoadsHandlers[i].setUpLoadForImage();
                 BaseSourceComponent = Image;
                 break;
             case VIDEO_TYPE:
-                fsLightbox.collections.sourcesLoadsHandlers[index].setUpLoadForVideo();
+                fsLightbox.collections.sourcesLoadsHandlers[i].setUpLoadForVideo();
                 BaseSourceComponent = Video;
                 break;
             case YOUTUBE_TYPE:
-                fsLightbox.collections.sourcesLoadsHandlers[index].setUpLoadForYoutube();
+                fsLightbox.collections.sourcesLoadsHandlers[i].setUpLoadForYoutube();
                 BaseSourceComponent = Youtube;
                 break;
             default:
@@ -44,13 +40,13 @@ export function DetectedTypeActions(fsLightbox) {
                 break;
         }
 
-        sourcesComponents[index] = <BaseSourceComponent
+        sourcesComponents[i] = <BaseSourceComponent
             fsLightbox={ fsLightbox }
-            index={ index }
+            i={ i }
         />;
 
         if (getLightboxState().isOpen) {
-            sourcesHoldersUpdatersStateCollection[index].set(true);
+            sourcesHoldersUpdatersStateCollection[i].set(true);
         }
     };
 }

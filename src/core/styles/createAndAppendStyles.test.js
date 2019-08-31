@@ -1,6 +1,6 @@
 import { createAndAppendStyles } from "./createAndAppendStyles";
-import { FSLIGHTBOX_STYLES_ID } from "../../constants/dom-constants";
 import { styles } from "./styles";
+import { FSLIGHTBOX_STYLES } from "../../constants/classes-names";
 
 document.head.innerHTML = '';
 createAndAppendStyles();
@@ -10,5 +10,5 @@ test('actions', () => {
     expect(stylesAppendedToHead.tagName).toBe('STYLE');
     expect(stylesAppendedToHead.tagName).toBe('STYLE');
     expect(stylesAppendedToHead.innerHTML).toBe(styles);
-    expect(stylesAppendedToHead.id).toBe(FSLIGHTBOX_STYLES_ID);
+    expect(stylesAppendedToHead.className).toBe(FSLIGHTBOX_STYLES);
 });

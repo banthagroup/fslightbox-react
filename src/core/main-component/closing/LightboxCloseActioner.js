@@ -1,15 +1,10 @@
-import { ON_CLOSE } from "../../../constants/events-constants";
-import { LONG_FADE_OUT_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
+import { FADE_OUT_STRONG_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
 import { ANIMATION_TIME } from "../../../constants/css-constants";
-import { LIGHTBOX_CONTAINER } from "../../../constants/elements";
 
-export function LightboxCloseActions(
+export function LightboxCloseActioner(
     {
-        componentsStates: {
-            isFullscreenOpen: isFullscreenOpenState
-        },
+        componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
         core: {
-            classListManager,
             eventsControllers: {
                 window: {
                     resize: windowResizeEventController,
@@ -23,7 +18,10 @@ export function LightboxCloseActions(
             fullscreenToggler,
             scrollbarRecompensor
         },
-        setMainComponentState
+        elements: { container: lightboxContainer },
+        setMainComponentState,
+        slideSwipingProps,
+        thumbsSwipingProps
     }
 ) {
     this.isLightboxFadingOut = false;
@@ -31,9 +29,7 @@ export function LightboxCloseActions(
     this.runActions = () => {
         this.isLightboxFadingOut = true;
 
-        classListManager
-            .manageElement(LIGHTBOX_CONTAINER)
-            .add(LONG_FADE_OUT_CLASS_NAME);
+        lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
 
         swipingEventsControllersFacade.removeListeners();
         keyDownEventController.removeListener();
@@ -45,9 +41,12 @@ export function LightboxCloseActions(
         setTimeout(() => {
             this.isLightboxFadingOut = false;
 
-            classListManager
-                .manageElement(LIGHTBOX_CONTAINER)
-                .remove(LONG_FADE_OUT_CLASS_NAME);
+            slideSwipingProps.isSwiping = false;
+            if (thumbsSwipingProps) {
+                thumbsSwipingProps.isSwiping = false;
+            }
+
+            lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
 
             document.documentElement.classList.remove(OPEN_CLASS_NAME);
 
@@ -57,8 +56,8 @@ export function LightboxCloseActions(
             setMainComponentState({
                 isOpen: false
             }, () => {
-                eventsDispatcher.dispatch(ON_CLOSE);
+                eventsDispatcher.dispatch('onClose');
             });
-        }, ANIMATION_TIME);
+        }, ANIMATION_TIME - 30);
     };
 }

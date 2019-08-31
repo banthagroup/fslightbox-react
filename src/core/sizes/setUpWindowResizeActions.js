@@ -2,7 +2,7 @@ export function setUpWindowResizeActions(
     {
         collections: {
             sourcesHoldersTransformers,
-            sourcesSizesAdjusters
+            sourcesStylers
         },
         core: {
             windowResizeActions: self
@@ -22,10 +22,10 @@ export function setUpWindowResizeActions(
             if (i !== stageIndexes.current) {
                 sourcesHoldersTransformers[i].negative();
             }
-            // if source is Invalid or if lightbox is initialized there are no sourcesSizesAdjusters
+            // if source is Invalid or if lightbox is initialized there are no sourcesStylers
             // so we need to check if it exists
-            if (sourcesSizesAdjusters[i]) {
-                sourcesSizesAdjusters[i].adjustSourceSize();
+            if (sourcesStylers[i]) {
+                sourcesStylers[i].adjustSourceSize();
             }
         }
     };

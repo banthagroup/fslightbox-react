@@ -1,29 +1,23 @@
 import React, { useEffect } from 'react';
-import {
-    FADE_IN_CLASS_NAME,
-    FLEX_CENTERED_CLASS_NAME,
-    PREFIX
-} from "../../../constants/classes-names";
+import { FLEX_CENTERED_CLASS_NAME, PREFIX } from "../../../constants/classes-names";
 
 const Invalid = (
     {
         fsLightbox: {
-            elements: {
-                sources
-            }
-        },
-        index
+            componentsStates: { isSourceLoadedCollection },
+            data: { initialAnimation },
+            elements: { sourcesOuters }
+        }, i
     }
 ) => {
     useEffect(() => {
-        sources[index].current.classList.add(FADE_IN_CLASS_NAME);
+        isSourceLoadedCollection[i].set(true);
+        sourcesOuters[i].current.classList.add(initialAnimation);
     });
 
     return (
-        <div
-            className={ `${ PREFIX }invalid-file-wrapper ${ FLEX_CENTERED_CLASS_NAME }` }
-            ref={ sources[index] }>
-            Invalid file
+        <div className={ `${ PREFIX }invalid-file-wrapper ${ FLEX_CENTERED_CLASS_NAME }` }>
+            Invalid source
         </div>
     );
 };

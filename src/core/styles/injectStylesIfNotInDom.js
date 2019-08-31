@@ -1,8 +1,8 @@
-import { FSLIGHTBOX_STYLES_ID } from "../../constants/dom-constants";
 import { createAndAppendStyles } from "./createAndAppendStyles";
+import { FSLIGHTBOX_STYLES } from "../../constants/classes-names";
 
 export function injectStylesIfNotInDom() {
-    if (!document.getElementById(FSLIGHTBOX_STYLES_ID)) {
+    if (!document.getElementsByClassName(FSLIGHTBOX_STYLES).length) {
         createAndAppendStyles();
     }
 }

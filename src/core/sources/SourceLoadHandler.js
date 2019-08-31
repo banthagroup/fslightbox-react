@@ -1,21 +1,9 @@
-/**
- * @constructor
- */
-export function SourceLoadHandler(
-    {
-        core: {
-            sourceLoadActions
-        }
-    }
-) {
-    let sourceIndex;
+import { SourceLoadActioner } from "./SourceLoadActioner";
+
+export function SourceLoadHandler({ props: { maxYoutubeVideoDimensions }, injector: { resolve } }, i) {
     let defaultWidth;
     let defaultHeight;
     let setUpSourceDimensions = () => {};
-
-    this.setIndex = (index) => {
-        sourceIndex = index;
-    };
 
     this.setUpLoadForImage = () => {
         setUpSourceDimensions = ({ target: { width, height } }) => {
@@ -32,18 +20,21 @@ export function SourceLoadHandler(
     };
 
     this.setUpLoadForYoutube = () => {
-        defaultWidth = 1920;
-        defaultHeight = 1080;
+        if (maxYoutubeVideoDimensions && maxYoutubeVideoDimensions[i]) {
+            defaultWidth = maxYoutubeVideoDimensions[i].width;
+            defaultHeight = maxYoutubeVideoDimensions[i].height;
+        } else {
+            defaultWidth = 1920;
+            defaultHeight = 1080;
+        }
     };
 
     this.handleLoad = (e) => {
         setUpSourceDimensions(e);
-        sourceLoadActions.setIndex(sourceIndex);
-        sourceLoadActions.setDefaultDimensions(defaultWidth, defaultHeight);
-        sourceLoadActions.runInitialLoadActions();
-        this.handleLoad = () => {
-            sourceLoadActions.setIndex(sourceIndex);
-            sourceLoadActions.runNormalLoadActions();
-        };
+
+        const sourceLoadActioner = resolve(SourceLoadActioner, [i, defaultWidth, defaultHeight]);
+        sourceLoadActioner.runInitialLoadActions();
+
+        this.handleLoad = sourceLoadActioner.runNormalLoadActions;
     };
 }

@@ -1,24 +1,22 @@
 import React from 'react';
-import { PREFIX, SOURCE_CLASSES_NAMES } from "../../../constants/classes-names";
+import { PREFIX, SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 
 const Video = (
     {
         fsLightbox: {
-            props: { videosPosters },
-            data: { sources },
+            props: { videosPosters, sources },
             elements: { sources: sourcesElements },
             collections: { sourcesLoadsHandlers }
-        },
-        index
+        }, i
     }
 ) => {
     return <video
-        onLoadedMetadata={ sourcesLoadsHandlers[index].handleLoad }
-        className={ `${ SOURCE_CLASSES_NAMES } ${ PREFIX }video` }
+        onLoadedMetadata={ sourcesLoadsHandlers[i].handleLoad }
+        className={ `${ SOURCE_CLASS_NAME } ${ PREFIX }video` }
         controls
-        ref={ sourcesElements[index] }
-        poster={ videosPosters && videosPosters[index] }>
-        <source src={ sources[index] }/>
+        ref={ sourcesElements[i] }
+        poster={ videosPosters && videosPosters[i] }>
+        <source src={ sources[i] } />
     </video>
 };
 

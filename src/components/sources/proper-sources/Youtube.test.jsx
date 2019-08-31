@@ -1,40 +1,33 @@
 import React from 'react';
-import { mount, shallow } from "enzyme";
-import Youtube from "../../../../src/components/sources/proper-sources/Youtube";
+import { mount } from "enzyme";
+import Youtube from "./Youtube";
+import * as getYoutubeVideoIdFromUrlObject from "../../../helpers/source/getYoutubeVideoIdFromUrl";
 
-const fsLightbox = {
-    data: {
-        sources: ['https://www.youtube.com/watch?v=testId'],
-    },
-    elements: {
-        sources: [{
-            current: null
-        }]
-    },
-    collections: {
-        sourcesLoadsHandlers: [{
-            handleLoad: () => {}
-        }]
+getYoutubeVideoIdFromUrlObject.getYoutubeVideoIdFromUrl = (source) => {
+    if (source === 'source') {
+        return 'youtube-id';
+    } else {
+        throw new Error('Invalid param');
     }
 };
 
-let youtube;
+const fsLightbox = {
+    props: { sources: ['source'] },
+    elements: { sources: [React.createRef()] },
+    collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }] }
+};
 
-test('ref to sources array in fsLightbox object and component mount', () => {
-    fsLightbox.collections.sourcesLoadsHandlers[0] = {
-        handleLoad: jest.fn()
-    };
-    youtube = mount(<Youtube
-        fsLightbox={ fsLightbox }
-        index={ 0 }
-    />);
+const video = mount(<Youtube fsLightbox={ fsLightbox } i={ 0 } />);
 
-    expect(fsLightbox.elements.sources[0].current).toEqual(youtube.getDOMNode());
+test('useEffect', () => {
     expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalled();
 });
 
-test('DOM', () => {
-    youtube = shallow(<Youtube fsLightbox={ fsLightbox } index={ 0 }/>);
-    expect(youtube.prop('src')).toBe("https://www.youtube.com/embed/testId?enablejsapi=1");
-    expect(youtube).toMatchSnapshot();
+test('sources ref', () => {
+    expect(video.getDOMNode()).toBe(fsLightbox.elements.sources[0].current);
+});
+
+test('iframe src', () => {
+    expect(video.getDOMNode().getAttribute('src'))
+        .toBe('https://www.youtube.com/embed/youtube-id');
 });

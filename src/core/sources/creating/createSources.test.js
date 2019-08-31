@@ -1,6 +1,6 @@
 import { createSources } from "./createSources";
 import { CreatingSourcesLocalStorageManager } from "./CreatingSourcesLocalStorageManager";
-import { DetectedTypeActions } from "../types/DetectedTypeActions";
+import { DetectedTypeActioner } from "../types/DetectedTypeActioner";
 import { AutomaticTypeDetector } from "../types/AutomaticTypeDetector";
 
 const fsLightbox = {
@@ -13,7 +13,7 @@ const fsLightbox = {
     },
     injector: {
         resolve: (dependency) => {
-            if (dependency === DetectedTypeActions)
+            if (dependency === DetectedTypeActioner)
                 return detectedTypeActions;
 
             if (dependency === CreatingSourcesLocalStorageManager)

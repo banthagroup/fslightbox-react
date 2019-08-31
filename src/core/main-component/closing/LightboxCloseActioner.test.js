@@ -1,4 +1,4 @@
-import { LightboxCloseActions } from "./LightboxCloseActions";
+import { LightboxCloseActioner } from "./LightboxCloseActioner";
 import { ON_CLOSE } from "../../../constants/events-constants";
 import { LONG_FADE_OUT_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
 import { ANIMATION_TIME } from "../../../constants/css-constants";
@@ -54,7 +54,7 @@ const eventsDispatcher = fsLightbox.core.eventsDispatcher;
 const fullscreenToggler = fsLightbox.core.fullscreenToggler;
 const scrollbarRecompensor = fsLightbox.core.scrollbarRecompensor;
 
-let lightboxClosingActions = new LightboxCloseActions(fsLightbox);
+let lightboxClosingActions = new LightboxCloseActioner(fsLightbox);
 
 describe('isLightboxFadingOut property (testing if by default is false)', () => {
     it('should be false by default', () => {
@@ -128,7 +128,7 @@ describe('after fade out', () => {
         };
         eventsDispatcher.dispatch = jest.fn();
 
-        lightboxClosingActions = new LightboxCloseActions(fsLightbox);
+        lightboxClosingActions = new LightboxCloseActioner(fsLightbox);
         lightboxClosingActions.runActions();
     });
 
