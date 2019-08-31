@@ -1,4 +1,4 @@
-import { SourceHolderTransformer } from "./SourceHolderTransformer";
+import { SourceOuterTransformer } from "./SourceOuterTransformer";
 
 const fsLightbox = {
     data: {
@@ -17,7 +17,7 @@ window.innerWidth = 1000;
 // slide distance for all tests is .4
 fsLightbox.data.slideDistance = .4;
 
-const sourceHolderTransformer = new SourceHolderTransformer(fsLightbox);
+const sourceHolderTransformer = new SourceOuterTransformer(fsLightbox);
 let sourceHolderStyle;
 
 beforeEach(() => {

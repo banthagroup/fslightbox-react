@@ -9,7 +9,7 @@ const fsLightbox = {
             openLightbox: () => {}
         },
         slideIndexChanger: {
-            changeToWithActions: () => {}
+            jumpTo: () => {}
         }
     },
     getState: () => lightboxState,
@@ -52,28 +52,28 @@ describe('runTogglerUpdateActions', () => {
 describe('runCurrentStateIndexUpdateActionsFor', () => {
     beforeEach(() => {
         fsLightbox.stageIndexes.current = 0;
-        slideIndexChanger.changeToWithActions = jest.fn();
+        slideIndexChanger.jumpTo = jest.fn();
     });
 
     test('lightbox is closed', () => {
         lightboxState.isOpen = false;
 
         lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(0);
-        expect(slideIndexChanger.changeToWithActions).not.toBeCalled();
+        expect(slideIndexChanger.jumpTo).not.toBeCalled();
 
         lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(5);
         expect(fsLightbox.stageIndexes.current).toBe(5);
-        expect(slideIndexChanger.changeToWithActions).not.toBeCalled();
+        expect(slideIndexChanger.jumpTo).not.toBeCalled();
     });
 
     test('lightbox is opened', () => {
         lightboxState.isOpen = true;
 
         lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(0);
-        expect(slideIndexChanger.changeToWithActions).not.toBeCalled();
+        expect(slideIndexChanger.jumpTo).not.toBeCalled();
 
         lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(5);
         expect(fsLightbox.stageIndexes.current).toBe(0);
-        expect(slideIndexChanger.changeToWithActions).toBeCalledWith(5);
+        expect(slideIndexChanger.jumpTo).toBeCalledWith(5);
     });
 });

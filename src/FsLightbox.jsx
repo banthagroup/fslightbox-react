@@ -5,7 +5,7 @@ import Nav from "./components/nav/Nav.jsx";
 import SourcesHoldersWrapper from "./components/sources/SourcesOutersWrapper.jsx";
 import { createRefsArrayWithLength } from "./helpers/arrays/createRefsArrayWithLength";
 import { setUpCore } from "./core/setUpCore";
-import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
+import SwipingInvisibleHover from "./components/slide-swiping/SlideSwipingHoverer.jsx";
 import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
 import { Injector } from "./injection/Injector";
 import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
@@ -74,9 +74,10 @@ class FsLightbox extends Component {
         // (its called only one time - after first call its deleted)
         this.componentsStates = {
             slideNumberUpdater: {},
-            hasMovedWhileSwiping: {},
+            isSlideSwipingHovererShown: {},
             isFullscreenOpen: {},
             isSourceLoadedCollection: [],
+            sourcesInnersUpdatersCollection: [],
             toolbarButtons: {
                 fullscreen: {}
             }
@@ -98,6 +99,7 @@ class FsLightbox extends Component {
             sourcesHoldersWrapper: React.createRef(),
             sources: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesOuters: createRefsArrayWithLength(this.data.sourcesCount),
+            sourcesInners: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesComponents: [],
         };
     }

@@ -4,7 +4,7 @@ import { ANIMATION_TIME } from "../../src/constants/css-constants";
 import { PREFIX } from "../../src/constants/classes-names";
 import { mountedLightbox } from "../__tests-vars__/mountedLightbox";
 
-const sourcesHoldersWrapper = mountedLightbox.find('SourcesHoldersWrapper');
+const sourcesOutersWrapper = mountedLightbox.find('SourcesOutersWrapper');
 
 let requestAnimationFrameCallback;
 window.requestAnimationFrame = (callback) => {
@@ -18,7 +18,7 @@ it('should change slide to previous without throwing error', () => {
         act(() => {
             jest.useFakeTimers();
 
-            sourcesHoldersWrapper.simulate('mouseDown', {
+            sourcesOutersWrapper.simulate('mouseDown', {
                 clientX: 1000
             });
 
@@ -53,7 +53,7 @@ it('should change slide to next without throwing error', () => {
 
             jest.useFakeTimers();
 
-            sourcesHoldersWrapper.simulate('mouseDown', {
+            sourcesOutersWrapper.simulate('mouseDown', {
                 clientX: 100
             });
 
@@ -90,7 +90,7 @@ it('should close lightbox when clicking in overlay', () => {
 
             // simulation that mouse down clientX is equal to mouse move clientX
             // so user just clicked and click target was not source lightbox should be closed
-            sourcesHoldersWrapper.simulate('mouseDown', {
+            sourcesOutersWrapper.simulate('mouseDown', {
                 clientX: 333,
                 target: {
                     classList: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourceHolderTransformer } from "../transforms/SourceHolderTransformer";
+import { SourceOuterTransformer } from "../transforms/SourceOuterTransformer";
 import { getSourcesHoldersTransformersCollection } from "./getSourcesHoldersTransformersCollection";
 
 const fsLightbox = {
@@ -8,7 +8,7 @@ const fsLightbox = {
     },
     injector: {
         resolve: (constructorDependency) => {
-            if (constructorDependency === SourceHolderTransformer) {
+            if (constructorDependency === SourceOuterTransformer) {
                 resolveCalls++;
                 return sourcesHoldersTransformingFacades[resolveCalls - 1];
             }
@@ -34,13 +34,13 @@ for (let i = 0; i < 15; i++) {
 
 const retrievedCollection = getSourcesHoldersTransformersCollection(fsLightbox);
 
-it('should call setSourceHolder with correct param on each SourceHolderTransformer', () => {
+it('should call setSourceHolder with correct param on each SourceOuterTransformer', () => {
     for (let i = 0; i < 15; i++) {
         expect(sourcesHoldersTransformingFacades[i].setSourceHolder).toBeCalledWith(sourcesOuters[i]);
     }
 });
 
-it('should return array containing SourceHolderTransformer intances', () => {
+it('should return array containing SourceOuterTransformer intances', () => {
     const expectedArray = [];
     for (let i = 0; i < 15; i++) {
         expectedArray.push(sourcesHoldersTransformingFacades[i]);

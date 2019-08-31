@@ -1,5 +1,4 @@
 import { initializeLightbox } from "./initializeLightbox";
-import { ON_INIT } from "../../../constants/events-constants";
 import * as createSourcesObject from "../../sources/creating/createSources";
 
 const fsLightbox = {
@@ -18,8 +17,7 @@ createSourcesObject.createSources = jest.fn();
 
 test('init actions', () => {
     initializeLightbox(fsLightbox);
-
     expect(fsLightbox.data.isInitialized).toBe(true);
     expect(createSourcesObject.createSources).toBeCalledWith(fsLightbox);
-    expect(eventsDispatcher.dispatch).toBeCalledWith(ON_INIT);
+    expect(eventsDispatcher.dispatch).toBeCalledWith('onInit');
 });

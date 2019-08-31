@@ -13,6 +13,8 @@ export function setUpSlideSwipingDown(
 
         slideSwipingProps.downClientX = getClientXFromEvent(e);
 
+        slideSwipingProps.swipedX = 0;
+
         // cannot prevent default action when target is video because button would be not clickable
         // and cannot prevent event on mobile because we use passive event listener for touch start
         if (e.target.tagName !== 'VIDEO' && !e.touches) {

@@ -26,6 +26,7 @@ test('listener', () => {
     e.target.classList.contains = () => false;
     slideSwipingDown.listener(e);
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(true);
+    expect(fsLightbox.slideSwipingProps.swipedX).toBe(0);
     expect(getClientXFromEventObject.getClientXFromEvent).toBeCalledWith(e);
     expect(fsLightbox.slideSwipingProps.downClientX).toBe('client-x');
     expect(e.preventDefault).not.toBeCalled();

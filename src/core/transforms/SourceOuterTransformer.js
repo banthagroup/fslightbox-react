@@ -1,4 +1,4 @@
-export function SourceHolderTransformer({ data: { slideDistance } }) {
+export function SourceOuterTransformer({ data: { slideDistance } }) {
     const realSlideDistance = slideDistance + 1;
     let sourceHolder;
     let additionalTransformValue = 0;

@@ -3,7 +3,7 @@ import { setUpSlideChangeFacade } from "./setUpSlideChangeFacade";
 const fsLightbox = {
     core: {
         slideIndexChanger: {
-            changeToWithActions: () => {}
+            jumpTo: () => {}
         },
         slideChangeFacade: {},
         stageManager: {
@@ -24,39 +24,39 @@ const slideChangeFacade = fsLightbox.core.slideChangeFacade;
 beforeEach(() => {
     stageManager.getPreviousSlideIndex = () => 25;
     stageManager.getNextSlideIndex = () => 50;
-    slideIndexChanger.changeToWithActions = jest.fn();
+    slideIndexChanger.jumpTo = jest.fn();
 });
 
 describe('changeToPrevious', () => {
-    it('should not call changeToWithActions due to there is only one slide', () => {
+    it('should not call jumpTo due to there is only one slide', () => {
         fsLightbox.data.sourcesCount = 1;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToPrevious();
-        expect(slideIndexChanger.changeToWithActions).not.toBeCalled();
+        expect(slideIndexChanger.jumpTo).not.toBeCalled();
     });
 
-    it(`should call changeToWithActions with  previous slide index 
+    it(`should call jumpTo with  previous slide index 
         due to sourcesCount > 1`, () => {
         fsLightbox.data.sourcesCount = 2;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToPrevious();
-        expect(slideIndexChanger.changeToWithActions).toBeCalledWith(25);
+        expect(slideIndexChanger.jumpTo).toBeCalledWith(25);
     });
 });
 
 describe('changeToNext', () => {
-    it('should not call changeToWithActions due to there is only one slide', () => {
+    it('should not call jumpTo due to there is only one slide', () => {
         fsLightbox.data.sourcesCount = 1;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToNext();
-        expect(slideIndexChanger.changeToWithActions).not.toBeCalled();
+        expect(slideIndexChanger.jumpTo).not.toBeCalled();
     });
 
-    it(`should call changeToWithActions with next slide index 
+    it(`should call jumpTo with next slide index 
         due to sourcesCount > 1`, () => {
         fsLightbox.data.sourcesCount = 2;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToNext();
-        expect(slideIndexChanger.changeToWithActions).toBeCalledWith(50);
+        expect(slideIndexChanger.jumpTo).toBeCalledWith(50);
     });
 });

@@ -21,7 +21,7 @@ export function LightboxUpdateActions(
         }
 
         (getState().isOpen) ?
-            slideIndexChanger.changeToWithActions(newSlideSourceIndex) :
+            slideIndexChanger.jumpTo(newSlideSourceIndex) :
             stageIndexes.current = newSlideSourceIndex;
     };
 }

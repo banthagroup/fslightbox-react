@@ -1,10 +1,4 @@
-export function SourceStyler(
-    {
-        data,
-        elements: { sources, thumbsContainer, captions },
-        injector: { resolve }
-    }, i, defaultWidth, defaultHeight
-) {
+export function SourceStyler({ data, elements: { sources } }, i, defaultWidth, defaultHeight) {
     const ratio = defaultWidth / defaultHeight;
     let newHeight = 0;
 

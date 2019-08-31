@@ -1,4 +1,4 @@
-import { SourceHolderTransformer } from "../transforms/SourceHolderTransformer";
+import { SourceOuterTransformer } from "../transforms/SourceOuterTransformer";
 
 export function getSourcesHoldersTransformersCollection(
     {
@@ -12,7 +12,7 @@ export function getSourcesHoldersTransformersCollection(
 ) {
     const collection = [];
     for (let i = 0; i < sourcesOuters.length; i++) {
-        const sourceHolderTransformer = resolve(SourceHolderTransformer);
+        const sourceHolderTransformer = resolve(SourceOuterTransformer);
         sourceHolderTransformer.setSourceHolder(sourcesOuters[i]);
         collection.push(sourceHolderTransformer);
     }

@@ -1,14 +1,13 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 import { SourceStyler } from "./SourceStyler";
-import { OPACITY_1_CLASS_NAME } from "../../constants/classes-names";
+import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../constants/classes-names";
 
 const fsLightbox = {
     collections: { sourcesStylers: [] },
     componentsStates: { isSourceLoadedCollection: [{ set: jest.fn() }] },
-    data: { initialAnimation: 'example-animation' },
     elements: {
         sources: [{ current: { classList: { add: jest.fn() } } }],
-        sourcesOuters: [{ current: { classList: { add: jest.fn(), remove: jest.fn() } } }]
+        sourcesInners: [{ current: { classList: { add: jest.fn(), remove: jest.fn() } } }]
     },
     injector: {
         resolve: (constructorDependency, params) => {
@@ -21,17 +20,13 @@ const fsLightbox = {
         }
     }
 };
-const sourceStyler = {
-    setIndex: jest.fn(),
-    setDefaultDimensions: jest.fn(),
-    styleSize: jest.fn(),
-};
+const sourceStyler = { styleSize: jest.fn() };
 const sourceLoadActioner = new SourceLoadActioner(fsLightbox, 0, 1000, 1500);
 
 test('runNormalLoadActions', () => {
     sourceLoadActioner.runNormalLoadActions();
     expect(fsLightbox.elements.sources[0].current.classList.add).toBeCalledWith(OPACITY_1_CLASS_NAME);
-    expect(fsLightbox.elements.sourcesOuters[0].current.classList.add).toBeCalledWith('example-animation');
+    expect(fsLightbox.elements.sourcesInners[0].current.classList.add).toBeCalledWith(FADE_IN_STRONG_CLASS_NAME);
     expect(fsLightbox.componentsStates.isSourceLoadedCollection[0].set).toBeCalledWith(true);
 });
 

@@ -10,7 +10,7 @@ import { DetectedTypeActioner } from "./DetectedTypeActioner";
 const fsLightbox = {
     collections: { sourcesLoadsHandlers: [] },
     getState: () => lightboxState,
-    componentsStates: { isSourceLoadedCollection: [{ set: jest.fn() }] },
+    componentsStates: { sourcesInnersUpdatersCollection: [{ set: jest.fn() }] },
     elements: { sourcesComponents: [] },
     injector: {
         resolve: (constructorDependency, params) => {
@@ -42,7 +42,7 @@ test('runActionsForSourceTypeAndIndex', () => {
     expect(sourceLoadHandler.setUpLoadForVideo).not.toBeCalled();
     expect(sourceLoadHandler.setUpLoadForYoutube).not.toBeCalled();
     expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Image fsLightbox={ fsLightbox } i={ 0 } />);
-    expect(fsLightbox.componentsStates.isSourceLoadedCollection[0].set).not.toBeCalled();
+    expect(fsLightbox.componentsStates.sourcesInnersUpdatersCollection[0].set).not.toBeCalled();
 
     fsLightbox.props.disableThumbs = true;
     lightboxState.isOpen = true;
@@ -52,7 +52,7 @@ test('runActionsForSourceTypeAndIndex', () => {
     expect(sourceLoadHandler.setUpLoadForVideo).toBeCalled();
     expect(sourceLoadHandler.setUpLoadForYoutube).not.toBeCalled();
     expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Video fsLightbox={ fsLightbox } i={ 0 } />);
-    expect(fsLightbox.componentsStates.isSourceLoadedCollection[0].set).toBeCalledWith(true);
+    expect(fsLightbox.componentsStates.sourcesInnersUpdatersCollection[0].set).toBeCalledWith(true);
 
     detectedTypeActions.runActionsForSourceTypeAndIndex(YOUTUBE_TYPE, 0);
     expect(sourceLoadHandler.setUpLoadForImage).toBeCalledTimes(1);

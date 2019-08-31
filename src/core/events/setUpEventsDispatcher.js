@@ -1,13 +1,7 @@
-export function setUpEventsDispatcher(
-    {
-        core: {
-            eventsDispatcher: self
-        },
-        props
-    }
-) {
+export function setUpEventsDispatcher({ core: { eventsDispatcher: self }, props }) {
     self.dispatch = (eventName) => {
-        if (props[eventName])
+        if (props[eventName]) {
             props[eventName]();
+        }
     };
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PREFIX } from "../constants/classes-names";
+import { PREFIX } from "../../constants/classes-names";
 
 const Loader = () =>
     (

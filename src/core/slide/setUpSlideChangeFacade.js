@@ -12,11 +12,11 @@ export function setUpSlideChangeFacade(
 ) {
     if (sourcesCount > 1) {
         self.changeToPrevious = () => {
-            slideIndexChanger.changeToWithActions(stageManager.getPreviousSlideIndex());
+            slideIndexChanger.jumpTo(stageManager.getPreviousSlideIndex());
         };
 
         self.changeToNext = () => {
-            slideIndexChanger.changeToWithActions(stageManager.getNextSlideIndex());
+            slideIndexChanger.jumpTo(stageManager.getNextSlideIndex());
         };
     } else {
         self.changeToPrevious = () => {};
