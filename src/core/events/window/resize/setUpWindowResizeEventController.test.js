@@ -8,7 +8,7 @@ const fsLightbox = {
                 resize: windowResizeEventController
             }
         },
-        windowResizeActions: {
+        windowResizeActioner: {
             runActions: () => {},
         }
     }
@@ -21,7 +21,7 @@ test('attachListener', () => {
 
     windowResizeEventController.attachListener();
 
-    expect(addEventListener).toBeCalledWith('resize', fsLightbox.core.windowResizeActions.runActions);
+    expect(addEventListener).toBeCalledWith('resize', fsLightbox.core.windowResizeActioner.runActions);
 });
 
 test('removeListener', () => {
@@ -29,5 +29,5 @@ test('removeListener', () => {
 
     windowResizeEventController.removeListener();
 
-    expect(removeEventListener).toBeCalledWith('resize', fsLightbox.core.windowResizeActions.runActions);
+    expect(removeEventListener).toBeCalledWith('resize', fsLightbox.core.windowResizeActioner.runActions);
 });

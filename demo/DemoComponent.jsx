@@ -32,6 +32,7 @@ class DemoComponent extends Component {
 
     render() {
         const sources = [
+            "../demo/images/5.jpg",
             TEST_YOUTUBE_URL,
             TEST_VIDEO_URL,
             "../demo/images/3.jpeg",
@@ -64,10 +65,6 @@ class DemoComponent extends Component {
                         null,
                         "../demo/images/1.jpeg"
                     ] }
-                    // onClose={ () => console.log('onClose') }
-                    // onInit={ () => console.log('onInit') }
-                    // onOpen={ () => console.log('onOpen') }
-                    // onShow={ () => console.log('onShow') }
                 />
                 <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] } />
             </>

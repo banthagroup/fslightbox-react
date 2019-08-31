@@ -18,7 +18,7 @@ export function setUpLightboxOpenActioner(fsLightbox) {
             lightboxOpenActioner: self,
             scrollbarRecompensor,
             stageManager,
-            windowResizeActioner,
+            windowResizeActioner
         },
         data,
         stageIndexes

@@ -3,7 +3,7 @@ import SourceOuter from "./SourceOuter.jsx";
 import {
     ABSOLUTED_CLASS_NAME,
     FULL_DIMENSION_CLASS_NAME,
-    SOURCES_WRAPPERS_CONTAINER
+    SOURCES_OUTERS_WRAPPER
 } from "../../constants/classes-names";
 
 const SourcesOutersWrapper = ({ fsLightbox }) => {
@@ -26,7 +26,7 @@ const SourcesOutersWrapper = ({ fsLightbox }) => {
     }
 
     return (
-        <div className={ `${ SOURCES_WRAPPERS_CONTAINER } ${ ABSOLUTED_CLASS_NAME } ${ FULL_DIMENSION_CLASS_NAME }` }
+        <div className={ `${ SOURCES_OUTERS_WRAPPER } ${ ABSOLUTED_CLASS_NAME } ${ FULL_DIMENSION_CLASS_NAME }` }
              ref={ sourcesOutersWrapper }
              onMouseDown={ slideSwipingDownListener }
              onTouchStart={ slideSwipingDownListener }>
