@@ -1,7 +1,7 @@
 export function setUpWindowResizeActions(
     {
         collections: {
-            sourcesHoldersTransformers,
+            sourcesOutersTransformers,
             sourcesStylers
         },
         core: {
@@ -20,7 +20,7 @@ export function setUpWindowResizeActions(
 
         for (let i = 0; i < data.sourcesCount; i++) {
             if (i !== stageIndexes.current) {
-                sourcesHoldersTransformers[i].negative();
+                sourcesOutersTransformers[i].negative();
             }
             // if source is Invalid or if lightbox is initialized there are no sourcesStylers
             // so we need to check if it exists

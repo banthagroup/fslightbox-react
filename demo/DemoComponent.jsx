@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../src/scss/FsLightbox.scss';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
 import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";

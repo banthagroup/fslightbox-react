@@ -20,8 +20,7 @@ export function LightboxCloseActioner(
         },
         elements: { container: lightboxContainer },
         setMainComponentState,
-        slideSwipingProps,
-        thumbsSwipingProps
+        slideSwipingProps
     }
 ) {
     this.isLightboxFadingOut = false;
@@ -35,16 +34,13 @@ export function LightboxCloseActioner(
         keyDownEventController.removeListener();
 
         if (isFullscreenOpenState.get()) {
-            fullscreenToggler.turnOffFullscreen();
+            fullscreenToggler.enterFullscreen();
         }
 
         setTimeout(() => {
             this.isLightboxFadingOut = false;
 
             slideSwipingProps.isSwiping = false;
-            if (thumbsSwipingProps) {
-                thumbsSwipingProps.isSwiping = false;
-            }
 
             lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
 

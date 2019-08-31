@@ -1,15 +1,12 @@
 export function setUpFullscreenToggler(
     {
-        componentsStates: {
-            isFullscreenOpen: isFullscreenOpenState
-        },
-        core: {
-            fullscreenToggler: self
-        }
+        componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
+        core: { fullscreenToggler: self }
     }
 ) {
-    self.turnOnFullscreen = () => {
+    self.enterFullscreen = () => {
         isFullscreenOpenState.set(true);
+
         const documentElement = document.documentElement;
         if (documentElement.requestFullscreen) {
             documentElement.requestFullscreen();
@@ -22,8 +19,9 @@ export function setUpFullscreenToggler(
         }
     };
 
-    self.turnOffFullscreen = () => {
+    self.exitFullscreen = () => {
         isFullscreenOpenState.set(false);
+
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {

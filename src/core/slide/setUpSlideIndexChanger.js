@@ -10,7 +10,7 @@ import {
 export function setUpSlideIndexChanger(
     {
         collections: {
-            sourcesHoldersTransformers
+            sourcesOutersTransformers
         },
         componentsStates: {
             slideNumberUpdater: slideNumberUpdaterState
@@ -62,10 +62,10 @@ export function setUpSlideIndexChanger(
         // we cannot detect what slide will be
         removeFadeOutQueue.startTimeout();
 
-        sourcesHoldersTransformers[index].zero();
+        sourcesOutersTransformers[index].zero();
         setTimeout(() => {
             if (previousSlideIndex !== stageIndexes.current)
-                sourcesHoldersTransformers[previousSlideIndex].negative();
+                sourcesOutersTransformers[previousSlideIndex].negative();
         }, ANIMATION_TIME);
     };
 }

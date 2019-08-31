@@ -3,8 +3,10 @@ import { setUpFullscreenToggler } from "./setUpFullscreenToggler";
 const fullscreenToggler = {};
 const fsLightbox = {
     componentsStates: {
-        isFullscreenOpen: {
-            set: () => {}
+        toolbarButtons: {
+            fullscreen: {
+                set: jest.fn()
+            }
         }
     },
     core: {
@@ -14,30 +16,25 @@ const fsLightbox = {
 
 setUpFullscreenToggler(fsLightbox);
 
-describe('setting isFullscreenOpen component state', () => {
-    beforeEach(() => {
-        fsLightbox.componentsStates.isFullscreenOpen.set = jest.fn();
-    });
-
-    test('turnOnFullscreen', () => {
-        fullscreenToggler.turnOnFullscreen();
-        expect(fsLightbox.componentsStates.isFullscreenOpen.set).toBeCalledWith(true);
-    });
-
-    test('turnOffFullscreen', () => {
-        fullscreenToggler.turnOffFullscreen();
-        expect(fsLightbox.componentsStates.isFullscreenOpen.set).toBeCalledWith(false);
-    });
+test('setting isFullscreenOpen component state', () => {
+    fullscreenToggler.enterFullscreen();
+    expect(fsLightbox.componentsStates.toolbarButtons.fullscreen.set).toBeCalledWith(true);
+    fullscreenToggler.exitFullscreen();
+    expect(fsLightbox.componentsStates.toolbarButtons.fullscreen.set).toBeCalledWith(false);
 });
 
-test('requestFullscreen', () => {
-    document.documentElement.requestFullscreen = jest.fn();
-    fullscreenToggler.turnOnFullscreen();
-    expect(document.documentElement.requestFullscreen).toBeCalled();
+describe('requestFullscreen', () => {
+    it('should turn on fullscreen', () => {
+        document.documentElement.requestFullscreen = jest.fn();
+        fullscreenToggler.enterFullscreen();
+        expect(document.documentElement.requestFullscreen).toBeCalled();
+    });
 
-    document.exitFullscreen = jest.fn();
-    fullscreenToggler.turnOffFullscreen();
-    expect(document.exitFullscreen).toBeCalled();
+    it('should turn off fullscreen', () => {
+        document.exitFullscreen = jest.fn();
+        fullscreenToggler.exitFullscreen();
+        expect(document.exitFullscreen).toBeCalled();
+    });
 });
 
 describe('mozRequestFullScreen', () => {
@@ -48,17 +45,16 @@ describe('mozRequestFullScreen', () => {
 
     it('should turn on fullscreen', () => {
         document.documentElement.mozRequestFullScreen = jest.fn();
-        fullscreenToggler.turnOnFullscreen();
+        fullscreenToggler.enterFullscreen();
         expect(document.documentElement.mozRequestFullScreen).toBeCalled();
     });
 
     it('should turn off fullscreen', () => {
         document.mozCancelFullScreen = jest.fn();
-        fullscreenToggler.turnOffFullscreen();
+        fullscreenToggler.exitFullscreen();
         expect(document.mozCancelFullScreen).toBeCalled();
     });
 });
-
 
 describe('webkitRequestFullscreen', () => {
     beforeEach(() => {
@@ -70,17 +66,16 @@ describe('webkitRequestFullscreen', () => {
 
     it('should turn on fullscreen', () => {
         document.documentElement.webkitRequestFullscreen = jest.fn();
-        fullscreenToggler.turnOnFullscreen();
+        fullscreenToggler.enterFullscreen();
         expect(document.documentElement.webkitRequestFullscreen).toBeCalled();
     });
 
     it('should turn off fullscreen', () => {
         document.webkitExitFullscreen = jest.fn();
-        fullscreenToggler.turnOffFullscreen();
+        fullscreenToggler.exitFullscreen();
         expect(document.webkitExitFullscreen).toBeCalled();
     });
 });
-
 
 describe('msRequestFullscreen', () => {
     beforeEach(() => {
@@ -94,13 +89,13 @@ describe('msRequestFullscreen', () => {
 
     it('should turn on fullscreen', () => {
         document.documentElement.msRequestFullscreen = jest.fn();
-        fullscreenToggler.turnOnFullscreen();
+        fullscreenToggler.enterFullscreen();
         expect(document.documentElement.msRequestFullscreen).toBeCalled();
     });
 
     it('should turn off fullscreen', () => {
         document.msExitFullscreen = jest.fn();
-        fullscreenToggler.turnOffFullscreen();
+        fullscreenToggler.exitFullscreen();
         expect(document.msExitFullscreen).toBeCalled();
     });
 });

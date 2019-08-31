@@ -1,6 +1,5 @@
-import { getSwipingProps } from "./slide-swiping/getSwipingProps";
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
-import { setUpSlideSwipingMove } from "./slide-swiping/events/setUpSlideSwipingMove";
+import { setUpSlideSwipingMove } from "./slide/swiping/move/setUpSlideSwipingMove";
 import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
 import { setUpWindowResizeActions } from "./sizes/setUpWindowResizeActions";
 import { setUpDocumentKeyDownEventController } from "./events/document/setUpDocumentKeyDownEventController";
@@ -8,17 +7,19 @@ import { setUpWindowResizeEventController } from "./events/window/resize/setUpWi
 import { setUpSwipingEventsControllersFacade } from "./events/facades/setUpSwipingEventsControllersFacade";
 import { setUpKeyboardController } from "./keyboard/setUpKeyboardController";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
-import { setUpLightboxOpeningActions } from "./main-component/opening/setUpLightboxOpeningActions";
+import { setUpLightboxOpeningActions } from "./main-component/opening/setUpLightboxOpenActioner";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
-import { setUpSlideSwipingDown } from "./slide-swiping/events/setUpSlideSwipingDown";
-import { setUpSlideSwipingUp } from "./slide-swiping/events/setUpSlideSwipingUp";
+import { setUpSlideSwipingDown } from "./slide/swiping/down/setUpSlideSwipingDown";
+import { setUpSlideSwipingUp } from "./slide/swiping/up/setUpSlideSwipingUp";
 import { setUpLightboxUpdater } from "./main-component/updating/setUpLightboxUpdater";
 import { setUpStageManager } from "./stage/setUpStageManager";
 import { setUpSlideIndexChanger } from "./slide/setUpSlideIndexChanger";
 import { setUpEventsDispatcher } from "./events/setUpEventsDispatcher";
 import { setUpSlideChangeFacade } from "./slide/setUpSlideChangeFacade";
+import { setUpClassFacade } from "./elements/setUpClassFacade";
 
 export function setUpCore(fsLightbox) {
+    setUpClassFacade(fsLightbox);
     setUpDocumentKeyDownEventController(fsLightbox);
     setUpWindowResizeEventController(fsLightbox);
     setUpSwipingEventsControllersFacade(fsLightbox);
@@ -32,10 +33,9 @@ export function setUpCore(fsLightbox) {
     setUpScrollbarRecompensor(fsLightbox);
     setUpSlideChangeFacade(fsLightbox);
     setUpSlideIndexChanger(fsLightbox);
-    const swipingProps = getSwipingProps();
-    setUpSlideSwipingDown(fsLightbox, swipingProps);
-    setUpSlideSwipingMove(fsLightbox, swipingProps);
-    setUpSlideSwipingUp(fsLightbox, swipingProps);
+    setUpSlideSwipingDown(fsLightbox);
+    setUpSlideSwipingMove(fsLightbox);
+    setUpSlideSwipingUp(fsLightbox);
     setUpStageManager(fsLightbox);
     setUpWindowResizeActions(fsLightbox);
 }
