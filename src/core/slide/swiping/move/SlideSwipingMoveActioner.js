@@ -1,15 +1,14 @@
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
 import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
-import { LIGHTBOX_CONTAINER } from "../../../../constants/elements";
 
-export function SlideSwipingMoveActions(
+export function SlideSwipingMoveActioner(
     {
-        collections: { sourcesHoldersTransformers },
+        collections: { sourcesOutersTransformers },
         componentsStates: { hasMovedWhileSwiping: hasMovedWhileSwipingState, },
-        core: { classListManager },
-        data: { sourcesCount },
+        elements: { container },
+        slideSwipingProps,
         stageIndexes
-    }, swipingProps
+    }
 ) {
     this.runActionsForEvent = (e) => {
         // we are showing InvisibleHover component in move event not in down event
@@ -18,24 +17,22 @@ export function SlideSwipingMoveActions(
             hasMovedWhileSwipingState.set(true);
         }
 
-        classListManager
-            .manageElement(LIGHTBOX_CONTAINER)
-            .add(CURSOR_GRABBING_CLASS_NAME);
+        container.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
 
-        swipingProps.swipedDifference = getClientXFromEvent(e) - swipingProps.downClientX;
+        slideSwipingProps.swipedX = getClientXFromEvent(e) - slideSwipingProps.downClientX;
 
         transformSourceHolderAtIndexToPosition(stageIndexes.current, 'zero');
         // if there are only two slides we need to check if source we want to transform exists
-        if (stageIndexes.previous !== undefined && swipingProps.swipedDifference > 0) {
+        if (stageIndexes.previous !== undefined && slideSwipingProps.swipedX > 0) {
             transformSourceHolderAtIndexToPosition(stageIndexes.previous, 'negative');
-        } else if (stageIndexes.next !== undefined && swipingProps.swipedDifference < 0) {
+        } else if (stageIndexes.next !== undefined && slideSwipingProps.swipedX < 0) {
             transformSourceHolderAtIndexToPosition(stageIndexes.next, 'positive');
         }
     };
 
     const transformSourceHolderAtIndexToPosition = (index, position) => {
-        sourcesHoldersTransformers[index]
-            .byValue(swipingProps.swipedDifference)
+        sourcesOutersTransformers[index]
+            .byValue(slideSwipingProps.swipedX)
             [position]();
     };
 }

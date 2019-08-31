@@ -33,13 +33,20 @@ class FsLightbox extends Component {
             sources: (this.props.sources) ? this.props.sources : this.props.urls,
             sourcesCount: null,
             isInitialized: false,
-            isSwipingSlides: false,
             maxSourceWidth: 0,
             maxSourceHeight: 0,
             scrollbarWidth: 0,
             slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3
         };
+
         this.data.sourcesCount = this.data.sources.length;
+
+        this.slideSwipingProps = {
+            isSwiping: false,
+            downClientX: null,
+            isSourceDownEventTarget: false,
+            swipedX: 0
+        };
     }
 
     setUpStageIndexes() {
@@ -65,7 +72,10 @@ class FsLightbox extends Component {
             slideNumberUpdater: {},
             hasMovedWhileSwiping: {},
             isFullscreenOpen: {},
-            isSourceLoadedCollection: []
+            isSourceLoadedCollection: [],
+            toolbarButtons: {
+                fullscreen: {}
+            }
         };
     }
 
@@ -94,7 +104,7 @@ class FsLightbox extends Component {
 
     setUpCollections() {
         this.collections = {
-            sourcesHoldersTransformers: getSourcesHoldersTransformersCollection(this),
+            sourcesOutersTransformers: getSourcesHoldersTransformersCollection(this),
             sourcesLoadsHandlers: [],
             // after source load its size adjuster will be stored in this array so it may be later resized
             sourcesStylers: [],
@@ -105,7 +115,7 @@ class FsLightbox extends Component {
 
     setUpCore() {
         this.core = {
-            classListManager: {},
+            classFacade: {},
             eventsControllers: {
                 document: {
                     keyDown: {},
@@ -120,7 +130,7 @@ class FsLightbox extends Component {
             keyboardController: {},
             lightboxCloser: {},
             lightboxOpener: {},
-            lightboxOpenActions: {},
+            lightboxOpenActioner: {},
             lightboxUpdater: {},
             scrollbarRecompensor: {},
             slideChangeFacade: {},

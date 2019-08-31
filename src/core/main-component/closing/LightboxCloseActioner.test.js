@@ -1,161 +1,80 @@
 import { LightboxCloseActioner } from "./LightboxCloseActioner";
-import { ON_CLOSE } from "../../../constants/events-constants";
-import { LONG_FADE_OUT_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
+import { FADE_OUT_STRONG_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
 import { ANIMATION_TIME } from "../../../constants/css-constants";
-import { LIGHTBOX_CONTAINER } from "../../../constants/elements";
 
 const fsLightbox = {
-    componentsStates: {
-        isFullscreenOpen: {
-            get: () => false
-        }
-    },
+    componentsStates: { toolbarButtons: { fullscreen: { get: () => false } } },
     core: {
-        classListManager: {
-            manageElement: () => ({
-                add: () => {},
-                remove: () => {}
-            })
-        },
         eventsControllers: {
             window: {
-                resize: {
-                    removeListener: () => {},
-                },
-                swiping: {
-                    removeListeners: () => {},
-                }
+                resize: { removeListener: jest.fn() },
+                swiping: { removeListeners: jest.fn() }
             },
             document: {
-                keyDown: {
-                    removeListener: () => {}
-                }
+                keyDown: { removeListener: jest.fn() }
             }
         },
-        eventsDispatcher: {
-            dispatch: () => {}
-        },
-        fullscreenToggler: {
-            turnOffFullscreen: () => {}
-        },
-        scrollbarRecompensor: {
-            removeRecompense: () => {}
-        }
+        eventsDispatcher: { dispatch: jest.fn() },
+        fullscreenToggler: { enterFullscreen: jest.fn() },
+        scrollbarRecompensor: { removeRecompense: jest.fn() }
     },
-    setMainComponentState: () => {}
+    elements: { container: { current: { classList: { add: jest.fn(), remove: jest.fn() } } } },
+    setMainComponentState: () => {},
+    slideSwipingProps: {},
 };
-
-const isFullscreenOpenState = fsLightbox.componentsStates.isFullscreenOpen;
-const classListManager = fsLightbox.core.classListManager;
+const isFullscreenOpenState = fsLightbox.componentsStates.toolbarButtons.fullscreen;
 const windowResizeEventController = fsLightbox.core.eventsControllers.window.resize;
-const swipingEventsControllerFacade = fsLightbox.core.eventsControllers.window.swiping;
-const keyDownEventController = fsLightbox.core.eventsControllers.document.keyDown;
-const eventsDispatcher = fsLightbox.core.eventsDispatcher;
 const fullscreenToggler = fsLightbox.core.fullscreenToggler;
 const scrollbarRecompensor = fsLightbox.core.scrollbarRecompensor;
 
-let lightboxClosingActions = new LightboxCloseActioner(fsLightbox);
+let setTimeoutParams;
+let setMainComponentStateParams;
+let lightboxCloseActions = new LightboxCloseActioner(fsLightbox);
 
-describe('isLightboxFadingOut property (testing if by default is false)', () => {
-    it('should be false by default', () => {
-        expect(lightboxClosingActions.isLightboxFadingOut).toBe(false);
-    });
+test('isLightboxFadingOut', () => {
+    expect(lightboxCloseActions.isLightboxFadingOut).toBe(false);
 });
 
-describe('before fadeOut (instant actions)', () => {
-    let addClass;
+test('before fadeOut (instant actions)', () => {
+    lightboxCloseActions.isLightboxFadingOut = undefined;
+    lightboxCloseActions.runActions();
 
-    beforeAll(() => {
-        lightboxClosingActions.isLightboxFadingOut = undefined;
-        addClass = jest.fn();
-        classListManager.manageElement = (elementName) => {
-            if (elementName === LIGHTBOX_CONTAINER) {
-                return {
-                    add: addClass
-                }
-            }
-        };
-        swipingEventsControllerFacade.removeListeners = jest.fn();
-        keyDownEventController.removeListener = jest.fn();
-        lightboxClosingActions.runActions();
-    });
+    expect(lightboxCloseActions.isLightboxFadingOut).toBe(true);
+    expect(fsLightbox.elements.container.current.classList.add).toBeCalledWith(FADE_OUT_STRONG_CLASS_NAME);
+    expect(fsLightbox.core.eventsControllers.window.swiping.removeListeners).toBeCalled();
+    expect(fsLightbox.core.eventsControllers.document.keyDown.removeListener).toBeCalled();
 
-    it('should correctly call non conditional actions', () => {
-        expect(lightboxClosingActions.isLightboxFadingOut).toBe(true);
-        expect(addClass).toBeCalledWith(LONG_FADE_OUT_CLASS_NAME);
-        expect(swipingEventsControllerFacade.removeListeners).toBeCalled();
-        expect(keyDownEventController.removeListener).toBeCalled();
-    });
+    lightboxCloseActions.runActions();
+    expect(fullscreenToggler.enterFullscreen).not.toBeCalled();
 
-    it('should close fullscreen if is open', () => {
-        fullscreenToggler.turnOffFullscreen = jest.fn();
-
-        isFullscreenOpenState.get = () => false;
-        lightboxClosingActions.runActions();
-        expect(fullscreenToggler.turnOffFullscreen).not.toBeCalled();
-
-        isFullscreenOpenState.get = () => true;
-        lightboxClosingActions.runActions();
-        expect(fullscreenToggler.turnOffFullscreen).toBeCalled();
-    });
+    isFullscreenOpenState.get = () => true;
+    lightboxCloseActions.runActions();
+    expect(fullscreenToggler.enterFullscreen).toBeCalled();
 });
 
-describe('after fade out', () => {
-    let setMainComponentStateParams;
-    let setTimeoutParams;
-    let removeClass;
+test('after fade out', () => {
+    window.setTimeout = (...params) => { setTimeoutParams = params; };
 
-    beforeAll(() => {
-        window.setTimeout = (...params) => {
-            setTimeoutParams = params;
-        };
+    lightboxCloseActions.isLightboxFadingOut = undefined;
+    document.documentElement.classList.remove = jest.fn();
 
-        lightboxClosingActions.isLightboxFadingOut = undefined;
-        removeClass = jest.fn();
-        classListManager.manageElement = (elementName) => {
-            if (elementName === LIGHTBOX_CONTAINER) {
-                return {
-                    add: () => {},
-                    remove: removeClass
-                }
-            }
-        };
-        document.documentElement.classList.remove = jest.fn();
-        scrollbarRecompensor.removeRecompense = jest.fn();
-        windowResizeEventController.removeListener = jest.fn();
-        fsLightbox.setMainComponentState = (...params) => {
-            setMainComponentStateParams = params;
-        };
-        eventsDispatcher.dispatch = jest.fn();
+    fsLightbox.setMainComponentState = (...params) => { setMainComponentStateParams = params; };
 
-        lightboxClosingActions = new LightboxCloseActioner(fsLightbox);
-        lightboxClosingActions.runActions();
-    });
+    lightboxCloseActions = new LightboxCloseActioner(fsLightbox);
+    lightboxCloseActions.runActions();
 
-    it('should call setTimeout with animation time', () => {
-        expect(setTimeoutParams[1]).toBe(ANIMATION_TIME);
-    });
+    expect(setTimeoutParams[1]).toBe(ANIMATION_TIME - 30);
 
-    describe('callback', () => {
-        beforeAll(() => {
-            setTimeoutParams[0]();
-        });
+    setTimeoutParams[0]();
 
-        it('should correctly run actions', () => {
-            expect(removeClass).toBeCalledWith(LONG_FADE_OUT_CLASS_NAME);
-            expect(document.documentElement.classList.remove).toBeCalledWith(OPEN_CLASS_NAME);
-            expect(scrollbarRecompensor.removeRecompense).toBeCalled();
-            expect(windowResizeEventController.removeListener).toBeCalled();
+    expect(lightboxCloseActions.isLightboxFadingOut).toBe(false);
+    expect(fsLightbox.slideSwipingProps.isSwiping).toBe(false);
+    expect(fsLightbox.elements.container.current.classList.remove).toBeCalledWith(FADE_OUT_STRONG_CLASS_NAME);
+    expect(document.documentElement.classList.remove).toBeCalledWith(OPEN_CLASS_NAME);
+    expect(scrollbarRecompensor.removeRecompense).toBeCalled();
+    expect(windowResizeEventController.removeListener).toBeCalled();
 
-            // setting main component isOpen state
-            expect(setMainComponentStateParams[0]).toEqual({
-                isOpen: false
-            });
-            // ste state callback
-            setMainComponentStateParams[1]();
-            expect(eventsDispatcher.dispatch).toBeCalledWith(ON_CLOSE);
-        });
-    });
+    expect(setMainComponentStateParams[0]).toEqual({ isOpen: false });
+    setMainComponentStateParams[1]();
+    expect(fsLightbox.core.eventsDispatcher.dispatch).toBeCalledWith('onClose');
 });
-
-

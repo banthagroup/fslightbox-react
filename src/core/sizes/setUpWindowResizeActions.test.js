@@ -2,7 +2,7 @@ import { setUpWindowResizeActions } from "./setUpWindowResizeActions";
 
 const fsLightbox = {
     collections: {
-        sourcesHoldersTransformers: [],
+        sourcesOutersTransformers: [],
         sourcesStylers: []
     },
     core: {
@@ -18,7 +18,7 @@ const fsLightbox = {
     }
 };
 
-const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
+const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesOutersTransformers;
 const sourcesSizesAdjustersCollection = fsLightbox.collections.sourcesStylers;
 
 const windowResizeActions = fsLightbox.core.windowResizeActions;

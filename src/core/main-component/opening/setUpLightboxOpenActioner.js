@@ -1,10 +1,9 @@
-import { ON_OPEN, ON_SHOW } from "../../../constants/events-constants";
 import { initializeLightbox } from "../initializing/initializeLightbox";
 import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 
-export function setUpLightboxOpeningActions(fsLightbox) {
+export function setUpLightboxOpenActioner(fsLightbox) {
     const {
-        data,
+        collections: { sourcesOutersTransformers },
         core: {
             eventsControllers: {
                 window: {
@@ -16,11 +15,13 @@ export function setUpLightboxOpeningActions(fsLightbox) {
                 }
             },
             eventsDispatcher,
-            lightboxOpenActions: self,
+            lightboxOpenActioner: self,
             scrollbarRecompensor,
             stageManager,
-            windowResizeActions,
-        }
+            windowResizeActioner,
+        },
+        data,
+        stageIndexes
     } = fsLightbox;
 
     self.runActions = () => {
@@ -28,7 +29,7 @@ export function setUpLightboxOpeningActions(fsLightbox) {
 
         document.documentElement.classList.add(OPEN_CLASS_NAME);
 
-        windowResizeActions.runActions();
+        windowResizeActioner.runActions();
 
         scrollbarRecompensor.addRecompense();
 
@@ -36,10 +37,12 @@ export function setUpLightboxOpeningActions(fsLightbox) {
         swipingEventsController.attachListeners();
         documentKeyDownEventController.attachListener();
 
-        eventsDispatcher.dispatch(ON_OPEN);
+        sourcesOutersTransformers[stageIndexes.current].zero();
+
+        eventsDispatcher.dispatch('onOpen');
 
         (data.isInitialized) ?
-            eventsDispatcher.dispatch(ON_SHOW) :
+            eventsDispatcher.dispatch('onShow') :
             initializeLightbox(fsLightbox);
     };
 }

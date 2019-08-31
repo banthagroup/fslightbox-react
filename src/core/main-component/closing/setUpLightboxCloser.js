@@ -6,11 +6,11 @@ export function setUpLightboxCloser(
         injector: { resolve }
     }
 ) {
-    const lightboxClosingActions = resolve(LightboxCloseActioner);
+    const lightboxCloseActioner = resolve(LightboxCloseActioner);
 
     self.closeLightbox = () => {
-        if (!lightboxClosingActions.isLightboxFadingOut) {
-            lightboxClosingActions.runActions();
+        if (!lightboxCloseActioner.isLightboxFadingOut) {
+            lightboxCloseActioner.runActions();
         }
     };
 }

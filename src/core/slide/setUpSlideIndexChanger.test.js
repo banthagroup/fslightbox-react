@@ -6,7 +6,7 @@ import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from
 
 const fsLightbox = {
     collections: {
-        sourcesHoldersTransformers: []
+        sourcesOutersTransformers: []
     },
     componentsStates: {
         slideNumberUpdater: {
@@ -48,7 +48,7 @@ const slideNumberUpdaterState = fsLightbox.componentsStates.slideNumberUpdater;
 const classListManager = fsLightbox.core.classListManager;
 const stageManager = fsLightbox.core.stageManager;
 
-const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
+const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesOutersTransformers;
 
 const slideIndexChanger = fsLightbox.core.slideIndexChanger;
 

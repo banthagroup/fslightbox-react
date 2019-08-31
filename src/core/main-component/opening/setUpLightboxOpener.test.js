@@ -2,29 +2,19 @@ import { setUpLightboxOpener } from "./setUpLightboxOpener";
 
 const fsLightbox = {
     setMainComponentState: () => {},
-    core: {
-        lightboxOpenActions: {
-            runActions: () => {}
-        },
-        lightboxOpener: {}
-    }
+    core: { lightboxOpenActioner: { runActions: jest.fn() }, lightboxOpener: {} }
+};
+const lightboxOpener = fsLightbox.core.lightboxOpener;
+let state;
+fsLightbox.setMainComponentState = (stateObject, callback) => {
+    state = stateObject;
+    callback();
 };
 
-const lightboxOpenActions = fsLightbox.core.lightboxOpenActions;
-
-const lightboxOpener = fsLightbox.core.lightboxOpener;
-
-let state;
-
 test('simple actions', () => {
-    lightboxOpenActions.runActions = jest.fn();
-    fsLightbox.setMainComponentState = (stateObject, callback) => {
-        state = stateObject;
-        callback();
-    };
     setUpLightboxOpener(fsLightbox);
     lightboxOpener.openLightbox();
 
     expect(state).toEqual({ isOpen: true });
-    expect(fsLightbox.core.lightboxOpenActions.runActions).toBeCalled();
+    expect(fsLightbox.core.lightboxOpenActioner.runActions).toBeCalled();
 });

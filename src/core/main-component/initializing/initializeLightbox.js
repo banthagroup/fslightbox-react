@@ -1,4 +1,3 @@
-import { ON_INIT } from "../../../constants/events-constants";
 import { createSources } from "../../sources/creating/createSources";
 
 export function initializeLightbox(fsLightbox) {
@@ -11,5 +10,5 @@ export function initializeLightbox(fsLightbox) {
 
     data.isInitialized = true;
     createSources(fsLightbox);
-    eventsDispatcher.dispatch(ON_INIT);
+    eventsDispatcher.dispatch('onInit');
 }
