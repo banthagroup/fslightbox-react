@@ -10,7 +10,7 @@ export function DetectedTypeActioner(fsLightbox) {
     const {
         collections: { sourcesLoadsHandlers },
         getState: getLightboxState,
-        componentsStates: { isSourceLoadedCollection: sourcesHoldersUpdatersStateCollection },
+        componentsStates: { sourcesInnersUpdatersCollection: sourcesInnersUpdatersStateCollection },
         elements: { sourcesComponents },
         injector: { resolve }
     } = fsLightbox;
@@ -46,7 +46,7 @@ export function DetectedTypeActioner(fsLightbox) {
         />;
 
         if (getLightboxState().isOpen) {
-            sourcesHoldersUpdatersStateCollection[i].set(true);
+            sourcesInnersUpdatersStateCollection[i].set(true);
         }
     };
 }

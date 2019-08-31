@@ -4,7 +4,7 @@ import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEv
 export function SlideSwipingMoveActioner(
     {
         collections: { sourcesOutersTransformers },
-        componentsStates: { hasMovedWhileSwiping: hasMovedWhileSwipingState, },
+        componentsStates: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState, },
         elements: { container },
         slideSwipingProps,
         stageIndexes
@@ -13,8 +13,8 @@ export function SlideSwipingMoveActioner(
     this.runActionsForEvent = (e) => {
         // we are showing InvisibleHover component in move event not in down event
         // due to IE problems with videos sources controlling
-        if (!hasMovedWhileSwipingState.get()) {
-            hasMovedWhileSwipingState.set(true);
+        if (!isSlideSwipingHovererShownState.get()) {
+            isSlideSwipingHovererShownState.set(true);
         }
 
         container.current.classList.add(CURSOR_GRABBING_CLASS_NAME);

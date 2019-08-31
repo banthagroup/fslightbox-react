@@ -10,8 +10,9 @@ export const testSources = [
     TEST_INVALID_URL
 ];
 
-export const testSourceDimensions = {
-    width: 2000,
-    height: 2000
-};
-
+export const testTypes = [
+    'image',
+    'video',
+    'youtube',
+    'invalid'
+];

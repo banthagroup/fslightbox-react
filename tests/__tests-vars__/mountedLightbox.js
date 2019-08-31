@@ -1,8 +1,7 @@
 import React from 'react';
 import { mount } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
-import { testSources } from "./testSources";
-import { testTypes } from "./testTypes";
+import { testSources, testTypes } from "./testVariables";
 
 export const onInit = jest.fn();
 export const onOpen = jest.fn();

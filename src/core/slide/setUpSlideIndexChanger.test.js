@@ -1,220 +1,84 @@
 import { setUpSlideIndexChanger } from "./setUpSlideIndexChanger";
-import { TimeoutQueue } from "../timeouts/TimeoutQueue";
 import { ANIMATION_TIME } from "../../constants/css-constants";
-import { SOURCES } from "../../constants/elements";
-import { FADE_IN_CLASS_NAME, FADE_OUT_CLASS_NAME, LONG_FADE_IN_CLASS_NAME } from "../../constants/classes-names";
+import { SOURCES_INNERS, SOURCES_OUTERS } from "../../constants/elements";
+import {
+    FADE_IN_CLASS_NAME,
+    FADE_IN_STRONG_CLASS_NAME,
+    FADE_OUT_CLASS_NAME,
+    TRANSFORM_TRANSITION_CLASS_NAME
+} from "../../constants/classes-names";
+import * as removeFromElementClassIfContainsObject from "../../helpers/elements/removeFromElementClassIfContains";
+import * as getQueuedActionObject from "../timeouts/getQueuedAction";
 
 const fsLightbox = {
-    collections: {
-        sourcesOutersTransformers: []
-    },
-    componentsStates: {
-        slideNumberUpdater: {
-            set: () => {},
-            get: () => {}
-        }
-    },
+    collections: { sourcesOutersTransformers: [{ negative: jest.fn() }, { zero: jest.fn() }] },
+    componentsStates: { slideNumberUpdater: { get: () => true, set: jest.fn() } },
     core: {
-        classListManager: {
-            manageArrayElementAtIndex: () => ({
-                add: () => {},
-                remove: () => {},
-                removeIfContains: () => {}
-            })
-        },
+        classFacade: { removeFromEachElementClassIfContains: jest.fn() },
         slideIndexChanger: {},
-        stageManager: {
-            updateStageIndexes: () => {}
-        },
-        slideNumberUpdater: {
-            updateSlideNumber: () => {},
-        }
+        stageManager: { updateStageIndexes: jest.fn() }
     },
-    data: {
-        sourcesCount: 0
+    elements: {
+        sourcesInners: [
+            { current: { classList: { add: jest.fn() } } },
+            { current: { classList: { add: jest.fn() } } }
+        ]
     },
-    injector: {
-        resolve: () => ({})
-    },
-    stageIndexes: {
-        previous: undefined,
-        current: undefined,
-        next: undefined
-    }
+    stageIndexes: {}
 };
 
-const slideNumberUpdaterState = fsLightbox.componentsStates.slideNumberUpdater;
-
-const classListManager = fsLightbox.core.classListManager;
-const stageManager = fsLightbox.core.stageManager;
-
-const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesOutersTransformers;
-
+const runQueuedRemoveFadeOut = jest.fn();
+getQueuedActionObject.getQueuedAction = jest.fn(() => runQueuedRemoveFadeOut);
 const slideIndexChanger = fsLightbox.core.slideIndexChanger;
+setUpSlideIndexChanger(fsLightbox);
 
-describe('changeTo', () => {
-    let updateSlideNumber;
-    let updateStageIndexes;
-
-    beforeAll(() => {
-        fsLightbox.stageIndexes.current = 0;
-
-        // mocking actions to working only if new current index is set - order matters!
-        // we will be testing changing slide index to 2
-        updateStageIndexes = jest.fn();
-        updateSlideNumber = jest.fn();
-        stageManager.updateStageIndexes = () => {
-            if (fsLightbox.stageIndexes.current === 2) {
-                updateStageIndexes();
-            }
-        };
-        slideNumberUpdaterState.get = () => false;
-        slideNumberUpdaterState.set = (updaterValue) => {
-            if (fsLightbox.stageIndexes.current === 2) {
-                updateSlideNumber(updaterValue);
-            }
-        };
-
-        setUpSlideIndexChanger(fsLightbox);
-        slideIndexChanger.changeTo(2);
-    });
-
-    test('simple actions', () => {
-        expect(fsLightbox.stageIndexes.current).toBe(2);
-        expect(updateSlideNumber).toBeCalledWith(true);
-        expect(updateSlideNumber).toBeCalled();
-    });
+test('removeFadeOutQueue', () => {
+    expect(getQueuedActionObject.getQueuedAction.mock.calls[0][1]).toBe(ANIMATION_TIME);
+    getQueuedActionObject.getQueuedAction.mock.calls[0][0]();
+    expect(fsLightbox.core.classFacade.removeFromEachElementClassIfContains).toBeCalledWith(
+        SOURCES_INNERS, FADE_OUT_CLASS_NAME
+    );
 });
 
-describe('changeToWithActions', () => {
-    let previousSourceAnimator;
-    let newSourceAnimator;
+test('changeTo', () => {
+    slideIndexChanger.changeTo(1);
+    expect(fsLightbox.stageIndexes.current).toBe(1);
+    expect(fsLightbox.core.stageManager.updateStageIndexes).toBeCalled();
+    expect(fsLightbox.componentsStates.slideNumberUpdater.set).toBeCalledWith(false);
+});
 
-    const removeFadeOutQueue = {};
+test('jumpTo', () => {
+    window.setTimeout = jest.fn();
+    fsLightbox.stageIndexes.current = 0;
+    removeFromElementClassIfContainsObject.removeFromElementClassIfContains = jest.fn();
+    slideIndexChanger.changeTo = jest.fn();
+    slideIndexChanger.jumpTo(1);
+    expect(slideIndexChanger.changeTo).toBeCalledWith(1);
+    expect(fsLightbox.core.classFacade.removeFromEachElementClassIfContains).toBeCalledWith(
+        SOURCES_OUTERS, TRANSFORM_TRANSITION_CLASS_NAME
+    );
+    expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
+        fsLightbox.elements.sourcesInners[0], FADE_IN_STRONG_CLASS_NAME
+    );
+    expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
+        fsLightbox.elements.sourcesInners[0], FADE_IN_CLASS_NAME
+    );
 
-    let setTimeoutParams;
-
-    // we will be testing changing slide from 3 to 0
-    beforeAll(() => {
-        fsLightbox.stageIndexes.current = 3;
-
-
-        classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
-            if (elementsArrayName !== SOURCES) {
-                return;
-            }
-            if (index === 3) {
-                return previousSourceAnimator;
-            }
-            if (index === 0) {
-                return newSourceAnimator;
-            }
-        };
-        previousSourceAnimator = {
-            removeIfContains: jest.fn(),
-            add: jest.fn()
-        };
-        newSourceAnimator = {
-            removeIfContains: jest.fn(),
-            add: jest.fn()
-        };
-
-
-        removeFadeOutQueue.startTimeout = jest.fn();
-        fsLightbox.injector.resolve = (constructorDependency) => {
-            if (constructorDependency === TimeoutQueue) {
-                return removeFadeOutQueue;
-            }
-        };
-
-        window.setTimeout = (...params) => {
-            setTimeoutParams = params;
-        };
-        sourcesHoldersTransformersCollection[0] = {
-            zero: jest.fn()
-        };
-        sourcesHoldersTransformersCollection[3] = {
-            negative: jest.fn()
-        };
-
-        setUpSlideIndexChanger(fsLightbox);
-        slideIndexChanger.changeTo = jest.fn();
-        slideIndexChanger.changeToWithActions(0);
-    });
-
-    it('should call changeTo with 4', () => {
-        expect(slideIndexChanger.changeTo).toBeCalledWith(0)
-    });
-
-    describe('actions', () => {
-        describe('removeFadeOutQueue', () => {
-            let manageArrayElementAtIndexIndex = -1;
-            const removeIfContains = jest.fn();
-
-            beforeAll(() => {
-                classListManager.manageArrayElementAtIndex = (elementsArrayName, index) => {
-                    manageArrayElementAtIndexIndex++;
-                    if (elementsArrayName === SOURCES && index === manageArrayElementAtIndexIndex) {
-                        return {
-                            removeIfContains: removeIfContains
-                        }
-                    }
-                };
-                removeFadeOutQueue.action();
-            });
-
-            it('should set time to animation time', () => {
-                expect(removeFadeOutQueue.time).toBe(ANIMATION_TIME);
-            });
-
-            it('should remove fade out from all sources if they contain it', () => {
-                expect(removeIfContains).toBeCalledTimes(fsLightbox.data.sourcesCount);
-            });
-        });
-
-        test('animating previous slide source', () => {
-            expect(previousSourceAnimator.removeIfContains).toBeCalledWith(FADE_IN_CLASS_NAME);
-            expect(previousSourceAnimator.removeIfContains).toBeCalledWith(LONG_FADE_IN_CLASS_NAME);
-            expect(previousSourceAnimator.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
-        });
-
-        test('animating new slide source', () => {
-            expect(newSourceAnimator.removeIfContains).toBeCalledWith(FADE_OUT_CLASS_NAME);
-            expect(newSourceAnimator.add).toBeCalledWith(FADE_IN_CLASS_NAME);
-        });
-
-        test('removeFadeOutFromAllSourcesAfterQueueEnd', () => {
-            expect(removeFadeOutQueue.startTimeout).toBeCalled();
-        });
-
-        describe('transformSourcesHolders', () => {
-            it('should call zero for new slide sourcesHoldersTransformer', () => {
-                expect(sourcesHoldersTransformersCollection[0].zero).toBeCalled();
-            });
-
-            describe('setTimeout', () => {
-                describe('callback', () => {
-                    it(`should not call transform negative at previous slide SourceHolderTransformer, 
-                        due to at call moment previous slide index is equals to slideIndexes.current`, () => {
-                        fsLightbox.stageIndexes.current = 3;
-                        setTimeoutParams[0](3);
-                        expect(sourcesHoldersTransformersCollection[3].negative).not.toBeCalled();
-                    });
-
-                    it(`should call transform negative at previous slide SourceHolderTransformer, 
-                        due to at call moment previous slide index was not equal to slideIndexes.current`, () => {
-                        fsLightbox.stageIndexes.current = 0;
-                        setTimeoutParams[0](3);
-                        expect(sourcesHoldersTransformersCollection[3].negative).toBeCalled();
-                    });
-                });
-
-                describe('timeout ms', () => {
-                    it('should be animation time', () => {
-                        expect(setTimeoutParams[1]).toBe(ANIMATION_TIME);
-                    });
-                });
-            });
-        });
-    });
+    expect(fsLightbox.elements.sourcesInners[0].current.classList.add).toBeCalledWith(FADE_OUT_CLASS_NAME);
+    expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
+        fsLightbox.elements.sourcesInners[1], FADE_IN_STRONG_CLASS_NAME
+    );
+    expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
+        fsLightbox.elements.sourcesInners[1], FADE_OUT_CLASS_NAME
+    );
+    expect(fsLightbox.elements.sourcesInners[1].current.classList.add).toBeCalledWith(FADE_IN_CLASS_NAME);
+    expect(fsLightbox.collections.sourcesOutersTransformers[1].zero).toBeCalled();
+    expect(runQueuedRemoveFadeOut).toBeCalled()
+    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).not.toBeCalled();
+    expect(window.setTimeout.mock.calls[0][1]).toBe(ANIMATION_TIME - 30);
+    window.setTimeout.mock.calls[0][0]();
+    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).not.toBeCalled();
+    fsLightbox.stageIndexes.current = 1;
+    window.setTimeout.mock.calls[0][0]();
+    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).toBeCalled();
 });

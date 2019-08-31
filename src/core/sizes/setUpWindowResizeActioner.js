@@ -1,8 +1,12 @@
+import { removeFromElementClassIfContains } from "../../helpers/elements/removeFromElementClassIfContains";
+import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/classes-names";
+
 export function setUpWindowResizeActioner(
     {
         collections: { sourcesOutersTransformers, sourcesStylers },
         core: { windowResizeActioner: self },
         data,
+        elements: { sourcesOuters },
         stageIndexes
     }
 ) {
@@ -14,6 +18,8 @@ export function setUpWindowResizeActioner(
         data.maxSourceHeight = 0.9 * innerHeight;
 
         for (let i = 0; i < data.sourcesCount; i++) {
+            removeFromElementClassIfContains(sourcesOuters[i], TRANSFORM_TRANSITION_CLASS_NAME);
+
             if (i !== stageIndexes.current) {
                 sourcesOutersTransformers[i].negative();
             }

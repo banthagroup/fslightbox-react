@@ -1,5 +1,4 @@
 import { setUpEventsDispatcher } from "./setUpEventsDispatcher";
-import { ON_OPEN } from "../../constants/events-constants";
 
 const fsLightbox = {
     core: {
@@ -15,7 +14,7 @@ const eventsDispatcher = fsLightbox.core.eventsDispatcher;
 setUpEventsDispatcher(fsLightbox);
 
 test('calling method form props by name', () => {
-    eventsDispatcher.dispatch(ON_OPEN);
+    eventsDispatcher.dispatch('onOpen');
     expect(fsLightbox.props.onOpen).toBeCalled();
 });
 
