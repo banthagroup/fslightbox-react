@@ -6,15 +6,15 @@ export function setUpWindowResizeEventController(
                     resize: self
                 }
             },
-            windowResizeActions
+            windowResizeActioner
         }
     }
 ) {
     self.attachListener = () => {
-        addEventListener('resize', windowResizeActions.runActions);
+        addEventListener('resize', windowResizeActioner.runActions);
     };
 
     self.removeListener = () => {
-        removeEventListener('resize', windowResizeActions.runActions);
+        removeEventListener('resize', windowResizeActioner.runActions);
     };
 }

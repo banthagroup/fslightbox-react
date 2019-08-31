@@ -15,4 +15,9 @@ test('test toggling fullscreen', () => {
     fullscreenButton.simulate('click');
     expect(fsLightbox.core.fullscreenToggler.enterFullscreen).toBeCalled();
     expect(fsLightbox.core.fullscreenToggler.exitFullscreen).not.toBeCalled();
+
+    fsLightbox.componentsStates.toolbarButtons.fullscreen.set(true);
+    fullscreenButton.simulate('click');
+    expect(fsLightbox.core.fullscreenToggler.enterFullscreen).toBeCalledTimes(1);
+    expect(fsLightbox.core.fullscreenToggler.exitFullscreen).toBeCalled();
 });

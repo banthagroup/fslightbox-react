@@ -11,7 +11,11 @@ import { Injector } from "./injection/Injector";
 import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
 import { getInitialCurrentIndex } from "./core/stage/getInitialCurrentIndex";
 import { getSourcesHoldersTransformersCollection } from "./core/collections/getSourcesHoldersTransformersCollection";
-import { FULL_DIMENSION_CLASS_NAME, LONG_FADE_IN_CLASS_NAME, PREFIX } from "./constants/classes-names";
+import {
+    FADE_IN_STRONG_CLASS_NAME,
+    FULL_DIMENSION_CLASS_NAME,
+    PREFIX
+} from "./constants/classes-names";
 import SlideButton from "./components/SlideButton.jsx";
 
 class FsLightbox extends Component {
@@ -142,7 +146,7 @@ class FsLightbox extends Component {
             },
             sourceLoadActioner: {},
             stageManager: {},
-            windowResizeActions: {}
+            windowResizeActioner: {}
         };
         setUpCore(this);
     }
@@ -164,7 +168,7 @@ class FsLightbox extends Component {
 
         return (
             <div ref={ this.elements.container }
-                 className={ `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ LONG_FADE_IN_CLASS_NAME }` }>
+                 className={ `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ FADE_IN_STRONG_CLASS_NAME }` }>
                 <SwipingInvisibleHover fsLightbox={ this } />
                 <Nav fsLightbox={ this } />
                 { (this.data.sourcesCount > 1) ?

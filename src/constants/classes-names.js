@@ -22,9 +22,4 @@ export const OPACITY_1_CLASS_NAME = `${ opacityBaseClassName }1`;
 
 // sources
 export const SOURCE_CLASS_NAME = `${ PREFIX }source`;
-export const SOURCES_WRAPPERS_CONTAINER = `${ SOURCE_CLASS_NAME }s-wrappers-container`;
-export const SOURCE_OUTER_CLASS_NAME = `${ SOURCE_CLASS_NAME }-outer`;
-export const SOURCE_INNER_CLASS_NAME = `${ SOURCE_CLASS_NAME }-inner`;
-
-// multiple classes names in one string
-export const SOURCE_CLASSES_NAMES = `${ PREFIX }source ${ OPACITY_0_CLASS_NAME }`;
+export const SOURCES_OUTERS_WRAPPER = `${ SOURCE_CLASS_NAME }s-outers-wrapper`;

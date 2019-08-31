@@ -1,13 +1,13 @@
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
 import { setUpSlideSwipingMove } from "./slide/swiping/move/setUpSlideSwipingMove";
 import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
-import { setUpWindowResizeActions } from "./sizes/setUpWindowResizeActions";
+import { setUpWindowResizeActioner } from "./sizes/setUpWindowResizeActioner";
 import { setUpDocumentKeyDownEventController } from "./events/document/setUpDocumentKeyDownEventController";
 import { setUpWindowResizeEventController } from "./events/window/resize/setUpWindowResizeEventController";
 import { setUpSwipingEventsControllersFacade } from "./events/facades/setUpSwipingEventsControllersFacade";
 import { setUpKeyboardController } from "./keyboard/setUpKeyboardController";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
-import { setUpLightboxOpeningActions } from "./main-component/opening/setUpLightboxOpenActioner";
+import { setUpLightboxOpenActioner } from "./main-component/opening/setUpLightboxOpenActioner";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
 import { setUpSlideSwipingDown } from "./slide/swiping/down/setUpSlideSwipingDown";
 import { setUpSlideSwipingUp } from "./slide/swiping/up/setUpSlideSwipingUp";
@@ -28,7 +28,7 @@ export function setUpCore(fsLightbox) {
     setUpKeyboardController(fsLightbox);
     setUpLightboxCloser(fsLightbox);
     setUpLightboxOpener(fsLightbox);
-    setUpLightboxOpeningActions(fsLightbox);
+    setUpLightboxOpenActioner(fsLightbox);
     setUpLightboxUpdater(fsLightbox);
     setUpScrollbarRecompensor(fsLightbox);
     setUpSlideChangeFacade(fsLightbox);
@@ -37,6 +37,6 @@ export function setUpCore(fsLightbox) {
     setUpSlideSwipingMove(fsLightbox);
     setUpSlideSwipingUp(fsLightbox);
     setUpStageManager(fsLightbox);
-    setUpWindowResizeActions(fsLightbox);
+    setUpWindowResizeActioner(fsLightbox);
 }
 

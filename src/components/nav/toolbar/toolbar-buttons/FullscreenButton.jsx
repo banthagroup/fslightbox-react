@@ -15,8 +15,8 @@ function FullscreenButton(
 
     const fullscreen = () => {
         (isFullscreenOpen) ?
-            enterFullscreen() :
-            exitFullscreen();
+            exitFullscreen() :
+            enterFullscreen();
     };
 
     return (
