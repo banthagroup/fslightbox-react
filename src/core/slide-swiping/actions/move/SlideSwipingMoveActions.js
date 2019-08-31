@@ -4,15 +4,9 @@ import { LIGHTBOX_CONTAINER } from "../../../../constants/elements";
 
 export function SlideSwipingMoveActions(
     {
-        collections: {
-            sourcesHoldersTransformers
-        },
-        componentsStates: {
-            hasMovedWhileSwiping: hasMovedWhileSwipingState,
-        },
-        core: {
-            classListManager
-        },
+        collections: { sourcesHoldersTransformers },
+        componentsStates: { hasMovedWhileSwiping: hasMovedWhileSwipingState, },
+        core: { classListManager },
         data: { sourcesCount },
         stageIndexes
     }, swipingProps

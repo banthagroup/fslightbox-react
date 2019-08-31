@@ -2,17 +2,14 @@ import React from 'react';
 import { shallow } from "enzyme/build";
 import FsLightbox from "./FsLightbox";
 import { testSources } from "../tests/__tests-vars__/testVariables";
-import *  as createRefsArrayWithLength from "./helpers/arrays/createRefsArrayWithLength";
 import * as setUpCoreObject from "./core/setUpCore";
 import * as runLightboxUnmountActionsObject from "./core/main-component/unmounting/runLightboxUnmountActions";
 import { Injector } from "./injection/Injector";
 import * as runLightboxMountedActionsObject from "./core/main-component/mounting/runLightboxMountedActions";
 import * as getInitialCurrentIndexObject from "./core/stage/getInitialCurrentIndex";
-import * as getSourcesHoldersTransformersCollectionObject
-    from "./core/collections/getSourcesHoldersTransformersCollection";
 import SlideButton from "./components/SlideButton";
 
-let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } sources={ testSources }/>, {
+let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } sources={ testSources } />, {
     disableLifecycleMethods: true
 });
 let fsLightbox = fsLightboxWrapper.instance();
@@ -25,15 +22,6 @@ fsLightbox.props = {
 };
 
 describe('data', () => {
-    it('should have valid only one possible value properties', () => {
-        expect(fsLightbox.data.sourcesCount).toBe(testSources.length);
-        expect(fsLightbox.data.isInitialized).toBe(false);
-        expect(fsLightbox.data.isSwipingSlides).toBe(false);
-        expect(fsLightbox.data.maxSourceWidth).toBe(0);
-        expect(fsLightbox.data.maxSourceHeight).toBe(0);
-        expect(fsLightbox.data.scrollbarWidth).toBe(0);
-    });
-
     it('should have valid slideDistance property depending on slideDistance prop', () => {
         delete fsLightbox.props.slideDistance;
         fsLightbox.setUpData();
@@ -83,15 +71,6 @@ test('main component state', () => {
     expect(fsLightbox.state.isOpen).toBe(true);
 });
 
-test('componentsStates', () => {
-    expect(fsLightbox.componentsStates).toEqual({
-        slideNumberUpdater: {},
-        hasMovedWhileSwiping: {},
-        isFullscreenOpen: {},
-        sourcesHoldersUpdatersCollection: []
-    });
-});
-
 test('getters', () => {
     expect(fsLightbox.getProps()).toBe(fsLightbox.props);
     expect(fsLightbox.getState()).toBe(fsLightbox.state);
@@ -101,29 +80,6 @@ test('setters', () => {
     fsLightbox.setState = jest.fn();
     fsLightbox.setMainComponentState('value', 'callback');
     expect(fsLightbox.setState).toBeCalledWith('value', 'callback');
-});
-
-
-test('elements', () => {
-    createRefsArrayWithLength.createRefsArrayWithLength = () => 'refs-array';
-    fsLightbox.setUpElements();
-
-    expect(fsLightbox.elements.container).toEqual(React.createRef());
-    expect(fsLightbox.elements.sourcesHoldersWrapper).toEqual(React.createRef());
-    expect(fsLightbox.elements.sources).toEqual('refs-array');
-    expect(fsLightbox.elements.sourcesHolders).toEqual('refs-array');
-    expect(fsLightbox.elements.sourcesComponents).toEqual([]);
-});
-
-test('collections', () => {
-    getSourcesHoldersTransformersCollectionObject.getSourcesHoldersTransformersCollection =
-        () => 'test-collection';
-    fsLightbox.setUpCollections();
-
-    expect(fsLightbox.collections.sourcesHoldersTransformers).toBe('test-collection');
-    expect(fsLightbox.collections.sourcesLoadsHandlers).toEqual([]);
-    expect(fsLightbox.collections.sourcesSizesAdjusters).toEqual([]);
-    expect(fsLightbox.collections.xhrs).toEqual([]);
 });
 
 test('injector', () => {

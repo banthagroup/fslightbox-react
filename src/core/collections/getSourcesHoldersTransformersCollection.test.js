@@ -4,7 +4,7 @@ import { getSourcesHoldersTransformersCollection } from "./getSourcesHoldersTran
 
 const fsLightbox = {
     elements: {
-        sourcesHolders: []
+        sourcesOuters: []
     },
     injector: {
         resolve: (constructorDependency) => {
@@ -26,17 +26,17 @@ for (let i = 0; i < 15; i++) {
     };
 }
 
-const sourcesHolders = fsLightbox.elements.sourcesHolders;
+const sourcesOuters = fsLightbox.elements.sourcesOuters;
 
 for (let i = 0; i < 15; i++) {
-    sourcesHolders[i] = React.createRef();
+    sourcesOuters[i] = React.createRef();
 }
 
 const retrievedCollection = getSourcesHoldersTransformersCollection(fsLightbox);
 
 it('should call setSourceHolder with correct param on each SourceHolderTransformer', () => {
     for (let i = 0; i < 15; i++) {
-        expect(sourcesHoldersTransformingFacades[i].setSourceHolder).toBeCalledWith(sourcesHolders[i]);
+        expect(sourcesHoldersTransformingFacades[i].setSourceHolder).toBeCalledWith(sourcesOuters[i]);
     }
 });
 

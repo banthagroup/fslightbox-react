@@ -1,36 +1,17 @@
 .fslightbox-fade-in {
-  animation: fslightbox-fade-in .25s cubic-bezier(0, 0, .7, 1) forwards;
+  animation: fslightbox-fade-in .25s cubic-bezier(0, 0, .7, 1);
 }
 
 .fslightbox-fade-out {
-  animation: fslightbox-fade-out .25s ease forwards;
+  animation: fslightbox-fade-out .25s ease;
 }
 
-.fslightbox-fade-in-long {
-  animation: fslightbox-fade-in-long .25s cubic-bezier(0, 0, .7, 1) forwards;
+.fslightbox-fade-in-strong {
+  animation: fslightbox-fade-in-strong .25s cubic-bezier(0, 0, .7, 1);
 }
 
-.fslightbox-fade-out-long {
-  animation: fslightbox-fade-out-long .25s ease !important;
-}
-
-@keyframes fslightbox-fade-in-long {
-  from {
-    opacity: .3;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fslightbox-fade-out-long {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
+.fslightbox-fade-out-strong {
+  animation: fslightbox-fade-out-strong .25s ease;
 }
 
 @keyframes fslightbox-fade-in {
@@ -47,6 +28,25 @@
   from {
     opacity: .35;
   }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fslightbox-fade-in-strong {
+  from {
+    opacity: .3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fslightbox-fade-out-strong {
+  from {
+    opacity: 1;
+  }
+
   to {
     opacity: 0;
   }

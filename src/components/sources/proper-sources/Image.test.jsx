@@ -1,56 +1,21 @@
 import React from 'react';
 import Image from "./Image";
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 
 let fsLightbox = {
-    data: {
-        sources: []
-    },
-    elements: {
-        sources: [{
-            current: null
-        }]
-    },
-    collections: {
-        sourcesLoadsHandlers: [
-            {
-                handleLoad: () => {}
-            }
-        ]
-    }
+    props: { sources: [] },
+    elements: { sources: [React.createRef()] },
+    collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }] }
 };
 
-let image;
+const image = shallow(<Image fsLightbox={ fsLightbox } i={ 0 } />);
 
-test('ref to sources array in fsLightbox object', () => {
-    image = mount(<Image
-        fsLightbox={ fsLightbox }
-        index={ 0 }
-    />);
-    expect(fsLightbox.elements.sources[0].current).toEqual(image.getDOMNode());
+test('sources ref', () => {
+    expect(image.getElement().ref).toBe(fsLightbox.elements.sources[0]);
 });
 
 test('on load', () => {
-    fsLightbox.collections.sourcesLoadsHandlers[2] = {
-        handleLoad: jest.fn()
-    };
-    image = shallow(<Image
-        fsLightbox={ fsLightbox }
-        index={ 2 }
-    />);
-    image.simulate('load', {
-        key: 'image-load-event'
-    });
+    image.simulate('load', 'e');
 
-    expect(fsLightbox.collections.sourcesLoadsHandlers[2].handleLoad).toBeCalledWith({
-        key: 'image-load-event'
-    });
+    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalledWith('e');
 });
-
-
-test('Image DOM', () => {
-    image = shallow(<Image fsLightbox={ fsLightbox } index={ 0 }/>);
-
-    expect(image).toMatchSnapshot();
-});
-

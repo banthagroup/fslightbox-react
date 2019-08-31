@@ -1,20 +1,15 @@
 import { AutomaticTypeDetector } from "../types/AutomaticTypeDetector";
 import { CreatingSourcesLocalStorageManager } from "./CreatingSourcesLocalStorageManager";
-import { DetectedTypeActions } from "../types/DetectedTypeActions";
+import { DetectedTypeActioner } from "../types/DetectedTypeActioner";
 
 export function createSources(
     {
-        data: {
-            sources
-        },
-        props: {
-            types: typesProp,
-            type: typeProp,
-        },
+        data: { sources },
+        props: { types: typesProp, type: typeProp, },
         injector: { resolve }
     }
 ) {
-    const detectedTypeActions = resolve(DetectedTypeActions);
+    const detectedTypeActioner = resolve(DetectedTypeActioner);
     const localStorageManager = resolve(CreatingSourcesLocalStorageManager);
     let sourceTypeRetrievedWithoutXhr;
     let sourceIndex;
@@ -43,7 +38,7 @@ export function createSources(
     }
 
     function callActionsForSourceTypeRetrievedWithoutXhr() {
-        detectedTypeActions.runActionsForSourceTypeAndIndex(
+        detectedTypeActioner.runActionsForSourceTypeAndIndex(
             sourceTypeRetrievedWithoutXhr, sourceIndex
         );
     }
@@ -55,7 +50,7 @@ export function createSources(
         sourceTypeGetter.setUrlToCheck(sources[rememberedSourceIndex]);
         sourceTypeGetter.getSourceType((sourceType) => {
             localStorageManager.handleReceivedSourceTypeForUrl(sourceType, sources[rememberedSourceIndex]);
-            detectedTypeActions.runActionsForSourceTypeAndIndex(sourceType, rememberedSourceIndex)
+            detectedTypeActioner.runActionsForSourceTypeAndIndex(sourceType, rememberedSourceIndex)
         });
     }
 }

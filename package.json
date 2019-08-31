@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --mode production --config webpack-prod.config.js --display-modules",
-    "start": "webpack-dev-server --mode development --open"
+    "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp",
+    "watch": "webpack-dev-server --mode development --open"
   },
   "repository": {
     "type": "git",

@@ -1,62 +1,20 @@
 import React from 'react';
-import { mount, shallow } from "enzyme";
-import Video from "../../../../src/components/sources/proper-sources/Video";
-import Image from "../../../../src/components/sources/proper-sources/Image";
+import { shallow } from "enzyme";
+import Video from "./Video";
 
-let fsLightbox = {
-    props: {
-        videosPosters: []
-    },
-    data: {
-        sources: [],
-    },
-    elements: {
-        sources: [{
-            current: null
-        }]
-    },
-    collections: {
-        sourcesLoadsHandlers: [{
-            handleLoad: () => {}
-        }]
-    }
+const fsLightbox = {
+    props: { sources: [] },
+    elements: { sources: [React.createRef()] },
+    collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }] }
 };
 
-let video;
+const video = shallow(<Video fsLightbox={ fsLightbox } i={ 0 }/>);
 
-test('ref && DOM && defined videosPosters', () => {
-    fsLightbox.props.videosPosters = ['test-poster'];
-    fsLightbox.data.sources = ['test-url'];
-    video = mount(<Video
-        fsLightbox={ fsLightbox }
-        index={ 0 }
-    />);
-
-    expect(fsLightbox.elements.sources[0].current).toEqual(video.getDOMNode());
-    expect(video).toMatchSnapshot();
-});
-
-test('undefined videosPosters', () => {
-    delete fsLightbox.props.videosPosters;
-    video = shallow(<Video fsLightbox={ fsLightbox } index={ 0 }/>);
-
-    expect(video.prop('poster')).toBeUndefined();
+test('sources ref', () => {
+    expect(video.getElement().ref).toBe(fsLightbox.elements.sources[0]);
 });
 
 test('on load', () => {
-    fsLightbox.collections.sourcesLoadsHandlers[2] = {
-        handleLoad: jest.fn()
-    };
-    video = shallow(<Image
-        fsLightbox={ fsLightbox }
-        index={ 2 }
-    />);
-    video.simulate('load', {
-        key: 'video-load-event'
-    });
-
-    expect(fsLightbox.collections.sourcesLoadsHandlers[2].handleLoad).toBeCalledWith({
-        key: 'video-load-event'
-    });
+    video.simulate('loadedMetadata', 'e');
+    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalledWith('e');
 });
-

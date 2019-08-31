@@ -1,6 +1,6 @@
 import * as createAndAppendStylesObject from "./createAndAppendStyles";
 import { injectStylesIfNotInDom } from "./injectStylesIfNotInDom";
-import { FSLIGHTBOX_STYLES_ID } from "../../constants/dom-constants";
+import { FSLIGHTBOX_STYLES } from "../../constants/classes-names";
 
 beforeEach(() => {
     createAndAppendStylesObject.createAndAppendStyles = jest.fn();
@@ -15,7 +15,7 @@ test('there is no style elem with proper id in dom', () => {
 
 test('there is a style elem with proper id in dom', () => {
     const stylesElem = document.createElement('style');
-    stylesElem.id = FSLIGHTBOX_STYLES_ID;
+    stylesElem.className = FSLIGHTBOX_STYLES;
     document.documentElement.appendChild(stylesElem);
     injectStylesIfNotInDom();
 

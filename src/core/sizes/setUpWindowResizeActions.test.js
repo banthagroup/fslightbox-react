@@ -3,7 +3,7 @@ import { setUpWindowResizeActions } from "./setUpWindowResizeActions";
 const fsLightbox = {
     collections: {
         sourcesHoldersTransformers: [],
-        sourcesSizesAdjusters: []
+        sourcesStylers: []
     },
     core: {
         windowResizeActions: {}
@@ -19,7 +19,7 @@ const fsLightbox = {
 };
 
 const sourcesHoldersTransformersCollection = fsLightbox.collections.sourcesHoldersTransformers;
-const sourcesSizesAdjustersCollection = fsLightbox.collections.sourcesSizesAdjusters;
+const sourcesSizesAdjustersCollection = fsLightbox.collections.sourcesStylers;
 
 const windowResizeActions = fsLightbox.core.windowResizeActions;
 setUpWindowResizeActions(fsLightbox);
@@ -83,7 +83,7 @@ describe('adjusting sources sizes', () => {
             };
         }
 
-        // lets make one of sourcesSizesAdjusters undefined - this may happen due to sourcesSizesAdjusters
+        // lets make one of sourcesStylers undefined - this may happen due to sourcesStylers
         // are assigned in runtime
         sourcesSizesAdjustersCollection[1] = undefined;
 
@@ -99,7 +99,7 @@ describe('adjusting sources sizes', () => {
         windowResizeActions.runActions();
     });
 
-    it('should call adjustSourceSize at sourcesSizesAdjusters', () => {
+    it('should call adjustSourceSize at sourcesStylers', () => {
         expect(sourcesSizesAdjustersCollection[0].adjustSourceSize).toBeCalled();
         expect(sourcesSizesAdjustersCollection[2].adjustSourceSize).toBeCalled();
         expect(sourcesSizesAdjustersCollection[3].adjustSourceSize).toBeCalled();

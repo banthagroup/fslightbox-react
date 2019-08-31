@@ -2,7 +2,7 @@ import './core/styles/styles-injection/styles-injection';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Nav from "./components/nav/Nav.jsx";
-import SourcesHoldersWrapper from "./components/sources/SourcesHoldersWrapper.jsx";
+import SourcesHoldersWrapper from "./components/sources/SourcesOutersWrapper.jsx";
 import { createRefsArrayWithLength } from "./helpers/arrays/createRefsArrayWithLength";
 import { setUpCore } from "./core/setUpCore";
 import SwipingInvisibleHover from "./components/slide-swiping/SwipingInvisibleHover.jsx";
@@ -65,7 +65,7 @@ class FsLightbox extends Component {
             slideNumberUpdater: {},
             hasMovedWhileSwiping: {},
             isFullscreenOpen: {},
-            sourcesHoldersUpdatersCollection: []
+            isSourceLoadedCollection: []
         };
     }
 
@@ -83,7 +83,7 @@ class FsLightbox extends Component {
             container: React.createRef(),
             sourcesHoldersWrapper: React.createRef(),
             sources: createRefsArrayWithLength(this.data.sourcesCount),
-            sourcesHolders: createRefsArrayWithLength(this.data.sourcesCount),
+            sourcesOuters: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesComponents: [],
         };
     }
@@ -97,7 +97,7 @@ class FsLightbox extends Component {
             sourcesHoldersTransformers: getSourcesHoldersTransformersCollection(this),
             sourcesLoadsHandlers: [],
             // after source load its size adjuster will be stored in this array so it may be later resized
-            sourcesSizesAdjusters: [],
+            sourcesStylers: [],
             // if lightbox is unmounted pending xhrs need to be aborted
             xhrs: []
         }
@@ -130,7 +130,7 @@ class FsLightbox extends Component {
                 move: {},
                 up: {}
             },
-            sourceLoadActions: {},
+            sourceLoadActioner: {},
             stageManager: {},
             windowResizeActions: {}
         };
@@ -155,8 +155,8 @@ class FsLightbox extends Component {
         return (
             <div ref={ this.elements.container }
                  className={ `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ LONG_FADE_IN_CLASS_NAME }` }>
-                <SwipingInvisibleHover fsLightbox={ this }/>
-                <Nav fsLightbox={ this }/>
+                <SwipingInvisibleHover fsLightbox={ this } />
+                <Nav fsLightbox={ this } />
                 { (this.data.sourcesCount > 1) ?
                     <>
                         <SlideButton
@@ -171,7 +171,7 @@ class FsLightbox extends Component {
                         />
                     </> : null
                 }
-                <SourcesHoldersWrapper fsLightbox={ this }/>
+                <SourcesHoldersWrapper fsLightbox={ this } />
             </div>
         );
     }
@@ -181,6 +181,10 @@ FsLightbox.propTypes = {
     toggler: PropTypes.bool.isRequired,
     urls: PropTypes.array, // deprecated: 1.3.0
     sources: PropTypes.array,
+
+    customSources: PropTypes.array,
+    customSourcesDimensions: PropTypes.array,
+    customSourcesGlobalDimensions: PropTypes.object,
 
     // slide number controlling
     slide: PropTypes.number,
@@ -200,6 +204,7 @@ FsLightbox.propTypes = {
 
     // sources
     videosPosters: PropTypes.array,
+    maxYoutubeVideoDimensions: PropTypes.object,
 
     // preferences
     slideDistance: PropTypes.number,
