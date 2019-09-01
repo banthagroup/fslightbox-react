@@ -1,9 +1,10 @@
 import React from 'react';
-import { IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/core-constants";
+import { CUSTOM_TYPE, IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/core-constants";
 import Image from "../../../components/sources/proper-sources/Image.jsx";
 import Video from "../../../components/sources/proper-sources/Video.jsx";
 import Youtube from "../../../components/sources/proper-sources/Youtube.jsx";
 import Invalid from "../../../components/sources/proper-sources/Invalid.jsx";
+import Custom from "../../../components/sources/proper-sources/Custom.jsx";
 import { SourceLoadHandler } from "../SourceLoadHandler";
 
 export function DetectedTypeActioner(fsLightbox) {
@@ -34,6 +35,10 @@ export function DetectedTypeActioner(fsLightbox) {
             case YOUTUBE_TYPE:
                 fsLightbox.collections.sourcesLoadsHandlers[i].setUpLoadForYoutube();
                 BaseSourceComponent = Youtube;
+                break;
+            case CUSTOM_TYPE:
+                fsLightbox.collections.sourcesLoadsHandlers[i].setUpLoadForCustom();
+                BaseSourceComponent = Custom;
                 break;
             default:
                 BaseSourceComponent = Invalid;

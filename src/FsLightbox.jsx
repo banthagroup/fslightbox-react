@@ -17,6 +17,7 @@ import {
     PREFIX
 } from "./constants/classes-names";
 import SlideButton from "./components/SlideButton.jsx";
+import { getSourcesCount } from "./core/sources/getSourcesCount";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -34,16 +35,13 @@ class FsLightbox extends Component {
 
     setUpData() {
         this.data = {
-            sources: (this.props.sources) ? this.props.sources : this.props.urls,
-            sourcesCount: null,
+            sourcesCount: getSourcesCount(this),
             isInitialized: false,
             maxSourceWidth: 0,
             maxSourceHeight: 0,
             scrollbarWidth: 0,
             slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3
         };
-
-        this.data.sourcesCount = this.data.sources.length;
 
         this.slideSwipingProps = {
             isSwiping: false,
@@ -100,7 +98,7 @@ class FsLightbox extends Component {
             sources: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesOuters: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesInners: createRefsArrayWithLength(this.data.sourcesCount),
-            sourcesComponents: [],
+            sourcesComponents: []
         };
     }
 
@@ -195,12 +193,12 @@ class FsLightbox extends Component {
 
 FsLightbox.propTypes = {
     toggler: PropTypes.bool.isRequired,
-    urls: PropTypes.array, // deprecated: 1.3.0
     sources: PropTypes.array,
 
+    // custom sources
     customSources: PropTypes.array,
-    customSourcesDimensions: PropTypes.array,
-    customSourcesGlobalDimensions: PropTypes.object,
+    customSourcesMaxDimensions: PropTypes.array,
+    customSourcesGlobalMaxDimensions: PropTypes.object,
 
     // slide number controlling
     slide: PropTypes.number,

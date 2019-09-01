@@ -8,6 +8,7 @@ import { Injector } from "./injection/Injector";
 import * as runLightboxMountedActionsObject from "./core/main-component/mounting/runLightboxMountedActions";
 import * as getInitialCurrentIndexObject from "./core/stage/getInitialCurrentIndex";
 import SlideButton from "./components/SlideButton";
+import * as getSourcesCountObject from "./core/sources/getSourcesCount";
 
 let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } sources={ testSources } />, {
     disableLifecycleMethods: true
@@ -22,32 +23,20 @@ fsLightbox.props = {
 };
 
 describe('data', () => {
-    it('should have valid slideDistance property depending on slideDistance prop', () => {
-        delete fsLightbox.props.slideDistance;
-        fsLightbox.setUpData();
-        expect(fsLightbox.data.slideDistance).toBe(0.3);
+    const tempGetSourcesCount = getSourcesCountObject.getSourcesCount;
+    getSourcesCountObject.getSourcesCount = jest.fn(() => 'sources-count');
 
-        fsLightbox.props.slideDistance = 2.5;
-        fsLightbox.setUpData();
-        expect(fsLightbox.data.slideDistance).toBe(2.5);
-    });
+    delete fsLightbox.props.slideDistance;
+    fsLightbox.setUpData();
+    expect(getSourcesCountObject.getSourcesCount).toBeCalledWith(fsLightbox);
+    expect(fsLightbox.data.slideDistance).toBe(0.3);
+    expect(fsLightbox.data.sourcesCount).toBe('sources-count');
 
-    it('should have valid sources property depending on props', () => {
-        delete fsLightbox.props.urls;
-        fsLightbox.props.sources = 'sources';
-        fsLightbox.setUpData();
-        expect(fsLightbox.data.sources).toBe('sources');
+    fsLightbox.props.slideDistance = 2.5;
+    fsLightbox.setUpData();
+    expect(fsLightbox.data.slideDistance).toBe(2.5);
 
-        delete fsLightbox.props.sources;
-        fsLightbox.props.urls = 'urls';
-        fsLightbox.setUpData();
-        expect(fsLightbox.data.sources).toBe('urls');
-
-        fsLightbox.props.sources = 'sources';
-        fsLightbox.props.urls = 'urls';
-        fsLightbox.setUpData();
-        expect(fsLightbox.data.sources).toBe('sources');
-    });
+    getSourcesCountObject.getSourcesCount = tempGetSourcesCount;
 });
 
 test('stageIndexes', () => {

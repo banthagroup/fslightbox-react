@@ -12,7 +12,7 @@ export function setUpWindowResizeActioner(
 ) {
     self.runActions = () => {
         // decreasing max source dimensions for better UX
-        (innerWidth < 1200) ?
+        (innerWidth < 992) ?
             data.maxSourceWidth = innerWidth :
             data.maxSourceWidth = 0.9 * innerWidth;
         data.maxSourceHeight = 0.9 * innerHeight;
