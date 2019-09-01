@@ -12,9 +12,11 @@ const Custom = (
 ) => {
     useEffect(sourcesLoadsHandlers[i].handleLoad);
 
+    const baseClassName = customSources[i].props.className;
+
     return React.cloneElement(customSources[i], {
         ref: sources[i],
-        className: customSources[i].props.className + ` ${ SOURCE_CLASS_NAME }`
+        className: (baseClassName) ? `${ baseClassName } ${ SOURCE_CLASS_NAME }` : SOURCE_CLASS_NAME
     });
 };
 

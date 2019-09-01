@@ -61,6 +61,11 @@ class DemoComponent extends Component {
                     sources={ sources }
                     openOnMount={ true }
                     customSources={ [
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
                         <iframe src="https://player.vimeo.com/video/353010302"
                                 frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>
                     ] }

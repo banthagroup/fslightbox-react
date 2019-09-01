@@ -10,7 +10,6 @@
 @import "global/transitions";
 @import "components/Container";
 @import "components/helpers/Svg";
-@import "components/sources/SourcesOutersWrapper";
 @import "components/nav/Nav";
 @import "components/nav/SlideNumber";
 @import "components/nav/Toolbar";
@@ -25,3 +24,4 @@
 @import "components/sources/proper-sources/Youtube";
 @import "components/sources/Loader";
 @import "components/sources/Source";
+@import "components/sources/SourceOuter";

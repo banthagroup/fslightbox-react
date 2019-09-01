@@ -4,7 +4,7 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-n
 
 export function setUpSlideSwipingDown(
     {
-        core: { classFacade, slideSwiping: { down: self } },
+        core: { classFacade, slideSwipingDown: self },
         slideSwipingProps
     }
 ) {

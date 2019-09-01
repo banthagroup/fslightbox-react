@@ -5,17 +5,9 @@ export function setUpLightboxOpenActioner(fsLightbox) {
     const {
         collections: { sourcesOutersTransformers },
         core: {
-            eventsControllers: {
-                window: {
-                    resize: windowResizeEventController,
-                    swiping: swipingEventsController
-                },
-                document: {
-                    keyDown: documentKeyDownEventController
-                }
-            },
             eventsDispatcher,
             lightboxOpenActioner: self,
+            globalEventsController,
             scrollbarRecompensor,
             stageManager,
             windowResizeActioner
@@ -26,19 +18,11 @@ export function setUpLightboxOpenActioner(fsLightbox) {
 
     self.runActions = () => {
         stageManager.updateStageIndexes();
-
         document.documentElement.classList.add(OPEN_CLASS_NAME);
-
         windowResizeActioner.runActions();
-
         scrollbarRecompensor.addRecompense();
-
-        windowResizeEventController.attachListener();
-        swipingEventsController.attachListeners();
-        documentKeyDownEventController.attachListener();
-
+        globalEventsController.attachListeners();
         sourcesOutersTransformers[stageIndexes.current].zero();
-
         eventsDispatcher.dispatch('onOpen');
 
         (data.isInitialized) ?

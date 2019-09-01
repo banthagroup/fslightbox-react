@@ -12,6 +12,9 @@ export const mountedLightbox = mount(<FsLightbox
     openOnMount={ true }
     toggler={ false }
     sources={ testSources }
+    customSources={ [undefined, undefined, undefined, undefined, <h1 className="custom-source">Custom source</h1>] }
+    customSourcesGlobalMaxDimensions={ { width: 1000, height: 500 } }
+    customSourcesMaxDimensions={ [undefined, undefined, undefined, undefined, { width: 2000, height: 1000 }] }
     types={ testTypes }
     onOpen={ onOpen }
     onClose={ onClose }

@@ -6,7 +6,7 @@ import SourceOuter from "./SourceOuter";
 let fsLightbox = {
     data: { sourcesCount: 4 },
     elements: { sourcesOutersWrapper: React.createRef() },
-    core: { slideSwiping: { down: { listener: jest.fn() } } }
+    core: { slideSwipingDown: { listener: jest.fn() } }
 };
 const sourcesOutersWrapper = shallow(<SourcesOutersWrapper fsLightbox={ fsLightbox } />);
 
@@ -16,9 +16,9 @@ test('ref', () => {
 
 test('calling on mouseDown and touchStart events', () => {
     sourcesOutersWrapper.simulate('mouseDown');
-    expect(fsLightbox.core.slideSwiping.down.listener).toBeCalled();
+    expect(fsLightbox.core.slideSwipingDown.listener).toBeCalled();
     sourcesOutersWrapper.simulate('touchStart');
-    expect(fsLightbox.core.slideSwiping.down.listener).toBeCalledTimes(2);
+    expect(fsLightbox.core.slideSwipingDown.listener).toBeCalledTimes(2);
 });
 
 test('rendering sources outers', () => {

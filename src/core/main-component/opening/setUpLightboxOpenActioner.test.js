@@ -5,12 +5,9 @@ import { OPEN_CLASS_NAME } from "../../../constants/classes-names";
 const fsLightbox = {
     collections: { sourcesOutersTransformers: [{ zero: jest.fn() }] },
     core: {
-        eventsControllers: {
-            window: { resize: { attachListener: jest.fn() }, swiping: { attachListeners: jest.fn() } },
-            document: { keyDown: { attachListener: jest.fn() } }
-        },
         eventsDispatcher: { dispatch: jest.fn(), },
         lightboxOpenActioner: {},
+        globalEventsController: { attachListeners: jest.fn() },
         scrollbarRecompensor: { addRecompense: jest.fn() },
         stageManager: { updateStageIndexes: jest.fn() },
         windowResizeActioner: { runActions: jest.fn() }
@@ -19,9 +16,6 @@ const fsLightbox = {
     stageIndexes: { current: 0 }
 };
 
-const windowResizeEventController = fsLightbox.core.eventsControllers.window.resize;
-const swipingEventsController = fsLightbox.core.eventsControllers.window.swiping;
-const documentKeyDownEventController = fsLightbox.core.eventsControllers.document.keyDown;
 const eventsDispatcher = fsLightbox.core.eventsDispatcher;
 const scrollbarRecompensor = fsLightbox.core.scrollbarRecompensor;
 const stageManager = fsLightbox.core.stageManager;
@@ -39,9 +33,7 @@ test('runActions', () => {
     expect(document.documentElement.classList.add).toBeCalledWith(OPEN_CLASS_NAME);
     expect(windowResizeActioner.runActions).toBeCalled();
     expect(scrollbarRecompensor.addRecompense).toBeCalled();
-    expect(windowResizeEventController.attachListener).toBeCalled();
-    expect(swipingEventsController.attachListeners).toBeCalled();
-    expect(documentKeyDownEventController.attachListener).toBeCalled();
+    expect(fsLightbox.core.globalEventsController.attachListeners).toBeCalled();
     expect(fsLightbox.collections.sourcesOutersTransformers[0].zero).toBeCalled();
     expect(eventsDispatcher.dispatch).toBeCalledWith('onOpen');
     expect(eventsDispatcher.dispatch).toBeCalledWith('onShow');
