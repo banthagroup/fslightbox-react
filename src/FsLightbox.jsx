@@ -103,6 +103,12 @@ class FsLightbox extends Component {
     }
 
     setUpInjector() {
+        this.resolve = (dependency, params = []) => {
+            params.unshift(this);
+            return new dependency(...params);
+        };
+
+        // TODO: REMOVE
         this.injector = new Injector(this);
     }
 
@@ -120,18 +126,9 @@ class FsLightbox extends Component {
     setUpCore() {
         this.core = {
             classFacade: {},
-            eventsControllers: {
-                document: {
-                    keyDown: {},
-                },
-                window: {
-                    resize: {},
-                    swiping: {},
-                }
-            },
             eventsDispatcher: {},
             fullscreenToggler: {},
-            keyboardController: {},
+            globalEventsController: {},
             lightboxCloser: {},
             lightboxOpener: {},
             lightboxOpenActioner: {},
@@ -139,11 +136,7 @@ class FsLightbox extends Component {
             scrollbarRecompensor: {},
             slideChangeFacade: {},
             slideIndexChanger: {},
-            slideSwiping: {
-                down: {},
-                move: {},
-                up: {}
-            },
+            slideSwipingDown: {},
             sourceLoadActioner: {},
             stageManager: {},
             windowResizeActioner: {}

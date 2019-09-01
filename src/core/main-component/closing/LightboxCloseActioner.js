@@ -5,17 +5,9 @@ export function LightboxCloseActioner(
     {
         componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
         core: {
-            eventsControllers: {
-                window: {
-                    resize: windowResizeEventController,
-                    swiping: swipingEventsControllersFacade
-                },
-                document: {
-                    keyDown: keyDownEventController
-                }
-            },
             eventsDispatcher,
             fullscreenToggler,
+            globalEventsController,
             scrollbarRecompensor
         },
         elements: { container: lightboxContainer },
@@ -27,11 +19,8 @@ export function LightboxCloseActioner(
 
     this.runActions = () => {
         this.isLightboxFadingOut = true;
-
         lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
-
-        swipingEventsControllersFacade.removeListeners();
-        keyDownEventController.removeListener();
+        globalEventsController.removeListeners();
 
         if (isFullscreenOpenState.get()) {
             fullscreenToggler.enterFullscreen();
@@ -39,15 +28,10 @@ export function LightboxCloseActioner(
 
         setTimeout(() => {
             this.isLightboxFadingOut = false;
-
             slideSwipingProps.isSwiping = false;
-
             lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
-
             document.documentElement.classList.remove(OPEN_CLASS_NAME);
-
             scrollbarRecompensor.removeRecompense();
-            windowResizeEventController.removeListener();
 
             setMainComponentState({
                 isOpen: false

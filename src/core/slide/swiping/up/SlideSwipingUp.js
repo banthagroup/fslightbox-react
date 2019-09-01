@@ -1,15 +1,9 @@
 import { SlideSwipingUpActioner } from "./SlideSwipingUpActioner";
 
-export function setUpSlideSwipingUp(
-    {
-        core: { slideSwiping: { up: self } },
-        injector: { resolve },
-        slideSwipingProps
-    }
-) {
+export function SlideSwipingUp({ resolve, slideSwipingProps }) {
     const slideSwipingUpActioner = resolve(SlideSwipingUpActioner);
 
-    self.listener = () => {
+    this.listener = () => {
         if (slideSwipingProps.isSwiping) {
             (slideSwipingProps.swipedX) ?
                 slideSwipingUpActioner.runActions() :

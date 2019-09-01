@@ -1,28 +1,25 @@
 import * as getAnimationDebounceObject from "../../../animations/getAnimationDebounce";
-import { setUpSlideSwipingMove } from "./setUpSlideSwipingMove";
+import { SlideSwipingMove } from "./SlideSwipingMove";
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 
 const fsLightbox = {
-    core: { slideSwiping: { move: {} } },
     data: { sourcesCount: 2 },
-    injector: {
-        resolve: (constructor) => {
-            if (constructor === SlideSwipingMoveActioner) {
-                return slideSwipingMoveActioner;
-            } else throw new Error('Invalid dependency');
-        }
+    resolve: (constructor) => {
+        if (constructor === SlideSwipingMoveActioner) {
+            return slideSwipingMoveActioner;
+        } else throw new Error('Invalid dependency');
     },
     slideSwipingProps: { isSwiping: false }
 };
 const slideSwipingMoveActioner = { runActionsForEvent: jest.fn() };
-const slideSwipingMove = fsLightbox.core.slideSwiping.move;
+let slideSwipingMove;
 
 let isPreviousAnimationDebounced = false;
 getAnimationDebounceObject.getAnimationDebounce = jest.fn(() => () => isPreviousAnimationDebounced);
 const e = 'event';
 
 const setUp = () => {
-    setUpSlideSwipingMove(fsLightbox);
+    slideSwipingMove = new SlideSwipingMove(fsLightbox);
     slideSwipingMove.listener(e);
 };
 

@@ -5,17 +5,9 @@ import { ANIMATION_TIME } from "../../../constants/css-constants";
 const fsLightbox = {
     componentsStates: { toolbarButtons: { fullscreen: { get: () => false } } },
     core: {
-        eventsControllers: {
-            window: {
-                resize: { removeListener: jest.fn() },
-                swiping: { removeListeners: jest.fn() }
-            },
-            document: {
-                keyDown: { removeListener: jest.fn() }
-            }
-        },
         eventsDispatcher: { dispatch: jest.fn() },
         fullscreenToggler: { enterFullscreen: jest.fn() },
+        globalEventsController: { removeListeners: jest.fn() },
         scrollbarRecompensor: { removeRecompense: jest.fn() }
     },
     elements: { container: { current: { classList: { add: jest.fn(), remove: jest.fn() } } } },
@@ -23,7 +15,6 @@ const fsLightbox = {
     slideSwipingProps: {},
 };
 const isFullscreenOpenState = fsLightbox.componentsStates.toolbarButtons.fullscreen;
-const windowResizeEventController = fsLightbox.core.eventsControllers.window.resize;
 const fullscreenToggler = fsLightbox.core.fullscreenToggler;
 const scrollbarRecompensor = fsLightbox.core.scrollbarRecompensor;
 
@@ -41,8 +32,7 @@ test('before fadeOut (instant actions)', () => {
 
     expect(lightboxCloseActions.isLightboxFadingOut).toBe(true);
     expect(fsLightbox.elements.container.current.classList.add).toBeCalledWith(FADE_OUT_STRONG_CLASS_NAME);
-    expect(fsLightbox.core.eventsControllers.window.swiping.removeListeners).toBeCalled();
-    expect(fsLightbox.core.eventsControllers.document.keyDown.removeListener).toBeCalled();
+    expect(fsLightbox.core.globalEventsController.removeListeners).toBeCalled();
 
     lightboxCloseActions.runActions();
     expect(fullscreenToggler.enterFullscreen).not.toBeCalled();
@@ -72,7 +62,6 @@ test('after fade out', () => {
     expect(fsLightbox.elements.container.current.classList.remove).toBeCalledWith(FADE_OUT_STRONG_CLASS_NAME);
     expect(document.documentElement.classList.remove).toBeCalledWith(OPEN_CLASS_NAME);
     expect(scrollbarRecompensor.removeRecompense).toBeCalled();
-    expect(windowResizeEventController.removeListener).toBeCalled();
 
     expect(setMainComponentStateParams[0]).toEqual({ isOpen: false });
     setMainComponentStateParams[1]();

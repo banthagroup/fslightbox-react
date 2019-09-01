@@ -6,11 +6,11 @@ import * as getClientXFromEventObject from "../../../../helpers/events/getClient
 const fsLightbox = {
     core: {
         classFacade: { removeFromEachElementClassIfContains: jest.fn() },
-        slideSwiping: { down: {} },
+        slideSwipingDown: {},
     },
     slideSwipingProps: {}
 };
-const slideSwipingDown = fsLightbox.core.slideSwiping.down;
+const slideSwipingDown = fsLightbox.core.slideSwipingDown;
 const e = {
     target: { classList: { contains: () => {} } },
     touches: [],
