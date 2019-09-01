@@ -17,17 +17,17 @@ const fsLightbox = {
     collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }] }
 };
 
-const video = mount(<Youtube fsLightbox={ fsLightbox } i={ 0 } />);
+const youtube = mount(<Youtube fsLightbox={ fsLightbox } i={ 0 } />);
 
 test('useEffect', () => {
     expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalled();
 });
 
 test('sources ref', () => {
-    expect(video.getDOMNode()).toBe(fsLightbox.elements.sources[0].current);
+    expect(youtube.getDOMNode()).toBe(fsLightbox.elements.sources[0].current);
 });
 
 test('iframe src', () => {
-    expect(video.getDOMNode().getAttribute('src'))
+    expect(youtube.getDOMNode().getAttribute('src'))
         .toBe('https://www.youtube.com/embed/youtube-id');
 });

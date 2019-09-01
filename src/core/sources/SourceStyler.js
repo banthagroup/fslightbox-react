@@ -2,6 +2,12 @@ export function SourceStyler({ data, elements: { sources } }, i, defaultWidth, d
     const ratio = defaultWidth / defaultHeight;
     let newHeight = 0;
 
+    /**
+     * This method takes care of setting sources dimensions.
+     * Unfortunately wa cannot only set max width and max height and allow the sources to scale themselves,
+     * due tu Youtube source which dimensions needs to be set in advance.
+     * In this case we are calculating dimensions mathematically.
+     */
     this.styleSize = () => {
         newHeight = data.maxSourceWidth / ratio;
 

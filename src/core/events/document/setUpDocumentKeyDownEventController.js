@@ -12,6 +12,8 @@ export function setUpDocumentKeyDownEventController(
 ) {
     self.attachListener = () => {
         document.addEventListener('keydown', keyboardController.handleKeyDown);
+
+        // TODO: fullscreenchange event handling
     };
 
     self.removeListener = () => {

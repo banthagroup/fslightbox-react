@@ -1,56 +1,34 @@
-import { AutomaticTypeDetector } from "../types/AutomaticTypeDetector";
 import { CreatingSourcesLocalStorageManager } from "./CreatingSourcesLocalStorageManager";
 import { DetectedTypeActioner } from "../types/DetectedTypeActioner";
+import { CreatingSourcesBucket } from "./CreatingSourcesBucket";
+import { CUSTOM_TYPE } from "../../../constants/core-constants";
 
 export function createSources(
     {
-        data: { sources },
-        props: { types: typesProp, type: typeProp, },
-        injector: { resolve }
+        data: { sourcesCount },
+        injector: { resolve },
+        props: { sources, customSources }
     }
 ) {
-    const detectedTypeActioner = resolve(DetectedTypeActioner);
     const localStorageManager = resolve(CreatingSourcesLocalStorageManager);
-    let sourceTypeRetrievedWithoutXhr;
-    let sourceIndex;
+    const detectedTypeActioner = resolve(DetectedTypeActioner);
+    const creatingSourcesBucket = resolve(CreatingSourcesBucket, [localStorageManager, detectedTypeActioner]);
 
-    for (let i = 0; i < sources.length; i++) {
-        sourceIndex = i;
-
-        let typeSetManuallyByClient;
-        if (typesProp && typesProp[i]) {
-            typeSetManuallyByClient = typesProp[i];
-        } else if (typeProp) {
-            typeSetManuallyByClient = typeProp;
-        }
-
-        // if client set type it's always the most important one
-        if (typeSetManuallyByClient) {
-            sourceTypeRetrievedWithoutXhr = typeSetManuallyByClient;
-            callActionsForSourceTypeRetrievedWithoutXhr();
+    for (let i = 0; i < sourcesCount; i++) {
+        if (customSources && customSources[i]) {
+            detectedTypeActioner.runActionsForSourceTypeAndIndex(CUSTOM_TYPE, i);
             continue;
         }
 
-        sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(sources[i]);
+        const typeSetManuallyByClient = creatingSourcesBucket.getTypeSetByClientForIndex(i);
+        if (typeSetManuallyByClient) {
+            detectedTypeActioner.runActionsForSourceTypeAndIndex(typeSetManuallyByClient, i);
+            continue;
+        }
+
+        const sourceTypeRetrievedWithoutXhr = localStorageManager.getSourceTypeFromLocalStorageByUrl(sources[i]);
         (sourceTypeRetrievedWithoutXhr) ?
-            callActionsForSourceTypeRetrievedWithoutXhr() :
-            retrieveTypeWithXhrAndCallActions();
-    }
-
-    function callActionsForSourceTypeRetrievedWithoutXhr() {
-        detectedTypeActioner.runActionsForSourceTypeAndIndex(
-            sourceTypeRetrievedWithoutXhr, sourceIndex
-        );
-    }
-
-    function retrieveTypeWithXhrAndCallActions() {
-        // we need to copy index because xhr will for sure come later than next loop iteration
-        let rememberedSourceIndex = sourceIndex;
-        const sourceTypeGetter = resolve(AutomaticTypeDetector);
-        sourceTypeGetter.setUrlToCheck(sources[rememberedSourceIndex]);
-        sourceTypeGetter.getSourceType((sourceType) => {
-            localStorageManager.handleReceivedSourceTypeForUrl(sourceType, sources[rememberedSourceIndex]);
-            detectedTypeActioner.runActionsForSourceTypeAndIndex(sourceType, rememberedSourceIndex)
-        });
+            detectedTypeActioner.runActionsForSourceTypeAndIndex(sourceTypeRetrievedWithoutXhr, i) :
+            creatingSourcesBucket.retrieveTypeWithXhrForIndex(i);
     }
 }

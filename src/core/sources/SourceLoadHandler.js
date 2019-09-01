@@ -1,6 +1,11 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 
-export function SourceLoadHandler({ props: { maxYoutubeVideoDimensions }, injector: { resolve } }, i) {
+export function SourceLoadHandler(
+    {
+        props: { maxYoutubeVideoDimensions, customSourcesMaxDimensions, customSourcesGlobalMaxDimensions },
+        injector: { resolve }
+    }, i
+) {
     let defaultWidth;
     let defaultHeight;
     let setUpSourceDimensions = () => {};
@@ -26,6 +31,18 @@ export function SourceLoadHandler({ props: { maxYoutubeVideoDimensions }, inject
         } else {
             defaultWidth = 1920;
             defaultHeight = 1080;
+        }
+    };
+
+    this.setUpLoadForCustom = () => {
+        if (customSourcesMaxDimensions && customSourcesMaxDimensions[i]) {
+            defaultWidth = customSourcesMaxDimensions[i].width;
+            defaultHeight = customSourcesMaxDimensions[i].height;
+        } else if (customSourcesGlobalMaxDimensions) {
+            defaultWidth = customSourcesGlobalMaxDimensions.width;
+            defaultHeight = customSourcesGlobalMaxDimensions.height;
+        } else {
+            throw new Error('You need to set max dimensions of custom sources. Use customSourcesMaxDimensions prop array or customSourcesGlobalMaxDimensions prop object');
         }
     };
 

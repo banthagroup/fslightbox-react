@@ -3,6 +3,7 @@ import '../src/scss/FsLightbox.scss';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
 import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";
+import { FLEX_CENTERED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../src/constants/classes-names";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -59,6 +60,11 @@ class DemoComponent extends Component {
                     sourceIndex={ this.state.sourceIndex }
                     sources={ sources }
                     openOnMount={ true }
+                    customSources={ [
+                        <iframe src="https://player.vimeo.com/video/353010302"
+                                frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>
+                    ] }
+                    customSourcesGlobalMaxDimensions={ { width: 1920, height: 1080 } }
                     videosPosters={ [
                         null,
                         null,

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp",
-    "watch": "webpack-dev-server --mode development --open"
+    "watch": "webpack-dev-server --mode development --open --host"
   },
   "repository": {
     "type": "git",

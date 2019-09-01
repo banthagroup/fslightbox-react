@@ -2,7 +2,9 @@ import { SourceLoadActioner } from "./SourceLoadActioner";
 import { SourceLoadHandler } from "./SourceLoadHandler";
 
 const fsLightbox = {
-    props: { maxYoutubeVideoDimensions: [{ width: 2000, height: 1000 }] },
+    props: {
+        maxYoutubeVideoDimensions: [{ width: 2000, height: 1000 }],
+    },
     injector: {
         resolve: (constructor, params) => {
             if (constructor === SourceLoadActioner) {
@@ -32,30 +34,30 @@ test('handleLoad', () => {
     sourceLoadHandler.setUpLoadForVideo();
     expectedSourceLoadActionerParams = [0, 1500, 1000];
     sourceLoadHandler.handleLoad({ target: { videoWidth: 1500, videoHeight: 1000 } });
-    expect(sourceLoadActioner.runInitialLoadActions).toBeCalledTimes(2);
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalledTimes(1);
-    sourceLoadHandler.handleLoad();
-    expect(sourceLoadActioner.runInitialLoadActions).toBeCalledTimes(2);
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalledTimes(2);
 
     sourceLoadHandler = new SourceLoadHandler(fsLightbox, 0);
     sourceLoadHandler.setUpLoadForYoutube();
     expectedSourceLoadActionerParams = [0, 2000, 1000];
     sourceLoadHandler.handleLoad();
-    expect(sourceLoadActioner.runInitialLoadActions).toBeCalledTimes(3);
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalledTimes(2);
-    sourceLoadHandler.handleLoad();
-    expect(sourceLoadActioner.runInitialLoadActions).toBeCalledTimes(3);
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalledTimes(3);
 
     delete fsLightbox.props.maxYoutubeVideoDimensions;
     sourceLoadHandler = new SourceLoadHandler(fsLightbox, 0);
     sourceLoadHandler.setUpLoadForYoutube();
     expectedSourceLoadActionerParams = [0, 1920, 1080];
     sourceLoadHandler.handleLoad();
-    expect(sourceLoadActioner.runInitialLoadActions).toBeCalledTimes(4);
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalledTimes(3);
+
+    sourceLoadHandler = new SourceLoadHandler(fsLightbox, 0);
+    expect(sourceLoadHandler.setUpLoadForCustom).toThrowError('You need to set max dimensions of custom sources. Use customSourcesMaxDimensions prop array or customSourcesGlobalMaxDimensions prop object');
+
+    fsLightbox.props.customSourcesGlobalMaxDimensions = { width: 1000, height: 500 };
+    sourceLoadHandler = new SourceLoadHandler(fsLightbox, 0);
+    sourceLoadHandler.setUpLoadForCustom();
+    expectedSourceLoadActionerParams = [0, 1000, 500];
     sourceLoadHandler.handleLoad();
-    expect(sourceLoadActioner.runInitialLoadActions).toBeCalledTimes(4);
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalledTimes(4);
+
+    fsLightbox.props.customSourcesMaxDimensions = [{ width: 3000, height: 1500 }];
+    sourceLoadHandler = new SourceLoadHandler(fsLightbox, 0);
+    sourceLoadHandler.setUpLoadForCustom();
+    expectedSourceLoadActionerParams = [0, 3000, 1500];
+    sourceLoadHandler.handleLoad();
 });
