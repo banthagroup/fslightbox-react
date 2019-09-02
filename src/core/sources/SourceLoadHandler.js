@@ -3,7 +3,7 @@ import { SourceLoadActioner } from "./SourceLoadActioner";
 export function SourceLoadHandler(
     {
         props: { maxYoutubeVideoDimensions, customSourcesMaxDimensions, customSourcesGlobalMaxDimensions },
-        injector: { resolve }
+        resolve,
     }, i
 ) {
     let defaultWidth;

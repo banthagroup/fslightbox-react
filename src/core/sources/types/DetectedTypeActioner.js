@@ -13,7 +13,7 @@ export function DetectedTypeActioner(fsLightbox) {
         getState: getLightboxState,
         componentsStates: { sourcesInnersUpdatersCollection: sourcesInnersUpdatersStateCollection },
         elements: { sourcesComponents },
-        injector: { resolve }
+        resolve
     } = fsLightbox;
 
     this.runActionsForSourceTypeAndIndex = (type, i) => {

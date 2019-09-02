@@ -1,15 +1,8 @@
-import { LightboxUpdateActions } from "./LightboxUpdateActions";
+import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
 import { getLightboxUpdaterConditioner } from "./getLightboxUpdaterConditioner";
 
-export function setUpLightboxUpdater(
-    {
-        core: { lightboxUpdater: self, },
-        data: { sources },
-        getProps,
-        injector: { resolve }
-    }
-) {
-    const updatingActions = resolve(LightboxUpdateActions);
+export function setUpLightboxUpdater({ core: { lightboxUpdater: self, }, data: { sources }, getProps, resolve }) {
+    const updatingActioner = resolve(LightboxUpdateActioner);
     const lightboxUpdaterConditioner = getLightboxUpdaterConditioner();
 
     self.handleUpdate = (previousProps) => {
@@ -18,15 +11,15 @@ export function setUpLightboxUpdater(
         lightboxUpdaterConditioner.setCurrProps(currentProps);
 
         if (lightboxUpdaterConditioner.hasTogglerPropChanged()) {
-            updatingActions.runTogglerUpdateActions();
+            updatingActioner.runTogglerUpdateActions();
         }
 
         if (lightboxUpdaterConditioner.hasSourcePropChanged()) {
-            updatingActions.runCurrentStageIndexUpdateActionsFor(sources.indexOf(currentProps.source));
+            updatingActioner.runCurrentStageIndexUpdateActionsFor(sources.indexOf(currentProps.source));
         } else if (lightboxUpdaterConditioner.hasSourceIndexPropChanged()) {
-            updatingActions.runCurrentStageIndexUpdateActionsFor(currentProps.sourceIndex);
+            updatingActioner.runCurrentStageIndexUpdateActionsFor(currentProps.sourceIndex);
         } else if (lightboxUpdaterConditioner.hasSlidePropChanged()) {
-            updatingActions.runCurrentStageIndexUpdateActionsFor(currentProps.slide - 1);
+            updatingActioner.runCurrentStageIndexUpdateActionsFor(currentProps.slide - 1);
         }
     };
 }

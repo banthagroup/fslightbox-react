@@ -3,7 +3,6 @@ import '../src/scss/FsLightbox.scss';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
 import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";
-import { FLEX_CENTERED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../src/constants/classes-names";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -66,8 +65,12 @@ class DemoComponent extends Component {
                         undefined,
                         undefined,
                         undefined,
-                        <iframe src="https://player.vimeo.com/video/353010302"
-                                frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>
+                        <iframe src="https://player.vimeo.com/video/22439234"
+                                frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>,
+                        <iframe allowFullScreen="allowfullscreen"
+                                allow="autoplay; fullscreen"
+                                src="//maps.google.com/maps?q=?&amp;q=Łowicz&amp;output=embed"
+                                scrolling="no"></iframe>
                     ] }
                     customSourcesGlobalMaxDimensions={ { width: 1920, height: 1080 } }
                     videosPosters={ [

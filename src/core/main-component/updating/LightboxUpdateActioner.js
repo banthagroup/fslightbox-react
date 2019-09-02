@@ -1,4 +1,4 @@
-export function LightboxUpdateActions(
+export function LightboxUpdateActioner(
     {
         core: {
             lightboxCloser,

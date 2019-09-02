@@ -1,6 +1,6 @@
-export function KeyboardController({ core: { lightboxCloser, slideChangeFacade } }) {
-    this.listener = ({ keyCode }) => {
-        switch (keyCode) {
+export function KeyboardController({ core: { lightboxCloser, fullscreenToggler, slideChangeFacade } }) {
+    this.listener = (e) => {
+        switch (e.keyCode) {
             case 27:
                 lightboxCloser.closeLightbox();
                 break;
@@ -9,6 +9,10 @@ export function KeyboardController({ core: { lightboxCloser, slideChangeFacade }
                 break;
             case 39:
                 slideChangeFacade.changeToNext();
+                break;
+            case 122:
+                e.preventDefault();
+                fullscreenToggler.enterFullscreen();
                 break;
         }
     };

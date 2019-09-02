@@ -6,14 +6,11 @@ const fsLightbox = {
     elements: {
         sourcesOuters: []
     },
-    injector: {
-        resolve: (constructorDependency) => {
-            if (constructorDependency === SourceOuterTransformer) {
-                resolveCalls++;
-                return sourcesHoldersTransformingFacades[resolveCalls - 1];
-            }
+    resolve: (constructorDependency) => {
+        if (constructorDependency === SourceOuterTransformer) {
+            resolveCalls++;
+            return sourcesHoldersTransformingFacades[resolveCalls - 1];
         }
-
     }
 };
 

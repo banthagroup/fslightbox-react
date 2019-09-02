@@ -6,7 +6,7 @@ export function SourceLoadActioner(
         componentsStates: { isSourceLoadedCollection },
         collections: { sourcesStylers },
         elements: { sourcesInners, sources },
-        injector: { resolve }
+        resolve
     }, i, defaultWidth, defaultHeight
 ) {
     this.runNormalLoadActions = () => {

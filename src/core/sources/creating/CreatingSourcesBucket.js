@@ -2,8 +2,7 @@ import { AutomaticTypeDetector } from "../types/AutomaticTypeDetector";
 
 export function CreatingSourcesBucket(
     {
-        props: { types, type, sources },
-        injector: { resolve }
+        props: { types, type, sources }, resolve,
     }, localStorageManager, detectedTypeActioner
 ) {
     this.getTypeSetByClientForIndex = (i) => {

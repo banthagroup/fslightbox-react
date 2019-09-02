@@ -9,14 +9,12 @@ const fsLightbox = {
         sources: [{ current: { classList: { add: jest.fn() } } }],
         sourcesInners: [{ current: { classList: { add: jest.fn(), remove: jest.fn() } } }]
     },
-    injector: {
-        resolve: (constructorDependency, params) => {
-            if (constructorDependency === SourceStyler) {
-                expect(params).toEqual([0, 1000, 1500]);
-                return sourceStyler;
-            } else {
-                throw new Error('Invalid dependency')
-            }
+    resolve: (constructorDependency, params) => {
+        if (constructorDependency === SourceStyler) {
+            expect(params).toEqual([0, 1000, 1500]);
+            return sourceStyler;
+        } else {
+            throw new Error('Invalid dependency')
         }
     }
 };

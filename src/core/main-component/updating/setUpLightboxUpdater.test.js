@@ -1,29 +1,19 @@
 import { setUpLightboxUpdater } from "../../../../src/core/main-component/updating/setUpLightboxUpdater";
-import { LightboxUpdateActions } from "../../../../src/core/main-component/updating/LightboxUpdateActions";
+import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
 import * as getLightboxUpdaterConditionerObject
     from "../../../../src/core/main-component/updating/getLightboxUpdaterConditioner";
 
 const fsLightbox = {
-    core: {
-        lightboxUpdater: {}
-    },
-    data: {
-        sources: []
-    },
+    core: { lightboxUpdater: {} },
+    data: { sources: [] },
     getProps: () => currentProps,
-    injector: {
-        resolve: (constructorDependency) => {
-            if (constructorDependency === LightboxUpdateActions) {
-                return lightboxUpdatingActions;
-            }
-        },
+    resolve: (constructorDependency) => {
+        if (constructorDependency === LightboxUpdateActioner) {
+            return lightboxUpdatingActions;
+        }
     }
 };
-const lightboxUpdatingActions = {
-    runIsOpenUpdateActions: () => {},
-    runCurrentStageIndexUpdateActionsFor: () => {},
-};
-
+const lightboxUpdatingActions = { runCurrentStageIndexUpdateActionsFor: () => {} };
 const lightboxUpdaterConditioner = {
     setPrevProps: () => {},
     setCurrProps: () => {},

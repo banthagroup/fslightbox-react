@@ -2,12 +2,10 @@ import { setUpLightboxCloser } from "./setUpLightboxCloser";
 import { LightboxCloseActioner } from "./LightboxCloseActioner";
 
 const fsLightbox = {
-    injector: {
-        resolve: (dependency) => {
-            if (dependency === LightboxCloseActioner) {
-                return lightboxCloseActioner;
-            } else throw new Error('Invalid dependency')
-        }
+    resolve: (dependency) => {
+        if (dependency === LightboxCloseActioner) {
+            return lightboxCloseActioner;
+        } else throw new Error('Invalid dependency')
     },
     core: { lightboxCloser: {} }
 };
