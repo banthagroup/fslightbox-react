@@ -1,5 +1,4 @@
 /tests
-/coverage
 /demo
 /node_modules
 /.idea
@@ -11,4 +10,3 @@
 /src
 /index.html
 /setupTests.js
-/modules-to-udpate-when-changing-number-of-slides.md

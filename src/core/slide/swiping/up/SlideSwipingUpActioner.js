@@ -6,7 +6,7 @@ export function SlideSwipingUpActioner(
         componentsStates: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState },
         core: { lightboxCloser },
         elements: { container },
-        injector: { resolve },
+        resolve,
         slideSwipingProps
     }
 ) {

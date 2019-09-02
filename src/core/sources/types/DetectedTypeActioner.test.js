@@ -13,14 +13,12 @@ const fsLightbox = {
     getState: () => lightboxState,
     componentsStates: { sourcesInnersUpdatersCollection: [{ set: jest.fn() }] },
     elements: { sourcesComponents: [] },
-    injector: {
-        resolve: (constructorDependency, params) => {
-            if (constructorDependency === SourceLoadHandler) {
-                expect(params).toEqual(expectedSourceLoadHandlerParams);
-                return sourceLoadHandler;
-            } else {
-                throw new Error('Invalid dependency');
-            }
+    resolve: (constructorDependency, params) => {
+        if (constructorDependency === SourceLoadHandler) {
+            expect(params).toEqual(expectedSourceLoadHandlerParams);
+            return sourceLoadHandler;
+        } else {
+            throw new Error('Invalid dependency');
         }
     },
     props: {}

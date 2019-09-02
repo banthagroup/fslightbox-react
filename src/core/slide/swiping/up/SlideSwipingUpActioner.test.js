@@ -9,13 +9,11 @@ const fsLightbox = {
         swipingActioner: { runTopActionsForProps: jest.fn() }
     },
     elements: { container: { current: { classList: { remove: jest.fn() } } } },
-    injector: {
-        resolve: (constructorDependency) => {
-            if (constructorDependency === SlideSwipingUpActionerBucket) {
-                return slideSwipingUpActionsBucket;
-            } else {
-                throw new Error('Invalid dependency');
-            }
+    resolve: (constructorDependency) => {
+        if (constructorDependency === SlideSwipingUpActionerBucket) {
+            return slideSwipingUpActionsBucket;
+        } else {
+            throw new Error('Invalid dependency');
         }
     },
     slideSwipingProps: { isSourceDownEventTarget: true, swipedX: 1 },

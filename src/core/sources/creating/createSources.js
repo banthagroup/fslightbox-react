@@ -3,13 +3,7 @@ import { DetectedTypeActioner } from "../types/DetectedTypeActioner";
 import { CreatingSourcesBucket } from "./CreatingSourcesBucket";
 import { CUSTOM_TYPE } from "../../../constants/core-constants";
 
-export function createSources(
-    {
-        data: { sourcesCount },
-        injector: { resolve },
-        props: { sources, customSources }
-    }
-) {
+export function createSources({ data: { sourcesCount }, props: { sources, customSources }, resolve }) {
     const localStorageManager = resolve(CreatingSourcesLocalStorageManager);
     const detectedTypeActioner = resolve(DetectedTypeActioner);
     const creatingSourcesBucket = resolve(CreatingSourcesBucket, [localStorageManager, detectedTypeActioner]);

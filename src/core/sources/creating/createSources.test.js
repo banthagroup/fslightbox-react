@@ -6,22 +6,20 @@ import { CUSTOM_TYPE } from "../../../constants/core-constants";
 
 const fsLightbox = {
     data: { sourcesCount: 4 },
-    injector: {
-        resolve: (constructor, dependencies) => {
-            if (constructor === CreatingSourcesLocalStorageManager) {
-                return localStorageManager;
-            } else if (constructor === DetectedTypeActioner) {
-                return detectedTypeActioner;
-            } else if (constructor === CreatingSourcesBucket
-                && Object.is(dependencies[0], localStorageManager)
-                && Object.is(dependencies[1], detectedTypeActioner)) {
-                return creatingSourcesBucket;
-            } else throw new Error('Invalid dependency');
-        }
-    },
     props: {
         sources: ['first-source', 'second-source', 'third-source', 'fourth-source'],
         customSources: ['custom-source']
+    },
+    resolve: (constructor, dependencies) => {
+        if (constructor === CreatingSourcesLocalStorageManager) {
+            return localStorageManager;
+        } else if (constructor === DetectedTypeActioner) {
+            return detectedTypeActioner;
+        } else if (constructor === CreatingSourcesBucket
+            && Object.is(dependencies[0], localStorageManager)
+            && Object.is(dependencies[1], detectedTypeActioner)) {
+            return creatingSourcesBucket;
+        } else throw new Error('Invalid dependency');
     }
 };
 const localStorageManager = {

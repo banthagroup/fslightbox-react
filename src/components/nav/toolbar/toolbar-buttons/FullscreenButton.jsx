@@ -5,11 +5,16 @@ function FullscreenButton(
     {
         fsLightbox: {
             componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
-            core: { fullscreenToggler: { enterFullscreen, exitFullscreen }  }
+            core: { fullscreenToggler: { enterFullscreen, exitFullscreen } }
         }
     }
 ) {
-    const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
+    let isFullscreenOpenAtStart = false;
+    if (typeof window !== 'undefined') {
+        isFullscreenOpenAtStart = !!document.fullscreenElement;
+    }
+
+    const [isFullscreenOpen, setIsFullscreenOpen] = useState(isFullscreenOpenAtStart);
     isFullscreenOpenState.get = () => isFullscreenOpen;
     isFullscreenOpenState.set = setIsFullscreenOpen;
 

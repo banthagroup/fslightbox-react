@@ -5,14 +5,12 @@ const fsLightbox = {
     props: {
         maxYoutubeVideoDimensions: [{ width: 2000, height: 1000 }],
     },
-    injector: {
-        resolve: (constructor, params) => {
-            if (constructor === SourceLoadActioner) {
-                expect(expectedSourceLoadActionerParams).toEqual(params);
-                return sourceLoadActioner;
-            } else {
-                throw new Error('Invalid dependency resolved');
-            }
+    resolve: (constructor, params) => {
+        if (constructor === SourceLoadActioner) {
+            expect(expectedSourceLoadActionerParams).toEqual(params);
+            return sourceLoadActioner;
+        } else {
+            throw new Error('Invalid dependency resolved');
         }
     }
 };

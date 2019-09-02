@@ -6,12 +6,10 @@ const assertUrlToCheckSet = () => {
     if (!urlToCheck) throw new Error('Started automatic type detection without setting url');
 };
 const fsLightbox = {
-    injector: {
-        resolve: (constructor) => {
-            if (constructor === AutomaticTypeDetector) {
-                return automaticTypeDetector;
-            } else throw new Error('Invalid dependency');
-        }
+    resolve: (constructor) => {
+        if (constructor === AutomaticTypeDetector) {
+            return automaticTypeDetector;
+        } else throw new Error('Invalid dependency');
     },
     props: { sources: ['example-source'] }
 };

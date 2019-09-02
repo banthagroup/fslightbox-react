@@ -7,7 +7,6 @@ import { createRefsArrayWithLength } from "./helpers/arrays/createRefsArrayWithL
 import { setUpCore } from "./core/setUpCore";
 import SwipingInvisibleHover from "./components/slide-swiping/SlideSwipingHoverer.jsx";
 import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
-import { Injector } from "./injection/Injector";
 import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
 import { getInitialCurrentIndex } from "./core/stage/getInitialCurrentIndex";
 import { getSourcesHoldersTransformersCollection } from "./core/collections/getSourcesHoldersTransformersCollection";
@@ -28,7 +27,7 @@ class FsLightbox extends Component {
         this.setUpGetters();
         this.setUpSetters();
         this.setUpElements();
-        this.setUpInjector();
+        this.setUpResolve();
         this.setUpCollections();
         this.setUpCore();
     }
@@ -102,14 +101,11 @@ class FsLightbox extends Component {
         };
     }
 
-    setUpInjector() {
+    setUpResolve() {
         this.resolve = (dependency, params = []) => {
             params.unshift(this);
             return new dependency(...params);
         };
-
-        // TODO: REMOVE
-        this.injector = new Injector(this);
     }
 
     setUpCollections() {

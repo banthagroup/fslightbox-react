@@ -4,7 +4,6 @@ import FsLightbox from "./FsLightbox";
 import { testSources } from "../tests/__tests-vars__/testVariables";
 import * as setUpCoreObject from "./core/setUpCore";
 import * as runLightboxUnmountActionsObject from "./core/main-component/unmounting/runLightboxUnmountActions";
-import { Injector } from "./injection/Injector";
 import * as runLightboxMountedActionsObject from "./core/main-component/mounting/runLightboxMountedActions";
 import * as getInitialCurrentIndexObject from "./core/stage/getInitialCurrentIndex";
 import SlideButton from "./components/SlideButton";
@@ -71,8 +70,14 @@ test('setters', () => {
     expect(fsLightbox.setState).toBeCalledWith('value', 'callback');
 });
 
-test('injector', () => {
-    expect(fsLightbox.injector).toBeInstanceOf(Injector);
+test('resolve', () => {
+    function constructor(fsLightboxDependency, firstParam, secondParam) {
+        expect(fsLightboxDependency).toBe(fsLightbox);
+        expect(firstParam).toBe('first-param');
+        expect(secondParam).toBe('second-param');
+    }
+
+    expect(fsLightbox.resolve(constructor, ['first-param', 'second-param'])).toBeInstanceOf(constructor);
 });
 
 test('core', () => {

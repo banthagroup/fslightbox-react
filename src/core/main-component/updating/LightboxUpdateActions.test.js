@@ -1,4 +1,4 @@
-import { LightboxUpdateActions } from "./LightboxUpdateActions";
+import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
 
 const fsLightbox = {
     core: {
@@ -26,7 +26,7 @@ const lightboxCloser = fsLightbox.core.lightboxCloser;
 const lightboxOpener = fsLightbox.core.lightboxOpener;
 const slideIndexChanger = fsLightbox.core.slideIndexChanger;
 
-const lightboxUpdateActions = new LightboxUpdateActions(fsLightbox);
+const lightboxUpdateActions = new LightboxUpdateActioner(fsLightbox);
 
 describe('runTogglerUpdateActions', () => {
     beforeEach(() => {
