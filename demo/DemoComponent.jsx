@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../src/scss/FsLightbox.scss';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
-import { TEST_YOUTUBE_URL, TEST_VIDEO_URL } from "./demoData";
+import { TEST_IMAGE_URL } from "./demoData";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -31,14 +31,6 @@ class DemoComponent extends Component {
     }
 
     render() {
-        const sources = [
-            "../demo/images/5.jpg",
-            TEST_YOUTUBE_URL,
-            TEST_VIDEO_URL,
-            "../demo/images/3.jpeg",
-            'invalid'
-        ];
-
         return (
             <>
                 <button onClick={ this.toggleLightbox }>
@@ -48,39 +40,24 @@ class DemoComponent extends Component {
                     Toggle Lightbox
                 </button>
                 <div className="images">
-                    <img className="image" src="../demo/images/1.jpeg" alt="" />
-                    <img className="image" src="../demo/images/2.jpg" alt="" />
-                    <img className="image" src="../demo/images/3.jpeg" alt="" />
+                    <img className="image" src="../demo/images/1.jpeg" alt=""/>
+                    <img className="image" src="../demo/images/2.jpg" alt=""/>
+                    <img className="image" src="../demo/images/3.jpeg" alt=""/>
                 </div>
                 <FsLightbox
                     toggler={ this.state.toggler }
                     slide={ this.state.slide }
                     source={ this.state.source }
                     sourceIndex={ this.state.sourceIndex }
-                    sources={ sources }
                     openOnMount={ true }
                     customSources={ [
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        undefined,
-                        <iframe src="https://player.vimeo.com/video/22439234"
-                                frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>,
-                        <iframe allowFullScreen="allowfullscreen"
-                                allow="autoplay; fullscreen"
-                                src="//maps.google.com/maps?q=?&amp;q=Łowicz&amp;output=embed"
-                                scrolling="no"></iframe>
+                        <div>
+                            <img src={ TEST_IMAGE_URL }/>
+                        </div>
                     ] }
-                    customSourcesGlobalMaxDimensions={ { width: 1920, height: 1080 } }
-                    videosPosters={ [
-                        null,
-                        null,
-                        null,
-                        "../demo/images/1.jpeg"
-                    ] }
+                    customSourcesGlobalMaxDimensions={ { width: 1920, height: 1060 } }
                 />
-                <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] } />
+                <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] }/>
             </>
         );
     }

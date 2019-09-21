@@ -8,11 +8,13 @@ const fsLightbox = {
         classFacade: { removeFromEachElementClassIfContains: jest.fn() },
         slideSwipingDown: {},
     },
-    slideSwipingProps: {}
+    elements: { sources: [{ current: null }, { current: { contains: jest.fn(() => false) } }] },
+    slideSwipingProps: {},
+    stageIndexes: { current: 0 }
 };
 const slideSwipingDown = fsLightbox.core.slideSwipingDown;
 const e = {
-    target: { classList: { contains: () => {} } },
+    target: {},
     touches: [],
     preventDefault: jest.fn()
 };
@@ -23,7 +25,6 @@ setUpSlideSwipingDown(fsLightbox);
 
 test('listener', () => {
     e.target.tagName = 'VIDEO';
-    e.target.classList.contains = () => false;
     slideSwipingDown.listener(e);
     expect(fsLightbox.slideSwipingProps.isSwiping).toBe(true);
     expect(fsLightbox.slideSwipingProps.swipedX).toBe(0);
@@ -37,14 +38,17 @@ test('listener', () => {
 
     e.touches = [{ clientX: 0 }];
     e.target.tagName = 'IMAGE';
-    e.target.classList.contains = () => true;
+    fsLightbox.stageIndexes.current = 1;
+    slideSwipingDown.listener(e);
+    expect(e.preventDefault).not.toBeCalled();
+    expect(fsLightbox.elements.sources[1].current.contains).toBeCalledWith(e.target);
+    expect(fsLightbox.slideSwipingProps.isSourceDownEventTarget).toBe(false);
+
+    e.target.tagName = 'VIDEO';
+    fsLightbox.elements.sources[1].current.contains = () => true;
     slideSwipingDown.listener(e);
     expect(e.preventDefault).not.toBeCalled();
     expect(fsLightbox.slideSwipingProps.isSourceDownEventTarget).toBe(true);
-
-    e.target.tagName = 'VIDEO';
-    slideSwipingDown.listener(e);
-    expect(e.preventDefault).not.toBeCalled();
 
     e.target.tagName = 'IMAGE';
     e.touches = undefined;

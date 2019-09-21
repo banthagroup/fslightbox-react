@@ -1,6 +1,6 @@
 {
   "name": "fslightbox-react",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "React version of Fullscreen Lightbox.",
   "main": "index.js",
   "scripts": {

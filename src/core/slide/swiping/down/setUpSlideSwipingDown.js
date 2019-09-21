@@ -5,7 +5,9 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-n
 export function setUpSlideSwipingDown(
     {
         core: { classFacade, slideSwipingDown: self },
-        slideSwipingProps
+        elements: { sources },
+        slideSwipingProps,
+        stageIndexes
     }
 ) {
     self.listener = (e) => {
@@ -15,13 +17,14 @@ export function setUpSlideSwipingDown(
 
         slideSwipingProps.swipedX = 0;
 
-        // cannot prevent default action when target is video because button would be not clickable
-        // and cannot prevent event on mobile because we use passive event listener for touch start
+        // cannot prevent default action when target is video because buttons would be not clickable
+        // cannot prevent event on mobile because we use passive event listener for touch start
         if (e.target.tagName !== 'VIDEO' && !e.touches) {
             e.preventDefault();
         }
 
-        (e.target.classList.contains('fslightbox-source')) ?
+        const currentElement = sources[stageIndexes.current].current;
+        (currentElement && currentElement.contains(e.target)) ?
             slideSwipingProps.isSourceDownEventTarget = true :
             slideSwipingProps.isSourceDownEventTarget = false;
 

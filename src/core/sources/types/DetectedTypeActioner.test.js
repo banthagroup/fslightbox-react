@@ -42,7 +42,7 @@ test('runActionsForSourceTypeAndIndex', () => {
     expect(sourceLoadHandler.setUpLoadForVideo).not.toBeCalled();
     expect(sourceLoadHandler.setUpLoadForYoutube).not.toBeCalled();
     expect(sourceLoadHandler.setUpLoadForCustom).not.toBeCalled();
-    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Image fsLightbox={ fsLightbox } i={ 0 } />);
+    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Image fsLightbox={ fsLightbox } i={ 0 }/>);
     expect(fsLightbox.componentsStates.sourcesInnersUpdatersCollection[0].set).not.toBeCalled();
 
     fsLightbox.props.disableThumbs = true;
@@ -53,7 +53,7 @@ test('runActionsForSourceTypeAndIndex', () => {
     expect(sourceLoadHandler.setUpLoadForVideo).toBeCalled();
     expect(sourceLoadHandler.setUpLoadForYoutube).not.toBeCalled();
     expect(sourceLoadHandler.setUpLoadForCustom).not.toBeCalled();
-    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Video fsLightbox={ fsLightbox } i={ 0 } />);
+    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Video fsLightbox={ fsLightbox } i={ 0 }/>);
     expect(fsLightbox.componentsStates.sourcesInnersUpdatersCollection[0].set).toBeCalledWith(true);
 
     detectedTypeActions.runActionsForSourceTypeAndIndex(YOUTUBE_TYPE, 0);
@@ -61,14 +61,14 @@ test('runActionsForSourceTypeAndIndex', () => {
     expect(sourceLoadHandler.setUpLoadForVideo).toBeCalledTimes(1);
     expect(sourceLoadHandler.setUpLoadForYoutube).toBeCalled();
     expect(sourceLoadHandler.setUpLoadForCustom).not.toBeCalled();
-    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Youtube fsLightbox={ fsLightbox } i={ 0 } />);
+    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Youtube fsLightbox={ fsLightbox } i={ 0 }/>);
 
     detectedTypeActions.runActionsForSourceTypeAndIndex(CUSTOM_TYPE, 0);
     expect(sourceLoadHandler.setUpLoadForImage).toBeCalledTimes(1);
     expect(sourceLoadHandler.setUpLoadForVideo).toBeCalledTimes(1);
     expect(sourceLoadHandler.setUpLoadForYoutube).toBeCalledTimes(1);
     expect(sourceLoadHandler.setUpLoadForCustom).toBeCalled();
-    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Custom fsLightbox={ fsLightbox } i={ 0 } />);
+    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Custom fsLightbox={ fsLightbox } i={ 0 }/>);
 
     fsLightbox.collections.sourcesLoadsHandlers[0] = undefined;
     detectedTypeActions.runActionsForSourceTypeAndIndex(INVALID_TYPE, 0);
@@ -77,5 +77,5 @@ test('runActionsForSourceTypeAndIndex', () => {
     expect(sourceLoadHandler.setUpLoadForVideo).toBeCalledTimes(1);
     expect(sourceLoadHandler.setUpLoadForYoutube).toBeCalledTimes(1);
     expect(sourceLoadHandler.setUpLoadForCustom).toBeCalledTimes(1);
-    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Invalid fsLightbox={ fsLightbox } i={ 0 } />);
+    expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Invalid fsLightbox={ fsLightbox } i={ 0 }/>);
 });
