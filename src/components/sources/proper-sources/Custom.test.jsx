@@ -26,7 +26,7 @@ const fsLightbox = {
     collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }, { handleLoad: jest.fn() }] }
 };
 
-const custom = mount(<Custom fsLightbox={ fsLightbox } i={ 0 } />);
+const custom = mount(<Custom fsLightbox={ fsLightbox } i={ 0 }/>);
 
 test('useEffect', () => {
     expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalled();
@@ -41,7 +41,7 @@ test('displaying source from customSources prop adding fslightbox-source class a
 });
 
 test('displaying source without class', () => {
-    expect(shallow(<Custom fsLightbox={ fsLightbox } i={ 1 } />).getElements()).toEqual([
+    expect(shallow(<Custom fsLightbox={ fsLightbox } i={ 1 }/>).getElements()).toEqual([
         <div className="fslightbox-source" ref={ fsLightbox.elements.sources[1] }>
             <h1>Second source</h1>
         </div>
