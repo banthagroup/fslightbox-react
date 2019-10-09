@@ -7,7 +7,7 @@ const fsLightbox = {
     componentsStates: { toolbarButtons: { fullscreen: {} } },
     core: { fullscreenToggler: { enterFullscreen: jest.fn(), exitFullscreen: jest.fn() } }
 };
-let fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox } />);
+let fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox }/>);
 
 describe('state', () => {
     testComponentStateForStateChainAndFsLightbox("toolbarButtons.fullscreen", fsLightbox);
@@ -15,14 +15,14 @@ describe('state', () => {
     test('it should have default value false when document is not defined', () => {
         const tempWindow = global.window;
         delete global.window;
-        fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox } />);
+        fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox }/>);
         expect(fsLightbox.componentsStates.toolbarButtons.fullscreen.get()).toBe(false);
         global.window = tempWindow;
     });
 
     test('default value true when fullscreen is open', () => {
         window.document.fullscreenElement = 'element';
-        fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox } />);
+        fullscreenButton = shallow(<FullscreenButton fsLightbox={ fsLightbox }/>);
         expect(fsLightbox.componentsStates.toolbarButtons.fullscreen.get()).toBe(true);
     });
 });

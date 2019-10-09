@@ -14,5 +14,6 @@ export const testTypes = [
     'image',
     'video',
     'youtube',
+    null,
     'invalid'
 ];

@@ -1,7 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { ANIMATION_TIME } from "../../src/constants/css-constants";
-import { PREFIX } from "../../src/constants/classes-names";
 import { mountedLightbox } from "../__tests-vars__/mountedLightbox";
 
 const sourcesOutersWrapper = mountedLightbox.find('SourcesOutersWrapper');
@@ -88,20 +87,14 @@ it('should close lightbox when clicking in overlay', () => {
             jest.useFakeTimers();
 
             mountedLightbox.instance().stageIndexes.previous = 3;
+            const element = document.createElement('div');
+            element.contains = () => false;
 
             // simulation that mouse down clientX is equal to mouse move clientX
             // so user just clicked and click target was not source lightbox should be closed
             sourcesOutersWrapper.simulate('mouseDown', {
                 clientX: 333,
-                target: {
-                    classList: {
-                        contains: (className) => {
-                            if (className === `${ PREFIX }source`) {
-                                return false;
-                            }
-                        }
-                    }
-                }
+                target: element
             });
 
             // by default slide move ticks are delayed by requestAnimationFrame

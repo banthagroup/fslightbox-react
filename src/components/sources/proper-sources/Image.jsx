@@ -11,7 +11,7 @@ const Image = (
     }
 ) => (
     <img
-        onLoad={ sourcesLoadsHandlers[i].handleLoad }
+        onLoad={ sourcesLoadsHandlers[i].handleImageLoad }
         className={ SOURCE_CLASS_NAME }
         ref={ sourcesElements[i] }
         src={ sources[i] }

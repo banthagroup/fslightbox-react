@@ -14,13 +14,13 @@ getYoutubeVideoIdFromUrlObject.getYoutubeVideoIdFromUrl = (source) => {
 const fsLightbox = {
     props: { sources: ['source'] },
     elements: { sources: [React.createRef()] },
-    collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }] }
+    collections: { sourcesLoadsHandlers: [{ handleYoutubeLoad: jest.fn() }] }
 };
 
-const youtube = mount(<Youtube fsLightbox={ fsLightbox } i={ 0 } />);
+const youtube = mount(<Youtube fsLightbox={ fsLightbox } i={ 0 }/>);
 
 test('useEffect', () => {
-    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalled();
+    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleYoutubeLoad).toBeCalled();
 });
 
 test('sources ref', () => {

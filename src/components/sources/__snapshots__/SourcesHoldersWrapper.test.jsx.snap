@@ -16,7 +16,7 @@ exports[`SourcesHoldersWrapper DOM 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -37,7 +37,7 @@ exports[`SourcesHoldersWrapper DOM 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -58,7 +58,7 @@ exports[`SourcesHoldersWrapper DOM 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -79,7 +79,7 @@ exports[`SourcesHoldersWrapper DOM 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -107,7 +107,7 @@ exports[`SourcesHoldersWrapper DOM should match snapshot 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -128,7 +128,7 @@ exports[`SourcesHoldersWrapper DOM should match snapshot 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -149,7 +149,7 @@ exports[`SourcesHoldersWrapper DOM should match snapshot 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },
@@ -170,7 +170,7 @@ exports[`SourcesHoldersWrapper DOM should match snapshot 1`] = `
           "sourcesCount": 4,
         },
         "elements": Object {
-          "sourcesHoldersWrapper": Object {
+          "sourcesOutersWrapper": Object {
             "current": null,
           },
         },

@@ -28,6 +28,6 @@ it('should resize sources without error', () => {
     expect(mountedLightbox.instance().elements.sources[2].current.style.width).toBe('1350px');
     expect(mountedLightbox.instance().elements.sources[2].current.style.height).toBe(1350 / (1920 / 1080) + 'px');
 
-    expect(mountedLightbox.instance().elements.sources[3].current).toBeNull();
-    expect(mountedLightbox.instance().elements.sources[3].current).toBeNull();
+    expect(mountedLightbox.instance().elements.sources[4].current).toBeNull();
+    expect(mountedLightbox.instance().elements.sources[4].current).toBeNull();
 });

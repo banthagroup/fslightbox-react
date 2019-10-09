@@ -1,57 +1,36 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 
-export function SourceLoadHandler(
-    {
-        props: { maxYoutubeVideoDimensions, customSourcesMaxDimensions, customSourcesGlobalMaxDimensions },
-        resolve,
-    }, i
-) {
-    let defaultWidth;
-    let defaultHeight;
-    let setUpSourceDimensions = () => {};
-
-    this.setUpLoadForImage = () => {
-        setUpSourceDimensions = ({ target: { width, height } }) => {
-            defaultWidth = width;
-            defaultHeight = height;
-        }
+export function SourceLoadHandler({ elements: { sources }, props: { maxYoutubeVideoDimensions }, resolve, }, i) {
+    this.handleImageLoad = ({ target: { width, height } }) => {
+        this.handleImageLoad = handleLoadAndGetFurtherActionsFunction(width, height);
     };
 
-    this.setUpLoadForVideo = () => {
-        setUpSourceDimensions = ({ target: { videoWidth, videoHeight } }) => {
-            defaultWidth = videoWidth;
-            defaultHeight = videoHeight;
-        }
+    this.handleVideoLoad = ({ target: { videoWidth, videoHeight } }) => {
+        this.handleVideoLoad = handleLoadAndGetFurtherActionsFunction(videoWidth, videoHeight);
     };
 
-    this.setUpLoadForYoutube = () => {
-        if (maxYoutubeVideoDimensions && maxYoutubeVideoDimensions[i]) {
-            defaultWidth = maxYoutubeVideoDimensions[i].width;
-            defaultHeight = maxYoutubeVideoDimensions[i].height;
-        } else {
-            defaultWidth = 1920;
-            defaultHeight = 1080;
+    this.handleYoutubeLoad = () => {
+        let width = 1920;
+        let height = 1080;
+
+        if (maxYoutubeVideoDimensions) {
+            width = maxYoutubeVideoDimensions.width;
+            height = maxYoutubeVideoDimensions.height;
         }
+
+        this.handleYoutubeLoad = handleLoadAndGetFurtherActionsFunction(width, height);
     };
 
-    this.setUpLoadForCustom = () => {
-        if (customSourcesMaxDimensions && customSourcesMaxDimensions[i]) {
-            defaultWidth = customSourcesMaxDimensions[i].width;
-            defaultHeight = customSourcesMaxDimensions[i].height;
-        } else if (customSourcesGlobalMaxDimensions) {
-            defaultWidth = customSourcesGlobalMaxDimensions.width;
-            defaultHeight = customSourcesGlobalMaxDimensions.height;
-        } else {
-            throw new Error('You need to set max dimensions of custom sources. Use customSourcesMaxDimensions prop array or customSourcesGlobalMaxDimensions prop object');
-        }
+    this.handleCustomLoad = () => {
+        const source = sources[i].current;
+        this.handleCustomLoad = handleLoadAndGetFurtherActionsFunction(source.offsetWidth, source.offsetHeight);
     };
 
-    this.handleLoad = (e) => {
-        setUpSourceDimensions(e);
-
+    const handleLoadAndGetFurtherActionsFunction = (defaultWidth, defaultHeight) => {
         const sourceLoadActioner = resolve(SourceLoadActioner, [i, defaultWidth, defaultHeight]);
+
         sourceLoadActioner.runInitialLoadActions();
 
-        this.handleLoad = sourceLoadActioner.runNormalLoadActions;
+        return sourceLoadActioner.runNormalLoadActions;
     };
 }

@@ -1,6 +1,6 @@
 {
   "name": "fslightbox-react",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "React version of Fullscreen Lightbox.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/piotrzdziarski/fslightbox-react"
+    "url": "https://github.com/banthagroup/fslightbox-react"
   },
   "jest": {
     "setupFiles": [
@@ -42,7 +42,7 @@
   "author": "Piotr Zdziarski",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/piotrzdziarski/fslightbox-react/issues"
+    "url": "https://github.com/banthagroup/fslightbox-react/issues"
   },
   "homepage": "https://fslightbox.com/",
   "peerDependencies": {
@@ -80,8 +80,7 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1",
-    "xhr-mock": "^2.5.0"
+    "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {}
 }
