@@ -33,12 +33,8 @@ class DemoComponent extends Component {
     render() {
         return (
             <>
-                <button onClick={ this.toggleLightbox }>
-                    Toggle Lightbox
-                </button>
-                <button onClick={ this.toggleLightboxSecond }>
-                    Toggle Lightbox
-                </button>
+                <button onClick={ this.toggleLightbox }>Toggle Lightbox</button>
+                <button onClick={ this.toggleLightboxSecond }>Toggle Lightbox</button>
                 <div className="images">
                     <img className="image" src="../demo/images/1.jpeg" alt=""/>
                     <img className="image" src="../demo/images/2.jpg" alt=""/>
@@ -50,12 +46,14 @@ class DemoComponent extends Component {
                     source={ this.state.source }
                     sourceIndex={ this.state.sourceIndex }
                     openOnMount={ true }
+                    sources={ [
+                        null,
+                        TEST_IMAGE_URL
+                    ] }
                     customSources={ [
-                        <div>
-                            <img src={ TEST_IMAGE_URL }/>
+                        <div style={ { width: '400px', height: '400px', background: 'black' } }>
                         </div>
                     ] }
-                    customSourcesGlobalMaxDimensions={ { width: 1920, height: 1060 } }
                 />
                 <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] }/>
             </>

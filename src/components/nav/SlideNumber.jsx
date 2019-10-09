@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FLEX_CENTERED_CLASS_NAME, PREFIX } from "../../constants/classes-names";
 
 const SlideNumber = (
     {
@@ -16,9 +17,9 @@ const SlideNumber = (
     slideNumberUpdaterState.set = setSlideNumberUpdaterValue;
 
     return (
-        <div className="fslightbox-slide-number-container fslightbox-flex-centered">
+        <div className={ `${ PREFIX }slide-number-container ${ FLEX_CENTERED_CLASS_NAME }` }>
             <div>{ stageIndexes.current + 1 }</div>
-            <div className="fslightbox-slash">/</div>
+            <div className={ `${ PREFIX }slash` }>/</div>
             <div>{ sourcesCount }</div>
         </div>
     );

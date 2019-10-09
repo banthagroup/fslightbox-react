@@ -11,7 +11,7 @@ const Video = (
     }
 ) => {
     return <video
-        onLoadedMetadata={ sourcesLoadsHandlers[i].handleLoad }
+        onLoadedMetadata={ sourcesLoadsHandlers[i].handleVideoLoad }
         className={ `${ SOURCE_CLASS_NAME } ${ PREFIX }video` }
         controls
         ref={ sourcesElements[i] }

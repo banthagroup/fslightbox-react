@@ -11,7 +11,7 @@ const Youtube = (
         }, i
     }
 ) => {
-    useEffect(sourcesLoadsHandlers[i].handleLoad);
+    useEffect(sourcesLoadsHandlers[i].handleYoutubeLoad);
 
     return (
         <iframe

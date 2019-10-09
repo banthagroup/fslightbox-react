@@ -5,7 +5,7 @@ import Video from "./Video";
 const fsLightbox = {
     props: { sources: [] },
     elements: { sources: [React.createRef()] },
-    collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }] }
+    collections: { sourcesLoadsHandlers: [{ handleVideoLoad: jest.fn() }] }
 };
 
 const video = shallow(<Video fsLightbox={ fsLightbox } i={ 0 }/>);
@@ -16,5 +16,5 @@ test('sources ref', () => {
 
 test('on load', () => {
     video.simulate('loadedMetadata', 'e');
-    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalledWith('e');
+    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleVideoLoad).toBeCalledWith('e');
 });

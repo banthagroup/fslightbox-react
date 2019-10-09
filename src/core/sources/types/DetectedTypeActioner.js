@@ -25,19 +25,15 @@ export function DetectedTypeActioner(fsLightbox) {
 
         switch (type) {
             case IMAGE_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForImage();
                 BaseSourceComponent = Image;
                 break;
             case VIDEO_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForVideo();
                 BaseSourceComponent = Video;
                 break;
             case YOUTUBE_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForYoutube();
                 BaseSourceComponent = Youtube;
                 break;
             case CUSTOM_TYPE:
-                sourcesLoadsHandlers[i].setUpLoadForCustom();
                 BaseSourceComponent = Custom;
                 break;
             default:

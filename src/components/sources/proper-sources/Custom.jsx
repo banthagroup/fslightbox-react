@@ -10,7 +10,7 @@ const Custom = (
         }, i
     }
 ) => {
-    useEffect(sourcesLoadsHandlers[i].handleLoad);
+    useEffect(sourcesLoadsHandlers[i].handleCustomLoad);
 
     const baseClassName = customSources[i].props.className;
 

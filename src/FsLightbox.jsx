@@ -93,7 +93,7 @@ class FsLightbox extends Component {
     setUpElements() {
         this.elements = {
             container: React.createRef(),
-            sourcesHoldersWrapper: React.createRef(),
+            sourcesOutersWrapper: React.createRef(),
             sources: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesOuters: createRefsArrayWithLength(this.data.sourcesCount),
             sourcesInners: createRefsArrayWithLength(this.data.sourcesCount),
@@ -158,8 +158,8 @@ class FsLightbox extends Component {
         return (
             <div ref={ this.elements.container }
                  className={ `${ PREFIX }container ${ FULL_DIMENSION_CLASS_NAME } ${ FADE_IN_STRONG_CLASS_NAME }` }>
-                <SwipingInvisibleHover fsLightbox={ this } />
-                <Nav fsLightbox={ this } />
+                <SwipingInvisibleHover fsLightbox={ this }/>
+                <Nav fsLightbox={ this }/>
                 { (this.data.sourcesCount > 1) ?
                     <>
                         <SlideButton
@@ -174,7 +174,7 @@ class FsLightbox extends Component {
                         />
                     </> : null
                 }
-                <SourcesHoldersWrapper fsLightbox={ this } />
+                <SourcesHoldersWrapper fsLightbox={ this }/>
             </div>
         );
     }
@@ -186,8 +186,6 @@ FsLightbox.propTypes = {
 
     // custom sources
     customSources: PropTypes.array,
-    customSourcesMaxDimensions: PropTypes.array,
-    customSourcesGlobalMaxDimensions: PropTypes.object,
 
     // slide number controlling
     slide: PropTypes.number,

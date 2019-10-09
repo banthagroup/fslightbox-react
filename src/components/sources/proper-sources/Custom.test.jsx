@@ -23,13 +23,13 @@ const fsLightbox = {
         ]
     },
     elements: { sources: [React.createRef(), React.createRef()] },
-    collections: { sourcesLoadsHandlers: [{ handleLoad: jest.fn() }, { handleLoad: jest.fn() }] }
+    collections: { sourcesLoadsHandlers: [{ handleCustomLoad: jest.fn() }, { handleCustomLoad: jest.fn() }] }
 };
 
 const custom = mount(<Custom fsLightbox={ fsLightbox } i={ 0 }/>);
 
 test('useEffect', () => {
-    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleLoad).toBeCalled();
+    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleCustomLoad).toBeCalled();
 });
 
 test('displaying source from customSources prop adding fslightbox-source class and attaching ref', () => {
