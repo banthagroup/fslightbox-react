@@ -33,11 +33,11 @@
   },
   "keywords": [
     "react lightbox",
+    "react image lightbox",
+    "slide gallery",
     "fslightbox",
-    "Fullscreen Lightbox",
-    "react",
     "lightbox",
-    "javascript"
+    "carousel"
   ],
   "author": "Piotr Zdziarski",
   "license": "MIT",
