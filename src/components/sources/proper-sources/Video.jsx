@@ -16,7 +16,7 @@ const Video = (
         controls
         ref={ sourcesElements[i] }
         poster={ videosPosters && videosPosters[i] }>
-        <source src={ sources[i] } />
+        <source src={ sources[i] }/>
     </video>
 };
 

@@ -8,7 +8,7 @@ const fsLightbox = {
         sourcesStylers: [undefined, { styleSize: jest.fn() }]
     },
     core: { windowResizeActioner: {} },
-    componentsStates: { toolbarButtons: { fullscreen: { set: jest.fn() } } },
+    componentsServices: { toolbarButtons: { fullscreen: { set: jest.fn() } } },
     data: { sourcesCount: 2 },
     elements: { sourcesOuters: ['first-source-outer', 'second-source-outer'] },
     stageIndexes: { current: 0 }
@@ -25,7 +25,7 @@ test('runActions', () => {
     windowResizeActioner.runActions();
     expect(fsLightbox.data.maxSourceWidth).toBe(991);
     expect(fsLightbox.data.maxSourceHeight).toBe(900);
-    expect(fsLightbox.componentsStates.toolbarButtons.fullscreen.set).not.toBeCalled();
+    expect(fsLightbox.componentsServices.toolbarButtons.fullscreen.set).not.toBeCalled();
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
         'first-source-outer', TRANSFORM_TRANSITION_CLASS_NAME
     );
@@ -41,5 +41,5 @@ test('runActions', () => {
     windowResizeActioner.runActions();
     expect(fsLightbox.data.maxSourceWidth).toBe(0.9 * 992);
     expect(fsLightbox.data.maxSourceHeight).toBe(900);
-    expect(fsLightbox.componentsStates.toolbarButtons.fullscreen.set).toBeCalled();
+    expect(fsLightbox.componentsServices.toolbarButtons.fullscreen.set).toBeCalled();
 });

@@ -3,7 +3,7 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names"
 
 export function SlideSwipingUpActioner(
     {
-        componentsStates: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState },
+        componentsServices: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState },
         core: { lightboxCloser },
         elements: { container },
         resolve,

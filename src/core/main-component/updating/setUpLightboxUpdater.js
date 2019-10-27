@@ -1,7 +1,7 @@
 import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
 import { getLightboxUpdaterConditioner } from "./getLightboxUpdaterConditioner";
 
-export function setUpLightboxUpdater({ core: { lightboxUpdater: self, }, data: { sources }, getProps, resolve }) {
+export function setUpLightboxUpdater({ core: { lightboxUpdater: self, }, props: { sources }, getProps, resolve }) {
     const updatingActioner = resolve(LightboxUpdateActioner);
     const lightboxUpdaterConditioner = getLightboxUpdaterConditioner();
 

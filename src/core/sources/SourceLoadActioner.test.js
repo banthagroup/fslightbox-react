@@ -4,7 +4,7 @@ import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../constants
 
 const fsLightbox = {
     collections: { sourcesStylers: [] },
-    componentsStates: { isSourceLoadedCollection: [{ set: jest.fn() }] },
+    componentsServices: { isSourceLoadedCollection: [{ set: jest.fn() }] },
     elements: {
         sources: [{ current: { classList: { add: jest.fn() } } }],
         sourcesInners: [{ current: { classList: { add: jest.fn(), remove: jest.fn() } } }]
@@ -25,7 +25,7 @@ test('runNormalLoadActions', () => {
     sourceLoadActioner.runNormalLoadActions();
     expect(fsLightbox.elements.sources[0].current.classList.add).toBeCalledWith(OPACITY_1_CLASS_NAME);
     expect(fsLightbox.elements.sourcesInners[0].current.classList.add).toBeCalledWith(FADE_IN_STRONG_CLASS_NAME);
-    expect(fsLightbox.componentsStates.isSourceLoadedCollection[0].set).toBeCalledWith(true);
+    expect(fsLightbox.componentsServices.isSourceLoadedCollection[0].set).toBeCalledWith(true);
 });
 
 test('runInitialLoadActions', () => {

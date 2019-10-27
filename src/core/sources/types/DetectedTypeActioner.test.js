@@ -10,8 +10,9 @@ import Custom from "../../../components/sources/proper-sources/Custom";
 
 const fsLightbox = {
     collections: { sourcesLoadsHandlers: [] },
+    core: { stageManager: { isSourceInStage: jest.fn(() => false) } },
     getState: () => lightboxState,
-    componentsStates: { sourcesInnersUpdatersCollection: [{ set: jest.fn() }] },
+    componentsServices: { displaySourceIfNotYetCollection: [jest.fn()] },
     elements: { sourcesComponents: [] },
     resolve: (constructorDependency, params) => {
         if (constructorDependency === SourceLoadHandler) {
@@ -33,17 +34,21 @@ test('runActionsForSourceTypeAndIndex', () => {
     detectedTypeActions.runActionsForSourceTypeAndIndex(IMAGE_TYPE, 0);
     expect(fsLightbox.collections.sourcesLoadsHandlers[0]).toBe('source-load-handler');
     expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Image fsLightbox={ fsLightbox } i={ 0 }/>);
-    expect(fsLightbox.componentsStates.sourcesInnersUpdatersCollection[0].set).not.toBeCalled();
+    expect(fsLightbox.core.stageManager.isSourceInStage).not.toBeCalled();
+    expect(fsLightbox.componentsServices.displaySourceIfNotYetCollection[0]).not.toBeCalled();
 
     fsLightbox.props.disableThumbs = true;
     lightboxState.isOpen = true;
     detectedTypeActions = new DetectedTypeActioner(fsLightbox);
     detectedTypeActions.runActionsForSourceTypeAndIndex(VIDEO_TYPE, 0);
     expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Video fsLightbox={ fsLightbox } i={ 0 }/>);
-    expect(fsLightbox.componentsStates.sourcesInnersUpdatersCollection[0].set).toBeCalledWith(true);
+    expect(fsLightbox.core.stageManager.isSourceInStage).toBeCalledWith(0);
+    expect(fsLightbox.componentsServices.displaySourceIfNotYetCollection[0]).not.toBeCalled();
 
+    fsLightbox.core.stageManager.isSourceInStage = () => true;
     detectedTypeActions.runActionsForSourceTypeAndIndex(YOUTUBE_TYPE, 0);
     expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Youtube fsLightbox={ fsLightbox } i={ 0 }/>);
+    expect(fsLightbox.componentsServices.displaySourceIfNotYetCollection[0]).toBeCalled();
 
     detectedTypeActions.runActionsForSourceTypeAndIndex(CUSTOM_TYPE, 0);
     expect(fsLightbox.elements.sourcesComponents[0]).toEqual(<Custom fsLightbox={ fsLightbox } i={ 0 }/>);
