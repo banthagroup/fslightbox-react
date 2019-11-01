@@ -3,13 +3,17 @@ import React, { useState } from 'react';
 const SourceInner = (
     {
         fsLightbox: {
-            componentsStates: { sourcesInnersUpdatersCollection },
+            componentsServices: { displaySourceIfNotYetCollection },
             elements: { sourcesComponents, sourcesInners }
         }, i
     }
 ) => {
-    const [sourceInner, setSourceInnerUpdater] = useState(false);
-    sourcesInnersUpdatersCollection[i] = { get: () => sourceInner, set: setSourceInnerUpdater };
+    const [sourceInnerUpdater, setSourceInnerUpdater] = useState(false);
+    displaySourceIfNotYetCollection[i] = () => {
+        if (sourceInnerUpdater !== true) {
+            setSourceInnerUpdater(true);
+        }
+    };
 
     return (
         <div ref={ sourcesInners[i] }>

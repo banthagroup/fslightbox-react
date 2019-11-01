@@ -4,7 +4,7 @@ import { FLEX_CENTERED_CLASS_NAME, PREFIX } from "../../constants/classes-names"
 const SlideNumber = (
     {
         fsLightbox: {
-            componentsStates: {
+            componentsServices: {
                 slideNumberUpdater: slideNumberUpdaterState
             },
             data: { sourcesCount },

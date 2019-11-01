@@ -10,8 +10,9 @@ import { SourceLoadHandler } from "../SourceLoadHandler";
 export function DetectedTypeActioner(fsLightbox) {
     const {
         collections: { sourcesLoadsHandlers },
+        core: { stageManager },
         getState: getLightboxState,
-        componentsStates: { sourcesInnersUpdatersCollection: sourcesInnersUpdatersStateCollection },
+        componentsServices: { displaySourceIfNotYetCollection },
         elements: { sourcesComponents },
         resolve
     } = fsLightbox;
@@ -46,8 +47,8 @@ export function DetectedTypeActioner(fsLightbox) {
             i={ i }
         />;
 
-        if (getLightboxState().isOpen) {
-            sourcesInnersUpdatersStateCollection[i].set(true);
+        if (getLightboxState().isOpen && stageManager.isSourceInStage(i)) {
+            displaySourceIfNotYetCollection[i]();
         }
     };
 }

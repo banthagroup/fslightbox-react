@@ -5,7 +5,7 @@ export function setUpWindowResizeActioner(
     {
         collections: { sourcesOutersTransformers, sourcesStylers },
         core: { windowResizeActioner: self },
-        componentsStates: { toolbarButtons: { fullscreen: isFullscreenEnteredState } },
+        componentsServices: { toolbarButtons: { fullscreen: isFullscreenEnteredState } },
         data,
         elements: { sourcesOuters },
         stageIndexes

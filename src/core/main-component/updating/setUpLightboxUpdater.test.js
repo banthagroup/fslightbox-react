@@ -5,8 +5,8 @@ import * as getLightboxUpdaterConditionerObject
 
 const fsLightbox = {
     core: { lightboxUpdater: {} },
-    data: { sources: [] },
     getProps: () => currentProps,
+    props: { sources: [] },
     resolve: (constructorDependency) => {
         if (constructorDependency === LightboxUpdateActioner) {
             return lightboxUpdatingActions;
@@ -93,8 +93,8 @@ describe('handling change of props: slide, source, sourceIndex', () => {
             lightboxUpdaterConditioner.hasSlidePropChanged = () => true;
 
             currentProps.slide = 10;
-            fsLightbox.data.sources[0] = undefined;
-            fsLightbox.data.sources[1] = 'current-source';
+            fsLightbox.props.sources[0] = undefined;
+            fsLightbox.props.sources[1] = 'current-source';
             currentProps.source = 'current-source';
             currentProps.sourceIndex = 5;
 
@@ -113,9 +113,9 @@ describe('handling change of props: slide, source, sourceIndex', () => {
             lightboxUpdaterConditioner.hasSlidePropChanged = () => false;
 
             currentProps.slide = 20;
-            fsLightbox.data.sources[0] = undefined;
-            fsLightbox.data.sources[1] = undefined;
-            fsLightbox.data.sources[2] = 'current-source';
+            fsLightbox.props.sources[0] = undefined;
+            fsLightbox.props.sources[1] = undefined;
+            fsLightbox.props.sources[2] = 'current-source';
             currentProps.source = 'current-source';
             currentProps.sourceIndex = 10;
 
@@ -134,7 +134,7 @@ describe('handling change of props: slide, source, sourceIndex', () => {
             lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
 
             currentProps.slide = 50;
-            fsLightbox.data.sources[0] = 'current-source';
+            fsLightbox.props.sources[0] = 'current-source';
             currentProps.source = 'current-source';
             currentProps.sourceIndex = 25;
 

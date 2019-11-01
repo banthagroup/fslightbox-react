@@ -8,7 +8,7 @@ let fsLightbox = {
     elements: { sourcesOutersWrapper: React.createRef() },
     core: { slideSwipingDown: { listener: jest.fn() } }
 };
-const sourcesOutersWrapper = shallow(<SourcesOutersWrapper fsLightbox={ fsLightbox } />);
+const sourcesOutersWrapper = shallow(<SourcesOutersWrapper fsLightbox={ fsLightbox }/>);
 
 test('ref', () => {
     expect(sourcesOutersWrapper.getElement().ref).toBe(fsLightbox.elements.sourcesOutersWrapper);

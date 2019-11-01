@@ -4,7 +4,7 @@ import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEv
 export function SlideSwipingMoveActioner(
     {
         collections: { sourcesOutersTransformers },
-        componentsStates: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState, },
+        componentsServices: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState, },
         elements: { container },
         slideSwipingProps,
         stageIndexes

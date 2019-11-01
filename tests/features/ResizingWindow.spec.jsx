@@ -25,9 +25,13 @@ it('should resize sources without error', () => {
     expect(mountedLightbox.instance().elements.sources[1].current.style.width).toBe('');
     expect(mountedLightbox.instance().elements.sources[1].current.style.height).toBe('');
 
-    expect(mountedLightbox.instance().elements.sources[2].current.style.width).toBe('1350px');
-    expect(mountedLightbox.instance().elements.sources[2].current.style.height).toBe(1350 / (1920 / 1080) + 'px');
+    expect(mountedLightbox.instance().elements.sources[2].current).toBeNull();
 
     expect(mountedLightbox.instance().elements.sources[4].current).toBeNull();
     expect(mountedLightbox.instance().elements.sources[4].current).toBeNull();
+
+    mountedLightbox.find('.fslightbox-slide-btn-container').at(1).simulate('click');
+    expect(resizeWindow).not.toThrowError();
+    expect(mountedLightbox.instance().elements.sources[2].current.style.width).toBe('1350px');
+    expect(mountedLightbox.instance().elements.sources[2].current.style.height).toBe(1350 / (1920 / 1080) + 'px');
 });

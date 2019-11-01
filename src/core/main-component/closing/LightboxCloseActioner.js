@@ -3,7 +3,7 @@ import { ANIMATION_TIME } from "../../../constants/css-constants";
 
 export function LightboxCloseActioner(
     {
-        componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
+        componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
         core: {
             eventsDispatcher,
             fullscreenToggler,
@@ -23,7 +23,7 @@ export function LightboxCloseActioner(
         globalEventsController.removeListeners();
 
         if (isFullscreenOpenState.get()) {
-            fullscreenToggler.enterFullscreen();
+            fullscreenToggler.exitFullscreen();
         }
 
         setTimeout(() => {

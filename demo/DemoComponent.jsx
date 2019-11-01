@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../src/scss/FsLightbox.scss';
+// import '../src/scss/FsLightbox.scss';
 import "./css/demo.css";
-import FsLightbox from '../src/FsLightbox.jsx';
-import { TEST_IMAGE_URL } from "./demoData";
+import FsLightbox from '../index';
+import { TEST_IMAGE_URL, TEST_VIDEO_URL } from "./demoData";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -15,6 +15,15 @@ class DemoComponent extends Component {
             source: '',
             sourceIndex: 0
         };
+
+        setTimeout(() => {
+            console.log(1);
+
+            // this.setState({
+            //     sourceIndex: 1
+            // });
+        }, 5000);
+
         this.toggleLightbox = this.toggleLightbox.bind(this);
         this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
     }
@@ -48,7 +57,12 @@ class DemoComponent extends Component {
                     openOnMount={ true }
                     sources={ [
                         null,
-                        TEST_IMAGE_URL
+                        TEST_IMAGE_URL,
+                        TEST_VIDEO_URL,
+                        '/demo/images/5.jpg',
+                        '/demo/images/1.jpeg',
+                        '/demo/images/2.jpg',
+                        '/demo/images/3.jpeg'
                     ] }
                     customSources={ [
                         <div style={ { width: '400px', height: '400px', background: 'black' } }>

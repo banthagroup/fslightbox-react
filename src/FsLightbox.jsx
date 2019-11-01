@@ -69,12 +69,12 @@ class FsLightbox extends Component {
         // And (only if it is used, by default not) property:
         // - onUpdate - after setting it to method it will be called once component updates
         // (its called only one time - after first call its deleted)
-        this.componentsStates = {
+        this.componentsServices = {
             slideNumberUpdater: {},
             isSlideSwipingHovererShown: {},
             isFullscreenOpen: {},
             isSourceLoadedCollection: [],
-            sourcesInnersUpdatersCollection: [],
+            displaySourceIfNotYetCollection: [],
             toolbarButtons: {
                 fullscreen: {}
             }

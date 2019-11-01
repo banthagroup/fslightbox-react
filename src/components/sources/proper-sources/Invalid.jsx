@@ -4,7 +4,7 @@ import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../
 const Invalid = (
     {
         fsLightbox: {
-            componentsStates: { isSourceLoadedCollection },
+            componentsServices: { isSourceLoadedCollection },
             elements: { sourcesOuters }
         }, i
     }

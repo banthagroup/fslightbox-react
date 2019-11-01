@@ -3,7 +3,7 @@ import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../constants
 
 export function SourceLoadActioner(
     {
-        componentsStates: { isSourceLoadedCollection },
+        componentsServices: { isSourceLoadedCollection },
         collections: { sourcesStylers },
         elements: { sourcesInners, sources },
         resolve

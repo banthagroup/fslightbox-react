@@ -18,7 +18,8 @@ export const mountedLightbox = mount(<FsLightbox
     openOnMount={ true }
     toggler={ false }
     sources={ [TEST_IMAGE_URL, TEST_VIDEO_URL, TEST_YOUTUBE_URL, null, TEST_INVALID_URL] }
-    customSources={ [null, null, null, <h1 className="custom-source" style={ { width: '100px', height: '100px' } }>Custom source</h1>] }
+    customSources={ [null, null, null,
+        <h1 className="custom-source" style={ { width: '100px', height: '100px' } }>Custom source</h1>] }
     types={ testTypes }
     onOpen={ onOpen }
     onClose={ onClose }

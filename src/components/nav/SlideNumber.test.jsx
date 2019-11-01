@@ -4,7 +4,7 @@ import SlideNumber from "./SlideNumber";
 import { testComponentStateForStateChainAndFsLightbox } from "../../../tests/__tests-helpers__/testComponentStateForStateChainAndFsLightbox";
 
 const fsLightbox = {
-    componentsStates: {
+    componentsServices: {
         slideNumberUpdater: {}
     },
     data: {
@@ -17,8 +17,7 @@ const fsLightbox = {
 };
 let slideNumber = shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
 
-testComponentStateForStateChainAndFsLightbox('slideNumberUpdater', fsLightbox);
-
-test('SlideNumber dom', () => {
-    expect(slideNumber).toMatchSnapshot();
+describe('SlideNumber', () => {
+    testComponentStateForStateChainAndFsLightbox('slideNumberUpdater', fsLightbox);
 });
+

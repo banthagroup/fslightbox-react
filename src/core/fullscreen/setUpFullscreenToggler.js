@@ -1,6 +1,6 @@
 export function setUpFullscreenToggler(
     {
-        componentsStates: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
+        componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
         core: { fullscreenToggler: self }
     }
 ) {

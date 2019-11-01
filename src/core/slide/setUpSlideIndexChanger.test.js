@@ -12,12 +12,21 @@ import * as getQueuedActionObject from "../timeouts/getQueuedAction";
 
 const fsLightbox = {
     collections: { sourcesOutersTransformers: [{ negative: jest.fn() }, { zero: jest.fn() }] },
-    componentsStates: { slideNumberUpdater: { get: () => true, set: jest.fn() } },
+    componentsServices: {
+        slideNumberUpdater: { get: () => true, set: jest.fn() },
+        displaySourceIfNotYetCollection: [jest.fn(), jest.fn()]
+    },
     core: {
         classFacade: { removeFromEachElementClassIfContains: jest.fn() },
         slideIndexChanger: {},
-        stageManager: { updateStageIndexes: jest.fn() }
+        stageManager: {
+            updateStageIndexes: jest.fn(),
+            isSourceInStage: jest.fn((i) => {
+                return i === 0;
+            })
+        }
     },
+    data: { sourcesCount: 2 },
     elements: {
         sourcesInners: [
             { current: { classList: { add: jest.fn() } } },
@@ -44,7 +53,9 @@ test('changeTo', () => {
     slideIndexChanger.changeTo(1);
     expect(fsLightbox.stageIndexes.current).toBe(1);
     expect(fsLightbox.core.stageManager.updateStageIndexes).toBeCalled();
-    expect(fsLightbox.componentsStates.slideNumberUpdater.set).toBeCalledWith(false);
+    expect(fsLightbox.componentsServices.slideNumberUpdater.set).toBeCalledWith(false);
+    expect(fsLightbox.componentsServices.displaySourceIfNotYetCollection[0]).toBeCalled();
+    expect(fsLightbox.componentsServices.displaySourceIfNotYetCollection[1]).not.toBeCalled();
 });
 
 test('jumpTo', () => {
