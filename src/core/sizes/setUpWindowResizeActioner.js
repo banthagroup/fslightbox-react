@@ -7,7 +7,7 @@ export function setUpWindowResizeActioner(
         core: { windowResizeActioner: self },
         componentsServices: { toolbarButtons: { fullscreen: isFullscreenEnteredState } },
         data,
-        elements: { sourcesOuters },
+        elements: { sources, sourcesOuters },
         stageIndexes
     }
 ) {
@@ -31,7 +31,7 @@ export function setUpWindowResizeActioner(
 
             // if source is Invalid or if lightbox is initialized there are no sourcesStylers
             // so we need to check if it exists
-            if (sourcesStylers[i]) {
+            if (sourcesStylers[i] && sources[i].current) {
                 sourcesStylers[i].styleSize();
             }
         }

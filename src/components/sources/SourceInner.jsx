@@ -3,21 +3,20 @@ import React, { useState } from 'react';
 const SourceInner = (
     {
         fsLightbox: {
-            componentsServices: { displaySourceIfNotYetCollection },
+            componentsServices: { updateSourceInnerCollection },
+            core: { stageManager: { isSourceInStage } },
             elements: { sourcesComponents, sourcesInners }
         }, i
     }
 ) => {
     const [sourceInnerUpdater, setSourceInnerUpdater] = useState(false);
-    displaySourceIfNotYetCollection[i] = () => {
-        if (sourceInnerUpdater !== true) {
-            setSourceInnerUpdater(true);
-        }
+    updateSourceInnerCollection[i] = () => {
+        setSourceInnerUpdater(!sourceInnerUpdater);
     };
 
     return (
         <div ref={ sourcesInners[i] }>
-            { sourcesComponents[i] }
+            { isSourceInStage(i) && sourcesComponents[i] }
         </div>
     );
 };

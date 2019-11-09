@@ -74,7 +74,7 @@ class FsLightbox extends Component {
             isSlideSwipingHovererShown: {},
             isFullscreenOpen: {},
             isSourceLoadedCollection: [],
-            displaySourceIfNotYetCollection: [],
+            updateSourceInnerCollection: [],
             toolbarButtons: {
                 fullscreen: {}
             }
@@ -133,7 +133,7 @@ class FsLightbox extends Component {
             slideChangeFacade: {},
             slideIndexChanger: {},
             slideSwipingDown: {},
-            sourceLoadActioner: {},
+            sourceDisplayFacade: {},
             stageManager: {},
             windowResizeActioner: {}
         };

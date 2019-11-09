@@ -1,12 +1,21 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 
 export function SourceLoadHandler({ elements: { sources }, props: { maxYoutubeVideoDimensions }, resolve, }, i) {
+    let wasVideoLoadCalled;
+
     this.handleImageLoad = ({ target: { width, height } }) => {
         this.handleImageLoad = handleLoadAndGetFurtherActionsFunction(width, height);
     };
 
     this.handleVideoLoad = ({ target: { videoWidth, videoHeight } }) => {
+        wasVideoLoadCalled = true;
         this.handleVideoLoad = handleLoadAndGetFurtherActionsFunction(videoWidth, videoHeight);
+    };
+
+    this.handleNotMetaDatedVideoLoad = () => {
+        if (!wasVideoLoadCalled) {
+            this.handleYoutubeLoad();
+        }
     };
 
     this.handleYoutubeLoad = () => {

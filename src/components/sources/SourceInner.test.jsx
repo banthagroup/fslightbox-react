@@ -4,19 +4,26 @@ import SourceInner from "./SourceInner";
 import Image from "./proper-sources/Image";
 
 const fsLightbox = {
-    componentsServices: { displaySourceIfNotYetCollection: [] },
-    elements: { sourcesInners: [React.createRef()], sourcesComponents: [] }
+    componentsServices: { updateSourceInnerCollection: [] },
+    core: { stageManager: { isSourceInStage: jest.fn(() => false) } },
+    elements: { sourcesInners: [null, React.createRef()], sourcesComponents: [] }
 };
 
-const sourceInner = shallow(<SourceInner fsLightbox={ fsLightbox } i={ 0 }/>);
+let sourceInner = shallow(<SourceInner fsLightbox={ fsLightbox } i={ 1 }/>);
 
 test('ref', () => {
-    expect(sourceInner.getElement().ref).toBe(fsLightbox.elements.sourcesInners[0]);
+    expect(sourceInner.getElement().ref).toBe(fsLightbox.elements.sourcesInners[1]);
 });
 
 test('rendering source component', () => {
     expect(sourceInner.children()).toHaveLength(0);
-    fsLightbox.elements.sourcesComponents[0] = <Image fsLightbox={ fsLightbox } i={ 0 }/>;
-    fsLightbox.componentsServices.displaySourceIfNotYetCollection[0]();
-    expect(sourceInner.childAt(0).getElement()).toEqual(fsLightbox.elements.sourcesComponents[0]);
+    fsLightbox.elements.sourcesComponents[1] = <Image fsLightbox={ fsLightbox } i={ 1 }/>;
+
+    sourceInner = shallow(<SourceInner fsLightbox={ fsLightbox } i={ 1 }/>);
+    expect(fsLightbox.core.stageManager.isSourceInStage).toBeCalledWith(1);
+    expect(sourceInner.children()).toHaveLength(0);
+
+    fsLightbox.core.stageManager.isSourceInStage = () => true;
+    fsLightbox.componentsServices.updateSourceInnerCollection[1]();
+    expect(sourceInner.children().at(0).getElement()).toEqual(fsLightbox.elements.sourcesComponents[1]);
 });

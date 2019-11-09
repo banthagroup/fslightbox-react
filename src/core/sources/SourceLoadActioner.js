@@ -13,12 +13,11 @@ export function SourceLoadActioner(
         sources[i].current.classList.add(OPACITY_1_CLASS_NAME);
         sourcesInners[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
         isSourceLoadedCollection[i].set(true);
+        sourcesStylers[i].styleSize();
     };
 
     this.runInitialLoadActions = () => {
+        sourcesStylers[i] = resolve(SourceStyler, [i, defaultWidth, defaultHeight]);
         this.runNormalLoadActions();
-        const sourceStyler = resolve(SourceStyler, [i, defaultWidth, defaultHeight]);
-        sourceStyler.styleSize();
-        sourcesStylers[i] = sourceStyler;
     };
 }

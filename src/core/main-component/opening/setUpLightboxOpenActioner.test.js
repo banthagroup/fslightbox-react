@@ -9,6 +9,7 @@ const fsLightbox = {
         lightboxOpenActioner: {},
         globalEventsController: { attachListeners: jest.fn() },
         scrollbarRecompensor: { addRecompense: jest.fn() },
+        sourceDisplayFacade: { displayStageSourcesIfNotYet: jest.fn() },
         stageManager: { updateStageIndexes: jest.fn() },
         windowResizeActioner: { runActions: jest.fn() }
     },
@@ -37,10 +38,12 @@ test('runActions', () => {
     expect(fsLightbox.collections.sourcesOutersTransformers[0].zero).toBeCalled();
     expect(eventsDispatcher.dispatch).toBeCalledWith('onOpen');
     expect(eventsDispatcher.dispatch).toBeCalledWith('onShow');
+    expect(fsLightbox.core.sourceDisplayFacade.displayStageSourcesIfNotYet).toBeCalled();
     expect(initializeLightboxObject.initializeLightbox).not.toBeCalled();
 
     fsLightbox.data.isInitialized = false;
     lightboxOpenActioner.runActions();
     expect(eventsDispatcher.dispatch).toBeCalledTimes(3);
+    expect(fsLightbox.core.sourceDisplayFacade.displayStageSourcesIfNotYet).toBeCalledTimes(1);
     expect(initializeLightboxObject.initializeLightbox).toBeCalled();
 });

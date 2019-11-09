@@ -10,7 +10,10 @@ const fsLightbox = {
     core: { windowResizeActioner: {} },
     componentsServices: { toolbarButtons: { fullscreen: { set: jest.fn() } } },
     data: { sourcesCount: 2 },
-    elements: { sourcesOuters: ['first-source-outer', 'second-source-outer'] },
+    elements: {
+        sources: [null, { current: document.createElement('div') }],
+        sourcesOuters: ['first-source-outer', 'second-source-outer']
+    },
     stageIndexes: { current: 0 }
 };
 innerWidth = 991;

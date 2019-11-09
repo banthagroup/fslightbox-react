@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import '../src/scss/FsLightbox.scss';
+import '../src/scss/FsLightbox.scss';
 import "./css/demo.css";
-import FsLightbox from '../index';
+import FsLightbox from '../src/FsLightbox.jsx';
 import { TEST_IMAGE_URL, TEST_VIDEO_URL } from "./demoData";
 
 class DemoComponent extends Component {
@@ -51,21 +51,11 @@ class DemoComponent extends Component {
                 </div>
                 <FsLightbox
                     toggler={ this.state.toggler }
-                    slide={ this.state.slide }
-                    source={ this.state.source }
-                    sourceIndex={ this.state.sourceIndex }
-                    openOnMount={ true }
-                    sources={ [
-                        null,
-                        TEST_IMAGE_URL,
-                        TEST_VIDEO_URL,
-                        '/demo/images/5.jpg',
-                        '/demo/images/1.jpeg',
-                        '/demo/images/2.jpg',
-                        '/demo/images/3.jpeg'
-                    ] }
+                    sources={ [null, null, 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'] }
                     customSources={ [
                         <div style={ { width: '400px', height: '400px', background: 'black' } }>
+                        </div>,
+                        <div style={ { width: '400px', height: '400px', background: 'red' } }>
                         </div>
                     ] }
                 />

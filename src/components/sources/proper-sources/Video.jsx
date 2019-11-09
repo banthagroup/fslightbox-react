@@ -10,6 +10,8 @@ const Video = (
         }, i
     }
 ) => {
+    setTimeout(sourcesLoadsHandlers[i].handleNotMetaDatedVideoLoad, 3000);
+
     return <video
         onLoadedMetadata={ sourcesLoadsHandlers[i].handleVideoLoad }
         className={ `${ SOURCE_CLASS_NAME } ${ PREFIX }video` }

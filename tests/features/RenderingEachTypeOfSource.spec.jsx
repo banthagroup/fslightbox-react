@@ -1,27 +1,46 @@
 import React from 'react';
-import { mountedLightbox } from "../__tests-vars__/mountedLightbox";
 import { mount } from "enzyme";
 import FsLightbox from "../../src/FsLightbox";
-import {
-    testSources,
-} from "../__tests-vars__/testVariables";
+import { testSources } from "../__tests-services__/testVariables";
+import { fsLightbox } from "../__tests-services__/testLightbox";
 import { ANIMATION_TIME } from "../../src/constants/css-constants";
+import { act } from "react-dom/test-utils";
 
 it('should render each type of source without error', () => {
-    expect(mountedLightbox.find('Image')).toHaveLength(1);
-    expect(mountedLightbox.find('Video')).toHaveLength(1);
-    expect(mountedLightbox.find('Invalid')).toHaveLength(1);
-    expect(mountedLightbox.find('Youtube')).toHaveLength(0);
-    expect(mountedLightbox.find('.custom-source')).toHaveLength(0);
+    // loading all sources
+    act(() => {
+        for (let i = 0; i < fsLightbox.data.sourcesCount; i++) {
+            fsLightbox.componentsServices.updateSourceInnerCollection[i]();
+        }
+    });
 
-    mountedLightbox.find('.fslightbox-slide-btn-container').at(1).simulate('click');
-    expect(mountedLightbox.find('Youtube')).toHaveLength(1);
-    expect(mountedLightbox.find('.custom-source')).toHaveLength(0);
-    mountedLightbox.find('.fslightbox-slide-btn-container').at(1).simulate('click');
-    expect(mountedLightbox.find('.custom-source')).toHaveLength(1);
+    expect(fsLightbox.elements.sources[0].current.tagName).toBe('IMG');
+    expect(fsLightbox.elements.sources[1].current.tagName).toBe('VIDEO');
+    expect(fsLightbox.elements.sources[2].current).toBeNull();
+    expect(fsLightbox.elements.sources[3].current).toBeNull();
+    expect(fsLightbox.elements.sources[4].current.tagName).toBe('H1');
+
+    act(() => fsLightbox.core.slideIndexChanger.jumpTo(2));
+    expect(fsLightbox.elements.sources[0].current.tagName).toBe('IMG');
+    expect(fsLightbox.elements.sources[1].current.tagName).toBe('VIDEO');
+    expect(fsLightbox.elements.sources[2].current.tagName).toBe('IFRAME');
+    expect(fsLightbox.elements.sources[3].current).toBeNull();
+    expect(fsLightbox.elements.sources[4].current.tagName).toBe('H1');
+
+    jest.useFakeTimers();
+    act(fsLightbox.core.lightboxCloser.closeLightbox);
+    jest.runAllTimers();
+
+    fsLightbox.stageIndexes.current = 0;
+    act(fsLightbox.core.lightboxOpener.openLightbox);
+    expect(fsLightbox.elements.sources[0].current.tagName).toBe('IMG');
+    expect(fsLightbox.elements.sources[1].current.tagName).toBe('VIDEO');
+    expect(fsLightbox.elements.sources[2].current).toBeNull();
+    expect(fsLightbox.elements.sources[3].current).toBeNull();
+    expect(fsLightbox.elements.sources[4].current.tagName).toBe('H1');
 });
 
-it('should not throw error when detecting type manually on each type of source and closing soon after', () => {
+it('should not throw error when detecting type manually on each type of source', () => {
     const fsLightboxWrapper = mount(<FsLightbox
         toggler={ false }
         openOnMount={ true }
@@ -29,7 +48,7 @@ it('should not throw error when detecting type manually on each type of source a
         sources={ testSources }
     />);
     jest.useFakeTimers();
-    fsLightboxWrapper.find('CloseButton').simulate('click');
+    fsLightboxWrapper.find({ title: 'Close' }).at(0).simulate('click');
     jest.runTimersToTime(ANIMATION_TIME - 30);
     fsLightboxWrapper.update();
     expect(fsLightboxWrapper.children().getElements()).toEqual([]);

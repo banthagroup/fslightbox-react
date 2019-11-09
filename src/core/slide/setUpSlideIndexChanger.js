@@ -11,9 +11,8 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 export function setUpSlideIndexChanger(
     {
         collections: { sourcesOutersTransformers },
-        componentsServices: { displaySourceIfNotYetCollection, slideNumberUpdater: slideNumberUpdaterState },
-        core: { classFacade, slideIndexChanger: self, stageManager },
-        data: { sourcesCount },
+        componentsServices: { slideNumberUpdater: slideNumberUpdaterState },
+        core: { classFacade, slideIndexChanger: self, sourceDisplayFacade, stageManager },
         elements: { sourcesInners },
         stageIndexes
     }
@@ -24,14 +23,12 @@ export function setUpSlideIndexChanger(
 
     self.changeTo = (i) => {
         stageIndexes.current = i;
+
         stageManager.updateStageIndexes();
+
         slideNumberUpdaterState.set(!slideNumberUpdaterState.get());
 
-        for (let j = 0; j < sourcesCount; j++) {
-            if (stageManager.isSourceInStage(j)) {
-                displaySourceIfNotYetCollection[j]();
-            }
-        }
+        sourceDisplayFacade.displayStageSourcesIfNotYet();
     };
 
     self.jumpTo = (i) => {
