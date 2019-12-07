@@ -3475,6 +3475,11 @@ fsevents@^1.2.7:
     nan "^2.12.1"
     node-pre-gyp "^0.12.0"
 
+fslightbox-react@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/fslightbox-react/-/fslightbox-react-1.4.5.tgz#1e507d5307f990029fb06e06cdf7062ab47cb7c1"
+  integrity sha512-FtKVzjabd/LdtdbAnbzlQQzi3kpkoeLMK+Nnl10KPfgJeUqNGxXxrD4W4yf7MrhXEKnFTcZjWg4fjeMcwGpKKA==
+
 fstream@^1.0.0, fstream@^1.0.12:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/fstream/-/fstream-1.0.12.tgz#4e8ba8ee2d48be4f7d0de505455548eae5932045"

@@ -7,7 +7,9 @@ export function setUpSourceDisplayFacade(
 ) {
     self.displayStageSourcesIfNotYet = () => {
         for (let i in stageIndexes) {
-            updateSourceInnerCollection[stageIndexes[i]]();
+            if (stageIndexes[i] !== undefined) {
+                updateSourceInnerCollection[stageIndexes[i]]();
+            }
         }
     };
 }

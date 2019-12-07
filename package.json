@@ -1,6 +1,6 @@
 {
   "name": "fslightbox-react",
-  "version": "1.4.4",
+  "version": "1.4.6",
   "description": "React version of Fullscreen Lightbox. Modern and easy plugin for displaying images and videos in clean overlaying box. Display single source or create beautiful gallery with powerful lightbox.",
   "main": "index.js",
   "scripts": {
@@ -46,9 +46,9 @@
   },
   "homepage": "https://fslightbox.com/",
   "peerDependencies": {
+    "prop-types": "^15.6.2",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "prop-types": "^15.6.2"
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -64,6 +64,7 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
+    "fslightbox-react": "^1.4.5",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
     "gulp-rename": "^1.4.0",

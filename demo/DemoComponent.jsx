@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../src/scss/FsLightbox.scss';
+import '../src/scss/index.scss';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
-import { TEST_IMAGE_URL, TEST_VIDEO_URL } from "./demoData";
+import { testSources } from "../tests/__tests-services__/testVariables";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -51,13 +51,13 @@ class DemoComponent extends Component {
                 </div>
                 <FsLightbox
                     toggler={ this.state.toggler }
-                    sources={ [null, null, 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'] }
-                    customSources={ [
-                        <div style={ { width: '400px', height: '400px', background: 'black' } }>
-                        </div>,
-                        <div style={ { width: '400px', height: '400px', background: 'red' } }>
-                        </div>
-                    ] }
+                    sources={ testSources }
+                    openOnMount={ true }
+                    customSources={ [null, null, null, null, <div className="xd">lul</div>] }
+                    onOpen={ () => console.log('open') }
+                    onShow={ () => console.log('show') }
+                    onClose={ () => console.log('close') }
+                    onInit={ () => console.log('init') }
                 />
                 <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] }/>
             </>

@@ -5,10 +5,10 @@ import rename from 'gulp-rename';
 
 function buildCSS() {
     return (
-        gulp.src('./src/scss/FsLightbox.scss')
+        gulp.src('./src/scss/index.scss')
             .pipe(sass().on('error', sass.logError))
             .pipe(cleanCSS())
-            .pipe(rename('dist.min.css'))
+            .pipe(rename('index.css'))
             .pipe(gulp.dest('./src/css'))
     );
 }
