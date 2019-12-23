@@ -13,6 +13,7 @@ import { setUpSlideChangeFacade } from "./slide/setUpSlideChangeFacade";
 import { setUpClassFacade } from "./elements/setUpClassFacade";
 import { setUpGlobalEventsController } from "./events/setUpGlobalEventsController";
 import { setUpSourceDisplayFacade } from "./sources/setUpSourceDisplayFacade";
+import { setUpLightboxCloseActioner } from "./main-component/closing/setUpLightboxCloseActioner";
 
 export function setUpCore(fsLightbox) {
     setUpClassFacade(fsLightbox);
@@ -20,6 +21,7 @@ export function setUpCore(fsLightbox) {
     setUpFullscreenToggler(fsLightbox);
     setUpGlobalEventsController(fsLightbox);
     setUpLightboxCloser(fsLightbox);
+    setUpLightboxCloseActioner(fsLightbox);
     setUpLightboxOpener(fsLightbox);
     setUpLightboxOpenActioner(fsLightbox);
     setUpLightboxUpdater(fsLightbox);

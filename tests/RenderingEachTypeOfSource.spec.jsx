@@ -1,10 +1,10 @@
 import React from 'react';
 import { mount } from "enzyme";
-import FsLightbox from "../../src/FsLightbox";
-import { testSources } from "../__tests-services__/testVariables";
-import { fsLightbox } from "../__tests-services__/testLightbox";
-import { ANIMATION_TIME } from "../../src/constants/css-constants";
+import FsLightbox from "../src/FsLightbox";
+import { fsLightbox } from "./__tests-services__/testLightbox";
+import { ANIMATION_TIME } from "../src/constants/css-constants";
 import { act } from "react-dom/test-utils";
+import { testSources } from "./__tests-services__/testVars";
 
 it('should render each type of source without error', () => {
     // loading all sources

@@ -7,6 +7,7 @@ export const testSources = [
     TEST_IMAGE_URL,
     TEST_VIDEO_URL,
     TEST_YOUTUBE_URL,
+    null,
     TEST_INVALID_URL
 ];
 

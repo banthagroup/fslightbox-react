@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import FsLightbox from "../../src/FsLightbox";
-import { testSources } from "../__tests-vars__/testVariables";
+import FsLightbox from "../src/FsLightbox";
+import { testSources } from "./__tests-services__/testVars";
 
 // simulating server behaviour - deleting window and document
 delete global.window;

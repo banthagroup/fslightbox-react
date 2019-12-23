@@ -1,5 +1,5 @@
-import { ANIMATION_TIME } from "../../src/constants/css-constants";
-import { mountedLightbox, onClose, onInit, onOpen, onShow } from "../__tests-vars__/mountedLightbox";
+import { ANIMATION_TIME } from "../src/constants/css-constants";
+import { mountedLightbox, onInit, onOpen, onShow, onClose } from "./__tests-services__/mountedLightbox";
 
 test('opening events', () => {
     jest.useFakeTimers();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from "enzyme";
 import SlideNumber from "./SlideNumber";
-import { testComponentStateForStateChainAndFsLightbox } from "../../../tests/__tests-helpers__/testComponentStateForStateChainAndFsLightbox";
+import { testComponentStateForStateChainAndFsLightbox } from "../../../tests/__tests-services__/testComponentStateForStateChainAndFsLightbox";
 
 const fsLightbox = {
     componentsServices: {
@@ -15,7 +15,7 @@ const fsLightbox = {
     }
 
 };
-let slideNumber = shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
+shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
 
 describe('SlideNumber', () => {
     testComponentStateForStateChainAndFsLightbox('slideNumberUpdater', fsLightbox);

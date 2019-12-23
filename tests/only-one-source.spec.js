@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import FsLightbox from "../../src/FsLightbox";
-import { TEST_IMAGE_URL } from "../__tests-services__/testVariables";
+import FsLightbox from "../src/FsLightbox";
 import ReactDOM from 'react-dom';
+import { TEST_IMAGE_URL } from "./__tests-services__/testVars";
 
 const app = document.createElement('div');
 app.id = 'app';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FsLightbox from "../../src/FsLightbox.jsx";
-import { testSources, testTypes } from "./testVariables";
+import { testSources, testTypes } from "./testVars";
 import ReactDOM from "react-dom";
 import { getPropsOfDOMElement } from "./testHelpers";
 import { act } from 'react-dom/test-utils';

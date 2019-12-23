@@ -1,7 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { ANIMATION_TIME } from "../../src/constants/css-constants";
-import { mountedLightbox } from "../__tests-vars__/mountedLightbox";
+import { ANIMATION_TIME } from "../src/constants/css-constants";
+import { mountedLightbox } from "./__tests-services__/mountedLightbox";
 
 const sourcesOutersWrapper = mountedLightbox.find('SourcesOutersWrapper');
 

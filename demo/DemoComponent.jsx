@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../src/scss/index.scss';
 import "./css/demo.css";
 import FsLightbox from '../src/FsLightbox.jsx';
-import { testSources } from "../tests/__tests-services__/testVariables";
+import { testSources } from "../tests/__tests-services__/testVars";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -13,16 +13,15 @@ class DemoComponent extends Component {
             updated: true,
             slide: 1,
             source: '',
-            sourceIndex: 0
+            sourceIndex: 0,
+            lightboxKey: 'xd'
         };
 
         setTimeout(() => {
-            console.log(1);
-
-            // this.setState({
-            //     sourceIndex: 1
-            // });
-        }, 5000);
+            this.setState({
+                lightboxKey: 'jd'
+            });
+        }, 1000);
 
         this.toggleLightbox = this.toggleLightbox.bind(this);
         this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
@@ -58,6 +57,7 @@ class DemoComponent extends Component {
                     onShow={ () => console.log('show') }
                     onClose={ () => console.log('close') }
                     onInit={ () => console.log('init') }
+                    key={ this.state.lightboxKey }
                 />
                 <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] }/>
             </>

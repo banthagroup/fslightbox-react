@@ -1,23 +1,22 @@
 import { setUpLightboxCloser } from "./setUpLightboxCloser";
-import { LightboxCloseActioner } from "./LightboxCloseActioner";
 
 const fsLightbox = {
-    resolve: (dependency) => {
-        if (dependency === LightboxCloseActioner) {
-            return lightboxCloseActioner;
-        } else throw new Error('Invalid dependency')
-    },
-    core: { lightboxCloser: {} }
+    core: {
+        lightboxCloser: {},
+        lightboxCloseActioner: {
+            isLightboxFadingOut: true,
+            runActions: jest.fn()
+        }
+    }
 };
 const lightboxCloser = fsLightbox.core.lightboxCloser;
-const lightboxCloseActioner = { runActions: jest.fn(), isLightboxFadingOut: true };
 setUpLightboxCloser(fsLightbox);
 
 test('closeLightbox', () => {
     lightboxCloser.closeLightbox();
-    expect(lightboxCloseActioner.runActions).not.toBeCalled();
+    expect(fsLightbox.core.lightboxCloseActioner.runActions).not.toBeCalled();
 
-    lightboxCloseActioner.isLightboxFadingOut = false;
+    fsLightbox.core.lightboxCloseActioner.isLightboxFadingOut = false;
     lightboxCloser.closeLightbox();
-    expect(lightboxCloseActioner.runActions).toBeCalled();
+    expect(fsLightbox.core.lightboxCloseActioner.runActions).toBeCalled();
 }); 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { shallow } from "enzyme/build";
 import FsLightbox from "./FsLightbox";
-import { testSources } from "../tests/__tests-vars__/testVariables";
 import * as setUpCoreObject from "./core/setUpCore";
 import * as runLightboxUnmountActionsObject from "./core/main-component/unmounting/runLightboxUnmountActions";
 import * as runLightboxMountedActionsObject from "./core/main-component/mounting/runLightboxMountedActions";
 import * as getInitialCurrentIndexObject from "./core/stage/getInitialCurrentIndex";
 import SlideButton from "./components/SlideButton";
 import * as getSourcesCountObject from "./core/sources/getSourcesCount";
+import { testSources } from "../tests/__tests-services__/testVars";
 
 let fsLightboxWrapper = shallow(<FsLightbox toggler={ false } sources={ testSources } />, {
     disableLifecycleMethods: true

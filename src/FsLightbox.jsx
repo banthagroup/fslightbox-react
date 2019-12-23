@@ -126,6 +126,7 @@ class FsLightbox extends Component {
             fullscreenToggler: {},
             globalEventsController: {},
             lightboxCloser: {},
+            lightboxCloseActioner: {},
             lightboxOpener: {},
             lightboxOpenActioner: {},
             lightboxUpdater: {},

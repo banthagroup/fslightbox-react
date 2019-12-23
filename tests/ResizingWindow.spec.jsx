@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountedLightbox } from "../__tests-vars__/mountedLightbox";
+import { mountedLightbox } from "./__tests-services__/mountedLightbox";
 
 innerWidth = 1500;
 innerHeight = 1000;

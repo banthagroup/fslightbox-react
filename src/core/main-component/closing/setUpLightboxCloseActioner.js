@@ -1,13 +1,14 @@
 import { FADE_OUT_STRONG_CLASS_NAME, OPEN_CLASS_NAME } from "../../../constants/classes-names";
 import { ANIMATION_TIME } from "../../../constants/css-constants";
 
-export function LightboxCloseActioner(
+export function setUpLightboxCloseActioner(
     {
         componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
         core: {
             eventsDispatcher,
             fullscreenToggler,
             globalEventsController,
+            lightboxCloseActioner: self,
             scrollbarRecompensor
         },
         elements: { container: lightboxContainer },
@@ -15,25 +16,31 @@ export function LightboxCloseActioner(
         slideSwipingProps
     }
 ) {
-    this.isLightboxFadingOut = false;
+    self.isLightboxFadingOut = false;
 
-    this.runActions = () => {
-        this.isLightboxFadingOut = true;
-        lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
+    self.runActions = () => {
+        self.isLightboxFadingOut = true;
+
+        lightboxContainer.current && lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
+
         globalEventsController.removeListeners();
 
-        if (isFullscreenOpenState.get()) {
+        if (lightboxContainer.current && isFullscreenOpenState.get()) {
             fullscreenToggler.exitFullscreen();
         }
 
         setTimeout(() => {
-            this.isLightboxFadingOut = false;
+            self.isLightboxFadingOut = false;
+
             slideSwipingProps.isSwiping = false;
-            lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
+
+            lightboxContainer.current && lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
+
             document.documentElement.classList.remove(OPEN_CLASS_NAME);
+
             scrollbarRecompensor.removeRecompense();
 
-            setMainComponentState({
+            lightboxContainer.current && setMainComponentState({
                 isOpen: false
             }, () => {
                 eventsDispatcher.dispatch('onClose');
