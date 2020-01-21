@@ -3,7 +3,7 @@ import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names"
 
 export function SlideSwipingUpActioner(
     {
-        componentsServices: { isSlideSwipingHovererShown: isSlideSwipingHovererShownState },
+        componentsServices,
         core: { lightboxCloser },
         elements: { container },
         resolve,
@@ -13,6 +13,8 @@ export function SlideSwipingUpActioner(
     const slideSwipingUpActionsBucket = resolve(SlideSwipingUpActionerBucket);
 
     this.runNoSwipeActions = () => {
+        componentsServices.hideSlideSwipingHovererIfShown();
+
         if (!slideSwipingProps.isSourceDownEventTarget) {
             lightboxCloser.closeLightbox();
         }
@@ -27,7 +29,7 @@ export function SlideSwipingUpActioner(
             slideSwipingUpActionsBucket.runNegativeSwipedXActions();
         }
 
-        isSlideSwipingHovererShownState.set(false);
+        componentsServices.hideSlideSwipingHovererIfShown();
 
         container.current.classList.remove(CURSOR_GRABBING_CLASS_NAME);
 

@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
 import React from 'react';
-// import DemoComponent from "./DemoComponent.jsx";
-import FunctionalDemoComponent from "./FunctionalDemoComponent.jsx";
+import DemoComponent from './DemoComponent.jsx';
 
-ReactDOM.render(<FunctionalDemoComponent/>, document.getElementById('app'));
+ReactDOM.render(<DemoComponent />, document.getElementById('app'));

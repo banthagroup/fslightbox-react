@@ -14,14 +14,7 @@ class DemoComponent extends Component {
             slide: 1,
             source: '',
             sourceIndex: 0,
-            lightboxKey: 'xd'
         };
-
-        setTimeout(() => {
-            this.setState({
-                lightboxKey: 'jd'
-            });
-        }, 1000);
 
         this.toggleLightbox = this.toggleLightbox.bind(this);
         this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
@@ -41,25 +34,24 @@ class DemoComponent extends Component {
     render() {
         return (
             <>
-                <button onClick={ this.toggleLightbox }>Toggle Lightbox</button>
-                <button onClick={ this.toggleLightboxSecond }>Toggle Lightbox</button>
+                <button onClick={this.toggleLightbox}>Toggle Lightbox</button>
+                <button onClick={this.toggleLightboxSecond}>Toggle Lightbox</button>
                 <div className="images">
-                    <img className="image" src="../demo/images/1.jpeg" alt=""/>
-                    <img className="image" src="../demo/images/2.jpg" alt=""/>
-                    <img className="image" src="../demo/images/3.jpeg" alt=""/>
+                    <img className="image" src="../demo/images/1.jpeg" alt="" />
+                    <img className="image" src="../demo/images/2.jpg" alt="" />
+                    <img className="image" src="../demo/images/3.jpeg" alt="" />
                 </div>
                 <FsLightbox
-                    toggler={ this.state.toggler }
-                    sources={ testSources }
-                    openOnMount={ true }
-                    customSources={ [null, null, null, null, <div className="xd">lul</div>] }
-                    onOpen={ () => console.log('open') }
-                    onShow={ () => console.log('show') }
-                    onClose={ () => console.log('close') }
-                    onInit={ () => console.log('init') }
-                    key={ this.state.lightboxKey }
+                    toggler={this.state.toggler}
+                    sources={testSources}
+                    openOnMount={true}
+                    customSources={[null, null, null, null, <div className="xd">lul</div>]}
+                    onOpen={() => console.log('open')}
+                    onShow={() => console.log('show')}
+                    onClose={() => console.log('close')}
+                    onInit={() => console.log('init')}
                 />
-                <FsLightbox toggler={ this.state.toggler2 } sources={ ["../demo/images/5.jpg"] }/>
+                <FsLightbox toggler={this.state.toggler2} sources={["../demo/images/5.jpg"]} />
             </>
         );
     }

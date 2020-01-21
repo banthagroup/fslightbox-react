@@ -1,19 +1,16 @@
 import React from 'react';
-import { shallow } from "enzyme";
+import { shallow } from "enzyme/build";
 import SlideSwipingHoverer from "./SlideSwipingHoverer";
 import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME, PREFIX } from "../../constants/classes-names";
-import { testComponentStateForStateChainAndFsLightbox } from "../../../tests/__tests-services__/testComponentStateForStateChainAndFsLightbox";
 
-const fsLightbox = { componentsServices: { isSlideSwipingHovererShown: {} } };
-const slideSwipingHoverer = shallow(<SlideSwipingHoverer fsLightbox={ fsLightbox }/>);
-
-testComponentStateForStateChainAndFsLightbox('isSlideSwipingHovererShown', fsLightbox);
+const fsLightbox = { componentsServices: {} };
+const slideSwipingHoverer = shallow(<SlideSwipingHoverer fsLightbox={fsLightbox} />);
 
 test('isSlideSwipingHovererShown DOM', () => {
-    fsLightbox.componentsServices.isSlideSwipingHovererShown.set(false);
-    expect(slideSwipingHoverer.getElement()).toBeNull();
-    fsLightbox.componentsServices.isSlideSwipingHovererShown.set(true);
+    fsLightbox.componentsServices.showSlideSwipingHovererIfNotYet();
     expect(slideSwipingHoverer.getElement()).toEqual(
-        <div className={ `${ PREFIX }slide-swiping-hoverer ${ FULL_DIMENSION_CLASS_NAME } ${ ABSOLUTED_CLASS_NAME }` }/>
+        <div className={`${PREFIX}slide-swiping-hoverer ${FULL_DIMENSION_CLASS_NAME} ${ABSOLUTED_CLASS_NAME}`} />
     );
+    fsLightbox.componentsServices.hideSlideSwipingHovererIfShown();
+    expect(slideSwipingHoverer.getElement()).toBeNull();
 });

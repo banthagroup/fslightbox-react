@@ -11,7 +11,7 @@ import { getQueuedAction } from "../timeouts/getQueuedAction";
 export function setUpSlideIndexChanger(
     {
         collections: { sourcesOutersTransformers },
-        componentsServices: { slideNumberUpdater: slideNumberUpdaterState },
+        componentsServices,
         core: { classFacade, slideIndexChanger: self, sourceDisplayFacade, stageManager },
         elements: { sourcesInners },
         stageIndexes
@@ -26,7 +26,7 @@ export function setUpSlideIndexChanger(
 
         stageManager.updateStageIndexes();
 
-        slideNumberUpdaterState.set(!slideNumberUpdaterState.get());
+        componentsServices.setSlideNumber(i + 1);
 
         sourceDisplayFacade.displayStageSourcesIfNotYet();
     };

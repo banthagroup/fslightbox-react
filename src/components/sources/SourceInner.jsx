@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { SOURCE_INNER_CLASS_NAME } from "../../constants/classes-names";
 
 const SourceInner = (
     {
         fsLightbox: {
             componentsServices: { updateSourceInnerCollection },
             core: { stageManager: { isSourceInStage } },
-            elements: { sourcesComponents, sourcesInners }
+            elements: { sourcesComponents, sourcesInners },
+            props: { loadOnlySelectedImage },
+            stageIndexes: { current }
         }, i
     }
 ) => {
@@ -15,8 +18,12 @@ const SourceInner = (
     };
 
     return (
-        <div ref={ sourcesInners[i] }>
-            { isSourceInStage(i) && sourcesComponents[i] }
+        <div ref={sourcesInners[i]} className={SOURCE_INNER_CLASS_NAME}>
+            {
+                (i === current || (!loadOnlySelectedImage && isSourceInStage(i)))
+                    ? sourcesComponents[i]
+                    : null
+            }
         </div>
     );
 };

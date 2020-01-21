@@ -1,11 +1,10 @@
 import React from 'react';
 import { shallow } from "enzyme";
 import SlideNumber from "./SlideNumber";
-import { testComponentStateForStateChainAndFsLightbox } from "../../../tests/__tests-services__/testComponentStateForStateChainAndFsLightbox";
 
 const fsLightbox = {
     componentsServices: {
-        slideNumberUpdater: {}
+        setSlideNumber: null
     },
     data: {
         sourcesCount: 4
@@ -15,9 +14,14 @@ const fsLightbox = {
     }
 
 };
-shallow(<SlideNumber fsLightbox={ fsLightbox }/>);
+const slideNumber = shallow(<SlideNumber fsLightbox={fsLightbox} />);
 
-describe('SlideNumber', () => {
-    testComponentStateForStateChainAndFsLightbox('slideNumberUpdater', fsLightbox);
+test('SlideNumber', () => {
+    const spans = slideNumber.find('span');
+    expect(spans.at(0).text()).toBe('1');
+    expect(spans.at(2).text()).toBe('4');
+
+    fsLightbox.componentsServices.setSlideNumber(3);
+    expect(slideNumber.find('span').at(0).text()).toBe('3');
 });
 

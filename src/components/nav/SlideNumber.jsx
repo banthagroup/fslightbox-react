@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
-import { FLEX_CENTERED_CLASS_NAME, PREFIX } from "../../constants/classes-names";
+import React, { useState, useEffect } from 'react';
+import { PREFIX } from "../../constants/classes-names";
 
 const SlideNumber = (
     {
         fsLightbox: {
-            componentsServices: {
-                slideNumberUpdater: slideNumberUpdaterState
-            },
+            componentsServices,
             data: { sourcesCount },
             stageIndexes
         }
     }
 ) => {
-    const [currentSlideNumberUpdaterValue, setSlideNumberUpdaterValue] = useState(false);
-    slideNumberUpdaterState.get = () => currentSlideNumberUpdaterValue;
-    slideNumberUpdaterState.set = setSlideNumberUpdaterValue;
+    const [slideNumber, setSlideNumber] = useState(stageIndexes.current + 1);
+    componentsServices.setSlideNumber = (number) => {
+        setSlideNumber(number);
+    };
+
+    const slideNumberOuter = React.createRef();
+    const slideNumberInner = React.createRef();
+
+    useEffect(() => {
+        if (slideNumberInner.current.offsetWidth > 55) {
+            slideNumberOuter.current.style.justifyContent = 'flex-start';
+        }
+    }, []);
 
     return (
-        <div className={ `${ PREFIX }slide-number-container ${ FLEX_CENTERED_CLASS_NAME }` }>
-            <div>{ stageIndexes.current + 1 }</div>
-            <div className={ `${ PREFIX }slash` }>/</div>
-            <div>{ sourcesCount }</div>
+        <div ref={slideNumberOuter} className={`${PREFIX}slide-number-container`}>
+            <div ref={slideNumberInner} className="fslightbox-flex-centered">
+                <span>{slideNumber}</span>
+                <span className={`${PREFIX}slash`} />
+                <span>{sourcesCount}</span>
+            </div>
         </div>
     );
 };

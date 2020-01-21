@@ -13,7 +13,7 @@ import * as getQueuedActionObject from "../timeouts/getQueuedAction";
 const fsLightbox = {
     collections: { sourcesOutersTransformers: [{ negative: jest.fn() }, { zero: jest.fn() }] },
     componentsServices: {
-        slideNumberUpdater: { get: () => true, set: jest.fn() },
+        setSlideNumber: jest.fn(),
         displaySourceIfNotYetCollection: [jest.fn(), jest.fn()]
     },
     core: {
@@ -49,7 +49,7 @@ test('changeTo', () => {
     slideIndexChanger.changeTo(1);
     expect(fsLightbox.stageIndexes.current).toBe(1);
     expect(fsLightbox.core.stageManager.updateStageIndexes).toBeCalled();
-    expect(fsLightbox.componentsServices.slideNumberUpdater.set).toBeCalledWith(false);
+    expect(fsLightbox.componentsServices.setSlideNumber).toBeCalledWith(2);
     expect(fsLightbox.core.sourceDisplayFacade.displayStageSourcesIfNotYet).toBeCalled();
 });
 
