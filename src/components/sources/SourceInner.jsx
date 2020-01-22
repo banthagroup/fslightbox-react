@@ -7,7 +7,7 @@ const SourceInner = (
             componentsServices: { updateSourceInnerCollection },
             core: { stageManager: { isSourceInStage } },
             elements: { sourcesComponents, sourcesInners },
-            props: { loadOnlySelectedImage },
+            props: { loadOnlyCurrentSource },
             stageIndexes: { current }
         }, i
     }
@@ -20,7 +20,7 @@ const SourceInner = (
     return (
         <div ref={sourcesInners[i]} className={SOURCE_INNER_CLASS_NAME}>
             {
-                (i === current || (!loadOnlySelectedImage && isSourceInStage(i)))
+                (i === current || (!loadOnlyCurrentSource && isSourceInStage(i)))
                     ? sourcesComponents[i]
                     : null
             }

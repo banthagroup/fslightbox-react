@@ -211,7 +211,7 @@ FsLightbox.propTypes = {
     maxYoutubeVideoDimensions: PropTypes.object,
 
     // preferences
-    loadOnlySelectedImage: PropTypes.bool,
+    loadOnlyCurrentSource: PropTypes.bool,
     slideDistance: PropTypes.number,
     openOnMount: PropTypes.bool
 };

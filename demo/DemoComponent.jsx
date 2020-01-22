@@ -36,14 +36,15 @@ class DemoComponent extends Component {
             <>
                 <button onClick={this.toggleLightbox}>Toggle Lightbox</button>
                 <button onClick={this.toggleLightboxSecond}>Toggle Lightbox</button>
-                <div className="images">
-                    <img className="image" src="../demo/images/1.jpeg" alt="" />
-                    <img className="image" src="../demo/images/2.jpg" alt="" />
-                    <img className="image" src="../demo/images/3.jpeg" alt="" />
-                </div>
                 <FsLightbox
                     toggler={this.state.toggler}
-                    sources={testSources}
+                    loadOnlyCurrentSource={true}
+                    sources={[
+                        'demo/images/1.jpeg',
+                        'demo/images/2.jpg',
+                        'demo/images/3.jpeg',
+                        'demo/images/4.jpeg'
+                    ]}
                     openOnMount={true}
                     customSources={[null, null, null, null, <div className="xd">lul</div>]}
                     onOpen={() => console.log('open')}

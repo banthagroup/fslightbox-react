@@ -7,7 +7,7 @@ const fsLightbox = {
     componentsServices: { updateSourceInnerCollection: [] },
     core: { stageManager: { isSourceInStage: jest.fn(() => false) } },
     elements: { sourcesInners: [null, React.createRef()], sourcesComponents: [] },
-    props: { loadOnlySelectedImage: true },
+    props: { loadOnlyCurrentSource: true },
     stageIndexes: { current: 0 }
 };
 
@@ -28,7 +28,7 @@ test('rendering source component', () => {
     fsLightbox.componentsServices.updateSourceInnerCollection[1]();
     expect(sourceInner.children()).toHaveLength(0);
 
-    fsLightbox.props.loadOnlySelectedImage = false;
+    fsLightbox.props.loadOnlyCurrentSource = false;
     fsLightbox.componentsServices.updateSourceInnerCollection[1]();
     expect(sourceInner.children().at(0).getElement()).toEqual(fsLightbox.elements.sourcesComponents[1]);
 });

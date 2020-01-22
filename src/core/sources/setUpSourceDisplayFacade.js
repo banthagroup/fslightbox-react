@@ -3,11 +3,11 @@ export function setUpSourceDisplayFacade(
         core: { sourceDisplayFacade: self },
         componentsServices: { updateSourceInnerCollection },
         stageIndexes,
-        props: { loadOnlySelectedImage }
+        props: { loadOnlyCurrentSource }
     }
 ) {
     self.displayStageSourcesIfNotYet = () => {
-        if (loadOnlySelectedImage) {
+        if (loadOnlyCurrentSource) {
             updateSourceInnerCollection[stageIndexes.current]();
             return;
         }
