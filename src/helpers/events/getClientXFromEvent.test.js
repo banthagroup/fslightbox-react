@@ -16,3 +16,16 @@ test('mouse event', () => {
         clientX: 500
     })).toBe(500);
 });
+
+test('returns nothing if there is more than one touch point', () => {
+    expect(getClientXFromEvent({
+        touches: [
+            {
+                clientX: 100
+            },
+            {
+                clientX: 20
+            }
+        ]
+    })).toBe(undefined);
+});
