@@ -5,10 +5,8 @@ import { createSources } from "./createSources";
 import { CUSTOM_TYPE } from "../../../constants/core-constants";
 
 const fsLightbox = {
-    data: { sourcesCount: 4 },
-    props: {
-        sources: ['first-source', 'second-source', 'third-source', 'fourth-source'],
-        customSources: ['custom-source']
+    data: {
+        sources: [{ key: 'some-custom-source' }, 'second-source', 'third-source', 'fourth-source'],
     },
     resolve: (constructor, dependencies) => {
         if (constructor === CreatingSourcesLocalStorageManager) {
@@ -52,12 +50,4 @@ test('retrieving types', () => {
 
     expect(detectedTypeActioner.runActionsForSourceTypeAndIndex).toBeCalledTimes(3);
     expect(creatingSourcesBucket.retrieveTypeWithXhrForIndex).toBeCalledWith(3);
-});
-
-test('customSources is undefined', () => {
-    delete fsLightbox.props.customSources;
-
-    expect(() => {
-        createSources(fsLightbox)
-    }).not.toThrowError();
 });

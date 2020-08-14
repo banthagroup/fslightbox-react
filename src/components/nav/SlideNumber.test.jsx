@@ -7,12 +7,11 @@ const fsLightbox = {
         setSlideNumber: null
     },
     data: {
-        sourcesCount: 4
+        sources: { length: 4 }
     },
     stageIndexes: {
         current: 0
     }
-
 };
 const slideNumber = shallow(<SlideNumber fsLightbox={fsLightbox} />);
 

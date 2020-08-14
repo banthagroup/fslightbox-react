@@ -20,5 +20,4 @@ export const OPACITY_1_CLASS_NAME = `${PREFIX}opacity-1`;
 
 // sources
 export const SOURCE_CLASS_NAME = `${PREFIX}source`;
-export const SOURCE_OUTER_CLASS_NAME = `${SOURCE_CLASS_NAME}-outer`;
 export const SOURCE_INNER_CLASS_NAME = `${SOURCE_CLASS_NAME}-inner`;

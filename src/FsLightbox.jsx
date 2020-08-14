@@ -16,7 +16,7 @@ import {
     PREFIX
 } from "./constants/classes-names";
 import SlideButton from "./components/SlideButton.jsx";
-import { getSourcesCount } from "./core/sources/getSourcesCount";
+import { getMergedSourcesAndCustomSources } from "./core/sources/getMergedSourcesAndCustomSources";
 
 class FsLightbox extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class FsLightbox extends Component {
 
     setUpData() {
         this.data = {
-            sourcesCount: getSourcesCount(this),
+            sources: getMergedSourcesAndCustomSources(this),
             isInitialized: false,
             maxSourceWidth: 0,
             maxSourceHeight: 0,
@@ -96,9 +96,9 @@ class FsLightbox extends Component {
         this.elements = {
             container: React.createRef(),
             sourcesOutersWrapper: React.createRef(),
-            sources: createRefsArrayWithLength(this.data.sourcesCount),
-            sourcesOuters: createRefsArrayWithLength(this.data.sourcesCount),
-            sourcesInners: createRefsArrayWithLength(this.data.sourcesCount),
+            sources: createRefsArrayWithLength(this.data.sources.length),
+            sourcesOuters: createRefsArrayWithLength(this.data.sources.length),
+            sourcesInners: createRefsArrayWithLength(this.data.sources.length),
             sourcesComponents: []
         };
     }
@@ -163,7 +163,7 @@ class FsLightbox extends Component {
                  className={`${PREFIX}container ${FULL_DIMENSION_CLASS_NAME} ${FADE_IN_STRONG_CLASS_NAME}`}>
                 <SwipingInvisibleHover fsLightbox={this} />
                 <Nav fsLightbox={this} />
-                {(this.data.sourcesCount > 1) ?
+                {(this.data.sources.length > 1) ?
                     <>
                         <SlideButton
                             onClick={this.core.slideChangeFacade.changeToPrevious}
@@ -186,9 +186,7 @@ class FsLightbox extends Component {
 FsLightbox.propTypes = {
     toggler: PropTypes.bool.isRequired,
     sources: PropTypes.array,
-
-    // custom sources
-    customSources: PropTypes.array,
+    customSources: PropTypes.array, // deprecated 1.5.0
 
     // slide number controlling
     slide: PropTypes.number,
@@ -207,13 +205,15 @@ FsLightbox.propTypes = {
     type: PropTypes.string,
 
     // sources
-    videosPosters: PropTypes.array,
+    customAttributes: PropTypes.array,
+    videosPosters: PropTypes.array, // deprecated 1.5.0
     maxYoutubeVideoDimensions: PropTypes.object,
 
     // preferences
+    exitFullscreenOnClose: PropTypes.bool,
     loadOnlyCurrentSource: PropTypes.bool,
-    slideDistance: PropTypes.number,
-    openOnMount: PropTypes.bool
+    openOnMount: PropTypes.bool,
+    slideDistance: PropTypes.number
 };
 
 export default FsLightbox;

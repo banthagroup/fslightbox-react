@@ -1,107 +1,11 @@
 import React from 'react';
 import { shallow } from "enzyme/build";
 import FsLightbox from "./FsLightbox";
-import * as setUpCoreObject from "./core/setUpCore";
-import * as runLightboxUnmountActionsObject from "./core/main-component/unmounting/runLightboxUnmountActions";
-import * as runLightboxMountedActionsObject from "./core/main-component/mounting/runLightboxMountedActions";
-import * as getInitialCurrentIndexObject from "./core/stage/getInitialCurrentIndex";
 import SlideButton from "./components/SlideButton";
-import * as getSourcesCountObject from "./core/sources/getSourcesCount";
 import { testSources } from "../tests/__tests-services__/testVars";
 
 let fsLightboxWrapper = shallow(<FsLightbox toggler={false} sources={testSources} />, {
     disableLifecycleMethods: true
-});
-let fsLightbox = fsLightboxWrapper.instance();
-
-// resetting props to make them extensible
-delete fsLightbox.props;
-fsLightbox.props = {
-    toggler: false,
-    sources: testSources
-};
-
-describe('data', () => {
-    const tempGetSourcesCount = getSourcesCountObject.getSourcesCount;
-    getSourcesCountObject.getSourcesCount = jest.fn(() => 'sources-count');
-
-    delete fsLightbox.props.slideDistance;
-    fsLightbox.setUpData();
-    expect(getSourcesCountObject.getSourcesCount).toBeCalledWith(fsLightbox);
-    expect(fsLightbox.data.slideDistance).toBe(0.3);
-    expect(fsLightbox.data.sourcesCount).toBe('sources-count');
-
-    fsLightbox.props.slideDistance = 2.5;
-    fsLightbox.setUpData();
-    expect(fsLightbox.data.slideDistance).toBe(2.5);
-
-    getSourcesCountObject.getSourcesCount = tempGetSourcesCount;
-});
-
-test('stageIndexes', () => {
-    getInitialCurrentIndexObject.getInitialCurrentIndex = () => 950;
-    fsLightbox.setUpStageIndexes();
-
-    expect(fsLightbox.stageIndexes).toEqual({
-        previous: undefined,
-        current: 950,
-        next: undefined
-    });
-});
-
-test('main component state', () => {
-    fsLightbox.props.openOnMount = false;
-    fsLightbox.setUpStates();
-    expect(fsLightbox.state.isOpen).toBe(false);
-
-    fsLightbox.props.openOnMount = true;
-    fsLightbox.setUpStates();
-    expect(fsLightbox.state.isOpen).toBe(true);
-});
-
-test('getters', () => {
-    expect(fsLightbox.getProps()).toBe(fsLightbox.props);
-    expect(fsLightbox.getState()).toBe(fsLightbox.state);
-});
-
-test('setters', () => {
-    fsLightbox.setState = jest.fn();
-    fsLightbox.setMainComponentState('value', 'callback');
-    expect(fsLightbox.setState).toBeCalledWith('value', 'callback');
-});
-
-test('resolve', () => {
-    function constructor(fsLightboxDependency, firstParam, secondParam) {
-        expect(fsLightboxDependency).toBe(fsLightbox);
-        expect(firstParam).toBe('first-param');
-        expect(secondParam).toBe('second-param');
-    }
-
-    expect(fsLightbox.resolve(constructor, ['first-param', 'second-param'])).toBeInstanceOf(constructor);
-});
-
-test('core', () => {
-    setUpCoreObject.setUpCore = jest.fn();
-    fsLightbox.setUpCore();
-    expect(setUpCoreObject.setUpCore).toBeCalledWith(fsLightbox);
-});
-
-test('componentDidUpdate', () => {
-    fsLightbox.core.lightboxUpdater.handleUpdate = jest.fn();
-    fsLightbox.componentDidUpdate('prev-props');
-    expect(fsLightbox.core.lightboxUpdater.handleUpdate).toBeCalledWith('prev-props');
-});
-
-test('componentDidMount', () => {
-    runLightboxMountedActionsObject.runLightboxMountedActions = jest.fn();
-    fsLightbox.componentDidMount();
-    expect(runLightboxMountedActionsObject.runLightboxMountedActions).toBeCalled();
-});
-
-test('componentWillUnmount', () => {
-    runLightboxUnmountActionsObject.runLightboxUnmountActions = jest.fn();
-    fsLightbox.componentWillUnmount();
-    expect(runLightboxUnmountActionsObject.runLightboxUnmountActions).toBeCalled();
 });
 
 describe('DOM', () => {
@@ -117,7 +21,7 @@ describe('DOM', () => {
         let slideButtonPrevious;
         let slideButtonNext;
 
-        test('sourcesCount === 1', () => {
+        test('sources count === 1', () => {
             fsLightboxWrapper = shallow(
                 <FsLightbox
                     openOnMount={true}

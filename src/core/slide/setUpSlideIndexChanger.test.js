@@ -22,7 +22,6 @@ const fsLightbox = {
         sourceDisplayFacade: { displayStageSourcesIfNotYet: jest.fn() },
         stageManager: { updateStageIndexes: jest.fn(), }
     },
-    data: { sourcesCount: 2 },
     elements: {
         sourcesInners: [
             { current: { classList: { add: jest.fn() } } },

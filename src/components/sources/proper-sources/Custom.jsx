@@ -4,19 +4,19 @@ import { SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 const Custom = (
     {
         fsLightbox: {
-            props: { customSources },
-            elements: { sources, },
-            collections: { sourcesLoadsHandlers }
+            collections: { sourcesLoadsHandlers },
+            data: { sources },
+            elements: { sources: sourcesElements }
         }, i
     }
 ) => {
     useEffect(sourcesLoadsHandlers[i].handleCustomLoad);
 
-    const baseClassName = customSources[i].props.className;
+    const baseClassName = sources[i].props.className;
 
-    return React.cloneElement(customSources[i], {
-        ref: sources[i],
-        className: (baseClassName) ? `${ baseClassName } ${ SOURCE_CLASS_NAME }` : SOURCE_CLASS_NAME
+    return React.cloneElement(sources[i], {
+        ref: sourcesElements[i],
+        className: (baseClassName) ? `${baseClassName} ${SOURCE_CLASS_NAME}` : SOURCE_CLASS_NAME
     });
 };
 

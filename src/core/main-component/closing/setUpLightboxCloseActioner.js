@@ -12,6 +12,7 @@ export function setUpLightboxCloseActioner(
             scrollbarRecompensor
         },
         elements: { container: lightboxContainer },
+        props,
         setMainComponentState,
         slideSwipingProps
     }
@@ -25,7 +26,7 @@ export function setUpLightboxCloseActioner(
 
         globalEventsController.removeListeners();
 
-        if (lightboxContainer.current && isFullscreenOpenState.get()) {
+        if (props.exitFullscreenOnClose && lightboxContainer.current && isFullscreenOpenState.get()) {
             fullscreenToggler.exitFullscreen();
         }
 
