@@ -42,10 +42,9 @@ export function DetectedTypeActioner(fsLightbox) {
         }
 
         sourcesComponents[i] = <BaseSourceComponent
-            fsLightbox={ fsLightbox }
-            i={ i }
+            fsLightbox={fsLightbox}
+            i={i}
         />;
-
 
         if (getLightboxState().isOpen) {
             updateSourceInnerCollection[i]();

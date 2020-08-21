@@ -7,7 +7,7 @@ const Nav = ({ fsLightbox }) => {
     return (
         <div className={ `${ PREFIX }nav` }>
             <Toolbar fsLightbox={ fsLightbox }/>
-            { fsLightbox.data.sourcesCount > 1 && <SlideNumber fsLightbox={ fsLightbox }/> }
+            { fsLightbox.data.sources.length > 1 && <SlideNumber fsLightbox={ fsLightbox }/> }
         </div>
     );
 };

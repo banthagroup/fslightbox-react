@@ -11,6 +11,6 @@
 /gulpfile.babel.js
 /index.html
 /setupTests.js
-/webpack-prod.config.js
+/webpack.prod.config.js
 /webpack.config.js
 /yarn.lock

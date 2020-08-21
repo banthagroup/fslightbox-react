@@ -15,7 +15,7 @@ const Invalid = (
     });
 
     return (
-        <div className={ `${ PREFIX }invalid-file-wrapper ${ FLEX_CENTERED_CLASS_NAME }` }>
+        <div className={`${PREFIX}invalid-file-wrapper ${FLEX_CENTERED_CLASS_NAME}`}>
             Invalid source
         </div>
     );

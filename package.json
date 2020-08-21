@@ -1,12 +1,12 @@
 {
   "name": "fslightbox-react",
-  "version": "1.4.9",
+  "version": "1.5.0",
   "description": "React version of Fullscreen Lightbox. Modern and easy plugin for displaying images and videos in clean overlaying box. Display single source or create beautiful gallery with powerful lightbox.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "production": "webpack --mode production --config webpack-prod.config.js --display-modules && gulp",
-    "watch": "webpack-dev-server --mode development --open --host"
+    "production": "webpack --mode production --config webpack.prod.config.js --display-modules && gulp",
+    "watch": "webpack-dev-server --mode development --host 0.0.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,10 +25,6 @@
       "/demo/",
       "/dist/"
     ],
-    "moduleNameMapper": {
-      "\\.(css|less|sass|scss|jpg|jpeg)$": "<rootDir>/tests/__mocks__/styleMock.js",
-      "\\.(gif|ttf|eot|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
-    },
     "collectCoverage": false
   },
   "keywords": [

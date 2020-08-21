@@ -4,21 +4,27 @@ import { PREFIX, SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 const Video = (
     {
         fsLightbox: {
-            props: { videosPosters, sources },
+            collections: { sourcesLoadsHandlers },
+            data: { sources },
             elements: { sources: sourcesElements },
-            collections: { sourcesLoadsHandlers }
+            props: { customAttributes, videosPosters }
         }, i
     }
 ) => {
     setTimeout(sourcesLoadsHandlers[i].handleNotMetaDatedVideoLoad, 3000);
 
+    const attributes = (customAttributes && customAttributes[i]) ? customAttributes[i] : {}
+    if (videosPosters && videosPosters[i]) {
+        attributes['poster'] = videosPosters[i]
+    }
+
     return <video
-        onLoadedMetadata={ sourcesLoadsHandlers[i].handleVideoLoad }
-        className={ `${ SOURCE_CLASS_NAME } ${ PREFIX }video` }
+        onLoadedMetadata={sourcesLoadsHandlers[i].handleVideoLoad}
+        className={`${SOURCE_CLASS_NAME} ${PREFIX}video`}
         controls
-        ref={ sourcesElements[i] }
-        poster={ videosPosters && videosPosters[i] }>
-        <source src={ sources[i] }/>
+        ref={sourcesElements[i]}
+        {...attributes}>
+        <source src={sources[i]} />
     </video>
 };
 

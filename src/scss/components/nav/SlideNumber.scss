@@ -9,17 +9,13 @@
   z-index: 0;
   max-width: 55px;
   text-align: left;
-
-  .fslightbox-flex-centered {
-    height: 100%;
-  }
 }
 
 .fslightbox-slash {
   display: block;
   margin: 0 5px;
   width: 1px;
-  height: 12px;
+  height: 12px !important;
   transform: rotate(15deg);
   background: #fff;
 }

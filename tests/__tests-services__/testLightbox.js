@@ -24,31 +24,27 @@ class TestLightboxComponent extends Component {
     render() {
         return (
             <>
-                <button id="toggle-button" onClick={ () => this.setState({ toggler: !this.state.toggler }) }>
-                    Open lightbox
+                <button id="toggle-button" onClick={() => this.setState({ toggler: !this.state.toggler })}>
+                    Open Lightbox
                 </button>
                 <FsLightbox
-                    ref={ this.fsLightbox }
-                    openOnMount={ true }
-                    toggler={ this.state.toggler }
-                    sources={ testSources }
-                    customSources={ [null, null, null, null,
-                        <h1 className="custom-source" style={ { width: '100px', height: '100px' } }>Custom
-                            source</h1>] }
-                    types={ testTypes }
-                    captions={ [<h1>Caption</h1>] }
-                    onOpen={ onOpen }
-                    onClose={ onClose }
-                    onInit={ onInit }
-                    onShow={ onShow }
-                    onSlideChange={ onSlideChange }
+                    ref={this.fsLightbox}
+                    openOnMount={true}
+                    toggler={this.state.toggler}
+                    sources={testSources}
+                    types={testTypes}
+                    onOpen={onOpen}
+                    onClose={onClose}
+                    onInit={onInit}
+                    onShow={onShow}
+                    onSlideChange={onSlideChange}
                 />
             </>
         );
     }
 }
 
-const testLightboxComponent = ReactDOM.render(<TestLightboxComponent/>, app);
+const testLightboxComponent = ReactDOM.render(<TestLightboxComponent />, app);
 act(() => {
     const load = new Event('load');
     Object.defineProperty(load, 'target', {

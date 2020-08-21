@@ -12,8 +12,9 @@ getYoutubeVideoIdFromUrlObject.getYoutubeVideoIdFromUrl = (source) => {
 };
 
 const fsLightbox = {
-    props: {
-        customSources: [
+    collections: { sourcesLoadsHandlers: [{ handleCustomLoad: jest.fn() }, { handleCustomLoad: jest.fn() }] },
+    data: {
+        sources: [
             <div className="example-class">
                 <h1>First source</h1>
             </div>,
@@ -22,27 +23,26 @@ const fsLightbox = {
             </div>
         ]
     },
-    elements: { sources: [React.createRef(), React.createRef()] },
-    collections: { sourcesLoadsHandlers: [{ handleCustomLoad: jest.fn() }, { handleCustomLoad: jest.fn() }] }
+    elements: { sources: [React.createRef(), React.createRef()] }
 };
 
-const custom = mount(<Custom fsLightbox={ fsLightbox } i={ 0 }/>);
+const custom = mount(<Custom fsLightbox={fsLightbox} i={0} />);
 
 test('useEffect', () => {
     expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleCustomLoad).toBeCalled();
 });
 
-test('displaying source from customSources prop adding fslightbox-source class and attaching ref', () => {
+test('displaying source from custom sources prop adding fslightbox-source class and attaching ref', () => {
     expect(custom.children().getElements()).toEqual([
-        <div className="example-class fslightbox-source" ref={ fsLightbox.elements.sources[0] }>
+        <div className="example-class fslightbox-source" ref={fsLightbox.elements.sources[0]}>
             <h1>First source</h1>
         </div>
     ]);
 });
 
 test('displaying source without class', () => {
-    expect(shallow(<Custom fsLightbox={ fsLightbox } i={ 1 }/>).getElements()).toEqual([
-        <div className="fslightbox-source" ref={ fsLightbox.elements.sources[1] }>
+    expect(shallow(<Custom fsLightbox={fsLightbox} i={1} />).getElements()).toEqual([
+        <div className="fslightbox-source" ref={fsLightbox.elements.sources[1]}>
             <h1>Second source</h1>
         </div>
     ]);

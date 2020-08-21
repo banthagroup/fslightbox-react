@@ -1,17 +1,18 @@
 export function KeyboardController({ core: { lightboxCloser, fullscreenToggler, slideChangeFacade } }) {
     this.listener = (e) => {
-        switch (e.keyCode) {
-            case 27:
+        switch (e.key) {
+            case 'Escape':
                 lightboxCloser.closeLightbox();
                 break;
-            case 37:
+            case 'ArrowLeft':
                 slideChangeFacade.changeToPrevious();
                 break;
-            case 39:
+            case 'ArrowRight':
                 slideChangeFacade.changeToNext();
                 break;
-            case 122:
+            case 'F11':
                 e.preventDefault();
+                // browsers does not trigger 'keydown' event when browser is already in fullscreen
                 fullscreenToggler.enterFullscreen();
                 break;
         }
