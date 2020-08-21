@@ -3,7 +3,10 @@
  * @param event
  */
 export function getClientXFromEvent(event) {
-    return (event.touches) ?
-        event.touches[0].clientX :
-        event.clientX;
+    const { touches, clientX } = event;
+    if (touches && touches[1]) return; // Return nothing if there is more than one touch point (pinch/zoom)
+    const x = touches ?
+        touches[0].clientX :
+        clientX;
+    return x;
 }
