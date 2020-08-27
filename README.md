@@ -54,7 +54,7 @@ export default App;
 Available at: https://fslightbox.com/react
 
 ## Documentation and props description
-Available at: https://fslightbox.com/react/documentation/basic
+Available at: https://fslightbox.com/react/documentation
 
 ## Browser Compatibility
 
