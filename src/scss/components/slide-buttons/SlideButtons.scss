@@ -7,6 +7,7 @@
   cursor: pointer;
   z-index: 3;
   transform: translateY(-50%);
+  touch-action: manipulation;
 
   @media (min-width: 476px) {
     padding: 22px 22px 22px 6px;
