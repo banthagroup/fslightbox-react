@@ -6,7 +6,7 @@ const fsLightbox = {
     componentsServices: {
         setSlideNumber: null
     },
-    data: {
+    props: {
         sources: { length: 4 }
     },
     stageIndexes: {

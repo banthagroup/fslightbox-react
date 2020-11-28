@@ -1,12 +1,16 @@
-import { setUpLightboxUpdater } from "../../../../src/core/main-component/updating/setUpLightboxUpdater";
+import { setUpLightboxUpdater } from "./setUpLightboxUpdater";
 import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
 import * as getLightboxUpdaterConditionerObject
     from "../../../../src/core/main-component/updating/getLightboxUpdaterConditioner";
 
 const fsLightbox = {
     core: { lightboxUpdater: {} },
-    getProps: () => currentProps,
-    props: { sources: [] },
+    props: {
+        slide: undefined,
+        source: undefined,
+        sourceIndex: undefined,
+        sources: []
+    },
     resolve: (constructorDependency) => {
         if (constructorDependency === LightboxUpdateActioner) {
             return lightboxUpdatingActions;
@@ -29,11 +33,6 @@ let previousProps = {
     source: undefined,
     sourceIndex: undefined
 };
-let currentProps = {
-    slide: undefined,
-    source: undefined,
-    sourceIndex: undefined
-};
 
 const lightboxUpdater = fsLightbox.core.lightboxUpdater;
 setUpLightboxUpdater(fsLightbox);
@@ -43,7 +42,7 @@ describe('passing props to LightboxUpdaterConditioner', () => {
         lightboxUpdaterConditioner.setPrevProps = jest.fn();
         lightboxUpdaterConditioner.setCurrProps = jest.fn();
         previousProps.key = 'previous-props';
-        currentProps.key = 'current-props';
+        fsLightbox.props.key = 'current-props';
         lightboxUpdater.handleUpdate(previousProps);
     });
 
@@ -54,12 +53,7 @@ describe('passing props to LightboxUpdaterConditioner', () => {
             sourceIndex: undefined,
             key: 'previous-props'
         });
-        expect(lightboxUpdaterConditioner.setCurrProps).toBeCalledWith({
-            slide: undefined,
-            source: undefined,
-            sourceIndex: undefined,
-            key: 'current-props'
-        });
+        expect(lightboxUpdaterConditioner.setCurrProps).toBeCalledWith(fsLightbox.props);
     });
 });
 
@@ -92,11 +86,11 @@ describe('handling change of props: slide, source, sourceIndex', () => {
             lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
             lightboxUpdaterConditioner.hasSlidePropChanged = () => true;
 
-            currentProps.slide = 10;
+            fsLightbox.props.slide = 10;
             fsLightbox.props.sources[0] = undefined;
             fsLightbox.props.sources[1] = 'current-source';
-            currentProps.source = 'current-source';
-            currentProps.sourceIndex = 5;
+            fsLightbox.props.source = 'current-source';
+            fsLightbox.props.sourceIndex = 5;
 
             lightboxUpdater.handleUpdate(previousProps);
         });
@@ -112,12 +106,12 @@ describe('handling change of props: slide, source, sourceIndex', () => {
             lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
             lightboxUpdaterConditioner.hasSlidePropChanged = () => false;
 
-            currentProps.slide = 20;
+            fsLightbox.props.slide = 20;
             fsLightbox.props.sources[0] = undefined;
             fsLightbox.props.sources[1] = undefined;
             fsLightbox.props.sources[2] = 'current-source';
-            currentProps.source = 'current-source';
-            currentProps.sourceIndex = 10;
+            fsLightbox.props.source = 'current-source';
+            fsLightbox.props.sourceIndex = 10;
 
             lightboxUpdater.handleUpdate(previousProps);
         });
@@ -133,10 +127,10 @@ describe('handling change of props: slide, source, sourceIndex', () => {
             lightboxUpdaterConditioner.hasSourcePropChanged = () => false;
             lightboxUpdaterConditioner.hasSourceIndexPropChanged = () => true;
 
-            currentProps.slide = 50;
+            fsLightbox.props.slide = 50;
             fsLightbox.props.sources[0] = 'current-source';
-            currentProps.source = 'current-source';
-            currentProps.sourceIndex = 25;
+            fsLightbox.props.source = 'current-source';
+            fsLightbox.props.sourceIndex = 25;
 
             lightboxUpdater.handleUpdate(previousProps);
         });

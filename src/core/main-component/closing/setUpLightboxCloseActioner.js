@@ -3,7 +3,7 @@ import { ANIMATION_TIME } from "../../../constants/css-constants";
 
 export function setUpLightboxCloseActioner(
     {
-        componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
+        componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState }, isLightboxOpenManager },
         core: {
             eventsDispatcher,
             fullscreenToggler,
@@ -13,7 +13,6 @@ export function setUpLightboxCloseActioner(
         },
         elements: { container: lightboxContainer },
         props,
-        setMainComponentState,
         slideSwipingProps
     }
 ) {
@@ -22,11 +21,11 @@ export function setUpLightboxCloseActioner(
     self.runActions = () => {
         self.isLightboxFadingOut = true;
 
-        lightboxContainer.current && lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
+        lightboxContainer.current.classList.add(FADE_OUT_STRONG_CLASS_NAME);
 
         globalEventsController.removeListeners();
 
-        if (props.exitFullscreenOnClose && lightboxContainer.current && isFullscreenOpenState.get()) {
+        if (props.exitFullscreenOnClose && isFullscreenOpenState.get()) {
             fullscreenToggler.exitFullscreen();
         }
 
@@ -35,17 +34,15 @@ export function setUpLightboxCloseActioner(
 
             slideSwipingProps.isSwiping = false;
 
-            lightboxContainer.current && lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
+            lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
 
             document.documentElement.classList.remove(OPEN_CLASS_NAME);
 
             scrollbarRecompensor.removeRecompense();
 
-            lightboxContainer.current && setMainComponentState({
-                isOpen: false
-            }, () => {
-                eventsDispatcher.dispatch('onClose');
-            });
+            isLightboxOpenManager.set(false);
+
+            eventsDispatcher.dispatch('onClose');
         }, ANIMATION_TIME - 30);
     };
 }

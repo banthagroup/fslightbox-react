@@ -1,7 +1,7 @@
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 import { getAnimationDebounce } from "../../../animations/getAnimationDebounce";
 
-export function SlideSwipingMove({ data: { sources }, resolve, slideSwipingProps }) {
+export function SlideSwipingMove({ props: { sources }, resolve, slideSwipingProps }) {
     const slideSwipingMoveActioner = resolve(SlideSwipingMoveActioner);
     const isPreviousAnimationDebounced = getAnimationDebounce();
 

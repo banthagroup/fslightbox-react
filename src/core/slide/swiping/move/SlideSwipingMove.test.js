@@ -3,7 +3,7 @@ import { SlideSwipingMove } from "./SlideSwipingMove";
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 
 const fsLightbox = {
-    data: { sources: { length: 2 } },
+    props: { sources: { length: 2 } },
     resolve: (constructor) => {
         if (constructor === SlideSwipingMoveActioner) {
             return slideSwipingMoveActioner;
@@ -45,7 +45,7 @@ test('listener', () => {
     expect(fsLightbox.slideSwipingProps.swipedX).toBeUndefined();
     expect(slideSwipingMoveActioner.runActionsForEvent).toBeCalledWith(e);
 
-    fsLightbox.data.sources.length = 1;
+    fsLightbox.props.sources.length = 1;
     setUp();
     expect(fsLightbox.slideSwipingProps.swipedX).toBe(1);
     expect(slideSwipingMoveActioner.runActionsForEvent).toBeCalledTimes(1);

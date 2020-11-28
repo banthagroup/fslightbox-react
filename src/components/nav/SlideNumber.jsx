@@ -5,7 +5,7 @@ const SlideNumber = (
     {
         fsLightbox: {
             componentsServices,
-            data: { sources },
+            props: { sources },
             stageIndexes
         }
     }
@@ -27,7 +27,7 @@ const SlideNumber = (
     return (
         <div ref={slideNumberOuter} className={`${PREFIX}slide-number-container`}>
             <div ref={slideNumberInner} className="fslightbox-flex-centered">
-                <span>{slideNumber}</span>
+                <span data-test-id="slide-number">{slideNumber}</span>
                 <span className={`${PREFIX}slash`} />
                 <span>{sources.length}</span>
             </div>

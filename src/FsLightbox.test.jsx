@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from "enzyme/build";
+import { shallow, mount } from "enzyme/build";
 import FsLightbox from "./FsLightbox";
 import SlideButton from "./components/SlideButton";
 import { testSources } from "../tests/__tests-services__/testVars";
@@ -22,14 +22,12 @@ describe('DOM', () => {
         let slideButtonNext;
 
         test('sources count === 1', () => {
-            fsLightboxWrapper = shallow(
+            fsLightboxWrapper = mount(
                 <FsLightbox
                     openOnMount={true}
                     toggler={false}
                     sources={['only one']}
-                />, {
-                    disableLifecycleMethods: true
-                }
+                />
             );
 
             slideButtonPrevious = <SlideButton
@@ -51,14 +49,12 @@ describe('DOM', () => {
         });
 
         test('totalSlide > 1', () => {
-            fsLightboxWrapper = shallow(
+            fsLightboxWrapper = mount(
                 <FsLightbox
                     openOnMount={true}
                     toggler={false}
                     sources={['first', 'second']}
-                />, {
-                    disableLifecycleMethods: true
-                }
+                />
             );
 
             slideButtonPrevious = <SlideButton

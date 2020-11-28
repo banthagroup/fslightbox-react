@@ -3,14 +3,15 @@ import { getScrollbarWidth } from "../../scrollbar/getScrollbarWidth";
 
 export function runLightboxMountedActions(
     {
-        core: { lightboxOpenActioner: { runActions: runLightboxOpeningActions } },
+        core: { lightboxOpener },
         data,
         props: { openOnMount }
     }
 ) {
     injectStylesIfNotInDom();
     data.scrollbarWidth = getScrollbarWidth();
+
     if (openOnMount) {
-        runLightboxOpeningActions();
+        lightboxOpener.initializeAndOpenLightbox();
     }
 }

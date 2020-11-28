@@ -4,14 +4,17 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../constants/classes-names";
 
 const fsLightbox = {
     collections: {
-        sourcesOutersTransformers: [{ negative: jest.fn() }, { negative: jest.fn() }],
-        sourcesStylers: [undefined, { styleSize: jest.fn() }]
+        sourceMainWrapperTransformers: [{ negative: jest.fn() }, { negative: jest.fn() }],
+        sourceSizers: [undefined, { adjustSize: jest.fn() }]
     },
     core: { windowResizeActioner: {} },
-    data: { sources: { length: 2 } },
+    data: {
+        maxSourceHeight: null,
+        maxSourceWidth: null,
+    },
     elements: {
-        sources: [null, { current: document.createElement('div') }],
-        sourcesOuters: ['first-source-outer', 'second-source-outer']
+        sourceMainWrappers: ['first-source-outer', 'second-source-outer'],
+        sources: [{ current: null }, { current: document.createElement('div') }]
     },
     stageIndexes: { current: 0 }
 };
@@ -31,9 +34,9 @@ test('runActions', () => {
     expect(removeFromElementClassIfContainsObject.removeFromElementClassIfContains).toBeCalledWith(
         'second-source-outer', TRANSFORM_TRANSITION_CLASS_NAME
     );
-    expect(fsLightbox.collections.sourcesOutersTransformers[0].negative).not.toBeCalled();
-    expect(fsLightbox.collections.sourcesOutersTransformers[1].negative).toBeCalled();
-    expect(fsLightbox.collections.sourcesStylers[1].styleSize).toBeCalled();
+    expect(fsLightbox.collections.sourceMainWrapperTransformers[0].negative).not.toBeCalled();
+    expect(fsLightbox.collections.sourceMainWrapperTransformers[1].negative).toBeCalled();
+    expect(fsLightbox.collections.sourceSizers[1].adjustSize).toBeCalled();
 
     innerWidth = 992;
     windowResizeActioner.runActions();

@@ -1,11 +1,11 @@
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
-import * as getClientXFromEventObject from "../../../../helpers/events/getClientXFromEvent";
+import * as getClientXFromEventObject from "../../../../helpers/events/getScreenXFromEvent";
 
 const fsLightbox = {
     componentsServices: { showSlideSwipingHovererIfNotYet: jest.fn() },
     collections: {
-        sourcesOutersTransformers: [
+        sourceMainWrapperTransformers: [
             {
                 byValue: () => ({
                     negative: () => {},
@@ -16,7 +16,7 @@ const fsLightbox = {
         ]
     },
     elements: { container: { current: { classList: { add: jest.fn() } } } },
-    slideSwipingProps: { downClientX: null, swipedX: null, },
+    slideSwipingProps: { downScreenX: null, swipedX: null, },
     stageIndexes: {
         previous: 0,
         current: 0,
@@ -33,8 +33,8 @@ const setUpAndCallRunActionsForEventWithEmptyEvent = () => {
 test('simple actions', () => {
     const e = {};
 
-    fsLightbox.slideSwipingProps.downClientX = 500;
-    getClientXFromEventObject.getClientXFromEvent = (event) => {
+    fsLightbox.slideSwipingProps.downScreenX = 500;
+    getClientXFromEventObject.getScreenXFromEvent = (event) => {
         if (Object.is(event, e)) {
             return 450;
         }
@@ -60,7 +60,7 @@ describe('transforming stage sources holders by swiped difference value', () => 
     };
 
     beforeAll(() => {
-        fsLightbox.collections.sourcesOutersTransformers[3] = {
+        fsLightbox.collections.sourceMainWrapperTransformers[3] = {
             byValue: (value) => {
                 if (value === expectedByValue) {
                     return {
@@ -69,7 +69,7 @@ describe('transforming stage sources holders by swiped difference value', () => 
                 }
             }
         };
-        fsLightbox.collections.sourcesOutersTransformers[5] = {
+        fsLightbox.collections.sourceMainWrapperTransformers[5] = {
             byValue: (value) => {
                 if (value === expectedByValue) {
                     return {
@@ -78,7 +78,7 @@ describe('transforming stage sources holders by swiped difference value', () => 
                 }
             }
         };
-        fsLightbox.collections.sourcesOutersTransformers[9] = {
+        fsLightbox.collections.sourceMainWrapperTransformers[9] = {
             byValue: (value) => {
                 if (value === expectedByValue) {
                     return {
@@ -91,8 +91,8 @@ describe('transforming stage sources holders by swiped difference value', () => 
 
     describe('new slide current source holder', () => {
         beforeAll(() => {
-            getClientXFromEventObject.getClientXFromEvent = () => 750;
-            fsLightbox.slideSwipingProps.downClientX = 350;
+            getClientXFromEventObject.getScreenXFromEvent = () => 750;
+            fsLightbox.slideSwipingProps.downScreenX = 350;
             expectedByValue = 400;
 
             fsLightbox.stageIndexes = {
@@ -119,8 +119,8 @@ describe('transforming stage sources holders by swiped difference value', () => 
         });
 
         test('client is swiping forward - previous source holder should not be transformed', () => {
-            getClientXFromEventObject.getClientXFromEvent = () => 100;
-            fsLightbox.slideSwipingProps.downClientX = 400;
+            getClientXFromEventObject.getScreenXFromEvent = () => 100;
+            fsLightbox.slideSwipingProps.downScreenX = 400;
             expectedByValue = -300;
 
             fsLightbox.stageIndexes = {
@@ -135,8 +135,8 @@ describe('transforming stage sources holders by swiped difference value', () => 
         });
 
         test('client is swiping backward - previous source holder should be transfored', () => {
-            getClientXFromEventObject.getClientXFromEvent = () => 500;
-            fsLightbox.slideSwipingProps.downClientX = 400;
+            getClientXFromEventObject.getScreenXFromEvent = () => 500;
+            fsLightbox.slideSwipingProps.downScreenX = 400;
             expectedByValue = 100;
 
             fsLightbox.stageIndexes = {
@@ -164,8 +164,8 @@ describe('transforming stage sources holders by swiped difference value', () => 
         });
 
         test('client is swiping backward - next source holder should not be transformed', () => {
-            getClientXFromEventObject.getClientXFromEvent = () => 500;
-            fsLightbox.slideSwipingProps.downClientX = 250;
+            getClientXFromEventObject.getScreenXFromEvent = () => 500;
+            fsLightbox.slideSwipingProps.downScreenX = 250;
             expectedByValue = 250;
 
             fsLightbox.stageIndexes = {
@@ -180,8 +180,8 @@ describe('transforming stage sources holders by swiped difference value', () => 
         });
 
         test('client is swiping forward - next source holder should be transformed', () => {
-            getClientXFromEventObject.getClientXFromEvent = () => 400;
-            fsLightbox.slideSwipingProps.downClientX = 1000;
+            getClientXFromEventObject.getScreenXFromEvent = () => 400;
+            fsLightbox.slideSwipingProps.downScreenX = 1000;
             expectedByValue = -600;
 
             fsLightbox.stageIndexes = {

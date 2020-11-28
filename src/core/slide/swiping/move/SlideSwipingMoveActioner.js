@@ -1,9 +1,9 @@
 import { CURSOR_GRABBING_CLASS_NAME } from "../../../../constants/classes-names";
-import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
+import { getScreenXFromEvent } from "../../../../helpers/events/getScreenXFromEvent";
 
 export function SlideSwipingMoveActioner(
     {
-        collections: { sourcesOutersTransformers },
+        collections: { sourceMainWrapperTransformers },
         componentsServices,
         elements: { container },
         slideSwipingProps,
@@ -17,7 +17,7 @@ export function SlideSwipingMoveActioner(
 
         container.current.classList.add(CURSOR_GRABBING_CLASS_NAME);
 
-        slideSwipingProps.swipedX = getClientXFromEvent(e) - slideSwipingProps.downClientX;
+        slideSwipingProps.swipedX = getScreenXFromEvent(e) - slideSwipingProps.downScreenX;
 
         transformSourceHolderAtIndexToPosition(stageIndexes.current, 'zero');
         // if there are only two slides we need to check if source we want to transform exists
@@ -29,7 +29,7 @@ export function SlideSwipingMoveActioner(
     };
 
     const transformSourceHolderAtIndexToPosition = (index, position) => {
-        sourcesOutersTransformers[index]
+        sourceMainWrapperTransformers[index]
             .byValue(slideSwipingProps.swipedX)
             [position]();
     };

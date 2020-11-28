@@ -11,7 +11,7 @@ const fsLightbox = {
             getNextSlideIndex: () => {}
         }
     },
-    data: {
+    props: {
         sources: { length: undefined }
     }
 };
@@ -29,7 +29,7 @@ beforeEach(() => {
 
 describe('changeToPrevious', () => {
     it('should not call jumpTo due to there is only one slide', () => {
-        fsLightbox.data.sources.length = 1;
+        fsLightbox.props.sources.length = 1;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToPrevious();
         expect(slideIndexChanger.jumpTo).not.toBeCalled();
@@ -37,7 +37,7 @@ describe('changeToPrevious', () => {
 
     it(`should call jumpTo with  previous slide index 
         due to sources count > 1`, () => {
-        fsLightbox.data.sources.length = 2;
+        fsLightbox.props.sources.length = 2;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToPrevious();
         expect(slideIndexChanger.jumpTo).toBeCalledWith(25);
@@ -46,7 +46,7 @@ describe('changeToPrevious', () => {
 
 describe('changeToNext', () => {
     it('should not call jumpTo due to there is only one slide', () => {
-        fsLightbox.data.sources.length = 1;
+        fsLightbox.props.sources.length = 1;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToNext();
         expect(slideIndexChanger.jumpTo).not.toBeCalled();
@@ -54,7 +54,7 @@ describe('changeToNext', () => {
 
     it(`should call jumpTo with next slide index 
         due to sources count > 1`, () => {
-        fsLightbox.data.sources.length = 2;
+        fsLightbox.props.sources.length = 2;
         setUpSlideChangeFacade(fsLightbox);
         slideChangeFacade.changeToNext();
         expect(slideIndexChanger.jumpTo).toBeCalledWith(50);

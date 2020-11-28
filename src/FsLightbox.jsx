@@ -2,73 +2,56 @@ import './core/styles/styles-injection/styles-injection';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Nav from "./components/nav/Nav.jsx";
-import SourcesHoldersWrapper from "./components/sources/SourcesOutersWrapper.jsx";
-import { createRefsArrayWithLength } from "./helpers/arrays/createRefsArrayWithLength";
-import { setUpCore } from "./core/setUpCore";
+import SourceWrappersContainer from "./components/sources/SourceWrappersContainer.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SlideSwipingHoverer.jsx";
 import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
 import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
-import { getInitialCurrentIndex } from "./core/stage/getInitialCurrentIndex";
-import { getSourcesHoldersTransformersCollection } from "./core/collections/getSourcesHoldersTransformersCollection";
 import {
     FADE_IN_STRONG_CLASS_NAME,
     FULL_DIMENSION_CLASS_NAME,
     PREFIX
 } from "./constants/classes-names";
 import SlideButton from "./components/SlideButton.jsx";
-import { getMergedSourcesAndCustomSources } from "./core/sources/getMergedSourcesAndCustomSources";
+import { setUpLightboxUpdater } from "./core/main-component/updating/setUpLightboxUpdater";
+import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
 
 class FsLightbox extends Component {
     constructor(props) {
         super(props);
-        this.setUpData();
-        this.setUpStageIndexes();
-        this.setUpStates();
-        this.setUpGetters();
-        this.setUpSetters();
-        this.setUpElements();
-        this.setUpResolve();
-        this.setUpCollections();
-        this.setUpCore();
-    }
 
-    setUpData() {
+        this.state = {
+            isOpen: false
+        };
+
         this.data = {
-            sources: getMergedSourcesAndCustomSources(this),
             isInitialized: false,
             maxSourceWidth: 0,
             maxSourceHeight: 0,
-            scrollbarWidth: 0,
-            slideDistance: (this.props.slideDistance) ? this.props.slideDistance : 0.3
+            scrollbarWidth: 0
         };
 
         this.slideSwipingProps = {
             isSwiping: false,
-            downClientX: null,
+            downScreenX: null,
             isSourceDownEventTarget: false,
             swipedX: 0
         };
-    }
 
-    setUpStageIndexes() {
-        this.stageIndexes = {
-            previous: undefined,
-            current: getInitialCurrentIndex(this),
-            next: undefined
-        };
-    }
+        /**
+         * @property {Number} previous
+         * @property {Number} current
+         * @property {Number} next
+         */
+        this.stageIndexes = {};
 
-    setUpStates() {
-        this.state = {
-            isOpen: this.props.openOnMount,
-        };
-
-        // to objects are assigned in correct components two methods:
-        // - get()
-        // - set(value)
-        // And (only if it is used, by default not) property:
-        // - onUpdate - after setting it to method it will be called once component updates
-        // (its called only one time - after first call its deleted)
+        /**
+         * To objects are assigned in correct components two methods:
+         * - get()
+         * - set(value)
+         * And (only if it is used, by default not) property:
+         * - onUpdate - after setting it to method it will be called once component updates
+         * (its called only one time - after first call its deleted)
+         */
         this.componentsServices = {
             showSlideSwipingHovererIfNotYet: null,
             hideSlideSwipingHovererIfShown: null,
@@ -76,52 +59,44 @@ class FsLightbox extends Component {
             isSlideSwipingHovererShown: {},
             isFullscreenOpen: {},
             isSourceLoadedCollection: [],
-            updateSourceInnerCollection: [],
+            updateSourceDirectWrapperCollection: [],
             toolbarButtons: {
                 fullscreen: {}
+            },
+            isLightboxOpenManager: {
+                get: () => this.state.isOpen,
+                set: (value, callback) => {
+                    this.setState({ isOpen: value }, callback);
+                }
             }
         };
-    }
 
-    setUpGetters() {
-        this.getProps = () => this.props;
-        this.getState = () => this.state;
-    }
-
-    setUpSetters() {
-        this.setMainComponentState = (value, callback) => this.setState(value, callback);
-    }
-
-    setUpElements() {
+        /**
+         * Arrays of refs like sources are set during lightbox initialize because they require sources count
+         */
         this.elements = {
             container: React.createRef(),
-            sourcesOutersWrapper: React.createRef(),
-            sources: createRefsArrayWithLength(this.data.sources.length),
-            sourcesOuters: createRefsArrayWithLength(this.data.sources.length),
-            sourcesInners: createRefsArrayWithLength(this.data.sources.length),
+            sourceMainWrappersWrapper: React.createRef(),
+            sources: null,
+            sourceMainWrappers: null,
+            sourceAnimationWrappers: null,
             sourcesComponents: []
         };
-    }
 
-    setUpResolve() {
         this.resolve = (dependency, params = []) => {
             params.unshift(this);
             return new dependency(...params);
         };
-    }
 
-    setUpCollections() {
         this.collections = {
-            sourcesOutersTransformers: getSourcesHoldersTransformersCollection(this),
+            sourceMainWrapperTransformers: [],
             sourcesLoadsHandlers: [],
             // after source load its size adjuster will be stored in this array so it may be later resized
-            sourcesStylers: [],
+            sourceSizers: [],
             // if lightbox is unmounted pending xhrs need to be aborted
             xhrs: []
-        }
-    }
+        };
 
-    setUpCore() {
         this.core = {
             classFacade: {},
             eventsDispatcher: {},
@@ -140,7 +115,11 @@ class FsLightbox extends Component {
             stageManager: {},
             windowResizeActioner: {}
         };
-        setUpCore(this);
+
+        // setting up dependencies required to initialize lightbox
+        // rest of the core is set up at initialize, because lightbox gets props on first open not at mount
+        setUpLightboxUpdater(this);
+        setUpLightboxOpener(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -159,11 +138,12 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
 
         return (
-            <div ref={this.elements.container}
+            <div data-test-id="container"
+                 ref={this.elements.container}
                  className={`${PREFIX}container ${FULL_DIMENSION_CLASS_NAME} ${FADE_IN_STRONG_CLASS_NAME}`}>
                 <SwipingInvisibleHover fsLightbox={this} />
                 <Nav fsLightbox={this} />
-                {(this.data.sources.length > 1) ?
+                {(this.props.sources.length > 1) ?
                     <>
                         <SlideButton
                             onClick={this.core.slideChangeFacade.changeToPrevious}
@@ -177,7 +157,7 @@ class FsLightbox extends Component {
                         />
                     </> : null
                 }
-                <SourcesHoldersWrapper fsLightbox={this} />
+                <SourceWrappersContainer fsLightbox={this} />
             </div>
         );
     }
@@ -186,7 +166,6 @@ class FsLightbox extends Component {
 FsLightbox.propTypes = {
     toggler: PropTypes.bool.isRequired,
     sources: PropTypes.array,
-    customSources: PropTypes.array, // deprecated 1.5.0
 
     // slide number controlling
     slide: PropTypes.number,
@@ -206,7 +185,6 @@ FsLightbox.propTypes = {
 
     // sources
     customAttributes: PropTypes.array,
-    videosPosters: PropTypes.array, // deprecated 1.5.0
     maxYoutubeVideoDimensions: PropTypes.object,
 
     // preferences
@@ -214,6 +192,10 @@ FsLightbox.propTypes = {
     loadOnlyCurrentSource: PropTypes.bool,
     openOnMount: PropTypes.bool,
     slideDistance: PropTypes.number
+};
+
+FsLightbox.defaultProps = {
+    slideDistance: 0.3
 };
 
 export default FsLightbox;

@@ -8,16 +8,16 @@ class DemoComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            toggler: true,
-            toggler2: false,
+            toggler: false,
             updated: true,
             slide: 1,
             source: '',
             sourceIndex: 0,
+            sources: null,
+            key: 0
         };
 
         this.toggleLightbox = this.toggleLightbox.bind(this);
-        this.toggleLightboxSecond = this.toggleLightboxSecond.bind(this);
     }
 
     toggleLightbox() {
@@ -26,41 +26,34 @@ class DemoComponent extends Component {
         });
     }
 
-    toggleLightboxSecond() {
-        this.setState({
-            toggler2: !this.state.toggler2
-        });
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                sources: testSources,
+                toggler: true
+            })
+        }, 1000);
     }
 
     render() {
         return (
             <>
-                <div id="output" />
                 <button onClick={this.toggleLightbox}>Toggle lightbox</button>
-                <button onClick={this.toggleLightboxSecond}>Toggle Lightbox</button>
+                <div id="output" />
                 <FsLightbox
                     toggler={this.state.toggler}
-                    loadOnlyCurrentSource={true}
-                    sources={[
-                        'demo/images/4.jpeg',
-                        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-                        'demo/images/3.jpeg',
-                        'demo/images/4.jpeg',
-                        <div className="xd">lul</div>
-                    ]}
+                    sources={this.state.sources}
                     customAttributes={[
                         {
-                            alt: 'siema',
-                            srcSet: 'demo/images/1.jpeg 1x, demo/images/2.jpg 2x, demo/images/3.jpeg 3x'
+                            alt: 'siema'
                         }
                     ]}
-                    openOnMount={false}
                     onOpen={() => console.log('open')}
                     onShow={() => console.log('show')}
                     onClose={() => console.log('close')}
                     onInit={() => console.log('init')}
+                    key={this.state.key}
                 />
-                <FsLightbox toggler={this.state.toggler2} sources={["../demo/images/5.jpg"]} />
             </>
         );
     }

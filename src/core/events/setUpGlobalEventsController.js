@@ -1,6 +1,8 @@
 import { KeyboardController } from "../keyboard/KeyboardController";
 import { SlideSwipingMove } from "../slide/swiping/move/SlideSwipingMove";
 import { SlideSwipingUp } from "../slide/swiping/up/SlideSwipingUp";
+import { middleware } from "../../middleware/middleware";
+import { oneOrZeroTouches } from "../../middleware/oneOrZeroTouches";
 
 export function setUpGlobalEventsController(
     {
@@ -11,10 +13,13 @@ export function setUpGlobalEventsController(
     const keyboardController = resolve(KeyboardController);
     const slideSwipingMove = resolve(SlideSwipingMove);
     const slideSwipingUp = resolve(SlideSwipingUp);
+    let touchmoveListener;
 
     self.attachListeners = () => {
+        touchmoveListener = middleware(slideSwipingMove.listener, oneOrZeroTouches);
+
         document.addEventListener('mousemove', slideSwipingMove.listener);
-        document.addEventListener('touchmove', slideSwipingMove.listener, { passive: true });
+        document.addEventListener('touchmove', touchmoveListener, { passive: true });
 
         document.addEventListener('mouseup', slideSwipingUp.listener);
         document.addEventListener('touchend', slideSwipingUp.listener, { passive: true });
@@ -26,7 +31,7 @@ export function setUpGlobalEventsController(
 
     self.removeListeners = () => {
         document.removeEventListener('mousemove', slideSwipingMove.listener);
-        document.removeEventListener('touchmove', slideSwipingMove.listener);
+        document.removeEventListener('touchmove', touchmoveListener);
 
         document.removeEventListener('mouseup', slideSwipingUp.listener);
         document.removeEventListener('touchend', slideSwipingUp.listener);

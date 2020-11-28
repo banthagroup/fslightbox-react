@@ -30,16 +30,16 @@ class DemoComponentHiddenLightbox extends Component {
             <>
                 <button onClick={ this.toggleLightbox }>Toggle Lightbox</button>
                 <div className="images">
-                    <img className="image" src="../demo/images/1.jpeg" alt=""/>
-                    <img className="image" src="../demo/images/2.jpg" alt=""/>
-                    <img className="image" src="../demo/images/3.jpeg" alt=""/>
+                    <img className="image" src="img/1.jpeg" alt=""/>
+                    <img className="image" src="img/2.jpg" alt=""/>
+                    <img className="image" src="img/3.jpeg" alt=""/>
                 </div>
                 <FsLightbox
                     isOpen={ this.state.toggler }
                     sources={ [
-                        "../demo/images/1.jpeg",
-                        "../demo/images/2.jpg",
-                        "../demo/images/3.jpeg",
+                        "../demo/img/1.jpeg",
+                        "../demo/img/2.jpg",
+                        "../demo/img/3.jpeg",
                     ] }
                     slide={ 1 }
 

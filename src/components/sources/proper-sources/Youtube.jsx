@@ -5,9 +5,9 @@ import { PREFIX, SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 const Youtube = (
     {
         fsLightbox: {
-            props: { customAttributes, sources },
             elements: { sources: sourcesElements },
-            collections: { sourcesLoadsHandlers }
+            collections: { sourcesLoadsHandlers },
+            props: { customAttributes, sources }
         }, i
     }
 ) => {

@@ -1,8 +1,8 @@
 export function setUpStageManager(
     {
-        stageIndexes,
         core: { stageManager: self },
-        data: { sources },
+        props: { sources },
+        stageIndexes,
     }
 ) {
     const lastSourceIndex = sources.length - 1;

@@ -1,18 +1,25 @@
 export function LightboxUpdateActioner(
     {
+        componentsServices: {
+            isLightboxOpenManager
+        },
         core: {
             lightboxCloser,
             lightboxOpener,
             slideIndexChanger
         },
-        getState,
+        data,
         stageIndexes
     }
 ) {
     this.runTogglerUpdateActions = () => {
-        (getState().isOpen) ?
-            lightboxCloser.closeLightbox() :
+        if (isLightboxOpenManager.get()) {
+            lightboxCloser.closeLightbox();
+        } else if (data.isInitialized) {
             lightboxOpener.openLightbox();
+        } else {
+            lightboxOpener.initializeAndOpenLightbox();
+        }
     };
 
     this.runCurrentStageIndexUpdateActionsFor = (newSlideSourceIndex) => {
@@ -20,7 +27,7 @@ export function LightboxUpdateActioner(
             return;
         }
 
-        (getState().isOpen) ?
+        (isLightboxOpenManager.get()) ?
             slideIndexChanger.jumpTo(newSlideSourceIndex) :
             stageIndexes.current = newSlideSourceIndex;
     };

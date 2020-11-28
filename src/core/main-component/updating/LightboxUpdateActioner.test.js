@@ -1,79 +1,51 @@
 import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
 
 const fsLightbox = {
+    componentsServices: { isLightboxOpenManager: { get: () => false } },
     core: {
-        lightboxCloser: {
-            closeLightbox: () => {}
-        },
-        lightboxOpener: {
-            openLightbox: () => {}
-        },
-        slideIndexChanger: {
-            jumpTo: () => {}
-        }
+        lightboxUpdater: {},
+        lightboxCloser: { closeLightbox: jest.fn() },
+        lightboxOpener: { initializeAndOpenLightbox: jest.fn(), openLightbox: jest.fn() },
+        slideIndexChanger: { jumpTo: jest.fn() }
     },
-    getState: () => lightboxState,
-    stageIndexes: {
-        current: undefined
-    }
+    data: {
+        isInitialized: false
+    },
+    stageIndexes: { current: 0 }
 };
+const lightboxUpdateActioner = new LightboxUpdateActioner(fsLightbox);
 
-const lightboxState = {
-    isOpen: undefined
-};
+test('handleTogglerUpdate', () => {
+    lightboxUpdateActioner.runTogglerUpdateActions();
+    expect(fsLightbox.core.lightboxOpener.initializeAndOpenLightbox).toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
 
-const lightboxCloser = fsLightbox.core.lightboxCloser;
-const lightboxOpener = fsLightbox.core.lightboxOpener;
-const slideIndexChanger = fsLightbox.core.slideIndexChanger;
+    fsLightbox.data.isInitialized = true;
+    lightboxUpdateActioner.runTogglerUpdateActions();
+    expect(fsLightbox.core.lightboxOpener.initializeAndOpenLightbox).toBeCalledTimes(1);
+    expect(fsLightbox.core.lightboxOpener.openLightbox).toBeCalled();
+    expect(fsLightbox.core.lightboxCloser.closeLightbox).not.toBeCalled();
 
-const lightboxUpdateActions = new LightboxUpdateActioner(fsLightbox);
-
-describe('runTogglerUpdateActions', () => {
-    beforeEach(() => {
-        lightboxCloser.closeLightbox = jest.fn();
-        lightboxOpener.openLightbox = jest.fn();
-    });
-
-    it('should open lightbox when isOpen state === false', () => {
-        lightboxState.isOpen = false;
-        lightboxUpdateActions.runTogglerUpdateActions();
-        expect(lightboxCloser.closeLightbox).not.toBeCalled();
-        expect(lightboxOpener.openLightbox).toBeCalled();
-    });
-
-    it('should close lightbox when isOpen state === true', () => {
-        lightboxState.isOpen = true;
-        lightboxUpdateActions.runTogglerUpdateActions();
-        expect(lightboxCloser.closeLightbox).toBeCalled();
-        expect(lightboxOpener.openLightbox).not.toBeCalled();
-    });
+    fsLightbox.componentsServices.isLightboxOpenManager.get = () => true;
+    lightboxUpdateActioner.runTogglerUpdateActions();
+    expect(fsLightbox.core.lightboxOpener.initializeAndOpenLightbox).toBeCalledTimes(1);
+    expect(fsLightbox.core.lightboxOpener.openLightbox).toBeCalledTimes(1);
+    expect(fsLightbox.core.lightboxCloser.closeLightbox).toBeCalled();
 });
 
-describe('runCurrentStateIndexUpdateActionsFor', () => {
-    beforeEach(() => {
-        fsLightbox.stageIndexes.current = 0;
-        slideIndexChanger.jumpTo = jest.fn();
-    });
+test('runCurrentStageIndexUpdateActionsFor', () => {
+    fsLightbox.componentsServices.isLightboxOpenManager.get = () => false;
 
-    test('lightbox is closed', () => {
-        lightboxState.isOpen = false;
+    lightboxUpdateActioner.runCurrentStageIndexUpdateActionsFor(0);
+    expect(fsLightbox.core.slideIndexChanger.jumpTo).not.toBeCalled();
 
-        lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(0);
-        expect(slideIndexChanger.jumpTo).not.toBeCalled();
+    lightboxUpdateActioner.runCurrentStageIndexUpdateActionsFor(1);
+    expect(fsLightbox.core.slideIndexChanger.jumpTo).not.toBeCalled();
+    expect(fsLightbox.stageIndexes.current).toBe(1);
 
-        lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(5);
-        expect(fsLightbox.stageIndexes.current).toBe(5);
-        expect(slideIndexChanger.jumpTo).not.toBeCalled();
-    });
-
-    test('lightbox is opened', () => {
-        lightboxState.isOpen = true;
-
-        lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(0);
-        expect(slideIndexChanger.jumpTo).not.toBeCalled();
-
-        lightboxUpdateActions.runCurrentStageIndexUpdateActionsFor(5);
-        expect(fsLightbox.stageIndexes.current).toBe(0);
-        expect(slideIndexChanger.jumpTo).toBeCalledWith(5);
-    });
+    fsLightbox.componentsServices.isLightboxOpenManager.get = () => true;
+    lightboxUpdateActioner.runCurrentStageIndexUpdateActionsFor(2);
+    expect(fsLightbox.core.slideIndexChanger.jumpTo).toBeCalledWith(2);
+    expect(fsLightbox.stageIndexes.current).toBe(1);
 });

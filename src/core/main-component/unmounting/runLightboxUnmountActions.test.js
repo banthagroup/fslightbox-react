@@ -22,22 +22,22 @@ const fsLightbox = {
             },
         ]
     },
-    core: {
-        lightboxCloseActioner: { runActions: jest.fn() }
-    },
-    getState: () => {
-        return {
-            isOpen: false
+    componentsServices: {
+        isLightboxOpenManager: {
+            get: () => false
         }
+    },
+    core: {
+        globalEventsController: { removeListeners: jest.fn() }
     }
 };
 
 test('calling abort for all xhrs', () => {
     runLightboxUnmountActions(fsLightbox);
     expect(abort).toBeCalledTimes(5);
-    expect(fsLightbox.core.lightboxCloseActioner.runActions).not.toBeCalled();
+    expect(fsLightbox.core.globalEventsController.removeListeners).not.toBeCalled();
 
-    fsLightbox.getState = () => ({ isOpen: true });
+    fsLightbox.componentsServices.isLightboxOpenManager.get = () => true;
     runLightboxUnmountActions(fsLightbox);
-    expect(fsLightbox.core.lightboxCloseActioner.runActions).toBeCalled();
+    expect(fsLightbox.core.globalEventsController.removeListeners).toBeCalled();
 });

@@ -1,35 +1,14 @@
-import { getClientXFromEvent } from "../../../../helpers/events/getClientXFromEvent";
-import { SOURCES_OUTERS } from "../../../../constants/elements";
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-names";
+import { SlideSwipingDownActioner } from "./SlideSwipingDownActioner";
 
-export function setUpSlideSwipingDown(
-    {
-        core: { classFacade, slideSwipingDown: self },
-        elements: { sources },
-        slideSwipingProps,
-        stageIndexes
-    }
-) {
+export function setUpSlideSwipingDown({ core: { slideSwipingDown: self }, resolve, slideSwipingProps }) {
+    const actioner = resolve(SlideSwipingDownActioner);
+
     self.listener = (e) => {
-        slideSwipingProps.isSwiping = true;
-
-        slideSwipingProps.downClientX = getClientXFromEvent(e);
-
-        slideSwipingProps.swipedX = 0;
-
-        // cannot prevent default action when target is video because buttons would be not clickable
-        // cannot prevent event on mobile because we use passive event listener for touch start
-        if (e.target.tagName !== 'VIDEO' && !e.touches) {
-            e.preventDefault();
-        }
-
-        const currentElement = sources[stageIndexes.current].current;
-        (currentElement && currentElement.contains(e.target)) ?
-            slideSwipingProps.isSourceDownEventTarget = true :
-            slideSwipingProps.isSourceDownEventTarget = false;
-
-        classFacade.removeFromEachElementClassIfContains(SOURCES_OUTERS, TRANSFORM_TRANSITION_CLASS_NAME);
+        // If user is zooming with browser built-in pinching there is usually a situation where user first touches the screen
+        // with one finger and then with another. In this situation isSwiping is set set to true after first touch.
+        // To not run pinch actions an move and up events we are setting isSwiping to false if screen is touched with 2 or more fingers.
+        (e.touches && e.touches.length > 1)
+            ? slideSwipingProps.isSwiping = false
+            : actioner.runActions(e);
     };
 }
-
-

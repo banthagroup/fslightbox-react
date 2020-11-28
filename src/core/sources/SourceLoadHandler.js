@@ -1,6 +1,6 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
 
-export function SourceLoadHandler({ elements: { sources }, props: { maxYoutubeVideoDimensions }, resolve, }, i) {
+export function SourceLoadHandler({ elements: { sources }, props: { maxYoutubeVideoDimensions }, resolve }, i) {
     let wasVideoLoadCalled;
 
     this.handleImageLoad = ({ target: { width, height } }) => {

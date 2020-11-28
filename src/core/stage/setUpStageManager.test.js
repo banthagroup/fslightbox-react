@@ -1,16 +1,16 @@
 import { setUpStageManager } from "./setUpStageManager";
 
 const fsLightbox = {
+    core: {
+        stageManager: {}
+    },
+    props: {
+        sources: { length: 0 }
+    },
     stageIndexes: {
         previous: undefined,
         current: undefined,
         next: undefined
-    },
-    data: {
-        sources: { length: 0 }
-    },
-    core: {
-        stageManager: {}
     }
 }
 const stageManager = fsLightbox.core.stageManager;
@@ -22,7 +22,7 @@ const setUpStageManagerAndCallUpdateStageIndexes = () => {
 
 describe('isSourceInStage', () => {
     beforeAll(() => {
-        fsLightbox.data.sources.length = 10;
+        fsLightbox.props.sources.length = 10;
         setUpStageManager(fsLightbox);
     });
 
@@ -51,7 +51,7 @@ describe('isSourceInStage', () => {
     });
 
     test('there are only 3 slides', () => {
-        fsLightbox.data.sources.length = 3;
+        fsLightbox.props.sources.length = 3;
         setUpStageManager(fsLightbox);
 
         expect(stageManager.isSourceInStage(0)).toBe(true);
@@ -62,7 +62,7 @@ describe('isSourceInStage', () => {
 
 describe('updateStageIndexes', () => {
     test('there is only one slide', () => {
-        fsLightbox.data.sources.length = 1;
+        fsLightbox.props.sources.length = 1;
         setUpStageManagerAndCallUpdateStageIndexes();
 
         expect(fsLightbox.stageIndexes.previous).toBeUndefined();
@@ -71,7 +71,7 @@ describe('updateStageIndexes', () => {
 
     describe('there are two slides', () => {
         beforeAll(() => {
-            fsLightbox.data.sources.length = 2;
+            fsLightbox.props.sources.length = 2;
         });
 
         test('current slide = 1', () => {
@@ -93,7 +93,7 @@ describe('updateStageIndexes', () => {
 
     describe('there are 3 slides', () => {
         beforeAll(() => {
-            fsLightbox.data.sources.length = 3;
+            fsLightbox.props.sources.length = 3;
         });
 
         test('current slide = 1', () => {

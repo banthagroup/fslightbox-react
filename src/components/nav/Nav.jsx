@@ -5,9 +5,9 @@ import { PREFIX } from "../../constants/classes-names";
 
 const Nav = ({ fsLightbox }) => {
     return (
-        <div className={ `${ PREFIX }nav` }>
-            <Toolbar fsLightbox={ fsLightbox }/>
-            { fsLightbox.data.sources.length > 1 && <SlideNumber fsLightbox={ fsLightbox }/> }
+        <div className={`${PREFIX}nav`}>
+            <Toolbar fsLightbox={fsLightbox} />
+            {fsLightbox.props.sources.length > 1 && <SlideNumber fsLightbox={fsLightbox} />}
         </div>
     );
 };

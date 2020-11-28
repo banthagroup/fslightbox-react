@@ -9,9 +9,9 @@ Value : Elements
 - DownEventDetector
 
 ## 2: 
-- SourcesHoldersWrapper
-- SourcesHolders (inherited from SourcesHoldersWrapper)
-- Sources (inherited from SourcesHoldersWrapper)
+- SourceWrappersContainer
+- SourcesHolders (inherited from SourceWrappersContainer)
+- Sources (inherited from SourceWrappersContainer)
 - Toolbar
 - SlideButtons
 

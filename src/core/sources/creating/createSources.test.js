@@ -5,7 +5,7 @@ import { createSources } from "./createSources";
 import { CUSTOM_TYPE } from "../../../constants/core-constants";
 
 const fsLightbox = {
-    data: {
+    props: {
         sources: [{ key: 'some-custom-source' }, 'second-source', 'third-source', 'fourth-source'],
     },
     resolve: (constructor, dependencies) => {

@@ -5,8 +5,8 @@ const Custom = (
     {
         fsLightbox: {
             collections: { sourcesLoadsHandlers },
-            data: { sources },
-            elements: { sources: sourcesElements }
+            elements: { sources: sourcesElements },
+            props: { sources }
         }, i
     }
 ) => {

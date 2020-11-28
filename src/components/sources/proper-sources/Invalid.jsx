@@ -5,13 +5,13 @@ const Invalid = (
     {
         fsLightbox: {
             componentsServices: { isSourceLoadedCollection },
-            elements: { sourcesOuters }
+            elements: { sourceMainWrappers }
         }, i
     }
 ) => {
     useEffect(() => {
         isSourceLoadedCollection[i].set(true);
-        sourcesOuters[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
+        sourceMainWrappers[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
     });
 
     return (

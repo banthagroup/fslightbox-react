@@ -2,9 +2,9 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../constants/classes-n
 
 export function SlideSwipingUpActionerBucket(
     {
-        collections: { sourcesOutersTransformers },
+        collections: { sourceMainWrapperTransformers },
         core: { slideIndexChanger },
-        elements: { sourcesOuters },
+        elements: { sourceMainWrappers },
         stageIndexes
     }
 ) {
@@ -29,7 +29,7 @@ export function SlideSwipingUpActionerBucket(
     };
 
     const addTransitionToCurrentSourceHolderAndTransformItToPosition = (position) => {
-        sourcesOuters[stageIndexes.current].current.classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
-        sourcesOutersTransformers[stageIndexes.current][position]();
+        sourceMainWrappers[stageIndexes.current].current.classList.add(TRANSFORM_TRANSITION_CLASS_NAME);
+        sourceMainWrapperTransformers[stageIndexes.current][position]();
     };
 }

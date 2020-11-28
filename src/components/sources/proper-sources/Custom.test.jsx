@@ -13,7 +13,8 @@ getYoutubeVideoIdFromUrlObject.getYoutubeVideoIdFromUrl = (source) => {
 
 const fsLightbox = {
     collections: { sourcesLoadsHandlers: [{ handleCustomLoad: jest.fn() }, { handleCustomLoad: jest.fn() }] },
-    data: {
+    elements: { sources: [React.createRef(), React.createRef()] },
+    props: {
         sources: [
             <div className="example-class">
                 <h1>First source</h1>
@@ -22,8 +23,7 @@ const fsLightbox = {
                 <h1>Second source</h1>
             </div>
         ]
-    },
-    elements: { sources: [React.createRef(), React.createRef()] }
+    }
 };
 
 const custom = mount(<Custom fsLightbox={fsLightbox} i={0} />);

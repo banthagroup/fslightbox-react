@@ -5,9 +5,8 @@ const Image = (
     {
         fsLightbox: {
             collections: { sourcesLoadsHandlers },
-            data: { sources },
             elements: { sources: sourcesElements },
-            props: { customAttributes }
+            props: { customAttributes, sources }
         }, i
     }
 ) => (
