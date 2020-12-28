@@ -8,50 +8,57 @@ class DemoComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            toggler: false,
-            updated: true,
-            slide: 1,
-            source: '',
-            sourceIndex: 0,
-            sources: null,
+            lightboxController: {
+                toggler: false,
+                slide: 1
+            },
             key: 0
         };
 
-        this.toggleLightbox = this.toggleLightbox.bind(this);
+        this.openLightboxOnSlide = this.openLightboxOnSlide.bind(this);
+        this.remountLightbox = this.remountLightbox.bind(this);
     }
 
-    toggleLightbox() {
+    openLightboxOnSlide(number) {
         this.setState({
-            toggler: !this.state.toggler
+            lightboxController: {
+                toggler: !this.state.lightboxController.toggler,
+                slide: number
+            }
         });
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                sources: testSources,
-                toggler: true
-            })
-        }, 1000);
+    remountLightbox() {
+        this.setState({
+            key: this.state.key + 1
+        });
     }
 
     render() {
         return (
             <>
-                <button onClick={this.toggleLightbox}>Toggle lightbox</button>
-                <div id="output" />
+                <button onClick={() => this.openLightboxOnSlide(1)}>
+                    Open Lightbox on slide 1
+                </button>
+                <button onClick={() => this.openLightboxOnSlide(2)}>
+                    Open Lightbox on slide 2
+                </button>
+                <button onClick={this.remountLightbox}>
+                    Remount lightbox
+                </button>
+
                 <FsLightbox
-                    toggler={this.state.toggler}
-                    sources={this.state.sources}
+                    toggler={this.state.lightboxController.toggler}
+                    sources={testSources}
                     customAttributes={[
                         {
-                            alt: 'siema'
+                            srcSet: '/demo/img/7.jpg 600w, /demo/img/5.jpg 1200w',
+                            sizes: '(max-width: 600px) 600px, 1200px'
                         }
                     ]}
-                    onOpen={() => console.log('open')}
-                    onShow={() => console.log('show')}
-                    onClose={() => console.log('close')}
-                    onInit={() => console.log('init')}
+                    slide={this.state.lightboxController.slide}
+                    disableLocalStorage={true}
+                    loadOnlyCurrentSource={true}
                     key={this.state.key}
                 />
             </>

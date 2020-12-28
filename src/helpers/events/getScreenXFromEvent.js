@@ -1,5 +1,5 @@
 /**
- * Function retrieves clientX from touch or mouse event
+ * Function retrieves screenX from touch or mouse event
  * @param event
  */
 export function getScreenXFromEvent(event) {

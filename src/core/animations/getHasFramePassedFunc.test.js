@@ -1,7 +1,7 @@
-import { getAnimationDebounce } from "./getAnimationDebounce";
+import { getHasFramePassedFunc } from "./getHasFramePassedFunc";
 
 window.requestAnimationFrame = jest.fn();
-const canRunNextAnimation = getAnimationDebounce();
+const canRunNextAnimation = getHasFramePassedFunc();
 
 it('should return true due to animation is not running', () => {
     expect(canRunNextAnimation()).toBe(true);

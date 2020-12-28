@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactDOM from "react-dom";
-import TestComponents from "./TestComponents.jsx";
 import '../../../src/scss/index.scss'
+import ComponentSwitcher from "../components/ComponentSwitcher.jsx";
+import BaseOpenedLightbox from "../components/BaseOpenedLightbox.jsx";
 
-ReactDOM.render(<TestComponents />, document.getElementById('app'));
+const app = <ComponentSwitcher
+    testComponents={[
+        BaseOpenedLightbox
+    ]}
+/>;
+
+ReactDOM.render(app, document.getElementById('app'));

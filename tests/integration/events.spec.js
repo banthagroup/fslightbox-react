@@ -1,5 +1,6 @@
 import React from "react";
 import { mount } from 'enzyme';
+import { act } from "react-dom/test-utils";
 import { ANIMATION_TIME } from "../../src/constants/css-constants";
 import FsLightbox from "../../src/FsLightbox";
 import { testSources, testTypes } from "../__tests-services__/testVars";
@@ -37,7 +38,9 @@ test('opening events', () => {
     expect(onShow).toBeCalledTimes(0);
     expect(onClose).toBeCalledTimes(0);
 
-    jest.runTimersToTime(ANIMATION_TIME);
+    act(() => {
+        jest.runTimersToTime(ANIMATION_TIME);
+    });
 
     expect(onInit).toBeCalledTimes(1);
     expect(onOpen).toBeCalledTimes(1);

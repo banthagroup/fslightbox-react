@@ -1,5 +1,4 @@
 import { LightboxUpdateActioner } from "./LightboxUpdateActioner";
-import { getLightboxUpdaterConditioner } from "./getLightboxUpdaterConditioner";
 
 export function setUpLightboxUpdater(fsLightbox) {
     const {
@@ -8,25 +7,21 @@ export function setUpLightboxUpdater(fsLightbox) {
     } = fsLightbox;
 
     const actioner = resolve(LightboxUpdateActioner);
-    const lightboxUpdaterConditioner = getLightboxUpdaterConditioner();
 
     self.handleUpdate = (previousProps) => {
         // cannot destructure props in LightboxUpdater param, because this object is overwritten on props update
         const currentProps = fsLightbox.props;
 
-        lightboxUpdaterConditioner.setPrevProps(previousProps);
-        lightboxUpdaterConditioner.setCurrProps(currentProps);
-
-        if (lightboxUpdaterConditioner.hasTogglerPropChanged()) {
-            actioner.runTogglerUpdateActions();
+        if (currentProps.source !== undefined) {
+            actioner.runCurrentStageIndexUpdateActionsFor(currentProps.sources.indexOf(currentProps.source));
+        } else if (currentProps.sourceIndex !== undefined) {
+            actioner.runCurrentStageIndexUpdateActionsFor(currentProps.sourceIndex);
+        } else if (currentProps.slide !== undefined) {
+            actioner.runCurrentStageIndexUpdateActionsFor(currentProps.slide - 1);
         }
 
-        if (lightboxUpdaterConditioner.hasSourcePropChanged()) {
-            actioner.runCurrentStageIndexUpdateActionsFor(currentProps.sources.indexOf(currentProps.source));
-        } else if (lightboxUpdaterConditioner.hasSourceIndexPropChanged()) {
-            actioner.runCurrentStageIndexUpdateActionsFor(currentProps.sourceIndex);
-        } else if (lightboxUpdaterConditioner.hasSlidePropChanged()) {
-            actioner.runCurrentStageIndexUpdateActionsFor(currentProps.slide - 1);
+        if (previousProps.toggler !== currentProps.toggler) {
+            actioner.runTogglerUpdateActions();
         }
     };
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FsLightbox from "../../../../src/FsLightbox";
 import { testSources } from "../../testVars";
 
-export default function RemountingLightbox() {
+export default function Remounting() {
     const [toggler, setToggler] = useState(false);
     const [lightboxKey, setLightboxKey] = useState(0);
 

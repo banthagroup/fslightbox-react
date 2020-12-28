@@ -6,7 +6,6 @@ import {
     TRANSFORM_TRANSITION_CLASS_NAME,
 } from "../../constants/classes-names";
 import { removeFromElementClassIfContains } from "../../helpers/elements/removeFromElementClassIfContains";
-import { getQueuedAction } from "../timeouts/getQueuedAction";
 
 export function setUpSlideIndexChanger(
     {
@@ -14,7 +13,9 @@ export function setUpSlideIndexChanger(
         componentsServices,
         core: { classFacade, slideIndexChanger: self, sourceDisplayFacade, stageManager },
         elements: { sourceAnimationWrappers },
-        stageIndexes
+        getQueuedAction,
+        stageIndexes,
+        timeout
     }
 ) {
     const runQueuedRemoveFadeOut = getQueuedAction(() => {
@@ -48,7 +49,7 @@ export function setUpSlideIndexChanger(
 
         sourceMainWrapperTransformers[i].zero();
 
-        setTimeout(() => {
+        timeout(() => {
             if (previousI !== stageIndexes.current) {
                 sourceMainWrapperTransformers[previousI].negative();
             }

@@ -39,7 +39,6 @@ export function setUpStageManager(
         };
     }
 
-
     // set up isSourceInStage
     // if there are 3, 2, 1 slides all sources will be always in stage
     (lastSourceIndex <= 2) ?

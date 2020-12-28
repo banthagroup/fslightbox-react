@@ -1,9 +1,9 @@
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
-import { getAnimationDebounce } from "../../../animations/getAnimationDebounce";
+import { getHasFramePassedFunc } from "../../../animations/getHasFramePassedFunc";
 
 export function SlideSwipingMove({ props: { sources }, resolve, slideSwipingProps }) {
     const slideSwipingMoveActioner = resolve(SlideSwipingMoveActioner);
-    const isPreviousAnimationDebounced = getAnimationDebounce();
+    const hasFramePassedFunc = getHasFramePassedFunc();
 
     (sources.length === 1) ?
         this.listener = () => {
@@ -11,7 +11,7 @@ export function SlideSwipingMove({ props: { sources }, resolve, slideSwipingProp
             slideSwipingProps.swipedX = 1;
         } :
         this.listener = (e) => {
-            if (slideSwipingProps.isSwiping && isPreviousAnimationDebounced()) {
+            if (slideSwipingProps.isSwiping && hasFramePassedFunc()) {
                 slideSwipingMoveActioner.runActionsForEvent(e);
             }
         };

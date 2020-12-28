@@ -4,16 +4,17 @@ import { PREFIX, SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 const Video = (
     {
         fsLightbox: {
-            collections: { sourcesLoadsHandlers },
+            collections: { sourceLoadHandlers },
             elements: { sources: sourcesElements },
-            props: { customAttributes, sources }
+            props: { customAttributes, sources },
+            timeout
         }, i
     }
 ) => {
-    setTimeout(sourcesLoadsHandlers[i].handleNotMetaDatedVideoLoad, 3000);
+    timeout(sourceLoadHandlers[i].handleNotMetaDatedVideoLoad, 3000);
 
     return <video
-        onLoadedMetadata={sourcesLoadsHandlers[i].handleVideoLoad}
+        onLoadedMetadata={sourceLoadHandlers[i].handleVideoLoad}
         className={`${SOURCE_CLASS_NAME} ${PREFIX}video`}
         controls
         ref={sourcesElements[i]}

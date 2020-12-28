@@ -1,7 +1,7 @@
-import RemountingLightbox from "../__tests-services__/integration/components/RemountingLightbox";
+import Remounting from "../__tests-services__/integration/components/Remounting";
 import renderComponent from "../__tests-services__/integration/renderComponent";
 
-renderComponent(RemountingLightbox);
+renderComponent(Remounting);
 
 test('remounting open lightbox', () => {
     // remounting open lightbox
@@ -15,4 +15,5 @@ test('remounting open lightbox', () => {
 
     // opening lightbox after close caused by remount
     document.getElementById('btn-toggle').click();
+    expect(document.getElementsByClassName('fslightbox-container')).toHaveLength(1);
 });

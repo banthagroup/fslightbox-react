@@ -1,12 +1,17 @@
-export function getAnimationDebounce() {
+export function getHasFramePassedFunc() {
     let isAnimationRunning = false;
+
     return () => {
-        if (isAnimationRunning)
+        if (isAnimationRunning) {
             return false;
+        }
+
         isAnimationRunning = true;
+
         requestAnimationFrame(() => {
             isAnimationRunning = false;
         });
+
         return true;
     }
 }

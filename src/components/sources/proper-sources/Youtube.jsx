@@ -6,12 +6,12 @@ const Youtube = (
     {
         fsLightbox: {
             elements: { sources: sourcesElements },
-            collections: { sourcesLoadsHandlers },
+            collections: { sourceLoadHandlers },
             props: { customAttributes, sources }
         }, i
     }
 ) => {
-    useEffect(sourcesLoadsHandlers[i].handleYoutubeLoad);
+    useEffect(sourceLoadHandlers[i].handleYoutubeLoad);
 
     return (
         <iframe

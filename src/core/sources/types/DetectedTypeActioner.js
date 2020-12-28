@@ -1,26 +1,19 @@
 import React from 'react';
-import { CUSTOM_TYPE, IMAGE_TYPE, INVALID_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/core-constants";
+import { CUSTOM_TYPE, IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../constants/core-constants";
 import Image from "../../../components/sources/proper-sources/Image.jsx";
 import Video from "../../../components/sources/proper-sources/Video.jsx";
 import Youtube from "../../../components/sources/proper-sources/Youtube.jsx";
 import Invalid from "../../../components/sources/proper-sources/Invalid.jsx";
 import Custom from "../../../components/sources/proper-sources/Custom.jsx";
-import { SourceLoadHandler } from "../SourceLoadHandler";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
-        collections: { sourcesLoadsHandlers },
         componentsServices: { isLightboxOpenManager, updateSourceDirectWrapperCollection },
-        elements: { sourcesComponents },
-        resolve
+        elements: { sourcesComponents }
     } = fsLightbox;
 
     this.runActionsForSourceTypeAndIndex = (type, i) => {
         let BaseSourceComponent;
-
-        if (type !== INVALID_TYPE) {
-            sourcesLoadsHandlers[i] = resolve(SourceLoadHandler, [i]);
-        }
 
         switch (type) {
             case IMAGE_TYPE:

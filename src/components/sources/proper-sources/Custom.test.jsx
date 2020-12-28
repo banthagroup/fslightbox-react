@@ -12,7 +12,7 @@ getYoutubeVideoIdFromUrlObject.getYoutubeVideoIdFromUrl = (source) => {
 };
 
 const fsLightbox = {
-    collections: { sourcesLoadsHandlers: [{ handleCustomLoad: jest.fn() }, { handleCustomLoad: jest.fn() }] },
+    collections: { sourceLoadHandlers: [{ handleCustomLoad: jest.fn() }, { handleCustomLoad: jest.fn() }] },
     elements: { sources: [React.createRef(), React.createRef()] },
     props: {
         sources: [
@@ -29,7 +29,7 @@ const fsLightbox = {
 const custom = mount(<Custom fsLightbox={fsLightbox} i={0} />);
 
 test('useEffect', () => {
-    expect(fsLightbox.collections.sourcesLoadsHandlers[0].handleCustomLoad).toBeCalled();
+    expect(fsLightbox.collections.sourceLoadHandlers[0].handleCustomLoad).toBeCalled();
 });
 
 test('displaying source from custom sources prop adding fslightbox-source class and attaching ref', () => {

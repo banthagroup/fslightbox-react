@@ -8,10 +8,10 @@ import Loader from "../helpers/Loader.jsx";
 import SourceAnimationWrapper from "./SourceAnimationWrapper.jsx";
 
 const SourceMainWrapper = ({ fsLightbox, i }) => {
-    const { componentsServices: { isSourceLoadedCollection }, elements: { sourceMainWrappers } } = fsLightbox;
+    const { componentsServices: { hideSourceLoaderCollection }, elements: { sourceMainWrappers } } = fsLightbox;
 
     const [isSourceLoaded, setIsSourceLoaded] = useState(false);
-    isSourceLoadedCollection[i] = { get: () => isSourceLoaded, set: setIsSourceLoaded };
+    hideSourceLoaderCollection[i] = () => setIsSourceLoaded(true);
 
     return (
         <div data-test-class="source-main-wrapper"

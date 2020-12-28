@@ -1,4 +1,4 @@
-import * as getAnimationDebounceObject from "../../../animations/getAnimationDebounce";
+import * as getHasFramePassedFuncObject from "../../../animations/getHasFramePassedFunc";
 import { SlideSwipingMove } from "./SlideSwipingMove";
 import { SlideSwipingMoveActioner } from "./SlideSwipingMoveActioner";
 
@@ -15,7 +15,7 @@ const slideSwipingMoveActioner = { runActionsForEvent: jest.fn() };
 let slideSwipingMove;
 
 let isPreviousAnimationDebounced = false;
-getAnimationDebounceObject.getAnimationDebounce = jest.fn(() => () => isPreviousAnimationDebounced);
+getHasFramePassedFuncObject.getHasFramePassedFunc = jest.fn(() => () => isPreviousAnimationDebounced);
 const e = 'event';
 
 const setUp = () => {

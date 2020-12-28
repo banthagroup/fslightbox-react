@@ -4,13 +4,13 @@ import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../
 const Invalid = (
     {
         fsLightbox: {
-            componentsServices: { isSourceLoadedCollection },
+            componentsServices: { hideSourceLoaderCollection },
             elements: { sourceMainWrappers }
         }, i
     }
 ) => {
     useEffect(() => {
-        isSourceLoadedCollection[i].set(true);
+        hideSourceLoaderCollection[i]();
         sourceMainWrappers[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
     });
 

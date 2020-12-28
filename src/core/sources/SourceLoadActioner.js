@@ -3,21 +3,26 @@ import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../constants
 
 export function SourceLoadActioner(
     {
-        componentsServices: { isSourceLoadedCollection },
         collections: { sourceSizers },
+        componentsServices: { hideSourceLoaderCollection },
         elements: { sourceAnimationWrappers, sources },
         resolve
-    }, i, defaultWidth, defaultHeight
+    }, i
 ) {
-    this.runNormalLoadActions = () => {
+    this.runActions = (defaultWidth, defaultHeight) => {
         sources[i].current.classList.add(OPACITY_1_CLASS_NAME);
         sourceAnimationWrappers[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
-        isSourceLoadedCollection[i].set(true);
-        sourceSizers[i].adjustSize();
+        hideSourceLoaderCollection[i]();
+
+        runNormalLoadActions(defaultWidth, defaultHeight);
+        this.runActions = runNormalLoadActions;
     };
 
-    this.runInitialLoadActions = () => {
+    /**
+     * Normal load actions without initial actions are triggered only while using srcset.
+     */
+    function runNormalLoadActions(defaultWidth, defaultHeight) {
         sourceSizers[i] = resolve(SourceSizer, [i, defaultWidth, defaultHeight]);
-        this.runNormalLoadActions();
-    };
+        sourceSizers[i].adjustSize();
+    }
 }

@@ -13,7 +13,8 @@ export function setUpLightboxCloseActioner(
         },
         elements: { container: lightboxContainer },
         props,
-        slideSwipingProps
+        slideSwipingProps,
+        timeout
     }
 ) {
     self.isLightboxFadingOut = false;
@@ -29,7 +30,7 @@ export function setUpLightboxCloseActioner(
             fullscreenToggler.exitFullscreen();
         }
 
-        setTimeout(() => {
+        timeout(() => {
             self.isLightboxFadingOut = false;
 
             slideSwipingProps.isSwiping = false;
@@ -43,6 +44,6 @@ export function setUpLightboxCloseActioner(
             isLightboxOpenManager.set(false);
 
             eventsDispatcher.dispatch('onClose');
-        }, ANIMATION_TIME - 30);
+        }, ANIMATION_TIME);
     };
 }

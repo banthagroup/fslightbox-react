@@ -4,13 +4,13 @@ import { SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 const Custom = (
     {
         fsLightbox: {
-            collections: { sourcesLoadsHandlers },
+            collections: { sourceLoadHandlers },
             elements: { sources: sourcesElements },
             props: { sources }
         }, i
     }
 ) => {
-    useEffect(sourcesLoadsHandlers[i].handleCustomLoad);
+    useEffect(sourceLoadHandlers[i].handleCustomLoad);
 
     const baseClassName = sources[i].props.className;
 

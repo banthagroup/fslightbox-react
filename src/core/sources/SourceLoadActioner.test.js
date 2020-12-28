@@ -1,38 +1,39 @@
 import { SourceLoadActioner } from "./SourceLoadActioner";
-import { SourceSizer } from "./SourceSizer";
 import { FADE_IN_STRONG_CLASS_NAME, OPACITY_1_CLASS_NAME } from "../../constants/classes-names";
 
 const fsLightbox = {
-    collections: { sourceSizers: [] },
-    componentsServices: { isSourceLoadedCollection: [null, { set: jest.fn() }] },
-    elements: {
-        sources: [null, { current: { classList: { add: jest.fn() } } }],
-        sourceAnimationWrappers: [null, { current: { classList: { add: jest.fn(), remove: jest.fn() } } }]
+    collections: {
+        sourceSizers: []
     },
-    resolve: (constructorDependency, params) => {
-        if (constructorDependency === SourceSizer) {
-            expect(params).toEqual([1, 1000, 1500]);
-            return sourceSizer;
-        } else {
-            throw new Error('Invalid dependency')
-        }
+    componentsServices: {
+        hideSourceLoaderCollection: [null, jest.fn()],
+    },
+    elements: {
+        sourceAnimationWrappers: [null, { current: { classList: { add: jest.fn() } } }],
+        sources: [null, { current: { classList: { add: jest.fn() } } }]
+    },
+    resolve: (constructor, params) => {
+        expect(params).toEqual(expectedSourceSizerParameters);
+        return sourceSizer;
     }
 };
-const sourceSizer = 'source-styler';
-const sourceLoadActioner = new SourceLoadActioner(fsLightbox, 1, 1000, 1500);
+let expectedSourceSizerParameters = [1, 100, 200];
+const sourceSizer = { adjustSize: jest.fn() };
 
-test('runNormalLoadActions', () => {
-    fsLightbox.collections.sourceSizers[1] = { adjustSize: jest.fn() };
-    sourceLoadActioner.runNormalLoadActions();
+const sourceLoadActioner = new SourceLoadActioner(fsLightbox, 1);
+
+test('runActions', () => {
+    sourceLoadActioner.runActions(100, 200);
     expect(fsLightbox.elements.sources[1].current.classList.add).toBeCalledWith(OPACITY_1_CLASS_NAME);
     expect(fsLightbox.elements.sourceAnimationWrappers[1].current.classList.add).toBeCalledWith(FADE_IN_STRONG_CLASS_NAME);
-    expect(fsLightbox.componentsServices.isSourceLoadedCollection[1].set).toBeCalledWith(true);
-    expect(fsLightbox.collections.sourceSizers[1].adjustSize).toBeCalled();
-});
+    expect(fsLightbox.componentsServices.hideSourceLoaderCollection[1]).toBeCalled();
+    expect(fsLightbox.collections.sourceSizers[1]).toEqual(sourceSizer);
+    expect(sourceSizer.adjustSize).toBeCalled();
 
-test('runInitialLoadActions', () => {
-    sourceLoadActioner.runNormalLoadActions = jest.fn();
-    sourceLoadActioner.runInitialLoadActions();
-    expect(sourceLoadActioner.runNormalLoadActions).toBeCalled();
-    expect(fsLightbox.collections.sourceSizers[1]).toBe('source-styler');
+    expectedSourceSizerParameters = [1, 300, 400];
+    sourceLoadActioner.runActions(300, 400);
+    expect(fsLightbox.elements.sources[1].current.classList.add).toBeCalledTimes(1);
+    expect(fsLightbox.elements.sourceAnimationWrappers[1].current.classList.add).toBeCalledTimes(1);
+    expect(fsLightbox.componentsServices.hideSourceLoaderCollection[1]).toBeCalledTimes(1);
+    expect(sourceSizer.adjustSize).toBeCalledTimes(2);
 });

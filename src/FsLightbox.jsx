@@ -42,7 +42,9 @@ class FsLightbox extends Component {
          * @property {Number} current
          * @property {Number} next
          */
-        this.stageIndexes = {};
+        this.stageIndexes = {
+            current: 0
+        };
 
         /**
          * To objects are assigned in correct components two methods:
@@ -58,7 +60,7 @@ class FsLightbox extends Component {
             setSlideNumber: null,
             isSlideSwipingHovererShown: {},
             isFullscreenOpen: {},
-            isSourceLoadedCollection: [],
+            hideSourceLoaderCollection: [],
             updateSourceDirectWrapperCollection: [],
             toolbarButtons: {
                 fullscreen: {}
@@ -83,14 +85,9 @@ class FsLightbox extends Component {
             sourcesComponents: []
         };
 
-        this.resolve = (dependency, params = []) => {
-            params.unshift(this);
-            return new dependency(...params);
-        };
-
         this.collections = {
             sourceMainWrapperTransformers: [],
-            sourcesLoadsHandlers: [],
+            sourceLoadHandlers: [],
             // after source load its size adjuster will be stored in this array so it may be later resized
             sourceSizers: [],
             // if lightbox is unmounted pending xhrs need to be aborted
@@ -116,13 +113,49 @@ class FsLightbox extends Component {
             windowResizeActioner: {}
         };
 
+        this.getQueuedAction = this.getQueuedAction.bind(this);
+        this.resolve = this.resolve.bind(this);
+        this.timeout = this.timeout.bind(this);
+
         // setting up dependencies required to initialize lightbox
         // rest of the core is set up at initialize, because lightbox gets props on first open not at mount
         setUpLightboxUpdater(this);
         setUpLightboxOpener(this);
     }
 
-    componentDidUpdate(prevProps) {
+    getQueuedAction(action, time) {
+        const queue = [];
+
+        return () => {
+            queue.push(true);
+
+            this.timeout(() => {
+                queue.pop();
+
+                if (!queue.length) {
+                    action();
+                }
+            }, time);
+        };
+    }
+
+    resolve(dependency, params = []) {
+        params.unshift(this);
+        return new dependency(...params);
+    }
+
+    /**
+     * Prevents calling timeouted function on closed or unmounted lightbox.
+     */
+    timeout(handler, timeout) {
+        setTimeout(() => {
+            if (this.elements.container.current) {
+                handler();
+            }
+        }, timeout);
+    }
+
+    componentDidUpdate(prevProps, second, third) {
         this.core.lightboxUpdater.handleUpdate(prevProps);
     }
 
@@ -164,7 +197,7 @@ class FsLightbox extends Component {
 }
 
 FsLightbox.propTypes = {
-    toggler: PropTypes.bool.isRequired,
+    toggler: PropTypes.bool,
     sources: PropTypes.array,
 
     // slide number controlling

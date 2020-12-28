@@ -5,7 +5,7 @@ import SlideButton from "../../src/components/SlideButton";
 const onClick = () => {};
 
 let slideButton = shallow(<SlideButton
-    onClick={ onClick }
+    onClick={onClick}
     name='next'
     d='M1.729'
 />);
