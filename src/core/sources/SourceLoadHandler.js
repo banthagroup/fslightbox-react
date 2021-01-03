@@ -28,9 +28,9 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, timeo
         let width = 1920;
         let height = 1080;
 
-        if (props.maxYoutubeDimensions) {
-            width = props.maxYoutubeDimensions.width;
-            height = props.maxYoutubeDimensions.height;
+        if (props.maxYoutubeVideoDimensions) {
+            width = props.maxYoutubeVideoDimensions.width;
+            height = props.maxYoutubeVideoDimensions.height;
         }
 
         sourceLoadActioner.runActions(width, height);

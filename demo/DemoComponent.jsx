@@ -58,6 +58,7 @@ class DemoComponent extends Component {
                     ]}
                     slide={this.state.lightboxController.slide}
                     disableLocalStorage={true}
+                    maxYoutubeVideoDimensions={{ width: 500, height: 500 }}
                     loadOnlyCurrentSource={true}
                     key={this.state.key}
                 />

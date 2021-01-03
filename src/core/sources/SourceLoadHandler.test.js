@@ -40,7 +40,7 @@ test('handleYoutubeLoad', () => {
     sourceLoadHandler.handleYoutubeLoad();
     expect(sourceLoadActioner.runActions).toBeCalledWith(1920, 1080);
 
-    fsLightbox.props.maxYoutubeDimensions = { width: 111, height: 222 };
+    fsLightbox.props.maxYoutubeVideoDimensions = { width: 111, height: 222 };
     sourceLoadHandler.handleYoutubeLoad();
     expect(sourceLoadActioner.runActions).toBeCalledWith(111, 222);
 });
