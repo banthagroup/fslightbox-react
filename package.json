@@ -1,6 +1,6 @@
 {
   "name": "fslightbox-react",
-  "version": "1.6.2",
+  "version": "1.6.2-2",
   "description": "React version of Fullscreen Lightbox. Modern and easy plugin for displaying images and videos in clean overlaying box. Display single source or create beautiful gallery with powerful lightbox.",
   "main": "index.js",
   "scripts": {
@@ -38,16 +38,16 @@
     "lightbox",
     "carousel"
   ],
-  "author": "Piotr Zdziarski",
+  "author": "Bantha Apps Piotr Zdziarski",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/banthagroup/fslightbox-react/issues"
   },
   "homepage": "https://fslightbox.com/",
   "peerDependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "prop-types": ">=15.6.2",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

@@ -1,19 +1,15 @@
-import './core/styles/styles-injection/styles-injection';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import Nav from "./components/nav/Nav.jsx";
-import SourceWrappersContainer from "./components/sources/SourceWrappersContainer.jsx";
 import SwipingInvisibleHover from "./components/slide-swiping/SlideSwipingHoverer.jsx";
-import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
-import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
-import {
-    FADE_IN_STRONG_CLASS_NAME,
-    FULL_DIMENSION_CLASS_NAME,
-    PREFIX
-} from "./constants/classes-names";
 import SlideButton from "./components/SlideButton.jsx";
-import { setUpLightboxUpdater } from "./core/main-component/updating/setUpLightboxUpdater";
+import SourceWrappersContainer from "./components/sources/SourceWrappersContainer.jsx";
+import { FADE_IN_STRONG_CLASS_NAME, FULL_DIMENSION_CLASS_NAME, PREFIX } from "./constants/classes-names";
+import { runLightboxMountedActions } from "./core/main-component/mounting/runLightboxMountedActions";
 import { setUpLightboxOpener } from "./core/main-component/opening/setUpLightboxOpener";
+import { runLightboxUnmountActions } from "./core/main-component/unmounting/runLightboxUnmountActions";
+import { setUpLightboxUpdater } from "./core/main-component/updating/setUpLightboxUpdater";
+import './core/styles/styles-injection/styles-injection';
 
 class FsLightbox extends Component {
     constructor(props) {

@@ -3,9 +3,9 @@ import { assignToObject } from "../../../helpers/objects/assignToObject";
 
 export function CreatingSourcesLocalStorageManager({ props }) {
     const NEW_TYPE_SHOULD_BE_ADDED_HERE = false;
+    const newTypes = {};
     let decodedSourceTypes;
     let newSourceTypesToDetect = 0;
-    const newTypes = {};
 
     this.getSourceTypeFromLocalStorageByUrl = (url) => {
         if (!decodedSourceTypes[url]) {
@@ -32,11 +32,6 @@ export function CreatingSourcesLocalStorageManager({ props }) {
         }
     };
 
-    const addNewUrlToDetect = (url) => {
-        newSourceTypesToDetect++;
-        newTypes[url] = NEW_TYPE_SHOULD_BE_ADDED_HERE;
-    };
-
     if (!props.disableLocalStorage) {
         decodedSourceTypes = JSON.parse(localStorage.getItem(SOURCES_TYPES_KEY));
         // we are checking if detected source types contains at certain key source type
@@ -51,5 +46,10 @@ export function CreatingSourcesLocalStorageManager({ props }) {
     } else {
         this.getSourceTypeFromLocalStorageByUrl = function () {};
         this.handleReceivedSourceTypeForUrl = function () {};
+    }
+
+    function addNewUrlToDetect(url) {
+        newSourceTypesToDetect++;
+        newTypes[url] = NEW_TYPE_SHOULD_BE_ADDED_HERE;
     }
 }

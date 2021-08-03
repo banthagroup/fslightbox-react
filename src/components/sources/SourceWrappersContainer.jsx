@@ -1,8 +1,8 @@
 import React from 'react';
-import SourceMainWrapper from "./SourceMainWrapper.jsx";
 import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../../constants/classes-names";
+import SourceMainWrapper from "./SourceMainWrapper.jsx";
 
-const SourceWrappersContainer = ({ fsLightbox }) => {
+export default ({ fsLightbox }) => {
     const {
         core: { slideSwipingDown: { listener: slideSwipingDownListener } },
         elements: { sourceMainWrappersWrapper, },
@@ -22,14 +22,12 @@ const SourceWrappersContainer = ({ fsLightbox }) => {
     }
 
     return (
-        <div data-test-id="source-wrappers-container"
-             className={`${ABSOLUTED_CLASS_NAME} ${FULL_DIMENSION_CLASS_NAME}`}
-             ref={sourceMainWrappersWrapper}
+        <div className={`${ABSOLUTED_CLASS_NAME} ${FULL_DIMENSION_CLASS_NAME}`}
+             data-test-id="source-wrappers-container"
              onMouseDown={slideSwipingDownListener}
-             onTouchStart={slideSwipingDownListener}>
+             onTouchStart={slideSwipingDownListener}
+             ref={sourceMainWrappersWrapper}>
             {sourceMainWrappers}
         </div>
     );
 };
-
-export default SourceWrappersContainer;

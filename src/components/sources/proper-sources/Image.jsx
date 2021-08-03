@@ -1,7 +1,7 @@
 import React from 'react';
 import { SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 
-const Image = (
+export default (
     {
         fsLightbox: {
             collections: { sourceLoadHandlers },
@@ -11,12 +11,10 @@ const Image = (
     }
 ) => (
     <img
-        onLoad={sourceLoadHandlers[i].handleImageLoad}
         className={SOURCE_CLASS_NAME}
+        onLoad={sourceLoadHandlers[i].handleImageLoad}
         ref={sourcesElements[i]}
         src={sources[i]}
         {...(customAttributes && customAttributes[i] ? customAttributes[i] : {})}
     />
 );
-
-export default Image;

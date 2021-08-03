@@ -1,7 +1,7 @@
 import React from 'react';
 import { PREFIX, SOURCE_CLASS_NAME } from "../../../constants/classes-names";
 
-const Video = (
+export default (
     {
         fsLightbox: {
             collections: { sourceLoadHandlers },
@@ -14,13 +14,11 @@ const Video = (
     timeout(sourceLoadHandlers[i].handleNotMetaDatedVideoLoad, 3000);
 
     return <video
-        onLoadedMetadata={sourceLoadHandlers[i].handleVideoLoad}
         className={`${SOURCE_CLASS_NAME} ${PREFIX}video`}
+        src={sources[i]}
         controls
+        onLoadedMetadata={sourceLoadHandlers[i].handleVideoLoad}
         ref={sourcesElements[i]}
-        {...(customAttributes && customAttributes[i] ? customAttributes[i] : {})}>
-        <source src={sources[i]} />
-    </video>
-};
-
-export default Video;
+        {...(customAttributes && customAttributes[i] ? customAttributes[i] : {})}
+    />;
+}

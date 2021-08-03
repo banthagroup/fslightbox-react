@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import FsLightbox from '../src/FsLightbox.jsx';
 import '../src/scss/index.scss';
 import "./css/demo.css";
-import FsLightbox from '../src/FsLightbox.jsx';
-import { testSources } from "../tests/__tests-services__/testVars";
 
 class DemoComponent extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             lightboxController: {
                 toggler: false,
@@ -49,7 +49,9 @@ class DemoComponent extends Component {
 
                 <FsLightbox
                     toggler={this.state.lightboxController.toggler}
-                    sources={testSources}
+                    sources={[
+                        <audio src="/demo/videos/audio.m4a" controls />
+                    ]}
                     customAttributes={[
                         {
                             srcSet: '/demo/img/7.jpg 600w, /demo/img/5.jpg 1200w',
