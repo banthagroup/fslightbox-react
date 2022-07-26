@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "production": "webpack --mode production --config webpack.prod.config.js --display-modules && gulp",
+    "production": "webpack --mode production --config webpack.prod.config.js --display-modules && gulp && npm pack",
     "watch": "webpack-dev-server --mode development --host 0.0.0.0",
     "cypress": "concurrently --kill-others \"webpack-dev-server --config ./webpack.cypress.config.js --mode development\" \"node ./node_modules/.bin/cypress open\""
   },
