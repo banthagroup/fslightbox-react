@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest",
     "production": "webpack --mode production --config webpack.prod.config.js --display-modules && gulp",
-    "watch": "webpack-dev-server --mode development --host 0.0.0.0",
-    "cypress": "concurrently --kill-others \"webpack-dev-server --config ./webpack.cypress.config.js --mode development\" \"node ./node_modules/.bin/cypress open\""
+    "watch": "webpack-dev-server --mode development --host 0.0.0.0"
   },
   "repository": {
     "type": "git",
@@ -58,11 +57,8 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-polyfill": "^6.26.0",
-    "concurrently": "^5.3.0",
     "copy-webpack-plugin": "^5.0.3",
     "core-js": "^3.0.1",
-    "cypress": "^5.6.0",
-    "dotenv": "^8.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
