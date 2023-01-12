@@ -1,12 +1,11 @@
 const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: "./src/FsLightbox.jsx",
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "commonjs2",
-        filename: "./index.js",
+        filename: "./package/index.js",
     },
     resolve: {
         alias: {
@@ -49,12 +48,5 @@ module.exports = {
                 exclude: /node_modules/,
             }
         ]
-    },
-    plugins: [
-        new CopyPlugin([
-            { from: './index.js', to: './dist' },
-            { from: './package.json', to: './dist' },
-            { from: './README.md', to: './dist' }
-        ])
-    ]
+    }
 };
