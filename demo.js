@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import FsLightbox from "../FsLightbox.jsx";
+import FsLightbox from "./FsLightbox.jsx";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -38,7 +38,7 @@ class DemoComponent extends Component {
                 <FsLightbox
                     toggler={this.state.lightboxController.toggler}
                     sources={[
-			"demo/img/1.jpeg",
+			"1.jpg",
 			"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
 			"https://www.youtube.com/watch?v=3nQNiWdeH2Q",
 			<iframe
