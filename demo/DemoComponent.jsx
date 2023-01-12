@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FsLightbox from '../src/FsLightbox.jsx';
+import FsLightbox from '../FsLightbox.jsx';
 
 class DemoComponent extends Component {
     constructor(props) {

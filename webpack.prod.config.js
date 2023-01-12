@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: "./src/FsLightbox.jsx",
+    entry: "./FsLightbox.jsx",
     output: {
         path: path.join(__dirname, ''),
         libraryTarget: "commonjs2",
