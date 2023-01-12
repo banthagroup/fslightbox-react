@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import FsLightbox from "../src/FsLightbox.jsx";
-import "./css/demo.css";
 
 class DemoComponentHiddenLightbox extends Component {
 

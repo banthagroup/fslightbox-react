@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import FsLightbox from '../src/FsLightbox.jsx';
-import '../src/scss/index.scss';
-import "./css/demo.css";
 
 class DemoComponent extends Component {
     constructor(props) {
