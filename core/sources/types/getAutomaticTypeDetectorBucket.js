@@ -1,9 +1,10 @@
 export function getAutomaticTypeDetectorBucket() {
     return {
         isUrlYoutubeOne: (url) => {
-            const parser = document.createElement('a');
+            var parser = document.createElement("a");
             parser.href = url;
-            return parser.hostname === 'www.youtube.com';
+	    var h = parser.hostname;
+            return h === "www.youtube.com" || h === "youtu.be";
         },
 
         getTypeFromResponseContentType: (responseContentType) => {
