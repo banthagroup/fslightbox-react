@@ -4,8 +4,8 @@ import ToolbarButton from "../ToolbarButton.jsx";
 function FullscreenButton(
     {
         fsLightbox: {
-            componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState } },
-            core: { fullscreenToggler: { enterFullscreen, exitFullscreen } }
+            componentsServices: {toolbarButtons: { fullscreen: isFullscreenOpenState } },
+		fs
         }
     }
 ) {
@@ -15,8 +15,8 @@ function FullscreenButton(
 
     const fullscreen = () => {
         (isFullscreenOpen) ?
-            exitFullscreen() :
-            enterFullscreen();
+            fs.exitFullscreen() :
+            fs.enterFullscreen();
     };
 
     return (

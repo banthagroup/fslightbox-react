@@ -1,5 +1,5 @@
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
-import { setUpFullscreenToggler } from "./fullscreen/setUpFullscreenToggler";
+import { sfs } from "./sfs";
 import { setUpWindowResizeActioner } from "./sizes/setUpWindowResizeActioner";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
 import { setUpLightboxOpenActioner } from "./main-component/opening/setUpLightboxOpenActioner";
@@ -18,7 +18,7 @@ import { setUpSlideSwipingDown } from "./slide/swiping/down/setUpSlideSwipingDow
 export function setUpCore(fsLightbox) {
     setUpClassFacade(fsLightbox);
     setUpEventsDispatcher(fsLightbox);
-    setUpFullscreenToggler(fsLightbox);
+    sfs(fsLightbox);
     setUpGlobalEventsController(fsLightbox);
     setUpLightboxCloser(fsLightbox);
     setUpLightboxCloseActioner(fsLightbox);

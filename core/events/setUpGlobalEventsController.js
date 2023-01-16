@@ -4,12 +4,14 @@ import { SlideSwipingUp } from "../slide/swiping/up/SlideSwipingUp";
 import { middleware } from "../../middleware/middleware";
 import { oneOrZeroTouches } from "../../middleware/oneOrZeroTouches";
 
-export function setUpGlobalEventsController(
-    {
-        core: { globalEventsController: self, windowResizeActioner, },
+export function setUpGlobalEventsController({
+	core: {
+		globalEventsController: self,
+		windowResizeActioner
+	},
+	fs,
         resolve
-    }
-) {
+}) {
     const keyboardController = resolve(KeyboardController);
     const slideSwipingMove = resolve(SlideSwipingMove);
     const slideSwipingUp = resolve(SlideSwipingUp);
@@ -27,6 +29,8 @@ export function setUpGlobalEventsController(
         addEventListener('resize', windowResizeActioner.runActions);
 
         document.addEventListener('keydown', keyboardController.listener);
+
+	fs.listen();
     };
 
     self.removeListeners = () => {
@@ -39,5 +43,7 @@ export function setUpGlobalEventsController(
         removeEventListener('resize', windowResizeActioner.runActions);
 
         document.removeEventListener('keydown', keyboardController.listener);
-    };
+
+	fs.unlisten();
+    }
 }

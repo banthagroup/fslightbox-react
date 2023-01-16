@@ -1,14 +1,15 @@
 export function setUpLightboxCloser({
-  core: { lightboxCloser: self, lightboxCloseActioner, fullscreenToggler },
+  core: { lightboxCloser: self, lightboxCloseActioner },
   componentsServices: {
     toolbarButtons: { fullscreen: isFullscreenOpenState },
   },
+	fs
 }) {
   self.closeLightbox = () => {
     if (!lightboxCloseActioner.isLightboxFadingOut) {
       lightboxCloseActioner.runActions();
       if (isFullscreenOpenState.get()) {
-        fullscreenToggler.exitFullscreen();
+        fs.exitFullscreen();
       }
     }
   };

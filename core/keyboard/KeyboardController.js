@@ -1,4 +1,4 @@
-export function KeyboardController({ core: { lightboxCloser, fullscreenToggler, slideChangeFacade } }) {
+export function KeyboardController({ core: { lightboxCloser, slideChangeFacade }, fs }) {
     this.listener = (e) => {
         switch (e.key) {
             case 'Escape':
@@ -12,8 +12,7 @@ export function KeyboardController({ core: { lightboxCloser, fullscreenToggler, 
                 break;
             case 'F11':
                 e.preventDefault();
-                // browsers does not trigger 'keydown' event when browser is already in fullscreen
-                fullscreenToggler.enterFullscreen();
+                fs.toggleFullscreen();
                 break;
         }
     };

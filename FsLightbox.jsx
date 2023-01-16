@@ -93,7 +93,6 @@ class FsLightbox extends Component {
         this.core = {
             classFacade: {},
             eventsDispatcher: {},
-            fullscreenToggler: {},
             globalEventsController: {},
             lightboxCloser: {},
             lightboxCloseActioner: {},
@@ -108,6 +107,7 @@ class FsLightbox extends Component {
             stageManager: {},
             windowResizeActioner: {}
         };
+	this.fs = {};
 
         this.getQueuedAction = this.getQueuedAction.bind(this);
         this.resolve = this.resolve.bind(this);
