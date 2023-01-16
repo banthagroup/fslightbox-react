@@ -13,14 +13,17 @@ export default function(
 	useEffect(sourceLoadHandlers[i].handleYoutubeLoad);
 
 	var url = sources[i];
+
+	var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+	var id = url.match(regExp)[2];
+
 	var p = url.split("?")[1];
+	p = p ? p : "";
 
 	return <iframe
 		ref={sourcesElements[i]}
 		className={`${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`}
-		src={
-			`https://www.youtube.com/embed/${getYouTubeVideoIdFromUrl(url)}?${p ? p : ""}`
-		}
+		src={`https://www.youtube.com/embed/${id}?${p}`}
 		allowFullScreen={true}
 		{
 			...(
@@ -30,9 +33,4 @@ export default function(
 			)
 		}
         />;
-}
-
-function getYouTubeVideoIdFromUrl() {
-	const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-	return url.match(regExp)[2];
 }
