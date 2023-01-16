@@ -1,6 +1,7 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
+    mode: "production",
     entry: "./FsLightbox.jsx",
     output: {
         path: path.join(__dirname, ''),

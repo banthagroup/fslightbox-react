@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "production": "webpack --mode production --config webpack.prod.config.js --display-modules && cp index.js fslightbox.js",
+    "production": "webpack --config webpack.prod.config.js",
     "watch": "webpack-dev-server --mode development --host 0.0.0.0"
   },
   "peerDependencies": {
