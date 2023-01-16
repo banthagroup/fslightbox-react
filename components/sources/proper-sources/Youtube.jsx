@@ -10,18 +10,27 @@ export default function(
         }, i
     }
 ) {
-    useEffect(sourceLoadHandlers[i].handleYoutubeLoad);
+	useEffect(sourceLoadHandlers[i].handleYoutubeLoad);
 
-    return (
-        <iframe
-            ref={sourcesElements[i]}
-            className={`${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`}
-            src={`https://www.youtube.com/embed/${getYouTubeVideoIdFromUrl(sources[i])}`}
-            allowFullScreen={true}
-            {...(customAttributes && customAttributes[i] ? customAttributes[i] : {})}
-        />
-    );
-};
+	var url = sources[i];
+	var p = url.split("?")[1];
+
+	return <iframe
+		ref={sourcesElements[i]}
+		className={`${SOURCE_CLASS_NAME} ${PREFIX}youtube-iframe`}
+		src={
+			`https://www.youtube.com/embed/${getYouTubeVideoIdFromUrl(url)}?${p ? p : ""}`
+		}
+		allowFullScreen={true}
+		{
+			...(
+				customAttributes && customAttributes[i]
+					? customAttributes[i]
+					: {}
+			)
+		}
+        />;
+}
 
 function getYouTubeVideoIdFromUrl() {
 	const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
