@@ -1,7 +1,7 @@
 {
   "name": "fslightbox-react",
   "version": "1.6.3",
-  "description": "A capable React component for dispalying images, videos, or, through custom sources, anything you want in a full-window overlying box.",
+  "description": "A capable React component for displaying images, videos, or, through custom sources, anything you want in a full-window overlying box.",
   "main": "index.js",
   "repository": {
     "type": "git",
