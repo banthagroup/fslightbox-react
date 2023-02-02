@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "production": "webpack --config webpack.prod.config.js",
-    "watch": "webpack-dev-server --mode development --host 0.0.0.0"
+    "w": "webpack-dev-server --mode development --host 0.0.0.0",
+    "p": "webpack --config webpack.prod.config.js"
   },
   "peerDependencies": {
     "prop-types": ">=15.6.2",
