@@ -1,6 +1,5 @@
 import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
 import { sfs } from "./sfs";
-import { setUpWindowResizeActioner } from "./sizes/setUpWindowResizeActioner";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
 import { setUpLightboxOpenActioner } from "./main-component/opening/setUpLightboxOpenActioner";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
@@ -10,9 +9,11 @@ import { setUpEventsDispatcher } from "./events/setUpEventsDispatcher";
 import { setUpSlideChangeFacade } from "./slide/setUpSlideChangeFacade";
 import { setUpClassFacade } from "./elements/setUpClassFacade";
 import { setUpGlobalEventsController } from "./events/setUpGlobalEventsController";
-import { setUpSourceDisplayFacade } from "./sources/setUpSourceDisplayFacade";
 import { setUpLightboxCloseActioner } from "./main-component/closing/setUpLightboxCloseActioner";
 import { setUpSlideSwipingDown } from "./slide/swiping/down/setUpSlideSwipingDown";
+import { setUpSourceDisplayFacade } from "./sources/setUpSourceDisplayFacade";
+import { sws } from "./sws";
+import { setUpWindowResizeActioner } from "./sizes/setUpWindowResizeActioner";
 
 export function setUpCore(fsLightbox) {
     setUpClassFacade(fsLightbox);
@@ -29,6 +30,7 @@ export function setUpCore(fsLightbox) {
     setUpSlideIndexChanger(fsLightbox);
     setUpSlideSwipingDown(fsLightbox);
     setUpSourceDisplayFacade(fsLightbox);
+sws(fsLightbox);
     setUpWindowResizeActioner(fsLightbox);
 }
 
