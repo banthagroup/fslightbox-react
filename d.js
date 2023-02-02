@@ -39,17 +39,6 @@ class DemoComponent extends Component {
                     toggler={this.state.lightboxController.toggler}
                     sources={[
 			"1.jpg",
-			"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-			"https://www.youtube.com/watch?v=3nQNiWdeH2Q",
-			<iframe
-				src="https://player.vimeo.com/video/22439234"
-				id="vimeo"
-				width="1920px"
-				height="1080px"
-				frameBorder="0"
-				allow="autoplay; fullscreen"
-				allowFullScreen
-			/>,
 			""
                     ]}
                     slide={this.state.lightboxController.slide}
