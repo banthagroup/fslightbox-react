@@ -1,0 +1,14 @@
+import React from 'react';
+import Toolbar from "./toolbar/Toolbar.jsx";
+import SlideNumber from "./SlideNumber.jsx";
+import { PREFIX } from "../../cn/classes-names";
+
+const Nav = ({ fsLightbox }) => {
+    return (
+        <div className={`${PREFIX}nav`}>
+            <Toolbar fsLightbox={fsLightbox} />
+            {fsLightbox.props.sources.length > 1 && <SlideNumber fsLightbox={fsLightbox} />}
+        </div>
+    );
+};
+export default Nav;
