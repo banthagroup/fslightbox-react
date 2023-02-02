@@ -104,10 +104,9 @@ class FsLightbox extends Component {
             slideIndexChanger: {},
             slideSwipingDown: {},
             sourceDisplayFacade: {},
-            stageManager: {},
             windowResizeActioner: {}
         };
-	this.fs = {};
+	this.fs = {};this=st={};this.sws={};
 
         this.getQueuedAction = this.getQueuedAction.bind(this);
         this.resolve = this.resolve.bind(this);
