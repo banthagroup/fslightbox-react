@@ -1,0 +1,1 @@
+import React,{useState}from"react";import{ABSOLUTED_CLASS_NAME,FLEX_CENTERED_CLASS_NAME,FULL_DIMENSION_CLASS_NAME}from"../../cn/classes-names";import saw from"./saw.jsx";export default function({o,i}){var{smw}=fsLightbox;return<div ref={smw[i]}className={`${ABSOLUTED_CLASS_NAME} ${FULL_DIMENSION_CLASS_NAME} ${FLEX_CENTERED_CLASS_NAME}`}><saw o={o}i={i}/></div>};

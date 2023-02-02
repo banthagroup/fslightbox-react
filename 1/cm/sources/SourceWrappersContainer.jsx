@@ -1,6 +1,6 @@
 import React from 'react';
 import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../../cn/classes-names";
-import SourceMainWrapper from "./SourceMainWrapper.jsx";
+import smw from "./smw.jsx";
 
 export default ({ fsLightbox }) => {
     const {
@@ -13,8 +13,8 @@ export default ({ fsLightbox }) => {
 
     for (let i = 0; i < sources.length; i++) {
         sourceMainWrappers.push(
-            <SourceMainWrapper
-                fsLightbox={fsLightbox}
+            <smw
+                o={fsLightbox}
                 i={i}
                 key={i}
             />
