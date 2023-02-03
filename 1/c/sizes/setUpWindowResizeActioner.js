@@ -1,12 +1,12 @@
 import { removeFromElementClassIfContains } from "../../h/elements/removeFromElementClassIfContains";
-import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../cn/classes-names";
 
 export function setUpWindowResizeActioner(
     {
-        collections: { sourceMainWrapperTransformers, sourceSizers },
+        collections: { sourceSizers },
         core: { windowResizeActioner: self },
         data,
-        elements: { sources, sourceMainWrappers },
+        elements: { sources },
+	smw,
         stageIndexes
     }
 ) {
@@ -17,11 +17,7 @@ export function setUpWindowResizeActioner(
         data.maxSourceHeight = 0.9 * innerHeight;
 
         for (let i = 0; i < sources.length; i++) {
-            removeFromElementClassIfContains(sourceMainWrappers[i], TRANSFORM_TRANSITION_CLASS_NAME);
-
-            if (i !== stageIndexes.current) {
-                sourceMainWrapperTransformers[i].negative();
-            }
+	    smw[i].d();
 
             /**
              * Invalid type doesn't have SourceSizer so need to check if it exists.
@@ -32,5 +28,13 @@ export function setUpWindowResizeActioner(
                 sourceSizers[i].adjustSize();
             }
         }
+
+	var pi=stageIndexes.previous,ni=stageIndexes.next;
+	if (pi !== undefined) {
+		smw[pi].ne();
+	}
+	if (ni !== undefined) {
+		smw[ni].p();
+	}
     };
 }
