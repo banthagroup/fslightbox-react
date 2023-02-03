@@ -6,7 +6,6 @@ import SlideButton from "./cm/SlideButton.jsx";
 import SourceWrappersContainer from "./cm/sources/SourceWrappersContainer.jsx";
 import { FADE_IN_STRONG_CLASS_NAME, FULL_DIMENSION_CLASS_NAME, PREFIX } from "./cn/classes-names";
 import { runLightboxMountedActions } from "./c/main-component/mounting/runLightboxMountedActions";
-import { setUpLightboxOpener } from "./c/main-component/opening/setUpLightboxOpener";
 import { runLightboxUnmountActions } from "./c/main-component/unmounting/runLightboxUnmountActions";
 import { setUpLightboxUpdater } from "./c/main-component/updating/setUpLightboxUpdater";
 import './c/styles/styles-injection/styles-injection';
@@ -96,7 +95,6 @@ class FsLightbox extends Component {
             globalEventsController: {},
             lightboxCloser: {},
             lightboxCloseActioner: {},
-            lightboxOpener: {},
             lightboxOpenActioner: {},
             lightboxUpdater: {},
             scrollbarRecompensor: {},
@@ -166,7 +164,7 @@ class FsLightbox extends Component {
         if (!this.state.isOpen) return null;
 
         return (
-            <div data-test-id="container"
+            <div
                  ref={this.elements.container}
                  className={`${PREFIX}container ${FULL_DIMENSION_CLASS_NAME} ${FADE_IN_STRONG_CLASS_NAME}`}>
                 <SwipingInvisibleHover fsLightbox={this} />
