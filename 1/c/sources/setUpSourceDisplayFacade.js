@@ -1,20 +1,21 @@
 export function setUpSourceDisplayFacade(
     {
         core: { sourceDisplayFacade: self },
-        componentsServices: { updateSourceDirectWrapperCollection },
         stageIndexes,
-        props: { loadOnlyCurrentSource }
+        props: { loadOnlyCurrentSource },
+	saw
     }
 ) {
     self.displaySourcesWhichShouldBeDisplayed = () => {
         if (loadOnlyCurrentSource) {
-            updateSourceDirectWrapperCollection[stageIndexes.current]();
+            saw[stageIndexes.current].u();
             return;
         }
 
         for (let i in stageIndexes) {
-            if (stageIndexes[i] !== undefined) {
-                updateSourceDirectWrapperCollection[stageIndexes[i]]();
+	    var j=stageIndexes[i];
+            if (j !== undefined) {
+                saw[j].u();
             }
         }
     };

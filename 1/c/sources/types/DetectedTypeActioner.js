@@ -8,8 +8,9 @@ import Custom from "../../../cm/Custom.jsx";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
-        componentsServices: { isLightboxOpenManager, updateSourceDirectWrapperCollection },
-        elements: { sourcesComponents }
+        componentsServices: { isLightboxOpenManager },
+        elements: { sourcesComponents },
+	saw
     } = fsLightbox;
 
     this.runActionsForSourceTypeAndIndex = (type, i) => {
@@ -39,7 +40,7 @@ export function DetectedTypeActioner(fsLightbox) {
         />;
 
         if (isLightboxOpenManager.get()) {
-            updateSourceDirectWrapperCollection[i]();
+            saw[i].u();
         }
     };
 }
