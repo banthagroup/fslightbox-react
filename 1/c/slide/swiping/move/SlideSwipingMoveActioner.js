@@ -3,10 +3,10 @@ import { getScreenXFromEvent } from "../../../../h/events/getScreenXFromEvent";
 
 export function SlideSwipingMoveActioner(
     {
-        collections: { sourceMainWrapperTransformers },
         componentsServices,
         elements: { container },
         slideSwipingProps,
+	smw,
         stageIndexes
     }
 ) {
@@ -19,18 +19,16 @@ export function SlideSwipingMoveActioner(
 
         slideSwipingProps.swipedX = getScreenXFromEvent(e) - slideSwipingProps.downScreenX;
 
-        transformSourceHolderAtIndexToPosition(stageIndexes.current, 'zero');
-        // if there are only two slides we need to check if source we want to transform exists
-        if (stageIndexes.previous !== undefined && slideSwipingProps.swipedX > 0) {
-            transformSourceHolderAtIndexToPosition(stageIndexes.previous, 'negative');
-        } else if (stageIndexes.next !== undefined && slideSwipingProps.swipedX < 0) {
-            transformSourceHolderAtIndexToPosition(stageIndexes.next, 'positive');
+	var pi=stageIndexes.previous,ni=stageIndexes.next;
+        t(stageIndexes.current,"z");
+        if (pi !== undefined && slideSwipingProps.swipedX > 0) {
+            t(pi,"ne")
+        } else if (ni !== undefined && slideSwipingProps.swipedX < 0) {
+            t(ni,"p")
         }
     };
 
-    const transformSourceHolderAtIndexToPosition = (index, position) => {
-        sourceMainWrapperTransformers[index]
-            .byValue(slideSwipingProps.swipedX)
-            [position]();
-    };
+	function t(i, p) {
+		smw[i].v(sourcePointerProps.swipedX)[p]()
+	}
 }
