@@ -93,7 +93,6 @@ class FsLightbox extends Component {
             globalEventsController: {},
             lightboxCloser: {},
             lightboxCloseActioner: {},
-            lightboxOpenActioner: {},
             lightboxUpdater: {},
             scrollbarRecompensor: {},
             slideChangeFacade: {},
