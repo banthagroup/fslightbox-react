@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Nav from "./cm/nav/Nav.jsx";
 import SwipingInvisibleHover from "./cm/slide-swiping/SlideSwipingHoverer.jsx";
 import SlideButton from "./cm/SlideButton.jsx";
-import SourceWrappersContainer from "./cm/sources/SourceWrappersContainer.jsx";
+import swc from "./cm/swc.jsx";
 import { FADE_IN_STRONG_CLASS_NAME, FULL_DIMENSION_CLASS_NAME, PREFIX } from "./cn/classes-names";
 import { runLightboxMountedActions } from "./c/main-component/mounting/runLightboxMountedActions";
 import { runLightboxUnmountActions } from "./c/main-component/unmounting/runLightboxUnmountActions";
@@ -180,7 +180,7 @@ class FsLightbox extends Component {
                         />
                     </> : null
                 }
-                <SourceWrappersContainer fsLightbox={this} />
+                <swc o={this} />
             </div>
         );
     }

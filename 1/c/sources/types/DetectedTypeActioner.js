@@ -1,10 +1,10 @@
 import React from 'react';
 import { CUSTOM_TYPE, IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../cn/core-constants";
-import Image from "../../../cm/sources/proper-sources/Image.jsx";
-import Video from "../../../cm/sources/proper-sources/Video.jsx";
-import Youtube from "../../../cm/sources/proper-sources/Youtube.jsx";
-import Invalid from "../../../cm/sources/proper-sources/Invalid.jsx";
-import Custom from "../../../cm/sources/proper-sources/Custom.jsx";
+import Image from "../../../cm/Image.jsx";
+import Video from "../../../cm/Video.jsx";
+import Youtube from "../../../cm/Youtube.jsx";
+import Invalid from "../../../cm/Invalid.jsx";
+import Custom from "../../../cm/Custom.jsx";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
