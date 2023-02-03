@@ -2,39 +2,50 @@ import { createSources } from "../../sources/creating/createSources";
 import { s } from "../../s";
 import { createRefsArray } from "../../../h/arrays/createRefsArray";
 import { fillIndexedCollection } from "../../collections/fillIndexedCollection";
-import { SourceMainWrapperTransformer } from "../../transforms/SourceMainWrapperTransformer";
 import { SourceLoadHandler } from "../../sources/SourceLoadHandler";
 
-export function setUpLightboxOpener(fsLightbox) {
-    const {
+export function so(o) {
+    var {
         componentsServices: { isLightboxOpenManager },
         core: { eventsDispatcher, lightboxOpener: self, lightboxOpenActioner },
-        data,
         elements
-    } = fsLightbox;
+    } = o;
 
-    self.openLightbox = () => {
+    o.o = () => {
         eventsDispatcher.dispatch('onShow');
         fillIndexedCollection(fsLightbox, 'sourceLoadHandlers', SourceLoadHandler);
         isLightboxOpenManager.set(true, lightboxOpenActioner.runInitializedLightboxActions);
     };
 
-    self.initializeAndOpenLightbox = () => {
-        data.isInitialized = true;
-
-        elements.sourceAnimationWrappers = createRefsArray(fsLightbox);
-        elements.sourceMainWrappers = createRefsArray(fsLightbox);
+    o.i = () => {
+	o.ii = true;
+	
+        o.smw = createRefsArray(fsLightbox);
+        o.saw = createRefsArray(fsLightbox);
         elements.sources = createRefsArray(fsLightbox);
 
         fillIndexedCollection(fsLightbox, 'sourceLoadHandlers', SourceLoadHandler);
-        fillIndexedCollection(fsLightbox, 'sourceMainWrapperTransformers', SourceMainWrapperTransformer);
 
         s(fsLightbox);
 
         eventsDispatcher.dispatch('onInit');
 
         isLightboxOpenManager.set(true, () => {
-            lightboxOpenActioner.runInitializedLightboxActions();
+        st.updateStageIndexes();
+
+        sourceDisplayFacade.displaySourcesWhichShouldBeDisplayed();
+
+        document.documentElement.classList.add(OPEN_CLASS_NAME);
+
+        scrollbarRecompensor.addRecompense();
+
+        globalEventsController.attachListeners();
+
+        windowResizeActioner.runActions();
+        sourceMainWrapperTransformers[stageIndexes.current].zero();
+
+        eventsDispatcher.dispatch('onOpen');
+
             createSources(fsLightbox);
         });
     };
