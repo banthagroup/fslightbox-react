@@ -73,10 +73,7 @@ class FsLightbox extends Component {
          */
         this.elements = {
             container: React.createRef(),
-            sourceMainWrappersWrapper: React.createRef(),
             sources: null,
-            sourceMainWrappers: null,
-            sourceAnimationWrappers: null,
             sourcesComponents: []
         };
 
