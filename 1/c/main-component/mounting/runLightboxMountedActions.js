@@ -3,8 +3,8 @@ import { getScrollbarWidth } from "../../scrollbar/getScrollbarWidth";
 
 export function runLightboxMountedActions(fsLightbox) {
     const {
-        core: { lightboxOpener },
         data,
+	i,
         props: { openOnMount }
     } = fsLightbox;
 
@@ -12,6 +12,6 @@ export function runLightboxMountedActions(fsLightbox) {
     data.scrollbarWidth = getScrollbarWidth(fsLightbox);
 
     if (openOnMount) {
-        lightboxOpener.initializeAndOpenLightbox();
+        i();
     }
 }
