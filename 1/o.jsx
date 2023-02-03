@@ -7,6 +7,7 @@ import swc from "./cm/swc.jsx";
 import { FADE_IN_STRONG_CLASS_NAME, FULL_DIMENSION_CLASS_NAME, PREFIX } from "./cn/classes-names";
 import { runLightboxMountedActions } from "./c/main-component/mounting/runLightboxMountedActions";
 import { runLightboxUnmountActions } from "./c/main-component/unmounting/runLightboxUnmountActions";
+import { so } from "./c/so";
 import { setUpLightboxUpdater } from "./c/main-component/updating/setUpLightboxUpdater";
 import './c/styles/styles-injection/styles-injection';
 
@@ -110,7 +111,7 @@ class FsLightbox extends Component {
         // setting up dependencies required to initialize lightbox
         // rest of the core is set up at initialize, because lightbox gets props on first open not at mount
         setUpLightboxUpdater(this);
-        setUpLightboxOpener(this);
+        so(this);
     }
 
     getQueuedAction(action, time) {
