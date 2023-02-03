@@ -1,7 +1,5 @@
-import { setUpLightboxOpener } from "./main-component/opening/setUpLightboxOpener";
 import { fs } from "./fs";
 import { setUpLightboxCloser } from "./main-component/closing/setUpLightboxCloser";
-import { setUpLightboxOpenActioner } from "./main-component/opening/setUpLightboxOpenActioner";
 import { setUpScrollbarRecompensor } from "./scrollbar/setUpScrollbarRecompensor";
 import { setUpLightboxUpdater } from "./main-component/updating/setUpLightboxUpdater";
 import { setUpSlideIndexChanger } from "./slide/setUpSlideIndexChanger";
@@ -22,8 +20,6 @@ export function setUpCore(fsLightbox) {
     setUpGlobalEventsController(fsLightbox);
     setUpLightboxCloser(fsLightbox);
     setUpLightboxCloseActioner(fsLightbox);
-    setUpLightboxOpener(fsLightbox);
-    setUpLightboxOpenActioner(fsLightbox);
     setUpLightboxUpdater(fsLightbox);
     setUpScrollbarRecompensor(fsLightbox);
     setUpSlideChangeFacade(fsLightbox);
