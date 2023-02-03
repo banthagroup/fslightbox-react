@@ -101,7 +101,7 @@ class FsLightbox extends Component {
             sourceDisplayFacade: {},
             windowResizeActioner: {}
         };
-	this.fs = {};this=st={};this.sws={};
+	this.fs={};this.st={};this.sws={};
 
         this.getQueuedAction = this.getQueuedAction.bind(this);
         this.resolve = this.resolve.bind(this);
