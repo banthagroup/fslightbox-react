@@ -1,5 +1,5 @@
 import React from 'react';
-import { PREFIX, SOURCE_CLASS_NAME } from "../../../cn/classes-names";
+import { PREFIX, SOURCE_CLASS_NAME } from "../cn/classes-names";
 
 export default (
     {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SOURCE_CLASS_NAME } from "../../../cn/classes-names";
+import { SOURCE_CLASS_NAME } from "../cn/classes-names";
 
 const Custom = (
     {

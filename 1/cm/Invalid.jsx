@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../../../cn/classes-names";
+import { FADE_IN_STRONG_CLASS_NAME, FLEX_CENTERED_CLASS_NAME, PREFIX } from "../cn/classes-names";
 
 const Invalid = (
     {

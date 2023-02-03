@@ -1,5 +1,5 @@
 import React from "react";
-import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../../cn/classes-names";
+import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../cn/classes-names";
 import smw from "./smw.jsx";
 
 export default ({ o }) => {
