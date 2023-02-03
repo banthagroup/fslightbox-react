@@ -3,18 +3,18 @@ export function setUpSlideChangeFacade(
         core: {
             slideChangeFacade: self,
             slideIndexChanger,
-            stageManager
         },
-        props: { sources }
+        props: { sources },
+	st
     }
 ) {
     if (sources.length > 1) {
         self.changeToPrevious = () => {
-            slideIndexChanger.jumpTo(stageManager.getPreviousSlideIndex());
+            slideIndexChanger.jumpTo(st.getPreviousSlideIndex());
         };
 
         self.changeToNext = () => {
-            slideIndexChanger.jumpTo(stageManager.getNextSlideIndex());
+            slideIndexChanger.jumpTo(st.getNextSlideIndex());
         };
     } else {
         self.changeToPrevious = () => {};
