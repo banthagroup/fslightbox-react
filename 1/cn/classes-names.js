@@ -5,7 +5,6 @@ export const FSLIGHTBOX_STYLES = `${PREFIX}styles`;
 export const CURSOR_GRABBING_CLASS_NAME = `${PREFIX}cursor-grabbing`;
 export const FULL_DIMENSION_CLASS_NAME = `${PREFIX}full-dimension`;
 export const FLEX_CENTERED_CLASS_NAME = `${PREFIX}flex-centered`;
-export const OPEN_CLASS_NAME = `${PREFIX}open`;
 export const TRANSFORM_TRANSITION_CLASS_NAME = `${PREFIX}transform-transition`;
 export const ABSOLUTED_CLASS_NAME = `${PREFIX}absoluted`;
 

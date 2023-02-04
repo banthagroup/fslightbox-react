@@ -10,7 +10,7 @@ export function DetectedTypeActioner(fsLightbox) {
     const {
         componentsServices: { isLightboxOpenManager },
         elements: { sourcesComponents },
-	saw
+	sawu
     } = fsLightbox;
 
     this.runActionsForSourceTypeAndIndex = (type, i) => {
@@ -40,7 +40,7 @@ export function DetectedTypeActioner(fsLightbox) {
         />;
 
         if (isLightboxOpenManager.get()) {
-            saw[i].u();
+            sawu[i]();
         }
     };
 }

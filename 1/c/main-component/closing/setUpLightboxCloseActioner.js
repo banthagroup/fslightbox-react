@@ -1,4 +1,4 @@
-import { FADE_OUT_STRONG_CLASS_NAME, OPEN_CLASS_NAME } from "../../../cn/classes-names";
+import { FADE_OUT_STRONG_CLASS_NAME } from "../../../cn/classes-names";
 import { ANIMATION_TIME } from "../../../cn/css-constants";
 
 export function setUpLightboxCloseActioner(
@@ -37,7 +37,7 @@ export function setUpLightboxCloseActioner(
 
             lightboxContainer.current.classList.remove(FADE_OUT_STRONG_CLASS_NAME);
 
-            document.documentElement.classList.remove(OPEN_CLASS_NAME);
+            document.documentElement.classList.remove("fslightbox-open");
 
             scrollbarRecompensor.removeRecompense();
 

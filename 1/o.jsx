@@ -56,8 +56,6 @@ class FsLightbox extends Component {
             setSlideNumber: null,
             isSlideSwipingHovererShown: {},
             isFullscreenOpen: {},
-            hideSourceLoaderCollection: [],
-            updateSourceDirectWrapperCollection: [],
             toolbarButtons: {
                 fullscreen: {}
             },
@@ -67,7 +65,7 @@ class FsLightbox extends Component {
                     this.setState({ isOpen: value }, callback);
                 }
             }
-        };
+        };this.sawu=[];
 
         /**
          * Arrays of refs like sources are set during lightbox initialize because they require sources count
