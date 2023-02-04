@@ -20,11 +20,10 @@ class FsLightbox extends Component {
         };
 
         this.data = {
-            isInitialized: false,
             maxSourceWidth: 0,
             maxSourceHeight: 0,
             scrollbarWidth: 0
-        };
+        };this.isl=[];
 
         this.slideSwipingProps = {
             isSwiping: false,
