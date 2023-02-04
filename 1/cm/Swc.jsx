@@ -1,6 +1,6 @@
 import React from "react";
 import { ABSOLUTED_CLASS_NAME, FULL_DIMENSION_CLASS_NAME } from "../cn/classes-names";
-import smw from "./smw.jsx";
+import Smw from "./Smw.jsx";
 
 export default ({ o }) => {
     var {
@@ -10,7 +10,7 @@ export default ({ o }) => {
 
     for (let i = 0; i < sources.length; i++) {
         smwjsxa.push(
-            <smw
+            <Smw
                 o={o}
                 i={i}
                 key={i}
