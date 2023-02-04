@@ -29,6 +29,6 @@ export function SlideSwipingMoveActioner(
     };
 
 	function t(i, p) {
-		smwm[i].v(sourcePointerProps.swipedX)[p]()
+		smwm[i].v(slideSwipingProps.swipedX)[p]()
 	}
 }
