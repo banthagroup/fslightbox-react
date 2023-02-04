@@ -6,7 +6,7 @@ export function SlideSwipingMoveActioner(
         componentsServices,
         elements: { container },
         slideSwipingProps,
-	smw,
+	smwm,
         stageIndexes
     }
 ) {
@@ -29,6 +29,6 @@ export function SlideSwipingMoveActioner(
     };
 
 	function t(i, p) {
-		smw[i].v(sourcePointerProps.swipedX)[p]()
+		smwm[i].v(sourcePointerProps.swipedX)[p]()
 	}
 }

@@ -6,7 +6,7 @@ export function setUpWindowResizeActioner(
         core: { windowResizeActioner: self },
         data,
         elements: { sources },
-	smw,
+	smwm,
         stageIndexes
     }
 ) {
@@ -17,7 +17,7 @@ export function setUpWindowResizeActioner(
         data.maxSourceHeight = 0.9 * innerHeight;
 
         for (let i = 0; i < sources.length; i++) {
-	    smw[i].d();
+	    smwm[i].d();
 
             /**
              * Invalid type doesn't have SourceSizer so need to check if it exists.
@@ -31,10 +31,10 @@ export function setUpWindowResizeActioner(
 
 	var pi=stageIndexes.previous,ni=stageIndexes.next;
 	if (pi !== undefined) {
-		smw[pi].ne();
+		smwm[pi].ne();
 	}
 	if (ni !== undefined) {
-		smw[ni].p();
+		smwm[ni].p();
 	}
     };
 }

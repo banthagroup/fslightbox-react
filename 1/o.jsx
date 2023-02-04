@@ -74,7 +74,7 @@ class FsLightbox extends Component {
             container: React.createRef(),
             sources: null,
             sourcesComponents: []
-        };
+        };this.smwm=[];
 
         this.collections = {
             sourceMainWrapperTransformers: [],
