@@ -4,9 +4,9 @@ import { TRANSFORM_TRANSITION_CLASS_NAME } from "../../../../cn/classes-names";
 
 export function SlideSwipingDownActioner(
     {
-        core: { classFacade },
         elements: { sources },
         slideSwipingProps,
+	smwm,
         stageIndexes
     }
 ) {
@@ -33,7 +33,9 @@ export function SlideSwipingDownActioner(
             slideSwipingProps.isSourceDownEventTarget = true :
             slideSwipingProps.isSourceDownEventTarget = false;
 
-        classFacade.removeFromEachElementClassIfContains(SOURCE_MAIN_WRAPPERS, TRANSFORM_TRANSITION_CLASS_NAME);
+	for (var i=0;i<smwm.length;i++) {
+		smwm[i].d();
+	}
     };
 }
 
