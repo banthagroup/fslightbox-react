@@ -5,13 +5,15 @@ const Invalid = (
     {
         fsLightbox: {
             componentsServices: { hideSourceLoaderCollection },
-            elements: { sourceMainWrappers }
+		isl,
+		sawu,
+		smw
         }, i
     }
 ) => {
     useEffect(() => {
-        hideSourceLoaderCollection[i]();
-        sourceMainWrappers[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
+	isl[i]=true;sawu[i]();
+        smw[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME);
     });
 
     return (
