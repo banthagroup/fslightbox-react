@@ -4,7 +4,7 @@ import { SourceLoadActioner } from "./SourceLoadActioner";
  * As sources are recreated on lightbox reopen SourceLoadHandler must also be recreated to run source initial load
  * actions again.
  */
-export function SourceLoadHandler({ elements: { sources }, props, resolve, timeout }, i) {
+export function SourceLoadHandler({ elements: { sources }, props, resolve}, i) {
     const sourceLoadActioner = resolve(SourceLoadActioner, [i]);
 
     let wasVideoLoadCalled;
@@ -37,9 +37,16 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve, timeo
     };
 
     this.handleCustomLoad = () => {
-        timeout(() => {
-            const source = sources[i].current;
-            sourceLoadActioner.runActions(source.offsetWidth, source.offsetHeight);
-        });
+	var s = sources[i].current;
+
+	if (!s) return;
+	
+	var w=s.offsetWidth,h=s.offsetHeight;
+	if (!w || !h) {
+		setTimeout(this.handleCustomLoad);
+		return;
+	}
+
+        sourceLoadActioner.runActions(w,h);
     };
 }
