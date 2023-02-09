@@ -38,15 +38,10 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        plugins: [
-                            ["react-remove-properties", { "properties": ["data-test-id", "data-test-class"] }]
-                        ]
-                    }
-                }],
-                exclude: /node_modules/,
+		use: {
+                	loader: 'babel-loader'
+		},
+                exclude: /node_modules/
             }
         ]
     }

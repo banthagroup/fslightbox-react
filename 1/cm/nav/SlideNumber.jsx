@@ -27,7 +27,7 @@ const SlideNumber = (
     return (
         <div ref={slideNumberOuter} className={`${PREFIX}slide-number-container`}>
             <div ref={slideNumberInner} className="fslightbox-flex-centered">
-                <span data-test-id="slide-number">{slideNumber}</span>
+                <span>{slideNumber}</span>
                 <span className={`${PREFIX}slash`} />
                 <span>{sources.length}</span>
             </div>
