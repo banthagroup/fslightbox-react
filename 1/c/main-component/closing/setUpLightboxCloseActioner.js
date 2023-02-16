@@ -44,6 +44,6 @@ export function setUpLightboxCloseActioner(
             isLightboxOpenManager.set(false);
 
             eventsDispatcher.dispatch('onClose');
-        }, ANIMATION_TIME);
+        }, ANIMATION_TIME - 30);
     };
 }
