@@ -1,6 +1,6 @@
 {
   "name": "fslightbox-react",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "A capable React component for displaying images, videos, or, through custom sources, anything you want in a full-window overlying box.",
   "main": "index.js",
   "repository": {
@@ -8,11 +8,11 @@
     "url": "https://github.com/banthagroup/fslightbox-react"
   },
   "keywords": [
+    "react fslightbox",
     "react lightbox",
-    "react image lightbox",
     "react slide gallery",
-    "fslightbox react",
-    "react carousel"
+    "react modal",
+    "fslightbox react"
   ],
   "author": "Piotr Zdziarski",
   "license": "MIT",
