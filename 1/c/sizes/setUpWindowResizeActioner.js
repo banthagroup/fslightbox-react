@@ -1,5 +1,3 @@
-import { removeFromElementClassIfContains } from "../../h/elements/removeFromElementClassIfContains";
-
 export function setUpWindowResizeActioner(
     {
         collections: { sourceSizers },
