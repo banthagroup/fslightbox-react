@@ -73,16 +73,15 @@ class FsLightbox extends Component {
             container: React.createRef(),
             sources: null,
             sourcesComponents: []
-        };this.smwm=[];
+        };
 
         this.collections = {
-            sourceMainWrapperTransformers: [],
             sourceLoadHandlers: [],
             // after source load its size adjuster will be stored in this array so it may be later resized
             sourceSizers: [],
             // if lightbox is unmounted pending xhrs need to be aborted
             xhrs: []
-        };
+        };this.smwm=[];
 
         this.core = {
             classFacade: {},
