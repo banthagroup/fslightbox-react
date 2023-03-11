@@ -36,7 +36,7 @@ function App() {
 	return (
 		<>
 			<button onClick={() => setToggler(!toggler)}>
-				Toggle Lightbox
+				Open the lightbox.
 			</button>
 			<FsLightbox
 				toggler={toggler}
