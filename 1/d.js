@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import FsLightbox from "./o.jsx";
+import O from "./o.jsx";
 
 class DemoComponent extends Component {
     constructor(props) {
@@ -35,7 +35,7 @@ class DemoComponent extends Component {
 			2
                 </button>
 
-                <FsLightbox
+                <O
                     toggler={this.state.lightboxController.toggler}
                     sources={[
 			"1.jpg",

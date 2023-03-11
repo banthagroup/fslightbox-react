@@ -85,7 +85,6 @@ class FsLightbox extends Component {
 
         this.core = {
             classFacade: {},
-            eventsDispatcher: {},
             globalEventsController: {},
             lightboxCloser: {},
             lightboxCloseActioner: {},
@@ -99,14 +98,23 @@ class FsLightbox extends Component {
         };
 	this.fs={};this.st={};this.sws={};
 
+        this.timeout = this.timeout.bind(this);
         this.getQueuedAction = this.getQueuedAction.bind(this);
         this.resolve = this.resolve.bind(this);
-        this.timeout = this.timeout.bind(this);
+	this.e = this.e.bind(this);
 
         // setting up dependencies required to initialize lightbox
         // rest of the core is set up at initialize, because lightbox gets props on first open not at mount
         setUpLightboxUpdater(this);
         so(this);
+    }
+
+    timeout(handler, timeout) {
+        setTimeout(() => {
+            if (this.elements.container.current) {
+                handler();
+            }
+        }, timeout);
     }
 
     getQueuedAction(action, time) {
@@ -130,16 +138,7 @@ class FsLightbox extends Component {
         return new dependency(...params);
     }
 
-    /**
-     * Prevents calling timeouted function on closed or unmounted lightbox.
-     */
-    timeout(handler, timeout) {
-        setTimeout(() => {
-            if (this.elements.container.current) {
-                handler();
-            }
-        }, timeout);
-    }
+    e(n){var e=this.props[n];if(e){e(this)}}
 
     componentDidUpdate(prevProps, second, third) {
         this.core.lightboxUpdater.handleUpdate(prevProps);

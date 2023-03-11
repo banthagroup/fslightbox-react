@@ -5,11 +5,11 @@ export function setUpLightboxCloseActioner(
     {
         componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState }, isLightboxOpenManager },
         core: {
-            eventsDispatcher,
             globalEventsController,
             lightboxCloseActioner: self,
             scrollbarRecompensor
         },
+	e,
         elements: { container: lightboxContainer },
 	fs,
         props,
@@ -43,7 +43,7 @@ export function setUpLightboxCloseActioner(
 
             isLightboxOpenManager.set(false);
 
-            eventsDispatcher.dispatch('onClose');
+            e("onClose");
         }, ANIMATION_TIME - 30);
     };
 }
