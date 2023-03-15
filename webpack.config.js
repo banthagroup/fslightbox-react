@@ -1,1 +1,1 @@
-var h=require("html-webpack-plugin");module.exports={mode:"development",entry:"./1/d.js",module:{rules:[{test:/\.(js|jsx)$/,exclude:/node_modules/,use:{loader:"babel-loader"}}]},plugins:[new h({template:"./1/index.html"})]}
+var h=require("html-webpack-plugin");module.exports={mode:"development",entry:"./1/d.js",module:{rules:[{test:/\.(js|jsx)$/,exclude:/node_modules/,use:{loader:"babel-loader"}}]},plugins:[new h({template:"./index.html"})]}
