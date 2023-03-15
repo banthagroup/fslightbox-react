@@ -48,4 +48,4 @@ class DemoComponent extends Component {
     }
 }
 
-ReactDOM.render(<DemoComponent />, document.getElementById("app"));
+ReactDOM.render(<DemoComponent />, document.getElementById("a"));
