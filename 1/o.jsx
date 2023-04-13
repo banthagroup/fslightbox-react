@@ -88,7 +88,6 @@ class FsLightbox extends Component {
             scrollbarRecompensor: {},
             slideChangeFacade: {},
             slideIndexChanger: {},
-            slideSwipingDown: {},
             sourceDisplayFacade: {},
             windowResizeActioner: {}
         };
