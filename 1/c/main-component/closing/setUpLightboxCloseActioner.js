@@ -3,7 +3,7 @@ import { ANIMATION_TIME } from "../../../cn/css-constants";
 
 export function setUpLightboxCloseActioner(
     {
-        componentsServices: { toolbarButtons: { fullscreen: isFullscreenOpenState }, isLightboxOpenManager },
+        componentsServices: { isLightboxOpenManager },
         core: {
             globalEventsController,
             lightboxCloseActioner: self,
