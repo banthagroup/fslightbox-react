@@ -1,4 +1,4 @@
-import { KeyboardController } from "../keyboard/KeyboardController";
+import { k } from "../k";
 import { SlideSwipingMove } from "../slide/swiping/move/SlideSwipingMove";
 import { SlideSwipingUp } from "../slide/swiping/up/SlideSwipingUp";
 import { middleware } from "../../m/middleware";
@@ -12,10 +12,7 @@ export function setUpGlobalEventsController({
 	fs,
         resolve
 }) {
-    const keyboardController = resolve(KeyboardController);
-    const slideSwipingMove = resolve(SlideSwipingMove);
-    const slideSwipingUp = resolve(SlideSwipingUp);
-    let touchmoveListener;
+    var slideSwipingMove = resolve(SlideSwipingMove), slideSwipingUp = resolve(SlideSwipingUp), touchmoveListener, kf;
 
     self.attachListeners = () => {
         touchmoveListener = middleware(slideSwipingMove.listener, oneOrZeroTouches);
@@ -28,7 +25,8 @@ export function setUpGlobalEventsController({
 
         addEventListener('resize', windowResizeActioner.runActions);
 
-        document.addEventListener('keydown', keyboardController.listener);
+	var kf=function(e){k(o,e)};
+        document.addEventListener('keydown', kf);
 
 	fs.listen();
     };
@@ -42,7 +40,7 @@ export function setUpGlobalEventsController({
 
         removeEventListener('resize', windowResizeActioner.runActions);
 
-        document.removeEventListener('keydown', keyboardController.listener);
+        document.removeEventListener('keydown', kf);
 
 	fs.unlisten();
     }
