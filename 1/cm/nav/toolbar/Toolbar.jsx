@@ -1,5 +1,5 @@
 import React from 'react';
-import Fs from "./Fs.jsx";
+import Fs from "../../Fs.jsx";
 import CloseButton from "./toolbar-buttons/CloseButton.jsx";
 import { PREFIX } from "../../../cn/classes-names";
 
