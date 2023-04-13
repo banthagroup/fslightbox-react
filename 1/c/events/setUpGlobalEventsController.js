@@ -4,15 +4,15 @@ import { SlideSwipingUp } from "../slide/swiping/up/SlideSwipingUp";
 import { middleware } from "../../m/middleware";
 import { oneOrZeroTouches } from "../../m/oneOrZeroTouches";
 
-export function setUpGlobalEventsController({
-	core: {
-		globalEventsController: self,
-		windowResizeActioner
-	},
-	fs,
-        resolve
-}) {
-    var slideSwipingMove = resolve(SlideSwipingMove), slideSwipingUp = resolve(SlideSwipingUp), touchmoveListener, kf;
+export function setUpGlobalEventsController(o) {
+    var {
+		core: {
+			globalEventsController: self,
+			windowResizeActioner
+		},
+		fs,
+	        resolve
+	} = o, slideSwipingMove = resolve(SlideSwipingMove), slideSwipingUp = resolve(SlideSwipingUp), touchmoveListener, kf;
 
     self.attachListeners = () => {
         touchmoveListener = middleware(slideSwipingMove.listener, oneOrZeroTouches);
