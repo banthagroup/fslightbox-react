@@ -1,0 +1,1 @@
+import React,{useEffect}from"react";import{FADE_IN_STRONG_CLASS_NAME,FLEX_CENTERED_CLASS_NAME}from"../cn/classes-names";export default function({o:{isl,sawu,smw},i}){useEffect(function(){isl[i]=true;sawu[i]();smw[i].current.classList.add(FADE_IN_STRONG_CLASS_NAME)});return<div className={`fslightboxin ${FLEX_CENTERED_CLASS_NAME}`}>Invalid source</div>}

@@ -1,0 +1,1 @@
+import React,{useEffect}from"react";export default function({o:{collections:{sourceLoadHandlers},elements:{sources:sourcesElements},props:{sources}},i}){useEffect(sourceLoadHandlers[i].handleCustomLoad);var c=sources[i].props.className;return React.cloneElement(sources[i],{ref:sourcesElements[i],className:c?`${c} fslightboxs`:"fslightboxs"})}

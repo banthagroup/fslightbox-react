@@ -1,10 +1,10 @@
 import React from 'react';
 import { CUSTOM_TYPE, IMAGE_TYPE, VIDEO_TYPE, YOUTUBE_TYPE } from "../../../cn/core-constants";
-import Image from "../../../cm/Image.jsx";
-import Video from "../../../cm/Video.jsx";
-import Youtube from "../../../cm/Youtube.jsx";
-import Invalid from "../../../cm/Invalid.jsx";
-import Custom from "../../../cm/Custom.jsx";
+import I from "../../../cm/I.jsx";
+import V from "../../../cm/V.jsx";
+import Y from "../../../cm/Y.jsx";
+import Inv from "../../../cm/Inv.jsx";
+import C from "../../../cm/C.jsx";
 
 export function DetectedTypeActioner(fsLightbox) {
     const {
@@ -18,24 +18,24 @@ export function DetectedTypeActioner(fsLightbox) {
 
         switch (type) {
             case IMAGE_TYPE:
-                BaseSourceComponent = Image;
+                BaseSourceComponent = I;
                 break;
             case VIDEO_TYPE:
-                BaseSourceComponent = Video;
+                BaseSourceComponent = V;
                 break;
             case YOUTUBE_TYPE:
-                BaseSourceComponent = Youtube;
+                BaseSourceComponent = Y;
                 break;
             case CUSTOM_TYPE:
-                BaseSourceComponent = Custom;
+                BaseSourceComponent = C;
                 break;
             default:
-                BaseSourceComponent = Invalid;
+                BaseSourceComponent = Inv;
                 break;
         }
 
         sourcesComponents[i] = <BaseSourceComponent
-            fsLightbox={fsLightbox}
+            o={fsLightbox}
             i={i}
         />;
 

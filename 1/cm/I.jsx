@@ -1,0 +1,1 @@
+import React from"react";export default function({o:{collections:{sourceLoadHandlers},elements:{sources:sourcesElements},props:{customAttributes,sources}},i}){return<img className="fslightboxs"onLoad={sourceLoadHandlers[i].handleImageLoad}ref={sourcesElements[i]}src={sources[i]}{...(customAttributes&&customAttributes[i]?customAttributes[i]:{})}/>}
