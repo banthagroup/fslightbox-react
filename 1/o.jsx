@@ -96,6 +96,7 @@ class FsLightbox extends Component {
 
         this.timeout = this.timeout.bind(this);
         this.getQueuedAction = this.getQueuedAction.bind(this);
+	this.r = this.resolve.bind(this);
         this.resolve = this.resolve.bind(this);
 	this.e = this.e.bind(this);
 
