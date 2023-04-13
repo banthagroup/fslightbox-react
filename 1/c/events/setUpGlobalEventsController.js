@@ -28,7 +28,7 @@ export function setUpGlobalEventsController({
 	var kf=function(e){k(o,e)};
         document.addEventListener('keydown', kf);
 
-	fs.listen();
+	fs.l()
     };
 
     self.removeListeners = () => {
@@ -42,6 +42,6 @@ export function setUpGlobalEventsController({
 
         document.removeEventListener('keydown', kf);
 
-	fs.unlisten();
+	fs.q()
     }
 }
