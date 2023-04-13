@@ -54,17 +54,13 @@ class FsLightbox extends Component {
             hideSlideSwipingHovererIfShown: null,
             setSlideNumber: null,
             isSlideSwipingHovererShown: {},
-            isFullscreenOpen: {},
-            toolbarButtons: {
-                fullscreen: {}
-            },
             isLightboxOpenManager: {
                 get: () => this.state.isOpen,
                 set: (value, callback) => {
                     this.setState({ isOpen: value }, callback);
                 }
             }
-        };this.sawu=[];
+        };this.fss={};this.sawu=[];
 
         /**
          * Arrays of refs like sources are set during lightbox initialize because they require sources count

@@ -12,6 +12,7 @@ export function setUpLightboxCloseActioner(
 	e,
         elements: { container: lightboxContainer },
 	fs,
+	fss,
         props,
         slideSwipingProps,
         timeout
@@ -26,9 +27,7 @@ export function setUpLightboxCloseActioner(
 
         globalEventsController.removeListeners();
 
-        if (props.exitFullscreenOnClose && isFullscreenOpenState.get()) {
-            fs.exitFullscreen();
-        }
+        if (props.exitFullscreenOnClose && fss.g()) fs.x();
 
         timeout(() => {
             self.isLightboxFadingOut = false;

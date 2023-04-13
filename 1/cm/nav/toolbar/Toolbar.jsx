@@ -1,11 +1,11 @@
 import React from 'react';
-import FullscreenButton from "./toolbar-buttons/FullscreenButton.jsx";
+import Fs from "./Fs.jsx";
 import CloseButton from "./toolbar-buttons/CloseButton.jsx";
 import { PREFIX } from "../../../cn/classes-names";
 
 const Toolbar = ({ fsLightbox }) => (
     <div className={ `${ PREFIX }toolbar` }>
-        <FullscreenButton fsLightbox={ fsLightbox }/>
+        <Fs o={ fsLightbox }/>
         <CloseButton fsLightbox={ fsLightbox }/>
     </div>
 );

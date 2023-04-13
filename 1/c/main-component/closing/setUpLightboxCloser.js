@@ -7,10 +7,7 @@ export function setUpLightboxCloser({
 }) {
   self.closeLightbox = () => {
     if (!lightboxCloseActioner.isLightboxFadingOut) {
-      lightboxCloseActioner.runActions();
-      if (isFullscreenOpenState.get()) {
-        fs.exitFullscreen();
-      }
+      lightboxCloseActioner.runActions()
     }
-  };
+  }
 }

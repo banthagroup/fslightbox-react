@@ -12,7 +12,7 @@ export function KeyboardController({ core: { lightboxCloser, slideChangeFacade }
                 break;
             case 'F11':
                 e.preventDefault();
-                fs.toggleFullscreen();
+                fs.t();
                 break;
         }
     };
