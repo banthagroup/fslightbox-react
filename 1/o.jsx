@@ -13,7 +13,7 @@ import './c/styles/styles-injection/styles-injection';
 
 class FsLightbox extends Component {
     constructor(props) {
-        super(props);
+        super(props);this.s=this.props.sources;this.sl=this.s.length;
 
         this.state = {
             isOpen: false
@@ -25,7 +25,7 @@ class FsLightbox extends Component {
             scrollbarWidth: 0
         };this.isl=[];
 
-        this.slideSwipingProps = {
+        this.p = {
             isSwiping: false,
             downScreenX: null,
             isSourceDownEventTarget: false,
