@@ -1,13 +1,13 @@
 export function setUpSourceDisplayFacade(
     {
         core: { sourceDisplayFacade: self },
+	loc,
         stageIndexes,
-        props: { loadOnlyCurrentSource },
 	sawu
     }
 ) {
     self.displaySourcesWhichShouldBeDisplayed = () => {
-        if (loadOnlyCurrentSource) {
+        if (loc) {
             sawu[stageIndexes.current]();
             return;
         }
