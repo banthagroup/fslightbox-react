@@ -87,7 +87,6 @@ class FsLightbox extends Component {
             lightboxUpdater: {},
             scrollbarRecompensor: {},
             slideIndexChanger: {},
-            sourceDisplayFacade: {},
             windowResizeActioner: {}
         };
 	this.fs={};this.st={};this.sws={};
