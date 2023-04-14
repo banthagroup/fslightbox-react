@@ -13,7 +13,7 @@ import './c/styles/styles-injection/styles-injection';
 
 class FsLightbox extends Component {
     constructor(props) {
-        super(props);this.s=this.props.sources;this.sl=this.s.length;
+        super(props);
 
         this.state = {
             isOpen: false
