@@ -1,0 +1,1 @@
+export function sl(){var{core:{slideIndexChanger,},sl,st}=o;if(sl>1){o.pr=function(){slideIndexChanger.jumpTo(st.p())};o.n=function(){slideIndexChanger.jumpTo(st.n())}}else{o.pr=function(){};o.n=function(){}}}
