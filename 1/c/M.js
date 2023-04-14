@@ -1,8 +1,8 @@
 import { ma } from "./ma";
 import { fr } from "../h/fr";
 
-export function M({ p, sl }) {
-    var frf = fr();
+export function M(o) {
+    var { p, sl } = o,frf = fr();
 
     (sl === 1) ?
         this.a = function () {
