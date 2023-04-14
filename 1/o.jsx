@@ -201,6 +201,7 @@ FsLightbox.propTypes = {
     maxYoutubeVideoDimensions: PropTypes.object,
 
     // preferences
+    disableSlideSwiping: PropTypes.bool,
     exitFullscreenOnClose: PropTypes.bool,
     loadOnlyCurrentSource: PropTypes.bool,
     openOnMount: PropTypes.bool,
