@@ -17,7 +17,7 @@ export function setUpGlobalEventsController(o) {
         document.addEventListener('pointermove', mv.a);
         document.addEventListener('pointerup', u.a);
         addEventListener('resize', windowResizeActioner.runActions);
-	var kf=function(e){k(o,e)};
+	kf=function(e){k(o,e)};
         document.addEventListener('keydown', kf);
 	fs.l()
     };
