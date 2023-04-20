@@ -1,6 +1,6 @@
 import { k } from "../k";
 import { M } from "../M";
-import { U } from "../U";
+import { u } from "../u";
 import { middleware } from "../../m/middleware";
 
 export function setUpGlobalEventsController(o) {
@@ -11,11 +11,11 @@ export function setUpGlobalEventsController(o) {
 		},
 		fs,
 	        r
-	} = o, mv = r(M), u = r(U), kf;
+	} = o, mv = r(M), kf, uf;
 
     self.attachListeners = () => {
         document.addEventListener('pointermove', mv.a);
-        document.addEventListener('pointerup', u.a);
+        uf=function(e){u(o,e)};document.addEventListener('pointerup', uf);
         addEventListener('resize', windowResizeActioner.runActions);
 	kf=function(e){k(o,e)};
         document.addEventListener('keydown', kf);
@@ -24,7 +24,7 @@ export function setUpGlobalEventsController(o) {
 
     self.removeListeners = () => {
         document.removeEventListener('pointermove', mv.a);
-        document.removeEventListener('pointerup', u.a);
+        document.removeEventListener('pointerup', uf);
         removeEventListener('resize', windowResizeActioner.runActions);
         document.removeEventListener('keydown', kf);
 	fs.q()
