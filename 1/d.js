@@ -38,7 +38,7 @@ class DemoComponent extends Component {
                 <O
                     toggler={this.state.lightboxController.toggler}
                     sources={[
-			"1.jpg",
+			"t/1.jpg",
 			""
                     ]}
                     slide={this.state.lightboxController.slide}
