@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Nav from "./cm/nav/Nav.jsx";
-import SwipingInvisibleHover from "./cm/slide-swiping/SlideSwipingHoverer.jsx";
+import Sh from "./cm/Sh.jsx";
 import SlideButton from "./cm/SlideButton.jsx";
 import Swc from "./cm/Swc.jsx";
 import { FADE_IN_STRONG_CLASS_NAME, FULL_DIMENSION_CLASS_NAME, PREFIX } from "./cn/classes-names";
@@ -50,8 +50,6 @@ class FsLightbox extends Component {
          * (its called only one time - after first call its deleted)
          */
         this.componentsServices = {
-            showSlideSwipingHovererIfNotYet: null,
-            hideSlideSwipingHovererIfShown: null,
             setSlideNumber: null,
             isSlideSwipingHovererShown: {},
             isLightboxOpenManager: {
@@ -153,7 +151,7 @@ class FsLightbox extends Component {
             <div
                  ref={this.elements.container}
                  className={`${PREFIX}container ${FULL_DIMENSION_CLASS_NAME} ${FADE_IN_STRONG_CLASS_NAME}`}>
-                <SwipingInvisibleHover fsLightbox={this} />
+                <Sh o={this} />
                 <Nav fsLightbox={this} />
                 {(this.props.sources.length > 1) ?
                     <>

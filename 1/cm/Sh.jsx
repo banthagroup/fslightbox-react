@@ -1,0 +1,2 @@
+import React,{useState}from"react";import{ABSOLUTED_CLASS_NAME,FULL_DIMENSION_CLASS_NAME}from"../cn/classes-names";export default function({o}){var[p,s]=useState(0);o.ssh=()=>s(1);o.hsh=()=>s(0);return p&&<div className={`fslightboxsh ${FULL_DIMENSION_CLASS_NAME}${ABSOLUTED_CLASS_NAME}`}/>};
+// This component enables the "pointerup" event over a YouTube video by hovering it with a greater stack level.
