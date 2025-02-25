@@ -86,8 +86,7 @@ class FsLightbox extends Component {
             scrollbarRecompensor: {},
             slideIndexChanger: {},
             windowResizeActioner: {}
-        };
-	this.fs={};this.st={};this.sws={};
+        };this.ap={};this.fs={};this.st={};this.sws={};
 
         this.timeout = this.timeout.bind(this);
         this.getQueuedAction = this.getQueuedAction.bind(this);
@@ -196,6 +195,7 @@ FsLightbox.propTypes = {
     // sources
     customAttributes: PropTypes.array,
     maxYoutubeVideoDimensions: PropTypes.object,
+    autoplay: PropTypes.bool,
 
     // preferences
     disableBackgroundClose: PropTypes.bool,

@@ -33,15 +33,17 @@ class DemoComponent extends Component {
                 </button>
                 <button onClick={() => this.openLightboxOnSlide(2)}>
 			2
+                </button>                <button onClick={() => this.openLightboxOnSlide(3)}>
+			3
                 </button>
 
                 <O
                     toggler={this.state.lightboxController.toggler}
                     sources={[
 			"t/1.jpg",
-			""
+			"t/2.mp4","https://www.youtube.com/watch?v=3nQNiWdeH2Q"
                     ]}
-                    slide={this.state.lightboxController.slide}
+                    slide={this.state.lightboxController.slide} autoplay
                 />
             </>
         );
