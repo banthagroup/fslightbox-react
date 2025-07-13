@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import "./i.js";
 import Nav from "./cm/nav/Nav.jsx";
 import Sh from "./cm/Sh.jsx";
 import SlideButton from "./cm/SlideButton.jsx";
@@ -9,11 +10,17 @@ import { runLightboxMountedActions } from "./c/main-component/mounting/runLightb
 import { runLightboxUnmountActions } from "./c/main-component/unmounting/runLightboxUnmountActions";
 import { so } from "./c/so";
 import { setUpLightboxUpdater } from "./c/main-component/updating/setUpLightboxUpdater";
-import './c/styles/styles-injection/styles-injection';
+//import './c/styles/styles-injection/styles-injection';
+
+var o;
 
 class FsLightbox extends Component {
     constructor(props) {
         super(props);
+	this.c=React.createRef();
+	this.s = [];
+	for (var i = 0; i < props.sources.length; i++)
+		this.s[i] = React.createRef();
 
         this.state = {
             isOpen: false
@@ -131,11 +138,15 @@ class FsLightbox extends Component {
 
     e(n){var e=this.props[n];if(e){e(this)}}
 
-    componentDidUpdate(prevProps, second, third) {
+    componentDidUpdate(prevProps, second, third) {console.log(1);
         this.core.lightboxUpdater.handleUpdate(prevProps);
     }
 
     componentDidMount() {
+	var o = new window.FsLightbox();
+	Object.assign(o.props, this.props);
+	o.props.sources = this.props.sources.map((e,i)=>{if (typeof e=="string") return e;this.c.current.removeChild(this.s[i].current);return this.s[i].current});
+	this.o = o;
         runLightboxMountedActions(this);
     }
 
@@ -144,6 +155,7 @@ class FsLightbox extends Component {
     }
 
     render() {
+	return<div ref={this.c} style={{display:"none"}}>{this.props.sources.map((e,i)=>typeof e!="string"&&<div ref={this.s[i]} className="fslightboxs"key={i}>{e}</div>)}</div>;
         if (!this.state.isOpen) return null;
 
         return (
