@@ -1,5 +1,6 @@
 import T from"./T.jsx";import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import ReactDOMServer from "react-dom/server";
 import O from "./o.jsx";class B extends Component {render(){return <div style={{width:"1000px",height:"500px",background:"yellow"}}>B</div>}}
 
 class DemoComponent extends Component {
@@ -50,3 +51,4 @@ class DemoComponent extends Component {
 }
 
 ReactDOM.render(<DemoComponent />, document.getElementById("a"));
+console.log(ReactDOMServer.renderToString(<DemoComponent />));
