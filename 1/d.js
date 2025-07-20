@@ -40,8 +40,15 @@ class DemoComponent extends Component {
 
                 <O
                     toggler={this.state.lightboxController.toggler}
-                    sources={[<T/>,<B/>,
-			"t/1.jpg",<>Test</>,"t/1.jpg"
+                    sources={[
+			"t/1.jpg","t/1.jpg"
+                    ]}
+                    slide={this.state.lightboxController.slide} autoplay
+                />
+		<O
+                    toggler={this.state.lightboxController.toggler}
+                    sources={[
+			"t/1.jpg","t/1.jpg"
                     ]}
                     slide={this.state.lightboxController.slide} autoplay
                 />
@@ -51,4 +58,3 @@ class DemoComponent extends Component {
 }
 
 ReactDOM.render(<DemoComponent />, document.getElementById("a"));
-console.log(ReactDOMServer.renderToString(<DemoComponent />));

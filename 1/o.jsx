@@ -1,22 +1,25 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-function FsLightbox (p) {
-	var c = React.createRef(), s = [], [o, so] = useState(null);
-	for (var i = 0; i < p.sources.length; i++)
-		s[i] = React.createRef();
-	useEffect(() => {
-		if (!o)  {
-			require("./i.js");
-			var t = new window.FsLightbox();
+const a=[];
+const aop=[];
+function r(o1,o2){if(o1===o2)return 1;var k=Object.keys(o1);if(k.length!==Object.keys(o2).length)return 0;return k.every(k=>r(o1[k],o2[k]))}
+function dp(o){delete o.toggler;delete o.sourceIndex;delete o.slide;}
+
+function FsLightbox (p) {var tp={};Object.assign(tp,p);
+	var c = useRef(), s = [], [i, si] = useState(-1);
+	for (var j = 0; j < p.sources.length; j++)
+		s[j] = useRef();
+	function n(){var t = new window.FsLightbox();
 			Object.assign(t.props, p);
-			t.props.sources = p.sources.map((e,i)=>{if (typeof e=="string") return e;c.current.removeChild(s[i].current);return s[i].current});
-			so(t);
-		} else {
-			o.open(p.sourceIndex || p.slide);
-		}
-	}, [p.toggler]);
-	return <div ref={c} style={{display:"none"}}>{p.sources.map((e,i)=>typeof e!="string"&&<div ref={s[i]} className="fslightboxs"key={i}>{e}</div>)}</div>
+			t.props.sources = p.sources.map((e,j)=>{if (typeof e=="string") return e;c.current.removeChild(s[j].current);return s[j].current});
+			i++;a[i]=t;si(i);}
+	useEffect((b) => {
+		if (i===-1) {
+			require("./i.js");n();dp(tp);aop[i]=tp;return
+		}var op=aop[i],ot=op.toggler,osi=op.sourceIndex,osl=op.slide,pt=tp.toggler,psi=tp.sourceIndex,psl=tp.slide;dp(tp);console.log(op,tp);if(!r(op,tp)){delete a[i];n()}var j=p.sourceIndex;if(j===undefined)j=p.slide;if(j)j--;else j=0;a[i].open(j);aop[i]=tp;
+	}, [p]);
+	return <div ref={c} style={{display:"none"}}>{p.sources.map((e,j)=>typeof e!="string"&&<div ref={s[j]} className="fslightboxs"key={j}>{e}</div>)}</div>
 }
 
 FsLightbox.propTypes = {
