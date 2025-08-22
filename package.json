@@ -4,7 +4,6 @@
     "p": "webpack --config webpack.prod.config.js"
   },
   "peerDependencies": {
-    "prop-types": ">=15.6.2",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
@@ -15,9 +14,8 @@
     "@babel/register": "^7.4.4",
     "babel-loader": "^8.0.5",
     "html-webpack-plugin": "^4.5.2",
-    "prop-types": "^15.6.2",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "webpack": "^5.76.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.12.0"
