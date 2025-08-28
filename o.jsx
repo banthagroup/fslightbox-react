@@ -21,6 +21,6 @@ export default function (p) {
 		}
 		if (p.toggler!=g.current){g.current=p.toggler;op()}
 	}, [p.toggler]);
-	return !o.current&&<div ref={c} style={{display:"none"}}>{p.sources.map((e,j)=>typeof e!="string"&&<div ref={s[j]} className="fslightboxs"key={j}>{e}</div>)}</div>
+	return !o.current&&<div ref={c} style={{display:"none"}}>{p.sources.map((e,j)=>typeof e!="string"&&<div ref={s[j]} key={j}>{e}</div>)}</div>
 }
 // The storage of old toggler's value in a ref is required due to double call of "useEffect" in, e.g., Next.js@15.4.1.
