@@ -15,7 +15,7 @@ export default function (p) {
 		if (!o.current) {
 			var t = new O.default();
 			Object.assign(t.props, p);
-			t.props.sources=p.sources.map((e,j)=>{if(typeof e=="string")return e;c.current.removeChild(s[j].current);return s[j].current});t.props.onSourceLoad=(o,e,i)=>{if(typeof p.sources[i]!="string"){e.firstChild.style.width="100%";e.firstChild.style.height="100%"}if(p.onSourceLoad)p.onSourceLoad(o,e,i)};t.props.maxYoutubeDimensions=p.maxYoutubeVideoDimensions;o.current=t;
+			t.props.sources=p.sources.map((e,j)=>{if(typeof e=="string")return e;var cs=s[j].current;c.current.removeChild(cs);return cs.childElementCount>1?cs:cs.firstChild});t.props.maxYoutubeDimensions=p.maxYoutubeVideoDimensions;o.current=t;
                         if (p.openOnMount) op();
                         return
 		}

@@ -2,7 +2,7 @@ import T from"./T.jsx";import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import ReactDOMServer from "react-dom/server";
 import O from "../o.jsx";class B extends Component {render(){return <div style={{width:"500px",height:"1000px",background:"yellow"}}>B</div>}}
-var S=[["t/2.jpg"],["t/ocean.jpg"]];
+var S=[["t/2.jpg"],["t/ocean.jpg",<B/>]];
 class DemoComponent extends Component {
     	constructor(props) {
         super(props);
@@ -39,7 +39,7 @@ class DemoComponent extends Component {
                 <O
                     toggler={this.state.lightboxController.toggler}
                     sources={S[this.state.k]}
-                    slide={this.state.lightboxController.slide} autoplay openOnMount={false}disableLocalStorage={true}exitFullscreenOnClose={false}loadOnlyCurrentSource={true}disableSlideSwiping={true}key={this.state.k}
+                    slide={this.state.lightboxController.slide} autoplay openOnMount={false}disableLocalStorage={true}exitFullscreenOnClose={false}loadOnlyCurrentSource={true}disableSlideSwiping={true}key={this.state.k}onSourceLoad={(a,b,c)=>{console.log(a,b,c)}}
                 />
             </>
         );
