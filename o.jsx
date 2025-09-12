@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
-var r=0;
-if (typeof window==="object"){require("../../1/1/o.js");r=1}
+var r=0,O;
+if (typeof window==="object"){O=require("../../1/1/o.js");r=1}
 
 export default function (p) {
 	var c = useRef(), s = [], o = useRef(), g = useRef(p.toggler);
@@ -9,11 +9,11 @@ export default function (p) {
 		s[j] = useRef();
         function op(){var j=p.sourceIndex;if(j===undefined)j=p.slide;if(j)j--;else j=0;o.current.open(j)}
 	if (React.useInsertionEffect)
-		React.useInsertionEffect(()=>{if(!r){require("../../1/1/o.js");r=1}},[]);
+		React.useInsertionEffect(()=>{if(!r){O=require("../../1/1/o.js");r=1}},[]);
 	useEffect((b) => {
-		if(!r){require("../../1/1/o.js");r=1}
+		if(!r){O=require("../../1/1/o.js");r=1}
 		if (!o.current) {
-			var t = new window.FsLightbox();
+			var t = new O.default();
 			Object.assign(t.props, p);
 			t.props.sources=p.sources.map((e,j)=>{if(typeof e=="string")return e;c.current.removeChild(s[j].current);return s[j].current});t.props.onSourceLoad=(o,e,i)=>{if(typeof p.sources[i]!="string"){e.firstChild.style.width="100%";e.firstChild.style.height="100%"}if(p.onSourceLoad)p.onSourceLoad(o,e,i)};t.props.maxYoutubeDimensions=p.maxYoutubeVideoDimensions;o.current=t;
                         if (p.openOnMount) op();
