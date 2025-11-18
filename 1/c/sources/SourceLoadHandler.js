@@ -45,7 +45,7 @@ export function SourceLoadHandler({ elements: { sources }, props, resolve}, i) {
 	if (!w || !h) {
 		setTimeout(this.handleCustomLoad);
 		return;
-	}
+	}if(s.firstChild.style){s.firstChild.style.width="100%";s.firstChild.style.height="100%";}
 
         sourceLoadActioner.runActions(w,h);
     };
