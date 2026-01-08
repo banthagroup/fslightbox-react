@@ -7,7 +7,7 @@ export default function (p) {
 	var c = useRef(), s = [], o = useRef(), g = useRef(p.toggler);
 	for (var j = 0; j < p.sources.length; j++)
 		s[j] = useRef();
-        function op(){var j=p.sourceIndex;if(j===undefined)j=p.slide;if(j)j--;else j=0;o.current.open(j)}
+        function op(){var j=p.sourceIndex;if(j===undefined)j=p.slide-1;o.current.open(j||0)}
 	if (React.useInsertionEffect)
 		React.useInsertionEffect(()=>{if(!r){O=require("../../1/1/o.js");r=1}},[]);
 	useEffect((b) => {

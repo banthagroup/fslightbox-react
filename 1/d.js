@@ -17,7 +17,7 @@ class DemoComponent extends Component {
         this.openLightboxOnSlide = this.openLightboxOnSlide.bind(this);
     }
 
-    openLightboxOnSlide(number) {
+    openLightboxOnSlide(number) {console.log(number);
         this.setState({
             lightboxController: {
                 toggler: !this.state.lightboxController.toggler,
@@ -29,8 +29,11 @@ class DemoComponent extends Component {
     render() {
         return (
             <>
-                <button onClick={() => this.openLightboxOnSlide(1)}>
+                <button onClick={() => this.openLightboxOnSlide(0)}>
 			1
+                </button>
+                <button onClick={() => this.openLightboxOnSlide(1)}>
+			2
                 </button>
                 <button onClick={()=>{/*setTimeout(()=>{this.setState({b:this.state.b+1})});setTimeout(()=>{this.setState({b:this.state.b+5})},50);*/var k=this.state.k;this.setState({k:k+1})}}>
 			U
@@ -39,7 +42,7 @@ class DemoComponent extends Component {
                 <O
                     toggler={this.state.lightboxController.toggler}
                     sources={S[this.state.k]}
-                    slide={this.state.lightboxController.slide} autoplay openOnMount={false}disableLocalStorage={true}exitFullscreenOnClose={false}loadOnlyCurrentSource={true}disableSlideSwiping={true}key={this.state.k}onSourceLoad={(a,b,c)=>{console.log(a,b,c)}}
+                    slide={this.state.lightboxController.slide+1} autoplay openOnMount={false}disableLocalStorage={true}exitFullscreenOnClose={false}loadOnlyCurrentSource={true}disableSlideSwiping={true}key={this.state.k}
                 />
             </>
         );

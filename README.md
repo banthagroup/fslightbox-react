@@ -57,7 +57,7 @@ export default App;
 Available at: https://fslightbox.com/react/documentation.
 
 ## Demo
-Available at: https://fslightbox.com/react/demo.
+Available at: https://fslightbox.com/react.
 
 ## Browser Compatibility
 | Browser | Works? |
