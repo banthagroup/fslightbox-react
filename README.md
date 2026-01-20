@@ -66,4 +66,3 @@ Available at: https://fslightbox.com/react.
 | Firefox | Yes |
 | Safari | Yes |
 | Edge | Yes |
-| IE 11 | Yes |
