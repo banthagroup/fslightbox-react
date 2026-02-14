@@ -42,7 +42,7 @@ class DemoComponent extends Component {
                 <O
                     toggler={this.state.lightboxController.toggler}
                     sources={S[this.state.k]}
-                    slide={this.state.lightboxController.slide+1} autoplay openOnMount={false}disableLocalStorage={true}exitFullscreenOnClose={false}loadOnlyCurrentSource={true}disableSlideSwiping={true}key={this.state.k}
+                    slide={this.state.lightboxController.slide+1} autoplay openOnMount={false}disableLocalStorage={true}exitFullscreenOnClose={false}loadOnlyCurrentSource={true}disableSlideSwiping={true}key={this.state.k}useDialog={true}
                 />
             </>
         );
